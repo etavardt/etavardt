@@ -1,0 +1,349 @@
+
+Starting Ed
+-----------
+
+Getting Ed running is very simple. Simply type ed <enter> at the 
+DOS prompt (making sure, of course, that you are either in the 
+same sub-directory as ed.exe, or that the appropriate sub-
+directory is in your path). There are no command line parameters 
+or switches. No muss, no fuss. 
+
+NOTE: As implemented, Ed uses the 1024 x 768, 256 color mode of 
+the SVGA driver. If your system does not support this mode, then 
+you must modify and re-compile the source code for Ed. A file 
+named EDRES.DOC is included with the source code for Ed, and 
+documents the changes necessary to use other display resolutions. 
+
+
+Ed's Screen
+-----------
+
+Ed partitions the display screen into three areas. The largest 
+partition, which starts in the upper left corner, is the Object 
+Display Area. When you load or modify scene and object files, a 
+wireframe view of the database under construction is presented 
+here. Objects or portions of them are highlighted when they are 
+edited. 
+
+To the right of the Object Display is the System Status Area. 
+Important information such as the file currently being 
+manipulated, the eyepoint position and look angle coordinates, 
+system mode, etc. is displayed here. In addition, a small 
+Cartesian coordinate axis is displayed which shows the 
+orientation of the world X,Y,Z axes within the current view. 
+This helps you keep your sense of orientation when manipulating 
+objects or moving about in a large scene space. 
+
+Finally, the lower portion of the screen is the User Dialog Area. 
+When Ed requires additional information, such as the name of the 
+object file you wish to load, a prompt will appear here. User 
+responses and error messages are also displayed here. 
+
+
+System Modes
+------------
+
+Ed has several modes of operation, depending upon what commands 
+have been previously issued or are in process. Ed starts up in 
+Scene mode, which allows you to move the eyepoint position, add 
+or delete existing objects. 
+
+Object mode is entered to modify existing objects or create new 
+ones. Vertex mode is a subset of Object mode for creating and 
+modifying polygon vertex lists. 
+
+Studio mode is active when modifying the studio parameters and 
+when adding, deleting, or modifying lights. 
+
+
+Telling Ed What To Do
+---------------------
+
+All user input to Ed comes from the keyboard. Ed's commands are 
+single alphabetic characters, and are not case sensitive. The 
+escape <Esc> key aborts most operations. The arrow keys 
+manipulate eyepoint and object position when the system is in 
+Scene mode. 
+
+
+System Parameters
+-----------------
+
+Ed displays the values for a number of system parameters in the 
+System Status Area: 
+
+Eyepoint Linear Delta - Change in X, Y, or Z position of eyepoint 
+per keystroke 
+
+Eyepoint Angular Delta - Change in Yaw, Pitch, or Roll of eyepoint 
+position per keystroke. Specified in degrees. 
+
+Object Linear Delta - Change in X, Y, or Z position of object per 
+keystroke 
+
+Object Angular Delta - Change in Yaw, Pitch, or Roll of object 
+position per keystroke. Specified in degrees. 
+
+Object Scale Delta - Scaling factor per keystroke.
+Current Eyepoint Position - Current X, Y, Z of eyepoint.
+
+Current Eyepoint Look Angle - Current Yaw, Pitch, and Roll of 
+Eyepoint. Specified in degrees. 
+
+To modify the system parameters, press 'P'. Ed lists the system 
+parameters in the Dialog Area, along with the current value and a 
+prompt for you to enter another value. For example: 
+
+               Eyepoint Linear Delta  [10.0] :
+               Eyepoint Angular Delta [1.0] :
+
+pressing <Enter> at each prompt retains the previous value. 
+Otherwise you type in the new value followed by <Enter>. 
+
+
+Reading and Writing Scene Files
+-------------------------------
+
+To read an existing scene file into Ed, press the 'R' key while 
+in Scene mode. Ed then asks for the file name, and . For 
+complex scenes this load process can take some time, so be 
+patient with Ed. 
+
+To write the current state of your scene file, press 'W'. Ed 
+asks you to accept the current file name or specify another, then 
+writes the . Along the way Ed checks to see if there are objects 
+which have not been saved, and asks what to do with those it 
+finds (i.e., save or not). 
+
+
+Exiting Ed
+----------
+
+Leave if you must by pressing 'Q'. Ed is so stunned by your 
+desire to depart that you'll be asked if you're sure. If there 
+is no hope of salvaging a once beautiful relationship, Ed 
+(gentleman to the end) will drop you off at the command line from 
+whence you came. 
+
+NOTE: Ed manipulates the PC's graphics adapter (obvious) and uses 
+dynamic memory allocation (not obvious) during operation. If Ed 
+is terminated rudely (i.e., via <ctrl>-C or <ctrl>-break) your 
+machine may be left hurt and confused. If Ed does totally lose 
+it, we strongly suggest you re-boot the system rather than use 
+other means of ejecting. 
+
+
+Moving the Eyepoint
+-------------------
+
+Eyepoint movement is controlled by the arrow keys for left, 
+right, up, and down motion. Movement along the world space X 
+axis (in/out of the screen) is controlled by the '+' and '-' keys 
+('+' to move in). In addition, the eyepoint look angle is 
+controlled by combining the <ctrl> key with the desired 
+directional key (e.g., <ctrl>-up pitches the eyepoint look angle 
+up). 
+
+
+Selecting Objects
+-----------------
+
+Objects are selected by pressing the tab key in Scene mode until 
+the desired object is highlighted. 
+
+
+Instancing and Deleting Objects
+-------------------------------
+
+Previously defined objects (a .BO file already exists) can be 
+instanced into the current scene by pressing the 'I' key while in 
+Scene mode. Ed asks for the filename of the object via a prompt 
+in the Dialog Area, then loads the object from the file and shows 
+it with default placement and scale factor in the Display Area. 
+
+To remove the highlighted object instance from the scene, press 
+the 'D' key. 
+
+
+Editing the object Placement and Scale
+--------------------------------------
+
+Changing an object's placement within the scene is performed 
+using the arrow keys to "drag" the object from its current 
+location to another, or using the <ctrl>-arrow keys to change the 
+objects orientation (i.e., rotate the object). When the object 
+has been moved to its new desired position, press the <Enter> key 
+to exit placement editing. To scale an object up, use the '<' 
+key. To scale it down, use '>'. 
+
+
+Changing the Studio
+-------------------
+
+Ed makes the task of creating and modifying lights and the studio 
+definition easy by using templates which prompt you for the 
+necessary parameters. To enter Studio mode, press 'S'. Ed then 
+places small spheres in the Display Area that correspond to each 
+light in the scene. One of these lights will be highlighted, and 
+therefore selected for modifying. To select other lights, use 
+the tab key. 
+
+
+Adding and Deleting Lights
+--------------------------
+
+To add a light to the scene, press the 'A' key. Ed then asks you 
+to identify which type of light to add, and what the values for 
+the light parameters are. To delete a light use the tab key 
+until the desired one is highlighted. Then press the 'D' key. 
+Hey! Who turned out the light? 
+
+
+Modifying Lights
+----------------
+
+Once you have selected the light to modify, press 'M'. Ed lists 
+the parameters for the light in the Dialog Area, along with the 
+current value and a prompt for you to enter another value. For 
+example, if you had selected a point light, Ed would display 
+something like: 
+
+       falloff [4500.0]       :
+       center X       [500.0] :
+
+pressing <Enter> at each prompt retains the previous value. 
+Otherwise you type in the new value followed by <Enter>. 
+
+
+Editing Studio Parameters
+-------------------------
+
+To edit the studio parameters, press 'S' again. Ed lists the 
+parameters and their current values, allowing you to change them 
+as desired. 
+
+
+Leaving Studio Mode
+-------------------
+
+When you have completed making changes to the studio, press 
+<enter>. Ed asks if you want to overwrite the existing scene 
+file, create a new one, or abandon the edit. Make your choice 
+and you are returned to Scene mode. 
+
+
+Editing Objects
+---------------
+
+Once an object is selected, Object mode is entered to modify the 
+object. Two types of parameters within an object can be edited: 
+the object's constructive geometry (its physical dimensions), 
+and its characteristics (color, texture, etc.). Press the 'O' 
+key to enter Object mode. 
+
+NOTE: Ed "flattens" the database hierarchy when it loads objects. 
+That is, if an object file itself contains other objects, the 
+hierarchical relationship of these two objects is lost, and Ed 
+treats them as two objects of the same level. This necessitates 
+care when editing objects. In general, apply the rule that if 
+you have modified an object, save it to a new file name when you 
+have finished. 
+
+
+Editing Object Construction
+---------------------------
+
+Altering the construction of an object is accomplished through 
+the combined use of the Display and Dialog areas. Ed provides 
+three functions for construction editing: adding primitives, 
+deleting primitives, and modifying existing primitive parameters. 
+
+
+Adding Primitives
+-----------------
+
+To select this function, press the 'A' key. Ed then asks you to 
+identify which type of primitive to add, and what the values for 
+the primitive parameters are. 
+
+
+Deleting Primitives
+-------------------
+
+Use the tab key to move through the primitives until the desired 
+one is highlighted. Then press the 'D' key. Poof! That 
+primitive goes to the great ray-tracer in the sky. 
+
+
+Modifying Primitives
+--------------------
+
+Use the tab key to move through the primitives until the desired 
+one is highlighted. Then press the 'M' key. Ed lists the 
+parameters for that primitive in the Dialog Area, along with the 
+current value and a prompt for you to enter another value. For 
+example, if you had selected a circle primitive for change, Ed 
+would display something like: 
+
+
+       radius [150.5] :
+       center X       [0.0]          :
+
+pressing <Enter> at each prompt retains the previous value. 
+Otherwise you type in the new value followed by <Enter>. After 
+all the parameters for the primitive have been reviewed or 
+modified, then the results of the change are displayed in the 
+Display Area. Pressing <Enter> after this completes the modify 
+function. 
+
+
+A Special Case for Polygons
+---------------------------
+
+Polygons may have a variable number of vertices. If you want to 
+delete or add vertices to a polygon, press the 'V' key once a 
+polygon primitive has been selected. This places Ed in Vertex 
+mode, and will interpret the 'A'/'D' key to mean add/delete 
+vertex rather than add/delete primitive. Exit vertex mode by 
+pressing <Enter>. 
+
+NOTE: Ed does NOT perform a convexity check or other means of 
+verifying that polygon primitives are valid. It is the user's 
+responsibility to make sure that the vertices create a convex, 
+planar surface. 
+
+
+Editing Object Characteristics
+------------------------------
+
+Pressing 'C' in Object mode intices Ed to display the current 
+characteristics of the object, and provide the ability to alter 
+them. Ed lists the characteristics for the object in the Dialog 
+Area, along with the current value and a prompt for you to enter 
+another value. For example, if you had selected a circle 
+primitive for change, Ed would display something like: 
+
+
+       radius [150.5] :
+       center X       [0.0]          :
+
+pressing <Enter> at each prompt retains the previous value. 
+Otherwise you type in the new value followed by <Enter>. 
+
+NOTE: Ed does not support assigning characteristics to 
+primitives, only to entire objects. This is because Ed does not 
+save object characteristics within the .BO file, but places it in 
+the .B file prior to including the object. Finally, Ed does not 
+support bump or texture surface characteristics (adding this 
+capability is left as an exercise for the reader, since we 
+couldn't figure out how to do it). 
+
+
+Leaving Object Mode
+-------------------
+
+When you have completed making changes to the selected object 
+press <enter>. Ed asks if you want to overwrite the existing 
+object file, create a new one, or abandon the edit. Choose 
+wisely, and you are returned to Scene mode. 
+

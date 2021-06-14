@@ -1,0 +1,27 @@
+
+//      cube centered at origin, size +- 1
+
+#define P00 (-1 -1 -1)
+#define P01 (-1 1 -1)
+#define P02 (1 1 -1)
+#define P03 (1 -1 -1)
+#define P04 (-1 -1 1)
+#define P05 (-1 1 1)
+#define P06 (1 1 1)
+#define P07 (1 -1 1)
+
+polygon { points 4 vertex P00 vertex P03 vertex P02 vertex P01 }
+polygon { points 4 vertex P00 vertex P01 vertex P05 vertex P04 }
+polygon { points 4 vertex P01 vertex P02 vertex P06 vertex P05 }
+polygon { points 4 vertex P02 vertex P03 vertex P07 vertex P06 }
+polygon { points 4 vertex P03 vertex P00 vertex P04 vertex P07 }
+polygon { points 4 vertex P04 vertex P05 vertex P06 vertex P07 }
+
+#undef P00
+#undef P01
+#undef P02
+#undef P03
+#undef P04
+#undef P05
+#undef P06
+#undef P07

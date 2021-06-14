@@ -1,0 +1,27 @@
+
+//      tetrahedron centered at origin size +- 1
+
+polygon {
+	points 3
+	vertex 0 1 .7071
+	vertex 1 0 -.7071
+	vertex 0 -1 .7071
+}
+polygon {
+	points 3
+	vertex 0 1 .7071
+	vertex 0 -1 .7071
+	vertex -1 0 -.7071
+}
+polygon {
+	points 3
+	vertex 0 1 .7071
+	vertex -1 0 -.7071
+	vertex 1 0 -.7071
+}
+polygon {
+	points 3
+	vertex 1 0 -.7071
+	vertex -1 0 -.7071
+	vertex 0 -1 .7071
+}

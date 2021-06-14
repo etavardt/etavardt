@@ -1,0 +1,23 @@
+
+//      &
+
+cone { apex 0 15 60 base 0 45 20 apex_radius 2 base_radius 2 }
+sphere { center 0 15 60 radius 2 }
+sphere { center 0 45 20 radius 2 }
+cone { apex 0 15 53 base 0 25 65 apex_radius 2 base_radius 2 }
+sphere { center 0 15 53 radius 2 }
+cone { apex 0 25 65 base 0 32 60 apex_radius 2 base_radius 2 }
+sphere { center 0 25 65 radius 2 }
+cone { apex 0 32 60 base 0 32 53 apex_radius 2 base_radius 2 }
+sphere { center 0 32 60 radius 2 }
+cone { apex 0 32 53 base 0 15 32 apex_radius 2 base_radius 2 }
+sphere { center 0 32 53 radius 2 }
+cone { apex 0 15 32 base 0 15 25 apex_radius 2 base_radius 2 }
+sphere { center 0 15 32 radius 2 }
+cone { apex 0 15 25 base 0 20 20 apex_radius 2 base_radius 2 }
+sphere { center 0 15 25 radius 2 }
+cone { apex 0 20 20 base 0 35 20 apex_radius 2 base_radius 2 }
+sphere { center 0 20 20 radius 2 }
+cone { apex 0 35 20 base 0 45 30 apex_radius 2 base_radius 2 }
+sphere { center 0 35 20 radius 2 }
+sphere { center 0 45 30 radius 2 }

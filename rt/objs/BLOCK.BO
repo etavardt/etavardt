@@ -1,0 +1,60 @@
+
+
+//	block for wood grain testing
+
+
+ring {
+	center 5 -2 5
+	normal 0 1 0
+	min_radius 4
+	max_radius 20
+	clip { center 0 0 10 normal 0 0 -1 }
+	clip { center 0 0 0 normal 0 0 1 }
+	clip { center 10 0 0 normal -1 0 0 }
+	clip { center -10 0 0 normal 1 0 0 }
+	clip { center -10 0 5 normal 1 0 -1 }
+}
+ring {
+	center 5 2 5
+	normal 0 -1 0
+	min_radius 4
+	max_radius 20
+	clip { center 0 0 10 normal 0 0 -1 }
+	clip { center 0 0 0 normal 0 0 1 }
+	clip { center 10 0 0 normal -1 0 0 }
+	clip { center -10 0 0 normal 1 0 0 }
+	clip { center -10 0 5 normal 1 0 -1 }
+}
+
+cone { apex 5 2 5 base 5 -2 5 radius 4 }
+
+polygon { points 4
+	vertex 10 -2  0
+	vertex 10  2  0
+	vertex 10  2 10
+	vertex 10 -2 10
+}
+polygon { points 4
+	vertex  10 -2 0
+	vertex  10  2 0
+	vertex -10  2 0
+	vertex -10 -2 0
+}
+polygon { points 4
+	vertex 10 -2 10
+	vertex 10  2 10
+	vertex -5  2 10
+	vertex -5 -2 10
+}
+polygon { points 4
+	vertex -10 -2 0
+	vertex -10  2 0
+	vertex -10  2 5
+	vertex -10 -2 5
+}
+polygon { points 4
+	vertex -10  2  5
+	vertex -10 -2  5
+	vertex  -5 -2 10
+	vertex  -5  2 10
+}

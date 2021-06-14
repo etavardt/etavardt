@@ -1,0 +1,6 @@
+
+//      clips -- a clipped object to transform
+
+sphere { center 0 0 0 radius .5
+	clip { center 0 0 0 normal 0 0 1 }
+}

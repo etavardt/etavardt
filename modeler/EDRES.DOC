@@ -1,0 +1,100 @@
+
+EDRES.DOC
+---------
+
+This file describes the changes to make to ED's source code in order
+to use different screen resolutions.
+
+By default, ED has been coded assuming the use of a 1024 x 768 display
+area.  ED uses the Borland BGI graphics functions, and as part of
+the BGI invokes a driver called VGA256.BGI.
+
+If your system graphics controller is either is not extended VGA 
+ca[able or is not supported by this driver, you'll need to make some
+changes and re-compile the source code.
+
+I have SVGA, but the driver doesn't work
+----------------------------------------
+Just before ED goes into graphics mode, it writes a message to the
+still text-based screen that indicates the graphics mode that the
+driver is entering.  There are several modes available for this
+driver, and there are several other drivers available in an
+excellent shareware package of BGI drivers included with the 
+BOB/ED package.  Please patronize Shareware!
+
+Please refer to the documentation and header files which are in
+this package, along with the docs from your graphics card
+manufacturer.
+
+Included in the driver package is a demonstration program called
+(strangely) VGADEMO.EXE.  You can run this demo and specify
+different driver types and resolutions to find out which ones
+your controller supports.
+
+If you still have trouble, call the technical support number for
+the manufacturer of your graphics controller.
+
+
+The driver is OK but I need to change ED for different resolution
+-----------------------------------------------------------------
+
+All of the screen resolution parameters are defined in the header
+file EDMAIN.H.  Basically you specify what the total screen
+resolution is, as well as the areas for object display, dialog
+display, and text display.
+
+Defines total resolution of screen:
+   GC_CRT_XRES
+   GC_CRT_YRES
+
+Defines Display Area:
+   
+   Resolution:
+      GC_VIEW_XRES
+      GC_VIEW_YRES
+
+   Placement:
+      GC_VIEW_TOP
+      GC_VIEW_LEFT
+      GC_VIEW_BOTTOM
+      GC_VIEW_RIGHT
+
+Defines Status Area:
+   
+   Resolution:
+      GC_STAT_XRES
+      GC_STAT_YRES
+
+   Placement:
+      GC_STAT_TOP
+      GC_STAT_LEFT
+      GC_STAT_BOTTOM
+      GC_STAT_RIGHT
+
+Defines Dialog Area:
+   
+   Resolution:
+      GC_MSG_XRES
+      GC_MSG_YRES
+
+   Placement:
+      GC_MSG_TOP
+      GC_MSG_LEFT
+      GC_MSG_BOTTOM
+      GC_MSG_RIGHT
+
+
+You should define these areas with a little space between them through
+which ED will draw the bars that separate them.
+
+
+Your Color Choices are Lousy
+----------------------------
+
+Well, I took up Engineering because I failed at Art.  The Colors are
+themselves defined in EDMAIN.H, so feel free to be as creative as you
+dare.  Depending on your tastes, you may also wish to change the
+type of palette that ED uses.  To do this, you'll need to change
+the palette initialization in Initialize_Graphics() function
+located in EDGRAPH.C to Init_Palette() or Init_Palette2().
+

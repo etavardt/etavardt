@@ -1,0 +1,181 @@
+
+/*
+	poolball -- Definitions for a full set of pool balls.  All balls
+		are centered at 0 0 0 and have the number facing up (+Z).
+		Before use they must be translated up by their radius, 1.25.
+*/
+
+#define WHITE_SURF      \
+	surface { diff .9 .9 .9 spec .1 .1 .1 shine 500 white }
+
+//      1 ball
+#define BALL_1                                                  \
+surf { diff yellow spec .1 .1 .1 shine 500 white }              \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 0 normal 0 0 -1 } }                   \
+surf { diff { image ball1.img center -1 1  0 across 1 0 0       \
+normal 0 0 1 scale 2.0 } spec .1 .1 .1 shine 500 white }        \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 0 normal 0 0 1 } }
+
+//      2 ball
+#define BALL_2                                                  \
+surf { diff blue spec .1 .1 .1 shine 500 white }                \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 0 normal 0 0 -1 } }                   \
+surf { diff { image ball2.img center -1 1  0 across 1 0 0       \
+normal 0 0 1 scale 2.0 } spec .1 .1 .1 shine 500 white }        \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 0 normal 0 0 1 } }
+
+//      3 ball
+#define BALL_3                                                  \
+surf { diff red spec .1 .1 .1 shine 500 white }                 \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 0 normal 0 0 -1 } }                   \
+surf { diff { image ball3.img center -1 1  0 across 1 0 0       \
+normal 0 0 1 scale 2.0 } spec .1 .1 .1 shine 500 white }        \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 0 normal 0 0 1 } }
+
+//      4 ball
+#define BALL_4                                                  \
+surf { diff magenta spec .1 .1 .1 shine 500 white }             \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 0 normal 0 0 -1 } }                   \
+surf { diff { image ball4.img center -1 1  0 across 1 0 0       \
+normal 0 0 1 scale 2.0 } spec .1 .1 .1 shine 500 white }        \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 0 normal 0 0 1 } }
+
+//      5 ball
+#define BALL_5                                                  \
+surf { diff 1 .3 0 spec .1 .1 .1 shine 500 white }              \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 0 normal 0 0 -1 } }                   \
+surf { diff { image ball5.img center -1 1  0 across 1 0 0       \
+normal 0 0 1 scale 2.0 } spec .1 .1 .1 shine 500 white }        \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 0 normal 0 0 1 } }
+
+//      6 ball
+#define BALL_6                                                  \
+surf { diff .065 .27 .065 spec .1 .1 .1 shine 500 white }       \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 0 normal 0 0 -1 } }                   \
+surf { diff { image ball6.img center -1 1  0 across 1 0 0       \
+normal 0 0 1 scale 2.0 } spec .1 .1 .1 shine 500 white }        \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 0 normal 0 0 1 } }
+
+//      7 ball
+#define BALL_7                                                  \
+surf { diff firebrick spec .1 .1 .1 shine 500 white }           \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 0 normal 0 0 -1 } }                   \
+surf { diff { image ball7.img center -1 1  0 across 1 0 0       \
+normal 0 0 1 scale 2.0 } spec .1 .1 .1 shine 500 white }        \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 0 normal 0 0 1 } }
+
+//      8 ball
+#define BALL_8                                                  \
+surf { diff black spec .3 .3 .3 shine 500 white }               \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 0 normal 0 0 -1 } }                   \
+surf { diff { image ball8.img center -1 1  0 across 1 0 0       \
+normal 0 0 1 scale 2.0 } spec .3 .3 .3 shine 500 white }        \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 0 normal 0 0 1 } }
+
+//      9 ball
+#define BALL_9                                                  \
+surf { diff yellow spec .1 .1 .1 shine 500 white }              \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0  .5 normal 0 0 -1 }                   \
+	clip { center 0 0 -.5 normal 0 0  1 } }                 \
+WHITE_SURF sphere { center 0 0 0 radius 1.25                    \
+	clip { center 0 0 -.5 normal 0 0 -1 } }                 \
+surf { diff { image ball9.img center -1 1  0 across 1 0 0       \
+normal 0 0 1 scale 2.0 } spec .1 .1 .1 shine 500 white }        \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 .5 normal 0 0 1 } }
+
+//      10 ball
+#define BALL_10                                                 \
+surf { diff blue spec .1 .1 .1 shine 500 white }                \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0  .5 normal 0 0 -1 }                   \
+	clip { center 0 0 -.5 normal 0 0  1 } }                 \
+WHITE_SURF sphere { center 0 0 0 radius 1.25                    \
+	clip { center 0 0 -.5 normal 0 0 -1 } }                 \
+surf { diff { image ball10.img center -1 1  0 across 1 0 0      \
+normal 0 0 1 scale 2.0 } spec .1 .1 .1 shine 500 white }        \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 .5 normal 0 0 1 } }
+
+//      11 ball
+#define BALL_11                                                 \
+surf { diff red spec .1 .1 .1 shine 500 white }                 \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0  .5 normal 0 0 -1 }                   \
+	clip { center 0 0 -.5 normal 0 0  1 } }                 \
+WHITE_SURF sphere { center 0 0 0 radius 1.25                    \
+	clip { center 0 0 -.5 normal 0 0 -1 } }                 \
+surf { diff { image ball11.img center -1 1  0 across 1 0 0      \
+normal 0 0 1 scale 2.0 } spec .1 .1 .1 shine 500 white }        \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 .5 normal 0 0 1 } }
+
+//      12 ball
+#define BALL_12                                                 \
+surf { diff magenta spec .1 .1 .1 shine 500 white }             \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0  .5 normal 0 0 -1 }                   \
+	clip { center 0 0 -.5 normal 0 0  1 } }                 \
+WHITE_SURF sphere { center 0 0 0 radius 1.25                    \
+	clip { center 0 0 -.5 normal 0 0 -1 } }                 \
+surf { diff { image ball12.img center -1 1  0 across 1 0 0      \
+normal 0 0 1 scale 2.0 } spec .1 .1 .1 shine 500 white }        \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 .5 normal 0 0 1 } }
+
+//      13 ball
+#define BALL_13                                                 \
+surf { diff 1 .3 0 spec .1 .1 .1 shine 500 white }              \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0  .5 normal 0 0 -1 }                   \
+	clip { center 0 0 -.5 normal 0 0  1 } }                 \
+WHITE_SURF sphere { center 0 0 0 radius 1.25                    \
+	clip { center 0 0 -.5 normal 0 0 -1 } }                 \
+surf { diff { image ball13.img center -1 1  0 across 1 0 0      \
+normal 0 0 1 scale 2.0 } spec .1 .1 .1 shine 500 white }        \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 .5 normal 0 0 1 } }
+
+//      14 ball
+#define BALL_14                                                 \
+surf { diff .065 .27 .065 spec .1 .1 .1 shine 500 white }       \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0  .5 normal 0 0 -1 }                   \
+	clip { center 0 0 -.5 normal 0 0  1 } }                 \
+WHITE_SURF sphere { center 0 0 0 radius 1.25                    \
+	clip { center 0 0 -.5 normal 0 0 -1 } }                 \
+surf { diff { image ball14.img center -1 1  0 across 1 0 0      \
+normal 0 0 1 scale 2.0 } spec .1 .1 .1 shine 500 white }        \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 .5 normal 0 0 1 } }
+
+//      15 ball
+#define BALL_15                                                 \
+surf { diff firebrick spec .1 .1 .1 shine 500 white }           \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0  .5 normal 0 0 -1 }                   \
+	clip { center 0 0 -.5 normal 0 0  1 } }                 \
+WHITE_SURF sphere { center 0 0 0 radius 1.25                    \
+	clip { center 0 0 -.5 normal 0 0 -1 } }                 \
+surf { diff { image ball15.img center -1 1  0 across 1 0 0      \
+normal 0 0 1 scale 2.0 } spec .1 .1 .1 shine 500 white }        \
+sphere { center 0 0 0 radius 1.25                               \
+	clip { center 0 0 .5 normal 0 0 1 } }
+

@@ -1,0 +1,62 @@
+
+//      dodecahedron centered at origin
+//                   size +- 1.618
+
+
+#define P00 (0  .618  1.618)
+#define P01 (0 -.618  1.618)
+#define P02 (0  .618 -1.618)
+#define P03 (0 -.618 -1.618)
+
+#define P04 ( 1.618 0  .618)
+#define P05 (-1.618 0  .618)
+#define P06 ( 1.618 0 -.618)
+#define P07 (-1.618 0 -.618)
+
+#define P08 ( .618  1.618 0)
+#define P09 (-.618  1.618 0)
+#define P10 ( .618 -1.618 0)
+#define P11 (-.618 -1.618 0)
+
+#define P12 ( 1  1  1)
+#define P13 ( 1  1 -1)
+#define P14 ( 1 -1  1)
+#define P15 ( 1 -1 -1)
+#define P16 (-1  1  1)
+#define P17 (-1  1 -1)
+#define P18 (-1 -1  1)
+#define P19 (-1 -1 -1)
+
+polygon { points 5 vertex P02 vertex P03 vertex P15 vertex P06 vertex P13 }
+polygon { points 5 vertex P03 vertex P19 vertex P11 vertex P10 vertex P15 }
+polygon { points 5 vertex P03 vertex P02 vertex P17 vertex P07 vertex P19 }
+polygon { points 5 vertex P02 vertex P13 vertex P08 vertex P09 vertex P17 }
+polygon { points 5 vertex P06 vertex P04 vertex P12 vertex P08 vertex P13 }
+polygon { points 5 vertex P15 vertex P10 vertex P14 vertex P04 vertex P06 }
+polygon { points 5 vertex P01 vertex P14 vertex P10 vertex P11 vertex P18 }
+polygon { points 5 vertex P18 vertex P11 vertex P19 vertex P07 vertex P05 }
+polygon { points 5 vertex P05 vertex P07 vertex P17 vertex P09 vertex P16 }
+polygon { points 5 vertex P16 vertex P09 vertex P08 vertex P12 vertex P00 }
+polygon { points 5 vertex P00 vertex P12 vertex P04 vertex P14 vertex P01 }
+polygon { points 5 vertex P01 vertex P18 vertex P05 vertex P16 vertex P00 }
+
+#undef P00
+#undef P01
+#undef P02
+#undef P03
+#undef P04
+#undef P05
+#undef P06
+#undef P07
+#undef P08
+#undef P09
+#undef P10
+#undef P11
+#undef P12
+#undef P13
+#undef P14
+#undef P15
+#undef P16
+#undef P17
+#undef P18
+#undef P19

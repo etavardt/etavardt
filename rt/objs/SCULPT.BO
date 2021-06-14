@@ -1,0 +1,16 @@
+
+//      ball sculpture from Eric Haines' sphereflake
+
+sphere { radius .5 center 0 0 0 }
+
+sphere { radius 0.166667 center 0.272166 0.272166 0.544331 }
+sphere { radius 0.166667 center 0.643951 0.172546 0 }
+sphere { radius 0.166667 center 0.172546 0.643951 0 }
+sphere { radius 0.166667 center -0.371785 0.0996195 0.544331 }
+sphere { radius 0.166667 center -0.471405 0.471405 0 }
+sphere { radius 0.166667 center -0.643951 -0.172546 0 }
+sphere { radius 0.166667 center 0.0996195 -0.371785 0.544331 }
+sphere { radius 0.166667 center -0.172546 -0.643951 0 }
+sphere { radius 0.166667 center 0.471405 -0.471405 0 }
+
+

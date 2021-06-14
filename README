@@ -1,0 +1,236 @@
+M & T Publishing
+411 Borel Ave.
+San Mateo, CA 94402
+ISBN
+
+==============================================================================
+                            R  E  A  D     M   E
+                                    for
+                    "Photorealism and Ray Tracing in C"
+
+          by Christopher D. Watkins, Stephen B. Coy and Mark Finlay
+
+    Software Copyright 1988-1992 Christopher D. Watkins and Stephen B. Coy
+                            ALL RIGHTS RESERVED
+
+                              ALGORITHM, Inc.
+==============================================================================
+
+
+ABOUT THE TWO DISKETTES
+
+These diskettes contain a number of files, listed below:
+
+README           25477 08-10-92  10:24a  <-- this help file
+PKUNZIP  EXE     23528 03-15-90   1:10a  <-- utility to decompress files
+INSTALL  BAT      2716 08-10-92   9:56a  <-- batch file for installation
+RUNME1ST BAT       645 08-10-92   9:40a  <-- batch for parameter setup
+DOS4GW   ZIP    113307 08-10-92  10:06a  <-- DOS extender found with Watcom
+SAMPLE   ZIP    162210 08-10-92  10:07a  <-- program and data files
+PROC     ZIP    108039 08-10-92  10:07a
+PROCZBUF ZIP    321655 08-10-92  10:07a               .
+MODELER  ZIP    117831 08-10-92  10:08a
+IMG2GIF  ZIP     65166 08-10-92  10:11a               .
+IMG2TGA  ZIP     33468 08-10-92  10:11a
+VIEWGIF  ZIP     42166 08-10-92  10:11a               .
+VIEWTGA  ZIP     21992 08-10-92  10:11a
+FILTER   ZIP     22678 08-10-92  10:11a               .
+RT       ZIP     66462 08-10-92  10:09a
+PLANETS  GIF     57893 08-10-92  10:14a  <-- 8-bit color image file
+
+INSTALL2 BAT       582 08-10-92  10:04a  <-- batch file for installation
+SRC      ZIP     82712 08-09-92  11:06a  <-- program and data files
+SCNS     ZIP     60128 08-09-92  11:06a
+OBJS     ZIP    334748 08-09-92  11:05a               .
+MAPS     ZIP    731933 08-09-92  11:04a
+BKGS     ZIP      2416 08-09-92  11:04a               .
+COLS     ZIP      1241 08-09-92  11:04a
+SRFS     ZIP       179 08-09-92  11:14p
+
+
+Each file is a compressed archive file that contains the source code
+and data files for each of the various parts of the book "Photorealism
+and Ray Tracing in C", by Christopher Watkins, Stephen B. Coy and Mark
+Finlay (M&T Publishing, 1992).
+
+
+INSTALLATION
+
+The INSTALL.BAT batch file will transfer programs and data files
+from the diskette drive to your hard disk. The total disk space
+requirements are about 12 megabytes.  If you do not have this space on
+your hard drive, you can conduct the installation process a
+a step at a time, by typing in the DOS commands yourself (explained
+further below).
+
+As written, the batch file desires you to enter the names
+of your floppy and hard drives.  Your floppy drive is assumed
+to be first (A:), your hard drive the second (C:).  The batch
+file also will place files in subdirectories that branch from a
+directory named BOB which is off the root directory on your hard
+drive.  If this is not what you prefer, you can edit the batch
+file appropriately with an ASCII text editor.
+
+Before you use these diskettes, it is a good idea to make a backup copy
+of them using the DISKCOPY utility in your DOS directory.  As always,
+save the original diskettes in a safe place in case your copies become
+lost or damaged.
+
+To run the installation program, type:
+
+                 A:
+
+to switch to the A: floppy drive and
+
+                 INSTALL A: C:
+
+to install the software on floppy drive A: to hard drive C:.
+
+When you have installed Disk 1, then repeat the process
+for Disk 2:
+
+                 INSTALL2 A: C:
+
+
+MANUAL INSTALLATION
+
+To install the files one section at a time, here are the instructions.
+These instructions assume your hard drive is C: and your floppy drive is
+A: (if this is not the case, you should make the appropriate changes).
+
+1. First, log onto the root directory of your hard drive by typing 
+               C:
+               CD \
+
+2. Then make a directory on that drive, by typing 
+               MD SAMPLE
+
+3. Then decompress the files from the floppy drive (for example,
+   the sample files), by typing
+
+               A:PKUNZIP A:SAMPLE C:\SAMPLE
+
+
+A GENERAL NOTE ABOUT ROBUSTNESS
+
+The source code files in this diskette are for illustration purposes
+only.  As such, there is very little "bulletproofing" of the kind
+found in commercial programs.  For example, many programs do not
+check if a particular data file is present before trying to open it.
+As a consequence you will get a runtime error if you mistype a
+filename.  
+
+Also, in the case of abnormal program exit such as this, the VGA
+display state may be left in a different mode from the one at time of
+program start.  You may need to reboot the machine to restore the
+original VGA mode (or you can use the MODE BW80 command in DOS to
+restore 80-column mode).  We suggest rebooting, as memory problems
+may result from an unexpected exit.
+
+If you encounter runtime errors, you can try to determine the cause
+by using the powerful Turbo Debugger that is bundled with some Borland
+language products (and also available separately) or the debugging tools
+found with the Watcom compiler.
+
+
+COMPILING PROGRAMS
+
+All programs in the book have their executable files on the diskettes.  This
+is because some people will have the Watcom compiler, and some people will
+have the Borland compiler, and there might be problems compiling and running
+certain programs on certain compilers based on your system configuration.
+All of the software in this book was written in C using Borland C++ version
+3.1 and WATCOM C version 9.0.  The Borland C++ software was furnished by
+Borland International, 1800 Green Hills Road, Scotts Valley, CA 95066.
+The WATCOM C software was furnished by WATCOM, 415 Phillip Street, Ontario,
+Canada, N2L 3X2.
+
+The executables included on the diskettes are:
+
+C:\BOB\SAMPLE
+
+  CRYSTAL
+  PLANTS
+  STARS-3D
+  3D-3PORB
+
+C:\BOB\PROC
+
+  TREES
+  TORUS
+  TILEPUZL
+  SPHRFLAK
+  SPONGE
+  HEXER
+
+C:\BOB\PROCZBUF
+
+  PLOTEQN
+  OCEAN
+  CPM-MSET
+  CPM-JSET
+  QUATER
+  QUATER2
+  TERRAIN
+  SMOOTH
+
+C:\BOB\MODELER
+
+  ED
+
+C:\BOB\RT
+
+  BOB
+
+C:\BOB\TOOLS
+
+  GIF2IMG
+  IMG2GIF
+  IMG2TGA
+  TGA2IMG
+  GIFVIEW
+  VIEW
+  FILTER
+
+These are the major programs discussed in the book.  Also on the
+diskettes are many example data files with which you can use with
+the programs.  Consult the discussions in the book for how these
+programs work and what particular data files they require.
+
+All the source code files for the Borland compiler in the diskette come
+with .DSK and .PRJ files for the Borland IDE (Interactive Development
+Environment).  These control files are both vendor-specific and
+version-specific.  The .PRJ files assume that your Borland compiler
+is installed in the C:\BORLANDC directory.  If this is not the case,
+you will have to change the settings using the Option menu, with the
+Directory command.  The programs that you need to compile with Watcom
+have batch files that look something like xxxx___C.BAT.  These are used
+to compile specific files with the Watcom compiler.
+
+For Borland, you can also compile the programs using the DOS
+command-line interface. Consult your Borland manual for details.
+Remember that the files have to be compiled using the Large model.
+
+
+GENERAL NOTES:
+
+You must invoke the batch file RUNME1ST.BAT by typing RUNME1ST before using
+the software found in this book.  The batch file sets certin environment
+variables that are essential for the proper operation of the software.
+(for example, without running the batch, if you run one of the PROC programs,
+take TREES for example, you will find that it writes two lines at the top
+of any piped file it generates-no good).  The batch also sets up the BOB
+environment variables and path to allow the software to run from any
+directory, an to allow BOB access to all .B, .BO and other files that it
+requires for rendering.
+
+TEST.BAT is a batch file used to quickly preview a rendering, before you
+spend the time rendering a full, nice image.  Use it by typing:
+
+  TEST <<.b_filename>>
+
+Note that some of the software found in this book may not be compatible
+with your graphics hardware.  Refer to your hardware manuals and to the
+graphics card manufacturers for help.  Our drivers handle many cards, but
+not all graphics cards.
+

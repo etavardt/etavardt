@@ -1,0 +1,73 @@
+
+//      crypt section
+
+//      floor
+
+surf {
+	diff .5 .5 .5
+	spec .5 .5 .5
+}
+
+polygon { points 4
+	vertex -60 -60 0
+	vertex -60  60 0
+	vertex  60  60 0
+	vertex  60 -60 0
+}
+
+//      central column
+
+surf {
+	texture {
+		pattern spherical
+		turbulence {
+			scale .1 .1 .1
+			terms 7
+			amp 50
+		}
+		blend .8
+		radius 5
+		radius 20
+		surf { diff 0 .1 .2     shine 20 white }
+		surf { diff .8 .8 .8 shine 20 white }
+	}
+}
+
+#include column.bo
+
+//      roof sections
+
+surf {
+	diff white
+	bump {
+		turb {
+			terms 2
+			amp .2
+		}
+	}
+}
+
+cone { apex -60 -60 47 base -60  60 47 radius 49
+	clip { center 0 0 47 normal 0 0 1 }
+	clip { center 0 0 47 normal -1 1 0 }
+	clip { center 0 0 47 normal -1 -1 0 }
+	clip { center -60 0 0 normal 1 0 0 }
+}
+cone { apex -60  60 47 base  60  60 47 radius 49
+	clip { center 0 0 47 normal 0 0 1 }
+	clip { center 0 0 47 normal -1 1 0 }
+	clip { center 0 0 47 normal 1 1 0 }
+	clip { center 0 60 0 normal 0 -1 0 }
+}
+cone { apex  60  60 47 base  60 -60 47 radius 49
+	clip { center 0 0 47 normal 0 0 1 }
+	clip { center 0 0 47 normal 1 1 0 }
+	clip { center 0 0 47 normal 1 -1 0 }
+	clip { center 60 0 0 normal -1 0 0 }
+}
+cone { apex  60 -60 47 base -60 -60 47 radius 49
+	clip { center 0 0 47 normal 0 0 1 }
+	clip { center 0 0 47 normal 1 -1 0 }
+	clip { center 0 0 47 normal -1 -1 0 }
+	clip { center 0 -60 0 normal 0 1 0 }
+}

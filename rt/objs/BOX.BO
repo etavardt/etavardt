@@ -1,0 +1,3523 @@
+
+//      box
+
+ring { center 6.0 -4.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -5.0 normal 0 0 1 }
+}
+ring { center 6.0 -5.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 -4.0 normal 0 1 0 }
+	clip { center 0 -5.0 -4.0 normal 0 0 -1 }
+}
+ring { center 5.8 -4.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -5.0 normal 0 0 1 }
+}
+ring { center 5.8 -5.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 -4.0 normal 0 1 0 }
+	clip { center 0 -5.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -4.0 -5.0 base 5.8 -4.0 -5.0 radius 0.4
+	clip { center 0 -4.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 -5.0 -4.0 base 5.8 -5.0 -4.0 radius 0.4
+	clip { center 0 -5.0 -4.0 normal 0 1 0 }
+	clip { center 0 -5.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -4.0 -5.0 base 5.8 -4.0 -5.0 radius 0.6
+	clip { center 0 -4.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 -5.0 -4.0 base 5.8 -5.0 -4.0 radius 0.6
+	clip { center 0 -5.0 -4.0 normal 0 1 0 }
+	clip { center 0 -5.0 -4.0 normal 0 0 -1 }
+}
+ring { center 6.0 -4.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -4.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -4.0 normal 0 0 1 }
+}
+ring { center 6.0 -5.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 -3.0 normal 0 1 0 }
+	clip { center 0 -5.0 -3.0 normal 0 0 -1 }
+}
+ring { center 5.8 -4.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -4.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -4.0 normal 0 0 1 }
+}
+ring { center 5.8 -5.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 -3.0 normal 0 1 0 }
+	clip { center 0 -5.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -4.0 -4.0 base 5.8 -4.0 -4.0 radius 0.4
+	clip { center 0 -4.0 -4.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -5.0 -3.0 base 5.8 -5.0 -3.0 radius 0.4
+	clip { center 0 -5.0 -3.0 normal 0 1 0 }
+	clip { center 0 -5.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -4.0 -4.0 base 5.8 -4.0 -4.0 radius 0.6
+	clip { center 0 -4.0 -4.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -5.0 -3.0 base 5.8 -5.0 -3.0 radius 0.6
+	clip { center 0 -5.0 -3.0 normal 0 1 0 }
+	clip { center 0 -5.0 -3.0 normal 0 0 -1 }
+}
+ring { center 6.0 -5.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 -3.0 normal 0 1 0 }
+	clip { center 0 -5.0 -3.0 normal 0 0 1 }
+}
+ring { center 6.0 -4.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -2.0 normal 0 0 -1 }
+}
+ring { center 5.8 -5.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 -3.0 normal 0 1 0 }
+	clip { center 0 -5.0 -3.0 normal 0 0 1 }
+}
+ring { center 5.8 -4.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -5.0 -3.0 base 5.8 -5.0 -3.0 radius 0.4
+	clip { center 0 -5.0 -3.0 normal 0 1 0 }
+	clip { center 0 -5.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 -2.0 base 5.8 -4.0 -2.0 radius 0.4
+	clip { center 0 -4.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -5.0 -3.0 base 5.8 -5.0 -3.0 radius 0.6
+	clip { center 0 -5.0 -3.0 normal 0 1 0 }
+	clip { center 0 -5.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 -2.0 base 5.8 -4.0 -2.0 radius 0.6
+	clip { center 0 -4.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -2.0 normal 0 0 -1 }
+}
+ring { center 6.0 -5.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 -2.0 normal 0 1 0 }
+	clip { center 0 -5.0 -2.0 normal 0 0 1 }
+}
+ring { center 6.0 -4.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -1.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -1.0 normal 0 0 -1 }
+}
+ring { center 5.8 -5.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 -2.0 normal 0 1 0 }
+	clip { center 0 -5.0 -2.0 normal 0 0 1 }
+}
+ring { center 5.8 -4.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -1.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -5.0 -2.0 base 5.8 -5.0 -2.0 radius 0.4
+	clip { center 0 -5.0 -2.0 normal 0 1 0 }
+	clip { center 0 -5.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 -1.0 base 5.8 -4.0 -1.0 radius 0.4
+	clip { center 0 -4.0 -1.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -5.0 -2.0 base 5.8 -5.0 -2.0 radius 0.6
+	clip { center 0 -5.0 -2.0 normal 0 1 0 }
+	clip { center 0 -5.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 -1.0 base 5.8 -4.0 -1.0 radius 0.6
+	clip { center 0 -4.0 -1.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -1.0 normal 0 0 -1 }
+}
+ring { center 6.0 -4.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -1.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -1.0 normal 0 0 1 }
+}
+ring { center 6.0 -5.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 0.0 normal 0 1 0 }
+	clip { center 0 -5.0 0.0 normal 0 0 -1 }
+}
+ring { center 5.8 -4.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -1.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -1.0 normal 0 0 1 }
+}
+ring { center 5.8 -5.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 0.0 normal 0 1 0 }
+	clip { center 0 -5.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -4.0 -1.0 base 5.8 -4.0 -1.0 radius 0.4
+	clip { center 0 -4.0 -1.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -5.0 0.0 base 5.8 -5.0 0.0 radius 0.4
+	clip { center 0 -5.0 0.0 normal 0 1 0 }
+	clip { center 0 -5.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -4.0 -1.0 base 5.8 -4.0 -1.0 radius 0.6
+	clip { center 0 -4.0 -1.0 normal 0 -1 0 }
+	clip { center 0 -4.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -5.0 0.0 base 5.8 -5.0 0.0 radius 0.6
+	clip { center 0 -5.0 0.0 normal 0 1 0 }
+	clip { center 0 -5.0 0.0 normal 0 0 -1 }
+}
+ring { center 6.0 -5.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 0.0 normal 0 1 0 }
+	clip { center 0 -5.0 0.0 normal 0 0 1 }
+}
+ring { center 6.0 -4.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 1.0 normal 0 -1 0 }
+	clip { center 0 -4.0 1.0 normal 0 0 -1 }
+}
+ring { center 5.8 -5.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 0.0 normal 0 1 0 }
+	clip { center 0 -5.0 0.0 normal 0 0 1 }
+}
+ring { center 5.8 -4.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 1.0 normal 0 -1 0 }
+	clip { center 0 -4.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -5.0 0.0 base 5.8 -5.0 0.0 radius 0.4
+	clip { center 0 -5.0 0.0 normal 0 1 0 }
+	clip { center 0 -5.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 1.0 base 5.8 -4.0 1.0 radius 0.4
+	clip { center 0 -4.0 1.0 normal 0 -1 0 }
+	clip { center 0 -4.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -5.0 0.0 base 5.8 -5.0 0.0 radius 0.6
+	clip { center 0 -5.0 0.0 normal 0 1 0 }
+	clip { center 0 -5.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 1.0 base 5.8 -4.0 1.0 radius 0.6
+	clip { center 0 -4.0 1.0 normal 0 -1 0 }
+	clip { center 0 -4.0 1.0 normal 0 0 -1 }
+}
+ring { center 6.0 -5.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 1.0 normal 0 1 0 }
+	clip { center 0 -5.0 1.0 normal 0 0 1 }
+}
+ring { center 6.0 -4.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 2.0 normal 0 -1 0 }
+	clip { center 0 -4.0 2.0 normal 0 0 -1 }
+}
+ring { center 5.8 -5.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 1.0 normal 0 1 0 }
+	clip { center 0 -5.0 1.0 normal 0 0 1 }
+}
+ring { center 5.8 -4.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 2.0 normal 0 -1 0 }
+	clip { center 0 -4.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -5.0 1.0 base 5.8 -5.0 1.0 radius 0.4
+	clip { center 0 -5.0 1.0 normal 0 1 0 }
+	clip { center 0 -5.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 2.0 base 5.8 -4.0 2.0 radius 0.4
+	clip { center 0 -4.0 2.0 normal 0 -1 0 }
+	clip { center 0 -4.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -5.0 1.0 base 5.8 -5.0 1.0 radius 0.6
+	clip { center 0 -5.0 1.0 normal 0 1 0 }
+	clip { center 0 -5.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 2.0 base 5.8 -4.0 2.0 radius 0.6
+	clip { center 0 -4.0 2.0 normal 0 -1 0 }
+	clip { center 0 -4.0 2.0 normal 0 0 -1 }
+}
+ring { center 6.0 -5.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 2.0 normal 0 1 0 }
+	clip { center 0 -5.0 2.0 normal 0 0 1 }
+}
+ring { center 6.0 -4.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 3.0 normal 0 -1 0 }
+	clip { center 0 -4.0 3.0 normal 0 0 -1 }
+}
+ring { center 5.8 -5.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 2.0 normal 0 1 0 }
+	clip { center 0 -5.0 2.0 normal 0 0 1 }
+}
+ring { center 5.8 -4.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 3.0 normal 0 -1 0 }
+	clip { center 0 -4.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -5.0 2.0 base 5.8 -5.0 2.0 radius 0.4
+	clip { center 0 -5.0 2.0 normal 0 1 0 }
+	clip { center 0 -5.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 3.0 base 5.8 -4.0 3.0 radius 0.4
+	clip { center 0 -4.0 3.0 normal 0 -1 0 }
+	clip { center 0 -4.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -5.0 2.0 base 5.8 -5.0 2.0 radius 0.6
+	clip { center 0 -5.0 2.0 normal 0 1 0 }
+	clip { center 0 -5.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 3.0 base 5.8 -4.0 3.0 radius 0.6
+	clip { center 0 -4.0 3.0 normal 0 -1 0 }
+	clip { center 0 -4.0 3.0 normal 0 0 -1 }
+}
+ring { center 6.0 -4.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 3.0 normal 0 -1 0 }
+	clip { center 0 -4.0 3.0 normal 0 0 1 }
+}
+ring { center 6.0 -5.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 4.0 normal 0 1 0 }
+	clip { center 0 -5.0 4.0 normal 0 0 -1 }
+}
+ring { center 5.8 -4.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 3.0 normal 0 -1 0 }
+	clip { center 0 -4.0 3.0 normal 0 0 1 }
+}
+ring { center 5.8 -5.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 4.0 normal 0 1 0 }
+	clip { center 0 -5.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -4.0 3.0 base 5.8 -4.0 3.0 radius 0.4
+	clip { center 0 -4.0 3.0 normal 0 -1 0 }
+	clip { center 0 -4.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -5.0 4.0 base 5.8 -5.0 4.0 radius 0.4
+	clip { center 0 -5.0 4.0 normal 0 1 0 }
+	clip { center 0 -5.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -4.0 3.0 base 5.8 -4.0 3.0 radius 0.6
+	clip { center 0 -4.0 3.0 normal 0 -1 0 }
+	clip { center 0 -4.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -5.0 4.0 base 5.8 -5.0 4.0 radius 0.6
+	clip { center 0 -5.0 4.0 normal 0 1 0 }
+	clip { center 0 -5.0 4.0 normal 0 0 -1 }
+}
+ring { center 6.0 -4.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 4.0 normal 0 -1 0 }
+	clip { center 0 -4.0 4.0 normal 0 0 1 }
+}
+ring { center 6.0 -5.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 5.0 normal 0 1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 -1 }
+}
+ring { center 5.8 -4.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 4.0 normal 0 -1 0 }
+	clip { center 0 -4.0 4.0 normal 0 0 1 }
+}
+ring { center 5.8 -5.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -5.0 5.0 normal 0 1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -4.0 4.0 base 5.8 -4.0 4.0 radius 0.4
+	clip { center 0 -4.0 4.0 normal 0 -1 0 }
+	clip { center 0 -4.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -5.0 5.0 base 5.8 -5.0 5.0 radius 0.4
+	clip { center 0 -5.0 5.0 normal 0 1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -4.0 4.0 base 5.8 -4.0 4.0 radius 0.6
+	clip { center 0 -4.0 4.0 normal 0 -1 0 }
+	clip { center 0 -4.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -5.0 5.0 base 5.8 -5.0 5.0 radius 0.6
+	clip { center 0 -5.0 5.0 normal 0 1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -5.0 normal 0 0 1 }
+}
+ring { center 6.0 -4.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -4.0 normal 0 1 0 }
+	clip { center 0 -4.0 -4.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -5.0 normal 0 0 1 }
+}
+ring { center 5.8 -4.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -4.0 normal 0 1 0 }
+	clip { center 0 -4.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -5.0 base 5.8 -3.0 -5.0 radius 0.4
+	clip { center 0 -3.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 -4.0 base 5.8 -4.0 -4.0 radius 0.4
+	clip { center 0 -4.0 -4.0 normal 0 1 0 }
+	clip { center 0 -4.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -5.0 base 5.8 -3.0 -5.0 radius 0.6
+	clip { center 0 -3.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 -4.0 base 5.8 -4.0 -4.0 radius 0.6
+	clip { center 0 -4.0 -4.0 normal 0 1 0 }
+	clip { center 0 -4.0 -4.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -4.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -4.0 normal 0 0 1 }
+}
+ring { center 6.0 -4.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -3.0 normal 0 1 0 }
+	clip { center 0 -4.0 -3.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -4.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -4.0 normal 0 0 1 }
+}
+ring { center 5.8 -4.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -3.0 normal 0 1 0 }
+	clip { center 0 -4.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -4.0 base 5.8 -3.0 -4.0 radius 0.4
+	clip { center 0 -3.0 -4.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 -3.0 base 5.8 -4.0 -3.0 radius 0.4
+	clip { center 0 -4.0 -3.0 normal 0 1 0 }
+	clip { center 0 -4.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -4.0 base 5.8 -3.0 -4.0 radius 0.6
+	clip { center 0 -3.0 -4.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 -3.0 base 5.8 -4.0 -3.0 radius 0.6
+	clip { center 0 -4.0 -3.0 normal 0 1 0 }
+	clip { center 0 -4.0 -3.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -3.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -3.0 normal 0 0 1 }
+}
+ring { center 6.0 -4.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -2.0 normal 0 1 0 }
+	clip { center 0 -4.0 -2.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -3.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -3.0 normal 0 0 1 }
+}
+ring { center 5.8 -4.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -2.0 normal 0 1 0 }
+	clip { center 0 -4.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -3.0 base 5.8 -3.0 -3.0 radius 0.4
+	clip { center 0 -3.0 -3.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 -2.0 base 5.8 -4.0 -2.0 radius 0.4
+	clip { center 0 -4.0 -2.0 normal 0 1 0 }
+	clip { center 0 -4.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -3.0 base 5.8 -3.0 -3.0 radius 0.6
+	clip { center 0 -3.0 -3.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 -2.0 base 5.8 -4.0 -2.0 radius 0.6
+	clip { center 0 -4.0 -2.0 normal 0 1 0 }
+	clip { center 0 -4.0 -2.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -2.0 normal 0 0 1 }
+}
+ring { center 6.0 -4.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -1.0 normal 0 1 0 }
+	clip { center 0 -4.0 -1.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -2.0 normal 0 0 1 }
+}
+ring { center 5.8 -4.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 -1.0 normal 0 1 0 }
+	clip { center 0 -4.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -2.0 base 5.8 -3.0 -2.0 radius 0.4
+	clip { center 0 -3.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 -1.0 base 5.8 -4.0 -1.0 radius 0.4
+	clip { center 0 -4.0 -1.0 normal 0 1 0 }
+	clip { center 0 -4.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -2.0 base 5.8 -3.0 -2.0 radius 0.6
+	clip { center 0 -3.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 -1.0 base 5.8 -4.0 -1.0 radius 0.6
+	clip { center 0 -4.0 -1.0 normal 0 1 0 }
+	clip { center 0 -4.0 -1.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -1.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -1.0 normal 0 0 1 }
+}
+ring { center 6.0 -4.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 0.0 normal 0 1 0 }
+	clip { center 0 -4.0 0.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -1.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -1.0 normal 0 0 1 }
+}
+ring { center 5.8 -4.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 0.0 normal 0 1 0 }
+	clip { center 0 -4.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -1.0 base 5.8 -3.0 -1.0 radius 0.4
+	clip { center 0 -3.0 -1.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 0.0 base 5.8 -4.0 0.0 radius 0.4
+	clip { center 0 -4.0 0.0 normal 0 1 0 }
+	clip { center 0 -4.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -1.0 base 5.8 -3.0 -1.0 radius 0.6
+	clip { center 0 -3.0 -1.0 normal 0 -1 0 }
+	clip { center 0 -3.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 0.0 base 5.8 -4.0 0.0 radius 0.6
+	clip { center 0 -4.0 0.0 normal 0 1 0 }
+	clip { center 0 -4.0 0.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 0.0 normal 0 -1 0 }
+	clip { center 0 -3.0 0.0 normal 0 0 1 }
+}
+ring { center 6.0 -4.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 1.0 normal 0 1 0 }
+	clip { center 0 -4.0 1.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 0.0 normal 0 -1 0 }
+	clip { center 0 -3.0 0.0 normal 0 0 1 }
+}
+ring { center 5.8 -4.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 1.0 normal 0 1 0 }
+	clip { center 0 -4.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 0.0 base 5.8 -3.0 0.0 radius 0.4
+	clip { center 0 -3.0 0.0 normal 0 -1 0 }
+	clip { center 0 -3.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 1.0 base 5.8 -4.0 1.0 radius 0.4
+	clip { center 0 -4.0 1.0 normal 0 1 0 }
+	clip { center 0 -4.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 0.0 base 5.8 -3.0 0.0 radius 0.6
+	clip { center 0 -3.0 0.0 normal 0 -1 0 }
+	clip { center 0 -3.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 1.0 base 5.8 -4.0 1.0 radius 0.6
+	clip { center 0 -4.0 1.0 normal 0 1 0 }
+	clip { center 0 -4.0 1.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 1.0 normal 0 -1 0 }
+	clip { center 0 -3.0 1.0 normal 0 0 1 }
+}
+ring { center 6.0 -4.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 2.0 normal 0 1 0 }
+	clip { center 0 -4.0 2.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 1.0 normal 0 -1 0 }
+	clip { center 0 -3.0 1.0 normal 0 0 1 }
+}
+ring { center 5.8 -4.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 2.0 normal 0 1 0 }
+	clip { center 0 -4.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 1.0 base 5.8 -3.0 1.0 radius 0.4
+	clip { center 0 -3.0 1.0 normal 0 -1 0 }
+	clip { center 0 -3.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 2.0 base 5.8 -4.0 2.0 radius 0.4
+	clip { center 0 -4.0 2.0 normal 0 1 0 }
+	clip { center 0 -4.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 1.0 base 5.8 -3.0 1.0 radius 0.6
+	clip { center 0 -3.0 1.0 normal 0 -1 0 }
+	clip { center 0 -3.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 2.0 base 5.8 -4.0 2.0 radius 0.6
+	clip { center 0 -4.0 2.0 normal 0 1 0 }
+	clip { center 0 -4.0 2.0 normal 0 0 -1 }
+}
+ring { center 6.0 -4.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 2.0 normal 0 1 0 }
+	clip { center 0 -4.0 2.0 normal 0 0 1 }
+}
+ring { center 6.0 -3.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 3.0 normal 0 -1 0 }
+	clip { center 0 -3.0 3.0 normal 0 0 -1 }
+}
+ring { center 5.8 -4.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 2.0 normal 0 1 0 }
+	clip { center 0 -4.0 2.0 normal 0 0 1 }
+}
+ring { center 5.8 -3.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 3.0 normal 0 -1 0 }
+	clip { center 0 -3.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -4.0 2.0 base 5.8 -4.0 2.0 radius 0.4
+	clip { center 0 -4.0 2.0 normal 0 1 0 }
+	clip { center 0 -4.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 -3.0 3.0 base 5.8 -3.0 3.0 radius 0.4
+	clip { center 0 -3.0 3.0 normal 0 -1 0 }
+	clip { center 0 -3.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -4.0 2.0 base 5.8 -4.0 2.0 radius 0.6
+	clip { center 0 -4.0 2.0 normal 0 1 0 }
+	clip { center 0 -4.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 -3.0 3.0 base 5.8 -3.0 3.0 radius 0.6
+	clip { center 0 -3.0 3.0 normal 0 -1 0 }
+	clip { center 0 -3.0 3.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 3.0 normal 0 -1 0 }
+	clip { center 0 -3.0 3.0 normal 0 0 1 }
+}
+ring { center 6.0 -4.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 4.0 normal 0 1 0 }
+	clip { center 0 -4.0 4.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 3.0 normal 0 -1 0 }
+	clip { center 0 -3.0 3.0 normal 0 0 1 }
+}
+ring { center 5.8 -4.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 4.0 normal 0 1 0 }
+	clip { center 0 -4.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 3.0 base 5.8 -3.0 3.0 radius 0.4
+	clip { center 0 -3.0 3.0 normal 0 -1 0 }
+	clip { center 0 -3.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 4.0 base 5.8 -4.0 4.0 radius 0.4
+	clip { center 0 -4.0 4.0 normal 0 1 0 }
+	clip { center 0 -4.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 3.0 base 5.8 -3.0 3.0 radius 0.6
+	clip { center 0 -3.0 3.0 normal 0 -1 0 }
+	clip { center 0 -3.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -4.0 4.0 base 5.8 -4.0 4.0 radius 0.6
+	clip { center 0 -4.0 4.0 normal 0 1 0 }
+	clip { center 0 -4.0 4.0 normal 0 0 -1 }
+}
+ring { center 6.0 -4.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 4.0 normal 0 1 0 }
+	clip { center 0 -4.0 4.0 normal 0 0 1 }
+}
+ring { center 6.0 -3.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 5.0 normal 0 -1 0 }
+	clip { center 0 -3.0 5.0 normal 0 0 -1 }
+}
+ring { center 5.8 -4.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -4.0 4.0 normal 0 1 0 }
+	clip { center 0 -4.0 4.0 normal 0 0 1 }
+}
+ring { center 5.8 -3.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 5.0 normal 0 -1 0 }
+	clip { center 0 -3.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -4.0 4.0 base 5.8 -4.0 4.0 radius 0.4
+	clip { center 0 -4.0 4.0 normal 0 1 0 }
+	clip { center 0 -4.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -3.0 5.0 base 5.8 -3.0 5.0 radius 0.4
+	clip { center 0 -3.0 5.0 normal 0 -1 0 }
+	clip { center 0 -3.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -4.0 4.0 base 5.8 -4.0 4.0 radius 0.6
+	clip { center 0 -4.0 4.0 normal 0 1 0 }
+	clip { center 0 -4.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -3.0 5.0 base 5.8 -3.0 5.0 radius 0.6
+	clip { center 0 -3.0 5.0 normal 0 -1 0 }
+	clip { center 0 -3.0 5.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -5.0 normal 0 1 0 }
+	clip { center 0 -3.0 -5.0 normal 0 0 1 }
+}
+ring { center 6.0 -2.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -4.0 normal 0 -1 0 }
+	clip { center 0 -2.0 -4.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -5.0 normal 0 1 0 }
+	clip { center 0 -3.0 -5.0 normal 0 0 1 }
+}
+ring { center 5.8 -2.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -4.0 normal 0 -1 0 }
+	clip { center 0 -2.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -5.0 base 5.8 -3.0 -5.0 radius 0.4
+	clip { center 0 -3.0 -5.0 normal 0 1 0 }
+	clip { center 0 -3.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 -4.0 base 5.8 -2.0 -4.0 radius 0.4
+	clip { center 0 -2.0 -4.0 normal 0 -1 0 }
+	clip { center 0 -2.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -5.0 base 5.8 -3.0 -5.0 radius 0.6
+	clip { center 0 -3.0 -5.0 normal 0 1 0 }
+	clip { center 0 -3.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 -4.0 base 5.8 -2.0 -4.0 radius 0.6
+	clip { center 0 -2.0 -4.0 normal 0 -1 0 }
+	clip { center 0 -2.0 -4.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -4.0 normal 0 1 0 }
+	clip { center 0 -3.0 -4.0 normal 0 0 1 }
+}
+ring { center 6.0 -2.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -3.0 normal 0 -1 0 }
+	clip { center 0 -2.0 -3.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -4.0 normal 0 1 0 }
+	clip { center 0 -3.0 -4.0 normal 0 0 1 }
+}
+ring { center 5.8 -2.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -3.0 normal 0 -1 0 }
+	clip { center 0 -2.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -4.0 base 5.8 -3.0 -4.0 radius 0.4
+	clip { center 0 -3.0 -4.0 normal 0 1 0 }
+	clip { center 0 -3.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 -3.0 base 5.8 -2.0 -3.0 radius 0.4
+	clip { center 0 -2.0 -3.0 normal 0 -1 0 }
+	clip { center 0 -2.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -4.0 base 5.8 -3.0 -4.0 radius 0.6
+	clip { center 0 -3.0 -4.0 normal 0 1 0 }
+	clip { center 0 -3.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 -3.0 base 5.8 -2.0 -3.0 radius 0.6
+	clip { center 0 -2.0 -3.0 normal 0 -1 0 }
+	clip { center 0 -2.0 -3.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -3.0 normal 0 1 0 }
+	clip { center 0 -3.0 -3.0 normal 0 0 1 }
+}
+ring { center 6.0 -2.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -2.0 -2.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -3.0 normal 0 1 0 }
+	clip { center 0 -3.0 -3.0 normal 0 0 1 }
+}
+ring { center 5.8 -2.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -2.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -3.0 base 5.8 -3.0 -3.0 radius 0.4
+	clip { center 0 -3.0 -3.0 normal 0 1 0 }
+	clip { center 0 -3.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 -2.0 base 5.8 -2.0 -2.0 radius 0.4
+	clip { center 0 -2.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -2.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -3.0 base 5.8 -3.0 -3.0 radius 0.6
+	clip { center 0 -3.0 -3.0 normal 0 1 0 }
+	clip { center 0 -3.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 -2.0 base 5.8 -2.0 -2.0 radius 0.6
+	clip { center 0 -2.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -2.0 -2.0 normal 0 0 -1 }
+}
+ring { center 6.0 -2.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -2.0 -2.0 normal 0 0 1 }
+}
+ring { center 6.0 -3.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -1.0 normal 0 1 0 }
+	clip { center 0 -3.0 -1.0 normal 0 0 -1 }
+}
+ring { center 5.8 -2.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -2.0 -2.0 normal 0 0 1 }
+}
+ring { center 5.8 -3.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -1.0 normal 0 1 0 }
+	clip { center 0 -3.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -2.0 -2.0 base 5.8 -2.0 -2.0 radius 0.4
+	clip { center 0 -2.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -2.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 -3.0 -1.0 base 5.8 -3.0 -1.0 radius 0.4
+	clip { center 0 -3.0 -1.0 normal 0 1 0 }
+	clip { center 0 -3.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -2.0 -2.0 base 5.8 -2.0 -2.0 radius 0.6
+	clip { center 0 -2.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -2.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 -3.0 -1.0 base 5.8 -3.0 -1.0 radius 0.6
+	clip { center 0 -3.0 -1.0 normal 0 1 0 }
+	clip { center 0 -3.0 -1.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -1.0 normal 0 1 0 }
+	clip { center 0 -3.0 -1.0 normal 0 0 1 }
+}
+ring { center 6.0 -2.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 0.0 normal 0 -1 0 }
+	clip { center 0 -2.0 0.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 -1.0 normal 0 1 0 }
+	clip { center 0 -3.0 -1.0 normal 0 0 1 }
+}
+ring { center 5.8 -2.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 0.0 normal 0 -1 0 }
+	clip { center 0 -2.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -1.0 base 5.8 -3.0 -1.0 radius 0.4
+	clip { center 0 -3.0 -1.0 normal 0 1 0 }
+	clip { center 0 -3.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 0.0 base 5.8 -2.0 0.0 radius 0.4
+	clip { center 0 -2.0 0.0 normal 0 -1 0 }
+	clip { center 0 -2.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 -1.0 base 5.8 -3.0 -1.0 radius 0.6
+	clip { center 0 -3.0 -1.0 normal 0 1 0 }
+	clip { center 0 -3.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 0.0 base 5.8 -2.0 0.0 radius 0.6
+	clip { center 0 -2.0 0.0 normal 0 -1 0 }
+	clip { center 0 -2.0 0.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 0.0 normal 0 1 0 }
+	clip { center 0 -3.0 0.0 normal 0 0 1 }
+}
+ring { center 6.0 -2.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 1.0 normal 0 -1 0 }
+	clip { center 0 -2.0 1.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 0.0 normal 0 1 0 }
+	clip { center 0 -3.0 0.0 normal 0 0 1 }
+}
+ring { center 5.8 -2.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 1.0 normal 0 -1 0 }
+	clip { center 0 -2.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 0.0 base 5.8 -3.0 0.0 radius 0.4
+	clip { center 0 -3.0 0.0 normal 0 1 0 }
+	clip { center 0 -3.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 1.0 base 5.8 -2.0 1.0 radius 0.4
+	clip { center 0 -2.0 1.0 normal 0 -1 0 }
+	clip { center 0 -2.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 0.0 base 5.8 -3.0 0.0 radius 0.6
+	clip { center 0 -3.0 0.0 normal 0 1 0 }
+	clip { center 0 -3.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 1.0 base 5.8 -2.0 1.0 radius 0.6
+	clip { center 0 -2.0 1.0 normal 0 -1 0 }
+	clip { center 0 -2.0 1.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 1.0 normal 0 1 0 }
+	clip { center 0 -3.0 1.0 normal 0 0 1 }
+}
+ring { center 6.0 -2.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 2.0 normal 0 -1 0 }
+	clip { center 0 -2.0 2.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 1.0 normal 0 1 0 }
+	clip { center 0 -3.0 1.0 normal 0 0 1 }
+}
+ring { center 5.8 -2.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 2.0 normal 0 -1 0 }
+	clip { center 0 -2.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 1.0 base 5.8 -3.0 1.0 radius 0.4
+	clip { center 0 -3.0 1.0 normal 0 1 0 }
+	clip { center 0 -3.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 2.0 base 5.8 -2.0 2.0 radius 0.4
+	clip { center 0 -2.0 2.0 normal 0 -1 0 }
+	clip { center 0 -2.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 1.0 base 5.8 -3.0 1.0 radius 0.6
+	clip { center 0 -3.0 1.0 normal 0 1 0 }
+	clip { center 0 -3.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 2.0 base 5.8 -2.0 2.0 radius 0.6
+	clip { center 0 -2.0 2.0 normal 0 -1 0 }
+	clip { center 0 -2.0 2.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 2.0 normal 0 1 0 }
+	clip { center 0 -3.0 2.0 normal 0 0 1 }
+}
+ring { center 6.0 -2.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 3.0 normal 0 -1 0 }
+	clip { center 0 -2.0 3.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 2.0 normal 0 1 0 }
+	clip { center 0 -3.0 2.0 normal 0 0 1 }
+}
+ring { center 5.8 -2.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 3.0 normal 0 -1 0 }
+	clip { center 0 -2.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 2.0 base 5.8 -3.0 2.0 radius 0.4
+	clip { center 0 -3.0 2.0 normal 0 1 0 }
+	clip { center 0 -3.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 3.0 base 5.8 -2.0 3.0 radius 0.4
+	clip { center 0 -2.0 3.0 normal 0 -1 0 }
+	clip { center 0 -2.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 2.0 base 5.8 -3.0 2.0 radius 0.6
+	clip { center 0 -3.0 2.0 normal 0 1 0 }
+	clip { center 0 -3.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 3.0 base 5.8 -2.0 3.0 radius 0.6
+	clip { center 0 -2.0 3.0 normal 0 -1 0 }
+	clip { center 0 -2.0 3.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 3.0 normal 0 1 0 }
+	clip { center 0 -3.0 3.0 normal 0 0 1 }
+}
+ring { center 6.0 -2.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 4.0 normal 0 -1 0 }
+	clip { center 0 -2.0 4.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 3.0 normal 0 1 0 }
+	clip { center 0 -3.0 3.0 normal 0 0 1 }
+}
+ring { center 5.8 -2.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 4.0 normal 0 -1 0 }
+	clip { center 0 -2.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 3.0 base 5.8 -3.0 3.0 radius 0.4
+	clip { center 0 -3.0 3.0 normal 0 1 0 }
+	clip { center 0 -3.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 4.0 base 5.8 -2.0 4.0 radius 0.4
+	clip { center 0 -2.0 4.0 normal 0 -1 0 }
+	clip { center 0 -2.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 3.0 base 5.8 -3.0 3.0 radius 0.6
+	clip { center 0 -3.0 3.0 normal 0 1 0 }
+	clip { center 0 -3.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 4.0 base 5.8 -2.0 4.0 radius 0.6
+	clip { center 0 -2.0 4.0 normal 0 -1 0 }
+	clip { center 0 -2.0 4.0 normal 0 0 -1 }
+}
+ring { center 6.0 -3.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 4.0 normal 0 1 0 }
+	clip { center 0 -3.0 4.0 normal 0 0 1 }
+}
+ring { center 6.0 -2.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 5.0 normal 0 -1 0 }
+	clip { center 0 -2.0 5.0 normal 0 0 -1 }
+}
+ring { center 5.8 -3.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -3.0 4.0 normal 0 1 0 }
+	clip { center 0 -3.0 4.0 normal 0 0 1 }
+}
+ring { center 5.8 -2.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 5.0 normal 0 -1 0 }
+	clip { center 0 -2.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 4.0 base 5.8 -3.0 4.0 radius 0.4
+	clip { center 0 -3.0 4.0 normal 0 1 0 }
+	clip { center 0 -3.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 5.0 base 5.8 -2.0 5.0 radius 0.4
+	clip { center 0 -2.0 5.0 normal 0 -1 0 }
+	clip { center 0 -2.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -3.0 4.0 base 5.8 -3.0 4.0 radius 0.6
+	clip { center 0 -3.0 4.0 normal 0 1 0 }
+	clip { center 0 -3.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 5.0 base 5.8 -2.0 5.0 radius 0.6
+	clip { center 0 -2.0 5.0 normal 0 -1 0 }
+	clip { center 0 -2.0 5.0 normal 0 0 -1 }
+}
+ring { center 6.0 -2.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -5.0 normal 0 1 0 }
+	clip { center 0 -2.0 -5.0 normal 0 0 1 }
+}
+ring { center 6.0 -1.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 -4.0 normal 0 -1 0 }
+	clip { center 0 -1.0 -4.0 normal 0 0 -1 }
+}
+ring { center 5.8 -2.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -5.0 normal 0 1 0 }
+	clip { center 0 -2.0 -5.0 normal 0 0 1 }
+}
+ring { center 5.8 -1.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 -4.0 normal 0 -1 0 }
+	clip { center 0 -1.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -2.0 -5.0 base 5.8 -2.0 -5.0 radius 0.4
+	clip { center 0 -2.0 -5.0 normal 0 1 0 }
+	clip { center 0 -2.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 -1.0 -4.0 base 5.8 -1.0 -4.0 radius 0.4
+	clip { center 0 -1.0 -4.0 normal 0 -1 0 }
+	clip { center 0 -1.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -2.0 -5.0 base 5.8 -2.0 -5.0 radius 0.6
+	clip { center 0 -2.0 -5.0 normal 0 1 0 }
+	clip { center 0 -2.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 -1.0 -4.0 base 5.8 -1.0 -4.0 radius 0.6
+	clip { center 0 -1.0 -4.0 normal 0 -1 0 }
+	clip { center 0 -1.0 -4.0 normal 0 0 -1 }
+}
+ring { center 6.0 -2.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -4.0 normal 0 1 0 }
+	clip { center 0 -2.0 -4.0 normal 0 0 1 }
+}
+ring { center 6.0 -1.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 -3.0 normal 0 -1 0 }
+	clip { center 0 -1.0 -3.0 normal 0 0 -1 }
+}
+ring { center 5.8 -2.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -4.0 normal 0 1 0 }
+	clip { center 0 -2.0 -4.0 normal 0 0 1 }
+}
+ring { center 5.8 -1.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 -3.0 normal 0 -1 0 }
+	clip { center 0 -1.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -2.0 -4.0 base 5.8 -2.0 -4.0 radius 0.4
+	clip { center 0 -2.0 -4.0 normal 0 1 0 }
+	clip { center 0 -2.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -1.0 -3.0 base 5.8 -1.0 -3.0 radius 0.4
+	clip { center 0 -1.0 -3.0 normal 0 -1 0 }
+	clip { center 0 -1.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -2.0 -4.0 base 5.8 -2.0 -4.0 radius 0.6
+	clip { center 0 -2.0 -4.0 normal 0 1 0 }
+	clip { center 0 -2.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -1.0 -3.0 base 5.8 -1.0 -3.0 radius 0.6
+	clip { center 0 -1.0 -3.0 normal 0 -1 0 }
+	clip { center 0 -1.0 -3.0 normal 0 0 -1 }
+}
+ring { center 6.0 -1.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 -3.0 normal 0 -1 0 }
+	clip { center 0 -1.0 -3.0 normal 0 0 1 }
+}
+ring { center 6.0 -2.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -2.0 normal 0 1 0 }
+	clip { center 0 -2.0 -2.0 normal 0 0 -1 }
+}
+ring { center 5.8 -1.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 -3.0 normal 0 -1 0 }
+	clip { center 0 -1.0 -3.0 normal 0 0 1 }
+}
+ring { center 5.8 -2.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -2.0 normal 0 1 0 }
+	clip { center 0 -2.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 -3.0 base 5.8 -1.0 -3.0 radius 0.4
+	clip { center 0 -1.0 -3.0 normal 0 -1 0 }
+	clip { center 0 -1.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 -2.0 base 5.8 -2.0 -2.0 radius 0.4
+	clip { center 0 -2.0 -2.0 normal 0 1 0 }
+	clip { center 0 -2.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 -3.0 base 5.8 -1.0 -3.0 radius 0.6
+	clip { center 0 -1.0 -3.0 normal 0 -1 0 }
+	clip { center 0 -1.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 -2.0 base 5.8 -2.0 -2.0 radius 0.6
+	clip { center 0 -2.0 -2.0 normal 0 1 0 }
+	clip { center 0 -2.0 -2.0 normal 0 0 -1 }
+}
+ring { center 6.0 -1.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -1.0 -2.0 normal 0 0 1 }
+}
+ring { center 6.0 -2.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -1.0 normal 0 1 0 }
+	clip { center 0 -2.0 -1.0 normal 0 0 -1 }
+}
+ring { center 5.8 -1.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -1.0 -2.0 normal 0 0 1 }
+}
+ring { center 5.8 -2.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -1.0 normal 0 1 0 }
+	clip { center 0 -2.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 -2.0 base 5.8 -1.0 -2.0 radius 0.4
+	clip { center 0 -1.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -1.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 -1.0 base 5.8 -2.0 -1.0 radius 0.4
+	clip { center 0 -2.0 -1.0 normal 0 1 0 }
+	clip { center 0 -2.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 -2.0 base 5.8 -1.0 -2.0 radius 0.6
+	clip { center 0 -1.0 -2.0 normal 0 -1 0 }
+	clip { center 0 -1.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 -1.0 base 5.8 -2.0 -1.0 radius 0.6
+	clip { center 0 -2.0 -1.0 normal 0 1 0 }
+	clip { center 0 -2.0 -1.0 normal 0 0 -1 }
+}
+ring { center 6.0 -2.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -1.0 normal 0 1 0 }
+	clip { center 0 -2.0 -1.0 normal 0 0 1 }
+}
+ring { center 6.0 -1.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 0.0 normal 0 -1 0 }
+	clip { center 0 -1.0 0.0 normal 0 0 -1 }
+}
+ring { center 5.8 -2.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 -1.0 normal 0 1 0 }
+	clip { center 0 -2.0 -1.0 normal 0 0 1 }
+}
+ring { center 5.8 -1.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 0.0 normal 0 -1 0 }
+	clip { center 0 -1.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -2.0 -1.0 base 5.8 -2.0 -1.0 radius 0.4
+	clip { center 0 -2.0 -1.0 normal 0 1 0 }
+	clip { center 0 -2.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -1.0 0.0 base 5.8 -1.0 0.0 radius 0.4
+	clip { center 0 -1.0 0.0 normal 0 -1 0 }
+	clip { center 0 -1.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -2.0 -1.0 base 5.8 -2.0 -1.0 radius 0.6
+	clip { center 0 -2.0 -1.0 normal 0 1 0 }
+	clip { center 0 -2.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -1.0 0.0 base 5.8 -1.0 0.0 radius 0.6
+	clip { center 0 -1.0 0.0 normal 0 -1 0 }
+	clip { center 0 -1.0 0.0 normal 0 0 -1 }
+}
+ring { center 6.0 -1.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 0.0 normal 0 -1 0 }
+	clip { center 0 -1.0 0.0 normal 0 0 1 }
+}
+ring { center 6.0 -2.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 1.0 normal 0 1 0 }
+	clip { center 0 -2.0 1.0 normal 0 0 -1 }
+}
+ring { center 5.8 -1.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 0.0 normal 0 -1 0 }
+	clip { center 0 -1.0 0.0 normal 0 0 1 }
+}
+ring { center 5.8 -2.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 1.0 normal 0 1 0 }
+	clip { center 0 -2.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 0.0 base 5.8 -1.0 0.0 radius 0.4
+	clip { center 0 -1.0 0.0 normal 0 -1 0 }
+	clip { center 0 -1.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 1.0 base 5.8 -2.0 1.0 radius 0.4
+	clip { center 0 -2.0 1.0 normal 0 1 0 }
+	clip { center 0 -2.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 0.0 base 5.8 -1.0 0.0 radius 0.6
+	clip { center 0 -1.0 0.0 normal 0 -1 0 }
+	clip { center 0 -1.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 1.0 base 5.8 -2.0 1.0 radius 0.6
+	clip { center 0 -2.0 1.0 normal 0 1 0 }
+	clip { center 0 -2.0 1.0 normal 0 0 -1 }
+}
+ring { center 6.0 -1.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 1.0 normal 0 -1 0 }
+	clip { center 0 -1.0 1.0 normal 0 0 1 }
+}
+ring { center 6.0 -2.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 2.0 normal 0 1 0 }
+	clip { center 0 -2.0 2.0 normal 0 0 -1 }
+}
+ring { center 5.8 -1.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 1.0 normal 0 -1 0 }
+	clip { center 0 -1.0 1.0 normal 0 0 1 }
+}
+ring { center 5.8 -2.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 2.0 normal 0 1 0 }
+	clip { center 0 -2.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 1.0 base 5.8 -1.0 1.0 radius 0.4
+	clip { center 0 -1.0 1.0 normal 0 -1 0 }
+	clip { center 0 -1.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 2.0 base 5.8 -2.0 2.0 radius 0.4
+	clip { center 0 -2.0 2.0 normal 0 1 0 }
+	clip { center 0 -2.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 1.0 base 5.8 -1.0 1.0 radius 0.6
+	clip { center 0 -1.0 1.0 normal 0 -1 0 }
+	clip { center 0 -1.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 2.0 base 5.8 -2.0 2.0 radius 0.6
+	clip { center 0 -2.0 2.0 normal 0 1 0 }
+	clip { center 0 -2.0 2.0 normal 0 0 -1 }
+}
+ring { center 6.0 -1.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 2.0 normal 0 -1 0 }
+	clip { center 0 -1.0 2.0 normal 0 0 1 }
+}
+ring { center 6.0 -2.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 3.0 normal 0 1 0 }
+	clip { center 0 -2.0 3.0 normal 0 0 -1 }
+}
+ring { center 5.8 -1.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 2.0 normal 0 -1 0 }
+	clip { center 0 -1.0 2.0 normal 0 0 1 }
+}
+ring { center 5.8 -2.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 3.0 normal 0 1 0 }
+	clip { center 0 -2.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 2.0 base 5.8 -1.0 2.0 radius 0.4
+	clip { center 0 -1.0 2.0 normal 0 -1 0 }
+	clip { center 0 -1.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 3.0 base 5.8 -2.0 3.0 radius 0.4
+	clip { center 0 -2.0 3.0 normal 0 1 0 }
+	clip { center 0 -2.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 2.0 base 5.8 -1.0 2.0 radius 0.6
+	clip { center 0 -1.0 2.0 normal 0 -1 0 }
+	clip { center 0 -1.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 3.0 base 5.8 -2.0 3.0 radius 0.6
+	clip { center 0 -2.0 3.0 normal 0 1 0 }
+	clip { center 0 -2.0 3.0 normal 0 0 -1 }
+}
+ring { center 6.0 -1.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 3.0 normal 0 -1 0 }
+	clip { center 0 -1.0 3.0 normal 0 0 1 }
+}
+ring { center 6.0 -2.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 4.0 normal 0 1 0 }
+	clip { center 0 -2.0 4.0 normal 0 0 -1 }
+}
+ring { center 5.8 -1.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 3.0 normal 0 -1 0 }
+	clip { center 0 -1.0 3.0 normal 0 0 1 }
+}
+ring { center 5.8 -2.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 4.0 normal 0 1 0 }
+	clip { center 0 -2.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 3.0 base 5.8 -1.0 3.0 radius 0.4
+	clip { center 0 -1.0 3.0 normal 0 -1 0 }
+	clip { center 0 -1.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 4.0 base 5.8 -2.0 4.0 radius 0.4
+	clip { center 0 -2.0 4.0 normal 0 1 0 }
+	clip { center 0 -2.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 3.0 base 5.8 -1.0 3.0 radius 0.6
+	clip { center 0 -1.0 3.0 normal 0 -1 0 }
+	clip { center 0 -1.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -2.0 4.0 base 5.8 -2.0 4.0 radius 0.6
+	clip { center 0 -2.0 4.0 normal 0 1 0 }
+	clip { center 0 -2.0 4.0 normal 0 0 -1 }
+}
+ring { center 6.0 -2.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 4.0 normal 0 1 0 }
+	clip { center 0 -2.0 4.0 normal 0 0 1 }
+}
+ring { center 6.0 -1.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 5.0 normal 0 -1 0 }
+	clip { center 0 -1.0 5.0 normal 0 0 -1 }
+}
+ring { center 5.8 -2.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -2.0 4.0 normal 0 1 0 }
+	clip { center 0 -2.0 4.0 normal 0 0 1 }
+}
+ring { center 5.8 -1.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 5.0 normal 0 -1 0 }
+	clip { center 0 -1.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -2.0 4.0 base 5.8 -2.0 4.0 radius 0.4
+	clip { center 0 -2.0 4.0 normal 0 1 0 }
+	clip { center 0 -2.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -1.0 5.0 base 5.8 -1.0 5.0 radius 0.4
+	clip { center 0 -1.0 5.0 normal 0 -1 0 }
+	clip { center 0 -1.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -2.0 4.0 base 5.8 -2.0 4.0 radius 0.6
+	clip { center 0 -2.0 4.0 normal 0 1 0 }
+	clip { center 0 -2.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -1.0 5.0 base 5.8 -1.0 5.0 radius 0.6
+	clip { center 0 -1.0 5.0 normal 0 -1 0 }
+	clip { center 0 -1.0 5.0 normal 0 0 -1 }
+}
+ring { center 6.0 -1.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 -5.0 normal 0 1 0 }
+	clip { center 0 -1.0 -5.0 normal 0 0 1 }
+}
+ring { center 6.0 0.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -4.0 normal 0 -1 0 }
+	clip { center 0 0.0 -4.0 normal 0 0 -1 }
+}
+ring { center 5.8 -1.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 -5.0 normal 0 1 0 }
+	clip { center 0 -1.0 -5.0 normal 0 0 1 }
+}
+ring { center 5.8 0.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -4.0 normal 0 -1 0 }
+	clip { center 0 0.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 -5.0 base 5.8 -1.0 -5.0 radius 0.4
+	clip { center 0 -1.0 -5.0 normal 0 1 0 }
+	clip { center 0 -1.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 -4.0 base 5.8 0.0 -4.0 radius 0.4
+	clip { center 0 0.0 -4.0 normal 0 -1 0 }
+	clip { center 0 0.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 -5.0 base 5.8 -1.0 -5.0 radius 0.6
+	clip { center 0 -1.0 -5.0 normal 0 1 0 }
+	clip { center 0 -1.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 -4.0 base 5.8 0.0 -4.0 radius 0.6
+	clip { center 0 0.0 -4.0 normal 0 -1 0 }
+	clip { center 0 0.0 -4.0 normal 0 0 -1 }
+}
+ring { center 6.0 0.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -4.0 normal 0 -1 0 }
+	clip { center 0 0.0 -4.0 normal 0 0 1 }
+}
+ring { center 6.0 -1.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 -3.0 normal 0 1 0 }
+	clip { center 0 -1.0 -3.0 normal 0 0 -1 }
+}
+ring { center 5.8 0.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -4.0 normal 0 -1 0 }
+	clip { center 0 0.0 -4.0 normal 0 0 1 }
+}
+ring { center 5.8 -1.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 -3.0 normal 0 1 0 }
+	clip { center 0 -1.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 -4.0 base 5.8 0.0 -4.0 radius 0.4
+	clip { center 0 0.0 -4.0 normal 0 -1 0 }
+	clip { center 0 0.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -1.0 -3.0 base 5.8 -1.0 -3.0 radius 0.4
+	clip { center 0 -1.0 -3.0 normal 0 1 0 }
+	clip { center 0 -1.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 -4.0 base 5.8 0.0 -4.0 radius 0.6
+	clip { center 0 0.0 -4.0 normal 0 -1 0 }
+	clip { center 0 0.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 -1.0 -3.0 base 5.8 -1.0 -3.0 radius 0.6
+	clip { center 0 -1.0 -3.0 normal 0 1 0 }
+	clip { center 0 -1.0 -3.0 normal 0 0 -1 }
+}
+ring { center 6.0 0.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -3.0 normal 0 -1 0 }
+	clip { center 0 0.0 -3.0 normal 0 0 1 }
+}
+ring { center 6.0 -1.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 -2.0 normal 0 1 0 }
+	clip { center 0 -1.0 -2.0 normal 0 0 -1 }
+}
+ring { center 5.8 0.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -3.0 normal 0 -1 0 }
+	clip { center 0 0.0 -3.0 normal 0 0 1 }
+}
+ring { center 5.8 -1.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 -2.0 normal 0 1 0 }
+	clip { center 0 -1.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 -3.0 base 5.8 0.0 -3.0 radius 0.4
+	clip { center 0 0.0 -3.0 normal 0 -1 0 }
+	clip { center 0 0.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -1.0 -2.0 base 5.8 -1.0 -2.0 radius 0.4
+	clip { center 0 -1.0 -2.0 normal 0 1 0 }
+	clip { center 0 -1.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 -3.0 base 5.8 0.0 -3.0 radius 0.6
+	clip { center 0 0.0 -3.0 normal 0 -1 0 }
+	clip { center 0 0.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 -1.0 -2.0 base 5.8 -1.0 -2.0 radius 0.6
+	clip { center 0 -1.0 -2.0 normal 0 1 0 }
+	clip { center 0 -1.0 -2.0 normal 0 0 -1 }
+}
+ring { center 6.0 -1.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 -2.0 normal 0 1 0 }
+	clip { center 0 -1.0 -2.0 normal 0 0 1 }
+}
+ring { center 6.0 0.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -1.0 normal 0 -1 0 }
+	clip { center 0 0.0 -1.0 normal 0 0 -1 }
+}
+ring { center 5.8 -1.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 -2.0 normal 0 1 0 }
+	clip { center 0 -1.0 -2.0 normal 0 0 1 }
+}
+ring { center 5.8 0.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -1.0 normal 0 -1 0 }
+	clip { center 0 0.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 -2.0 base 5.8 -1.0 -2.0 radius 0.4
+	clip { center 0 -1.0 -2.0 normal 0 1 0 }
+	clip { center 0 -1.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 -1.0 base 5.8 0.0 -1.0 radius 0.4
+	clip { center 0 0.0 -1.0 normal 0 -1 0 }
+	clip { center 0 0.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 -2.0 base 5.8 -1.0 -2.0 radius 0.6
+	clip { center 0 -1.0 -2.0 normal 0 1 0 }
+	clip { center 0 -1.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 -1.0 base 5.8 0.0 -1.0 radius 0.6
+	clip { center 0 0.0 -1.0 normal 0 -1 0 }
+	clip { center 0 0.0 -1.0 normal 0 0 -1 }
+}
+ring { center 6.0 0.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -1.0 normal 0 -1 0 }
+	clip { center 0 0.0 -1.0 normal 0 0 1 }
+}
+ring { center 6.0 -1.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 0.0 normal 0 1 0 }
+	clip { center 0 -1.0 0.0 normal 0 0 -1 }
+}
+ring { center 5.8 0.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -1.0 normal 0 -1 0 }
+	clip { center 0 0.0 -1.0 normal 0 0 1 }
+}
+ring { center 5.8 -1.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 0.0 normal 0 1 0 }
+	clip { center 0 -1.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 -1.0 base 5.8 0.0 -1.0 radius 0.4
+	clip { center 0 0.0 -1.0 normal 0 -1 0 }
+	clip { center 0 0.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -1.0 0.0 base 5.8 -1.0 0.0 radius 0.4
+	clip { center 0 -1.0 0.0 normal 0 1 0 }
+	clip { center 0 -1.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 -1.0 base 5.8 0.0 -1.0 radius 0.6
+	clip { center 0 0.0 -1.0 normal 0 -1 0 }
+	clip { center 0 0.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 -1.0 0.0 base 5.8 -1.0 0.0 radius 0.6
+	clip { center 0 -1.0 0.0 normal 0 1 0 }
+	clip { center 0 -1.0 0.0 normal 0 0 -1 }
+}
+ring { center 6.0 0.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 0.0 normal 0 -1 0 }
+	clip { center 0 0.0 0.0 normal 0 0 1 }
+}
+ring { center 6.0 -1.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 1.0 normal 0 1 0 }
+	clip { center 0 -1.0 1.0 normal 0 0 -1 }
+}
+ring { center 5.8 0.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 0.0 normal 0 -1 0 }
+	clip { center 0 0.0 0.0 normal 0 0 1 }
+}
+ring { center 5.8 -1.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 1.0 normal 0 1 0 }
+	clip { center 0 -1.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 0.0 base 5.8 0.0 0.0 radius 0.4
+	clip { center 0 0.0 0.0 normal 0 -1 0 }
+	clip { center 0 0.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 -1.0 1.0 base 5.8 -1.0 1.0 radius 0.4
+	clip { center 0 -1.0 1.0 normal 0 1 0 }
+	clip { center 0 -1.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 0.0 base 5.8 0.0 0.0 radius 0.6
+	clip { center 0 0.0 0.0 normal 0 -1 0 }
+	clip { center 0 0.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 -1.0 1.0 base 5.8 -1.0 1.0 radius 0.6
+	clip { center 0 -1.0 1.0 normal 0 1 0 }
+	clip { center 0 -1.0 1.0 normal 0 0 -1 }
+}
+ring { center 6.0 -1.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 1.0 normal 0 1 0 }
+	clip { center 0 -1.0 1.0 normal 0 0 1 }
+}
+ring { center 6.0 0.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 2.0 normal 0 -1 0 }
+	clip { center 0 0.0 2.0 normal 0 0 -1 }
+}
+ring { center 5.8 -1.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 1.0 normal 0 1 0 }
+	clip { center 0 -1.0 1.0 normal 0 0 1 }
+}
+ring { center 5.8 0.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 2.0 normal 0 -1 0 }
+	clip { center 0 0.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 1.0 base 5.8 -1.0 1.0 radius 0.4
+	clip { center 0 -1.0 1.0 normal 0 1 0 }
+	clip { center 0 -1.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 2.0 base 5.8 0.0 2.0 radius 0.4
+	clip { center 0 0.0 2.0 normal 0 -1 0 }
+	clip { center 0 0.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 1.0 base 5.8 -1.0 1.0 radius 0.6
+	clip { center 0 -1.0 1.0 normal 0 1 0 }
+	clip { center 0 -1.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 2.0 base 5.8 0.0 2.0 radius 0.6
+	clip { center 0 0.0 2.0 normal 0 -1 0 }
+	clip { center 0 0.0 2.0 normal 0 0 -1 }
+}
+ring { center 6.0 -1.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 2.0 normal 0 1 0 }
+	clip { center 0 -1.0 2.0 normal 0 0 1 }
+}
+ring { center 6.0 0.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 3.0 normal 0 -1 0 }
+	clip { center 0 0.0 3.0 normal 0 0 -1 }
+}
+ring { center 5.8 -1.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 2.0 normal 0 1 0 }
+	clip { center 0 -1.0 2.0 normal 0 0 1 }
+}
+ring { center 5.8 0.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 3.0 normal 0 -1 0 }
+	clip { center 0 0.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 2.0 base 5.8 -1.0 2.0 radius 0.4
+	clip { center 0 -1.0 2.0 normal 0 1 0 }
+	clip { center 0 -1.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 3.0 base 5.8 0.0 3.0 radius 0.4
+	clip { center 0 0.0 3.0 normal 0 -1 0 }
+	clip { center 0 0.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 2.0 base 5.8 -1.0 2.0 radius 0.6
+	clip { center 0 -1.0 2.0 normal 0 1 0 }
+	clip { center 0 -1.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 3.0 base 5.8 0.0 3.0 radius 0.6
+	clip { center 0 0.0 3.0 normal 0 -1 0 }
+	clip { center 0 0.0 3.0 normal 0 0 -1 }
+}
+ring { center 6.0 -1.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 3.0 normal 0 1 0 }
+	clip { center 0 -1.0 3.0 normal 0 0 1 }
+}
+ring { center 6.0 0.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 4.0 normal 0 -1 0 }
+	clip { center 0 0.0 4.0 normal 0 0 -1 }
+}
+ring { center 5.8 -1.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 3.0 normal 0 1 0 }
+	clip { center 0 -1.0 3.0 normal 0 0 1 }
+}
+ring { center 5.8 0.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 4.0 normal 0 -1 0 }
+	clip { center 0 0.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 3.0 base 5.8 -1.0 3.0 radius 0.4
+	clip { center 0 -1.0 3.0 normal 0 1 0 }
+	clip { center 0 -1.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 4.0 base 5.8 0.0 4.0 radius 0.4
+	clip { center 0 0.0 4.0 normal 0 -1 0 }
+	clip { center 0 0.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 3.0 base 5.8 -1.0 3.0 radius 0.6
+	clip { center 0 -1.0 3.0 normal 0 1 0 }
+	clip { center 0 -1.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 4.0 base 5.8 0.0 4.0 radius 0.6
+	clip { center 0 0.0 4.0 normal 0 -1 0 }
+	clip { center 0 0.0 4.0 normal 0 0 -1 }
+}
+ring { center 6.0 -1.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 4.0 normal 0 1 0 }
+	clip { center 0 -1.0 4.0 normal 0 0 1 }
+}
+ring { center 6.0 0.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 5.0 normal 0 -1 0 }
+	clip { center 0 0.0 5.0 normal 0 0 -1 }
+}
+ring { center 5.8 -1.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 -1.0 4.0 normal 0 1 0 }
+	clip { center 0 -1.0 4.0 normal 0 0 1 }
+}
+ring { center 5.8 0.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 5.0 normal 0 -1 0 }
+	clip { center 0 0.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 4.0 base 5.8 -1.0 4.0 radius 0.4
+	clip { center 0 -1.0 4.0 normal 0 1 0 }
+	clip { center 0 -1.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 5.0 base 5.8 0.0 5.0 radius 0.4
+	clip { center 0 0.0 5.0 normal 0 -1 0 }
+	clip { center 0 0.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 -1.0 4.0 base 5.8 -1.0 4.0 radius 0.6
+	clip { center 0 -1.0 4.0 normal 0 1 0 }
+	clip { center 0 -1.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 5.0 base 5.8 0.0 5.0 radius 0.6
+	clip { center 0 0.0 5.0 normal 0 -1 0 }
+	clip { center 0 0.0 5.0 normal 0 0 -1 }
+}
+ring { center 6.0 1.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 -5.0 normal 0 -1 0 }
+	clip { center 0 1.0 -5.0 normal 0 0 1 }
+}
+ring { center 6.0 0.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -4.0 normal 0 1 0 }
+	clip { center 0 0.0 -4.0 normal 0 0 -1 }
+}
+ring { center 5.8 1.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 -5.0 normal 0 -1 0 }
+	clip { center 0 1.0 -5.0 normal 0 0 1 }
+}
+ring { center 5.8 0.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -4.0 normal 0 1 0 }
+	clip { center 0 0.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 1.0 -5.0 base 5.8 1.0 -5.0 radius 0.4
+	clip { center 0 1.0 -5.0 normal 0 -1 0 }
+	clip { center 0 1.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 -4.0 base 5.8 0.0 -4.0 radius 0.4
+	clip { center 0 0.0 -4.0 normal 0 1 0 }
+	clip { center 0 0.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 1.0 -5.0 base 5.8 1.0 -5.0 radius 0.6
+	clip { center 0 1.0 -5.0 normal 0 -1 0 }
+	clip { center 0 1.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 -4.0 base 5.8 0.0 -4.0 radius 0.6
+	clip { center 0 0.0 -4.0 normal 0 1 0 }
+	clip { center 0 0.0 -4.0 normal 0 0 -1 }
+}
+ring { center 6.0 0.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -4.0 normal 0 1 0 }
+	clip { center 0 0.0 -4.0 normal 0 0 1 }
+}
+ring { center 6.0 1.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 -3.0 normal 0 -1 0 }
+	clip { center 0 1.0 -3.0 normal 0 0 -1 }
+}
+ring { center 5.8 0.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -4.0 normal 0 1 0 }
+	clip { center 0 0.0 -4.0 normal 0 0 1 }
+}
+ring { center 5.8 1.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 -3.0 normal 0 -1 0 }
+	clip { center 0 1.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 -4.0 base 5.8 0.0 -4.0 radius 0.4
+	clip { center 0 0.0 -4.0 normal 0 1 0 }
+	clip { center 0 0.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 -3.0 base 5.8 1.0 -3.0 radius 0.4
+	clip { center 0 1.0 -3.0 normal 0 -1 0 }
+	clip { center 0 1.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 -4.0 base 5.8 0.0 -4.0 radius 0.6
+	clip { center 0 0.0 -4.0 normal 0 1 0 }
+	clip { center 0 0.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 -3.0 base 5.8 1.0 -3.0 radius 0.6
+	clip { center 0 1.0 -3.0 normal 0 -1 0 }
+	clip { center 0 1.0 -3.0 normal 0 0 -1 }
+}
+ring { center 6.0 0.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -3.0 normal 0 1 0 }
+	clip { center 0 0.0 -3.0 normal 0 0 1 }
+}
+ring { center 6.0 1.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 -2.0 normal 0 -1 0 }
+	clip { center 0 1.0 -2.0 normal 0 0 -1 }
+}
+ring { center 5.8 0.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -3.0 normal 0 1 0 }
+	clip { center 0 0.0 -3.0 normal 0 0 1 }
+}
+ring { center 5.8 1.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 -2.0 normal 0 -1 0 }
+	clip { center 0 1.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 -3.0 base 5.8 0.0 -3.0 radius 0.4
+	clip { center 0 0.0 -3.0 normal 0 1 0 }
+	clip { center 0 0.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 -2.0 base 5.8 1.0 -2.0 radius 0.4
+	clip { center 0 1.0 -2.0 normal 0 -1 0 }
+	clip { center 0 1.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 -3.0 base 5.8 0.0 -3.0 radius 0.6
+	clip { center 0 0.0 -3.0 normal 0 1 0 }
+	clip { center 0 0.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 -2.0 base 5.8 1.0 -2.0 radius 0.6
+	clip { center 0 1.0 -2.0 normal 0 -1 0 }
+	clip { center 0 1.0 -2.0 normal 0 0 -1 }
+}
+ring { center 6.0 0.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -2.0 normal 0 1 0 }
+	clip { center 0 0.0 -2.0 normal 0 0 1 }
+}
+ring { center 6.0 1.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 -1.0 normal 0 -1 0 }
+	clip { center 0 1.0 -1.0 normal 0 0 -1 }
+}
+ring { center 5.8 0.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -2.0 normal 0 1 0 }
+	clip { center 0 0.0 -2.0 normal 0 0 1 }
+}
+ring { center 5.8 1.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 -1.0 normal 0 -1 0 }
+	clip { center 0 1.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 -2.0 base 5.8 0.0 -2.0 radius 0.4
+	clip { center 0 0.0 -2.0 normal 0 1 0 }
+	clip { center 0 0.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 -1.0 base 5.8 1.0 -1.0 radius 0.4
+	clip { center 0 1.0 -1.0 normal 0 -1 0 }
+	clip { center 0 1.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 -2.0 base 5.8 0.0 -2.0 radius 0.6
+	clip { center 0 0.0 -2.0 normal 0 1 0 }
+	clip { center 0 0.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 -1.0 base 5.8 1.0 -1.0 radius 0.6
+	clip { center 0 1.0 -1.0 normal 0 -1 0 }
+	clip { center 0 1.0 -1.0 normal 0 0 -1 }
+}
+ring { center 6.0 0.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -1.0 normal 0 1 0 }
+	clip { center 0 0.0 -1.0 normal 0 0 1 }
+}
+ring { center 6.0 1.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 0.0 normal 0 -1 0 }
+	clip { center 0 1.0 0.0 normal 0 0 -1 }
+}
+ring { center 5.8 0.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 -1.0 normal 0 1 0 }
+	clip { center 0 0.0 -1.0 normal 0 0 1 }
+}
+ring { center 5.8 1.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 0.0 normal 0 -1 0 }
+	clip { center 0 1.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 -1.0 base 5.8 0.0 -1.0 radius 0.4
+	clip { center 0 0.0 -1.0 normal 0 1 0 }
+	clip { center 0 0.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 0.0 base 5.8 1.0 0.0 radius 0.4
+	clip { center 0 1.0 0.0 normal 0 -1 0 }
+	clip { center 0 1.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 -1.0 base 5.8 0.0 -1.0 radius 0.6
+	clip { center 0 0.0 -1.0 normal 0 1 0 }
+	clip { center 0 0.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 0.0 base 5.8 1.0 0.0 radius 0.6
+	clip { center 0 1.0 0.0 normal 0 -1 0 }
+	clip { center 0 1.0 0.0 normal 0 0 -1 }
+}
+ring { center 6.0 1.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 0.0 normal 0 -1 0 }
+	clip { center 0 1.0 0.0 normal 0 0 1 }
+}
+ring { center 6.0 0.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 1.0 normal 0 1 0 }
+	clip { center 0 0.0 1.0 normal 0 0 -1 }
+}
+ring { center 5.8 1.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 0.0 normal 0 -1 0 }
+	clip { center 0 1.0 0.0 normal 0 0 1 }
+}
+ring { center 5.8 0.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 1.0 normal 0 1 0 }
+	clip { center 0 0.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 1.0 0.0 base 5.8 1.0 0.0 radius 0.4
+	clip { center 0 1.0 0.0 normal 0 -1 0 }
+	clip { center 0 1.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 1.0 base 5.8 0.0 1.0 radius 0.4
+	clip { center 0 0.0 1.0 normal 0 1 0 }
+	clip { center 0 0.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 1.0 0.0 base 5.8 1.0 0.0 radius 0.6
+	clip { center 0 1.0 0.0 normal 0 -1 0 }
+	clip { center 0 1.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 1.0 base 5.8 0.0 1.0 radius 0.6
+	clip { center 0 0.0 1.0 normal 0 1 0 }
+	clip { center 0 0.0 1.0 normal 0 0 -1 }
+}
+ring { center 6.0 1.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 1.0 normal 0 -1 0 }
+	clip { center 0 1.0 1.0 normal 0 0 1 }
+}
+ring { center 6.0 0.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 2.0 normal 0 1 0 }
+	clip { center 0 0.0 2.0 normal 0 0 -1 }
+}
+ring { center 5.8 1.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 1.0 normal 0 -1 0 }
+	clip { center 0 1.0 1.0 normal 0 0 1 }
+}
+ring { center 5.8 0.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 2.0 normal 0 1 0 }
+	clip { center 0 0.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 1.0 1.0 base 5.8 1.0 1.0 radius 0.4
+	clip { center 0 1.0 1.0 normal 0 -1 0 }
+	clip { center 0 1.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 2.0 base 5.8 0.0 2.0 radius 0.4
+	clip { center 0 0.0 2.0 normal 0 1 0 }
+	clip { center 0 0.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 1.0 1.0 base 5.8 1.0 1.0 radius 0.6
+	clip { center 0 1.0 1.0 normal 0 -1 0 }
+	clip { center 0 1.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 2.0 base 5.8 0.0 2.0 radius 0.6
+	clip { center 0 0.0 2.0 normal 0 1 0 }
+	clip { center 0 0.0 2.0 normal 0 0 -1 }
+}
+ring { center 6.0 0.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 2.0 normal 0 1 0 }
+	clip { center 0 0.0 2.0 normal 0 0 1 }
+}
+ring { center 6.0 1.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 3.0 normal 0 -1 0 }
+	clip { center 0 1.0 3.0 normal 0 0 -1 }
+}
+ring { center 5.8 0.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 2.0 normal 0 1 0 }
+	clip { center 0 0.0 2.0 normal 0 0 1 }
+}
+ring { center 5.8 1.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 3.0 normal 0 -1 0 }
+	clip { center 0 1.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 2.0 base 5.8 0.0 2.0 radius 0.4
+	clip { center 0 0.0 2.0 normal 0 1 0 }
+	clip { center 0 0.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 3.0 base 5.8 1.0 3.0 radius 0.4
+	clip { center 0 1.0 3.0 normal 0 -1 0 }
+	clip { center 0 1.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 0.0 2.0 base 5.8 0.0 2.0 radius 0.6
+	clip { center 0 0.0 2.0 normal 0 1 0 }
+	clip { center 0 0.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 3.0 base 5.8 1.0 3.0 radius 0.6
+	clip { center 0 1.0 3.0 normal 0 -1 0 }
+	clip { center 0 1.0 3.0 normal 0 0 -1 }
+}
+ring { center 6.0 1.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 3.0 normal 0 -1 0 }
+	clip { center 0 1.0 3.0 normal 0 0 1 }
+}
+ring { center 6.0 0.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 4.0 normal 0 1 0 }
+	clip { center 0 0.0 4.0 normal 0 0 -1 }
+}
+ring { center 5.8 1.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 3.0 normal 0 -1 0 }
+	clip { center 0 1.0 3.0 normal 0 0 1 }
+}
+ring { center 5.8 0.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 4.0 normal 0 1 0 }
+	clip { center 0 0.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 1.0 3.0 base 5.8 1.0 3.0 radius 0.4
+	clip { center 0 1.0 3.0 normal 0 -1 0 }
+	clip { center 0 1.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 4.0 base 5.8 0.0 4.0 radius 0.4
+	clip { center 0 0.0 4.0 normal 0 1 0 }
+	clip { center 0 0.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 1.0 3.0 base 5.8 1.0 3.0 radius 0.6
+	clip { center 0 1.0 3.0 normal 0 -1 0 }
+	clip { center 0 1.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 4.0 base 5.8 0.0 4.0 radius 0.6
+	clip { center 0 0.0 4.0 normal 0 1 0 }
+	clip { center 0 0.0 4.0 normal 0 0 -1 }
+}
+ring { center 6.0 1.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 4.0 normal 0 -1 0 }
+	clip { center 0 1.0 4.0 normal 0 0 1 }
+}
+ring { center 6.0 0.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 5.0 normal 0 1 0 }
+	clip { center 0 0.0 5.0 normal 0 0 -1 }
+}
+ring { center 5.8 1.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 4.0 normal 0 -1 0 }
+	clip { center 0 1.0 4.0 normal 0 0 1 }
+}
+ring { center 5.8 0.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 0.0 5.0 normal 0 1 0 }
+	clip { center 0 0.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 1.0 4.0 base 5.8 1.0 4.0 radius 0.4
+	clip { center 0 1.0 4.0 normal 0 -1 0 }
+	clip { center 0 1.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 5.0 base 5.8 0.0 5.0 radius 0.4
+	clip { center 0 0.0 5.0 normal 0 1 0 }
+	clip { center 0 0.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 1.0 4.0 base 5.8 1.0 4.0 radius 0.6
+	clip { center 0 1.0 4.0 normal 0 -1 0 }
+	clip { center 0 1.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 0.0 5.0 base 5.8 0.0 5.0 radius 0.6
+	clip { center 0 0.0 5.0 normal 0 1 0 }
+	clip { center 0 0.0 5.0 normal 0 0 -1 }
+}
+ring { center 6.0 1.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 -5.0 normal 0 1 0 }
+	clip { center 0 1.0 -5.0 normal 0 0 1 }
+}
+ring { center 6.0 2.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -4.0 normal 0 -1 0 }
+	clip { center 0 2.0 -4.0 normal 0 0 -1 }
+}
+ring { center 5.8 1.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 -5.0 normal 0 1 0 }
+	clip { center 0 1.0 -5.0 normal 0 0 1 }
+}
+ring { center 5.8 2.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -4.0 normal 0 -1 0 }
+	clip { center 0 2.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 1.0 -5.0 base 5.8 1.0 -5.0 radius 0.4
+	clip { center 0 1.0 -5.0 normal 0 1 0 }
+	clip { center 0 1.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 2.0 -4.0 base 5.8 2.0 -4.0 radius 0.4
+	clip { center 0 2.0 -4.0 normal 0 -1 0 }
+	clip { center 0 2.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 1.0 -5.0 base 5.8 1.0 -5.0 radius 0.6
+	clip { center 0 1.0 -5.0 normal 0 1 0 }
+	clip { center 0 1.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 2.0 -4.0 base 5.8 2.0 -4.0 radius 0.6
+	clip { center 0 2.0 -4.0 normal 0 -1 0 }
+	clip { center 0 2.0 -4.0 normal 0 0 -1 }
+}
+ring { center 6.0 2.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -4.0 normal 0 -1 0 }
+	clip { center 0 2.0 -4.0 normal 0 0 1 }
+}
+ring { center 6.0 1.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 -3.0 normal 0 1 0 }
+	clip { center 0 1.0 -3.0 normal 0 0 -1 }
+}
+ring { center 5.8 2.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -4.0 normal 0 -1 0 }
+	clip { center 0 2.0 -4.0 normal 0 0 1 }
+}
+ring { center 5.8 1.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 -3.0 normal 0 1 0 }
+	clip { center 0 1.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 -4.0 base 5.8 2.0 -4.0 radius 0.4
+	clip { center 0 2.0 -4.0 normal 0 -1 0 }
+	clip { center 0 2.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 -3.0 base 5.8 1.0 -3.0 radius 0.4
+	clip { center 0 1.0 -3.0 normal 0 1 0 }
+	clip { center 0 1.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 -4.0 base 5.8 2.0 -4.0 radius 0.6
+	clip { center 0 2.0 -4.0 normal 0 -1 0 }
+	clip { center 0 2.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 -3.0 base 5.8 1.0 -3.0 radius 0.6
+	clip { center 0 1.0 -3.0 normal 0 1 0 }
+	clip { center 0 1.0 -3.0 normal 0 0 -1 }
+}
+ring { center 6.0 1.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 -3.0 normal 0 1 0 }
+	clip { center 0 1.0 -3.0 normal 0 0 1 }
+}
+ring { center 6.0 2.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -2.0 normal 0 -1 0 }
+	clip { center 0 2.0 -2.0 normal 0 0 -1 }
+}
+ring { center 5.8 1.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 -3.0 normal 0 1 0 }
+	clip { center 0 1.0 -3.0 normal 0 0 1 }
+}
+ring { center 5.8 2.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -2.0 normal 0 -1 0 }
+	clip { center 0 2.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 1.0 -3.0 base 5.8 1.0 -3.0 radius 0.4
+	clip { center 0 1.0 -3.0 normal 0 1 0 }
+	clip { center 0 1.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 2.0 -2.0 base 5.8 2.0 -2.0 radius 0.4
+	clip { center 0 2.0 -2.0 normal 0 -1 0 }
+	clip { center 0 2.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 1.0 -3.0 base 5.8 1.0 -3.0 radius 0.6
+	clip { center 0 1.0 -3.0 normal 0 1 0 }
+	clip { center 0 1.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 2.0 -2.0 base 5.8 2.0 -2.0 radius 0.6
+	clip { center 0 2.0 -2.0 normal 0 -1 0 }
+	clip { center 0 2.0 -2.0 normal 0 0 -1 }
+}
+ring { center 6.0 2.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -2.0 normal 0 -1 0 }
+	clip { center 0 2.0 -2.0 normal 0 0 1 }
+}
+ring { center 6.0 1.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 -1.0 normal 0 1 0 }
+	clip { center 0 1.0 -1.0 normal 0 0 -1 }
+}
+ring { center 5.8 2.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -2.0 normal 0 -1 0 }
+	clip { center 0 2.0 -2.0 normal 0 0 1 }
+}
+ring { center 5.8 1.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 -1.0 normal 0 1 0 }
+	clip { center 0 1.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 -2.0 base 5.8 2.0 -2.0 radius 0.4
+	clip { center 0 2.0 -2.0 normal 0 -1 0 }
+	clip { center 0 2.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 -1.0 base 5.8 1.0 -1.0 radius 0.4
+	clip { center 0 1.0 -1.0 normal 0 1 0 }
+	clip { center 0 1.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 -2.0 base 5.8 2.0 -2.0 radius 0.6
+	clip { center 0 2.0 -2.0 normal 0 -1 0 }
+	clip { center 0 2.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 -1.0 base 5.8 1.0 -1.0 radius 0.6
+	clip { center 0 1.0 -1.0 normal 0 1 0 }
+	clip { center 0 1.0 -1.0 normal 0 0 -1 }
+}
+ring { center 6.0 2.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -1.0 normal 0 -1 0 }
+	clip { center 0 2.0 -1.0 normal 0 0 1 }
+}
+ring { center 6.0 1.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 0.0 normal 0 1 0 }
+	clip { center 0 1.0 0.0 normal 0 0 -1 }
+}
+ring { center 5.8 2.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -1.0 normal 0 -1 0 }
+	clip { center 0 2.0 -1.0 normal 0 0 1 }
+}
+ring { center 5.8 1.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 0.0 normal 0 1 0 }
+	clip { center 0 1.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 -1.0 base 5.8 2.0 -1.0 radius 0.4
+	clip { center 0 2.0 -1.0 normal 0 -1 0 }
+	clip { center 0 2.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 0.0 base 5.8 1.0 0.0 radius 0.4
+	clip { center 0 1.0 0.0 normal 0 1 0 }
+	clip { center 0 1.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 -1.0 base 5.8 2.0 -1.0 radius 0.6
+	clip { center 0 2.0 -1.0 normal 0 -1 0 }
+	clip { center 0 2.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 0.0 base 5.8 1.0 0.0 radius 0.6
+	clip { center 0 1.0 0.0 normal 0 1 0 }
+	clip { center 0 1.0 0.0 normal 0 0 -1 }
+}
+ring { center 6.0 2.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 0.0 normal 0 -1 0 }
+	clip { center 0 2.0 0.0 normal 0 0 1 }
+}
+ring { center 6.0 1.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 1.0 normal 0 1 0 }
+	clip { center 0 1.0 1.0 normal 0 0 -1 }
+}
+ring { center 5.8 2.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 0.0 normal 0 -1 0 }
+	clip { center 0 2.0 0.0 normal 0 0 1 }
+}
+ring { center 5.8 1.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 1.0 normal 0 1 0 }
+	clip { center 0 1.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 0.0 base 5.8 2.0 0.0 radius 0.4
+	clip { center 0 2.0 0.0 normal 0 -1 0 }
+	clip { center 0 2.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 1.0 base 5.8 1.0 1.0 radius 0.4
+	clip { center 0 1.0 1.0 normal 0 1 0 }
+	clip { center 0 1.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 0.0 base 5.8 2.0 0.0 radius 0.6
+	clip { center 0 2.0 0.0 normal 0 -1 0 }
+	clip { center 0 2.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 1.0 base 5.8 1.0 1.0 radius 0.6
+	clip { center 0 1.0 1.0 normal 0 1 0 }
+	clip { center 0 1.0 1.0 normal 0 0 -1 }
+}
+ring { center 6.0 2.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 1.0 normal 0 -1 0 }
+	clip { center 0 2.0 1.0 normal 0 0 1 }
+}
+ring { center 6.0 1.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 2.0 normal 0 1 0 }
+	clip { center 0 1.0 2.0 normal 0 0 -1 }
+}
+ring { center 5.8 2.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 1.0 normal 0 -1 0 }
+	clip { center 0 2.0 1.0 normal 0 0 1 }
+}
+ring { center 5.8 1.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 2.0 normal 0 1 0 }
+	clip { center 0 1.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 1.0 base 5.8 2.0 1.0 radius 0.4
+	clip { center 0 2.0 1.0 normal 0 -1 0 }
+	clip { center 0 2.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 2.0 base 5.8 1.0 2.0 radius 0.4
+	clip { center 0 1.0 2.0 normal 0 1 0 }
+	clip { center 0 1.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 1.0 base 5.8 2.0 1.0 radius 0.6
+	clip { center 0 2.0 1.0 normal 0 -1 0 }
+	clip { center 0 2.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 2.0 base 5.8 1.0 2.0 radius 0.6
+	clip { center 0 1.0 2.0 normal 0 1 0 }
+	clip { center 0 1.0 2.0 normal 0 0 -1 }
+}
+ring { center 6.0 1.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 2.0 normal 0 1 0 }
+	clip { center 0 1.0 2.0 normal 0 0 1 }
+}
+ring { center 6.0 2.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 3.0 normal 0 -1 0 }
+	clip { center 0 2.0 3.0 normal 0 0 -1 }
+}
+ring { center 5.8 1.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 2.0 normal 0 1 0 }
+	clip { center 0 1.0 2.0 normal 0 0 1 }
+}
+ring { center 5.8 2.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 3.0 normal 0 -1 0 }
+	clip { center 0 2.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 1.0 2.0 base 5.8 1.0 2.0 radius 0.4
+	clip { center 0 1.0 2.0 normal 0 1 0 }
+	clip { center 0 1.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 2.0 3.0 base 5.8 2.0 3.0 radius 0.4
+	clip { center 0 2.0 3.0 normal 0 -1 0 }
+	clip { center 0 2.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 1.0 2.0 base 5.8 1.0 2.0 radius 0.6
+	clip { center 0 1.0 2.0 normal 0 1 0 }
+	clip { center 0 1.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 2.0 3.0 base 5.8 2.0 3.0 radius 0.6
+	clip { center 0 2.0 3.0 normal 0 -1 0 }
+	clip { center 0 2.0 3.0 normal 0 0 -1 }
+}
+ring { center 6.0 2.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 3.0 normal 0 -1 0 }
+	clip { center 0 2.0 3.0 normal 0 0 1 }
+}
+ring { center 6.0 1.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 4.0 normal 0 1 0 }
+	clip { center 0 1.0 4.0 normal 0 0 -1 }
+}
+ring { center 5.8 2.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 3.0 normal 0 -1 0 }
+	clip { center 0 2.0 3.0 normal 0 0 1 }
+}
+ring { center 5.8 1.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 4.0 normal 0 1 0 }
+	clip { center 0 1.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 3.0 base 5.8 2.0 3.0 radius 0.4
+	clip { center 0 2.0 3.0 normal 0 -1 0 }
+	clip { center 0 2.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 4.0 base 5.8 1.0 4.0 radius 0.4
+	clip { center 0 1.0 4.0 normal 0 1 0 }
+	clip { center 0 1.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 3.0 base 5.8 2.0 3.0 radius 0.6
+	clip { center 0 2.0 3.0 normal 0 -1 0 }
+	clip { center 0 2.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 4.0 base 5.8 1.0 4.0 radius 0.6
+	clip { center 0 1.0 4.0 normal 0 1 0 }
+	clip { center 0 1.0 4.0 normal 0 0 -1 }
+}
+ring { center 6.0 2.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 4.0 normal 0 -1 0 }
+	clip { center 0 2.0 4.0 normal 0 0 1 }
+}
+ring { center 6.0 1.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 5.0 normal 0 1 0 }
+	clip { center 0 1.0 5.0 normal 0 0 -1 }
+}
+ring { center 5.8 2.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 4.0 normal 0 -1 0 }
+	clip { center 0 2.0 4.0 normal 0 0 1 }
+}
+ring { center 5.8 1.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 1.0 5.0 normal 0 1 0 }
+	clip { center 0 1.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 4.0 base 5.8 2.0 4.0 radius 0.4
+	clip { center 0 2.0 4.0 normal 0 -1 0 }
+	clip { center 0 2.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 5.0 base 5.8 1.0 5.0 radius 0.4
+	clip { center 0 1.0 5.0 normal 0 1 0 }
+	clip { center 0 1.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 4.0 base 5.8 2.0 4.0 radius 0.6
+	clip { center 0 2.0 4.0 normal 0 -1 0 }
+	clip { center 0 2.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 1.0 5.0 base 5.8 1.0 5.0 radius 0.6
+	clip { center 0 1.0 5.0 normal 0 1 0 }
+	clip { center 0 1.0 5.0 normal 0 0 -1 }
+}
+ring { center 6.0 2.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -5.0 normal 0 1 0 }
+	clip { center 0 2.0 -5.0 normal 0 0 1 }
+}
+ring { center 6.0 3.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -4.0 normal 0 -1 0 }
+	clip { center 0 3.0 -4.0 normal 0 0 -1 }
+}
+ring { center 5.8 2.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -5.0 normal 0 1 0 }
+	clip { center 0 2.0 -5.0 normal 0 0 1 }
+}
+ring { center 5.8 3.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -4.0 normal 0 -1 0 }
+	clip { center 0 3.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 -5.0 base 5.8 2.0 -5.0 radius 0.4
+	clip { center 0 2.0 -5.0 normal 0 1 0 }
+	clip { center 0 2.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 -4.0 base 5.8 3.0 -4.0 radius 0.4
+	clip { center 0 3.0 -4.0 normal 0 -1 0 }
+	clip { center 0 3.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 -5.0 base 5.8 2.0 -5.0 radius 0.6
+	clip { center 0 2.0 -5.0 normal 0 1 0 }
+	clip { center 0 2.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 -4.0 base 5.8 3.0 -4.0 radius 0.6
+	clip { center 0 3.0 -4.0 normal 0 -1 0 }
+	clip { center 0 3.0 -4.0 normal 0 0 -1 }
+}
+ring { center 6.0 2.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -4.0 normal 0 1 0 }
+	clip { center 0 2.0 -4.0 normal 0 0 1 }
+}
+ring { center 6.0 3.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -3.0 normal 0 -1 0 }
+	clip { center 0 3.0 -3.0 normal 0 0 -1 }
+}
+ring { center 5.8 2.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -4.0 normal 0 1 0 }
+	clip { center 0 2.0 -4.0 normal 0 0 1 }
+}
+ring { center 5.8 3.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -3.0 normal 0 -1 0 }
+	clip { center 0 3.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 -4.0 base 5.8 2.0 -4.0 radius 0.4
+	clip { center 0 2.0 -4.0 normal 0 1 0 }
+	clip { center 0 2.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 -3.0 base 5.8 3.0 -3.0 radius 0.4
+	clip { center 0 3.0 -3.0 normal 0 -1 0 }
+	clip { center 0 3.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 -4.0 base 5.8 2.0 -4.0 radius 0.6
+	clip { center 0 2.0 -4.0 normal 0 1 0 }
+	clip { center 0 2.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 -3.0 base 5.8 3.0 -3.0 radius 0.6
+	clip { center 0 3.0 -3.0 normal 0 -1 0 }
+	clip { center 0 3.0 -3.0 normal 0 0 -1 }
+}
+ring { center 6.0 3.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -3.0 normal 0 -1 0 }
+	clip { center 0 3.0 -3.0 normal 0 0 1 }
+}
+ring { center 6.0 2.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -2.0 normal 0 1 0 }
+	clip { center 0 2.0 -2.0 normal 0 0 -1 }
+}
+ring { center 5.8 3.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -3.0 normal 0 -1 0 }
+	clip { center 0 3.0 -3.0 normal 0 0 1 }
+}
+ring { center 5.8 2.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -2.0 normal 0 1 0 }
+	clip { center 0 2.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 -3.0 base 5.8 3.0 -3.0 radius 0.4
+	clip { center 0 3.0 -3.0 normal 0 -1 0 }
+	clip { center 0 3.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 2.0 -2.0 base 5.8 2.0 -2.0 radius 0.4
+	clip { center 0 2.0 -2.0 normal 0 1 0 }
+	clip { center 0 2.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 -3.0 base 5.8 3.0 -3.0 radius 0.6
+	clip { center 0 3.0 -3.0 normal 0 -1 0 }
+	clip { center 0 3.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 2.0 -2.0 base 5.8 2.0 -2.0 radius 0.6
+	clip { center 0 2.0 -2.0 normal 0 1 0 }
+	clip { center 0 2.0 -2.0 normal 0 0 -1 }
+}
+ring { center 6.0 3.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -2.0 normal 0 -1 0 }
+	clip { center 0 3.0 -2.0 normal 0 0 1 }
+}
+ring { center 6.0 2.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -1.0 normal 0 1 0 }
+	clip { center 0 2.0 -1.0 normal 0 0 -1 }
+}
+ring { center 5.8 3.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -2.0 normal 0 -1 0 }
+	clip { center 0 3.0 -2.0 normal 0 0 1 }
+}
+ring { center 5.8 2.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 -1.0 normal 0 1 0 }
+	clip { center 0 2.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 -2.0 base 5.8 3.0 -2.0 radius 0.4
+	clip { center 0 3.0 -2.0 normal 0 -1 0 }
+	clip { center 0 3.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 2.0 -1.0 base 5.8 2.0 -1.0 radius 0.4
+	clip { center 0 2.0 -1.0 normal 0 1 0 }
+	clip { center 0 2.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 -2.0 base 5.8 3.0 -2.0 radius 0.6
+	clip { center 0 3.0 -2.0 normal 0 -1 0 }
+	clip { center 0 3.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 2.0 -1.0 base 5.8 2.0 -1.0 radius 0.6
+	clip { center 0 2.0 -1.0 normal 0 1 0 }
+	clip { center 0 2.0 -1.0 normal 0 0 -1 }
+}
+ring { center 6.0 3.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -1.0 normal 0 -1 0 }
+	clip { center 0 3.0 -1.0 normal 0 0 1 }
+}
+ring { center 6.0 2.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 0.0 normal 0 1 0 }
+	clip { center 0 2.0 0.0 normal 0 0 -1 }
+}
+ring { center 5.8 3.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -1.0 normal 0 -1 0 }
+	clip { center 0 3.0 -1.0 normal 0 0 1 }
+}
+ring { center 5.8 2.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 0.0 normal 0 1 0 }
+	clip { center 0 2.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 -1.0 base 5.8 3.0 -1.0 radius 0.4
+	clip { center 0 3.0 -1.0 normal 0 -1 0 }
+	clip { center 0 3.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 2.0 0.0 base 5.8 2.0 0.0 radius 0.4
+	clip { center 0 2.0 0.0 normal 0 1 0 }
+	clip { center 0 2.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 -1.0 base 5.8 3.0 -1.0 radius 0.6
+	clip { center 0 3.0 -1.0 normal 0 -1 0 }
+	clip { center 0 3.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 2.0 0.0 base 5.8 2.0 0.0 radius 0.6
+	clip { center 0 2.0 0.0 normal 0 1 0 }
+	clip { center 0 2.0 0.0 normal 0 0 -1 }
+}
+ring { center 6.0 2.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 0.0 normal 0 1 0 }
+	clip { center 0 2.0 0.0 normal 0 0 1 }
+}
+ring { center 6.0 3.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 1.0 normal 0 -1 0 }
+	clip { center 0 3.0 1.0 normal 0 0 -1 }
+}
+ring { center 5.8 2.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 0.0 normal 0 1 0 }
+	clip { center 0 2.0 0.0 normal 0 0 1 }
+}
+ring { center 5.8 3.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 1.0 normal 0 -1 0 }
+	clip { center 0 3.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 0.0 base 5.8 2.0 0.0 radius 0.4
+	clip { center 0 2.0 0.0 normal 0 1 0 }
+	clip { center 0 2.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 1.0 base 5.8 3.0 1.0 radius 0.4
+	clip { center 0 3.0 1.0 normal 0 -1 0 }
+	clip { center 0 3.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 0.0 base 5.8 2.0 0.0 radius 0.6
+	clip { center 0 2.0 0.0 normal 0 1 0 }
+	clip { center 0 2.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 1.0 base 5.8 3.0 1.0 radius 0.6
+	clip { center 0 3.0 1.0 normal 0 -1 0 }
+	clip { center 0 3.0 1.0 normal 0 0 -1 }
+}
+ring { center 6.0 2.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 1.0 normal 0 1 0 }
+	clip { center 0 2.0 1.0 normal 0 0 1 }
+}
+ring { center 6.0 3.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 2.0 normal 0 -1 0 }
+	clip { center 0 3.0 2.0 normal 0 0 -1 }
+}
+ring { center 5.8 2.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 1.0 normal 0 1 0 }
+	clip { center 0 2.0 1.0 normal 0 0 1 }
+}
+ring { center 5.8 3.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 2.0 normal 0 -1 0 }
+	clip { center 0 3.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 1.0 base 5.8 2.0 1.0 radius 0.4
+	clip { center 0 2.0 1.0 normal 0 1 0 }
+	clip { center 0 2.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 2.0 base 5.8 3.0 2.0 radius 0.4
+	clip { center 0 3.0 2.0 normal 0 -1 0 }
+	clip { center 0 3.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 1.0 base 5.8 2.0 1.0 radius 0.6
+	clip { center 0 2.0 1.0 normal 0 1 0 }
+	clip { center 0 2.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 2.0 base 5.8 3.0 2.0 radius 0.6
+	clip { center 0 3.0 2.0 normal 0 -1 0 }
+	clip { center 0 3.0 2.0 normal 0 0 -1 }
+}
+ring { center 6.0 2.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 2.0 normal 0 1 0 }
+	clip { center 0 2.0 2.0 normal 0 0 1 }
+}
+ring { center 6.0 3.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 3.0 normal 0 -1 0 }
+	clip { center 0 3.0 3.0 normal 0 0 -1 }
+}
+ring { center 5.8 2.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 2.0 normal 0 1 0 }
+	clip { center 0 2.0 2.0 normal 0 0 1 }
+}
+ring { center 5.8 3.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 3.0 normal 0 -1 0 }
+	clip { center 0 3.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 2.0 base 5.8 2.0 2.0 radius 0.4
+	clip { center 0 2.0 2.0 normal 0 1 0 }
+	clip { center 0 2.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 3.0 base 5.8 3.0 3.0 radius 0.4
+	clip { center 0 3.0 3.0 normal 0 -1 0 }
+	clip { center 0 3.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 2.0 base 5.8 2.0 2.0 radius 0.6
+	clip { center 0 2.0 2.0 normal 0 1 0 }
+	clip { center 0 2.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 3.0 base 5.8 3.0 3.0 radius 0.6
+	clip { center 0 3.0 3.0 normal 0 -1 0 }
+	clip { center 0 3.0 3.0 normal 0 0 -1 }
+}
+ring { center 6.0 3.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 3.0 normal 0 -1 0 }
+	clip { center 0 3.0 3.0 normal 0 0 1 }
+}
+ring { center 6.0 2.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 4.0 normal 0 1 0 }
+	clip { center 0 2.0 4.0 normal 0 0 -1 }
+}
+ring { center 5.8 3.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 3.0 normal 0 -1 0 }
+	clip { center 0 3.0 3.0 normal 0 0 1 }
+}
+ring { center 5.8 2.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 4.0 normal 0 1 0 }
+	clip { center 0 2.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 3.0 base 5.8 3.0 3.0 radius 0.4
+	clip { center 0 3.0 3.0 normal 0 -1 0 }
+	clip { center 0 3.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 2.0 4.0 base 5.8 2.0 4.0 radius 0.4
+	clip { center 0 2.0 4.0 normal 0 1 0 }
+	clip { center 0 2.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 3.0 base 5.8 3.0 3.0 radius 0.6
+	clip { center 0 3.0 3.0 normal 0 -1 0 }
+	clip { center 0 3.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 2.0 4.0 base 5.8 2.0 4.0 radius 0.6
+	clip { center 0 2.0 4.0 normal 0 1 0 }
+	clip { center 0 2.0 4.0 normal 0 0 -1 }
+}
+ring { center 6.0 2.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 4.0 normal 0 1 0 }
+	clip { center 0 2.0 4.0 normal 0 0 1 }
+}
+ring { center 6.0 3.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 5.0 normal 0 -1 0 }
+	clip { center 0 3.0 5.0 normal 0 0 -1 }
+}
+ring { center 5.8 2.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 2.0 4.0 normal 0 1 0 }
+	clip { center 0 2.0 4.0 normal 0 0 1 }
+}
+ring { center 5.8 3.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 5.0 normal 0 -1 0 }
+	clip { center 0 3.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 4.0 base 5.8 2.0 4.0 radius 0.4
+	clip { center 0 2.0 4.0 normal 0 1 0 }
+	clip { center 0 2.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 5.0 base 5.8 3.0 5.0 radius 0.4
+	clip { center 0 3.0 5.0 normal 0 -1 0 }
+	clip { center 0 3.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 2.0 4.0 base 5.8 2.0 4.0 radius 0.6
+	clip { center 0 2.0 4.0 normal 0 1 0 }
+	clip { center 0 2.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 5.0 base 5.8 3.0 5.0 radius 0.6
+	clip { center 0 3.0 5.0 normal 0 -1 0 }
+	clip { center 0 3.0 5.0 normal 0 0 -1 }
+}
+ring { center 6.0 3.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -5.0 normal 0 1 0 }
+	clip { center 0 3.0 -5.0 normal 0 0 1 }
+}
+ring { center 6.0 4.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 -4.0 normal 0 -1 0 }
+	clip { center 0 4.0 -4.0 normal 0 0 -1 }
+}
+ring { center 5.8 3.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -5.0 normal 0 1 0 }
+	clip { center 0 3.0 -5.0 normal 0 0 1 }
+}
+ring { center 5.8 4.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 -4.0 normal 0 -1 0 }
+	clip { center 0 4.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 -5.0 base 5.8 3.0 -5.0 radius 0.4
+	clip { center 0 3.0 -5.0 normal 0 1 0 }
+	clip { center 0 3.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 -4.0 base 5.8 4.0 -4.0 radius 0.4
+	clip { center 0 4.0 -4.0 normal 0 -1 0 }
+	clip { center 0 4.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 -5.0 base 5.8 3.0 -5.0 radius 0.6
+	clip { center 0 3.0 -5.0 normal 0 1 0 }
+	clip { center 0 3.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 -4.0 base 5.8 4.0 -4.0 radius 0.6
+	clip { center 0 4.0 -4.0 normal 0 -1 0 }
+	clip { center 0 4.0 -4.0 normal 0 0 -1 }
+}
+ring { center 6.0 3.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -4.0 normal 0 1 0 }
+	clip { center 0 3.0 -4.0 normal 0 0 1 }
+}
+ring { center 6.0 4.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 -3.0 normal 0 -1 0 }
+	clip { center 0 4.0 -3.0 normal 0 0 -1 }
+}
+ring { center 5.8 3.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -4.0 normal 0 1 0 }
+	clip { center 0 3.0 -4.0 normal 0 0 1 }
+}
+ring { center 5.8 4.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 -3.0 normal 0 -1 0 }
+	clip { center 0 4.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 -4.0 base 5.8 3.0 -4.0 radius 0.4
+	clip { center 0 3.0 -4.0 normal 0 1 0 }
+	clip { center 0 3.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 -3.0 base 5.8 4.0 -3.0 radius 0.4
+	clip { center 0 4.0 -3.0 normal 0 -1 0 }
+	clip { center 0 4.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 -4.0 base 5.8 3.0 -4.0 radius 0.6
+	clip { center 0 3.0 -4.0 normal 0 1 0 }
+	clip { center 0 3.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 -3.0 base 5.8 4.0 -3.0 radius 0.6
+	clip { center 0 4.0 -3.0 normal 0 -1 0 }
+	clip { center 0 4.0 -3.0 normal 0 0 -1 }
+}
+ring { center 6.0 3.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -3.0 normal 0 1 0 }
+	clip { center 0 3.0 -3.0 normal 0 0 1 }
+}
+ring { center 6.0 4.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 -2.0 normal 0 -1 0 }
+	clip { center 0 4.0 -2.0 normal 0 0 -1 }
+}
+ring { center 5.8 3.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -3.0 normal 0 1 0 }
+	clip { center 0 3.0 -3.0 normal 0 0 1 }
+}
+ring { center 5.8 4.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 -2.0 normal 0 -1 0 }
+	clip { center 0 4.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 -3.0 base 5.8 3.0 -3.0 radius 0.4
+	clip { center 0 3.0 -3.0 normal 0 1 0 }
+	clip { center 0 3.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 -2.0 base 5.8 4.0 -2.0 radius 0.4
+	clip { center 0 4.0 -2.0 normal 0 -1 0 }
+	clip { center 0 4.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 -3.0 base 5.8 3.0 -3.0 radius 0.6
+	clip { center 0 3.0 -3.0 normal 0 1 0 }
+	clip { center 0 3.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 -2.0 base 5.8 4.0 -2.0 radius 0.6
+	clip { center 0 4.0 -2.0 normal 0 -1 0 }
+	clip { center 0 4.0 -2.0 normal 0 0 -1 }
+}
+ring { center 6.0 4.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 -2.0 normal 0 -1 0 }
+	clip { center 0 4.0 -2.0 normal 0 0 1 }
+}
+ring { center 6.0 3.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -1.0 normal 0 1 0 }
+	clip { center 0 3.0 -1.0 normal 0 0 -1 }
+}
+ring { center 5.8 4.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 -2.0 normal 0 -1 0 }
+	clip { center 0 4.0 -2.0 normal 0 0 1 }
+}
+ring { center 5.8 3.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -1.0 normal 0 1 0 }
+	clip { center 0 3.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 4.0 -2.0 base 5.8 4.0 -2.0 radius 0.4
+	clip { center 0 4.0 -2.0 normal 0 -1 0 }
+	clip { center 0 4.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 -1.0 base 5.8 3.0 -1.0 radius 0.4
+	clip { center 0 3.0 -1.0 normal 0 1 0 }
+	clip { center 0 3.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 4.0 -2.0 base 5.8 4.0 -2.0 radius 0.6
+	clip { center 0 4.0 -2.0 normal 0 -1 0 }
+	clip { center 0 4.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 -1.0 base 5.8 3.0 -1.0 radius 0.6
+	clip { center 0 3.0 -1.0 normal 0 1 0 }
+	clip { center 0 3.0 -1.0 normal 0 0 -1 }
+}
+ring { center 6.0 3.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -1.0 normal 0 1 0 }
+	clip { center 0 3.0 -1.0 normal 0 0 1 }
+}
+ring { center 6.0 4.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 0.0 normal 0 -1 0 }
+	clip { center 0 4.0 0.0 normal 0 0 -1 }
+}
+ring { center 5.8 3.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 -1.0 normal 0 1 0 }
+	clip { center 0 3.0 -1.0 normal 0 0 1 }
+}
+ring { center 5.8 4.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 0.0 normal 0 -1 0 }
+	clip { center 0 4.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 -1.0 base 5.8 3.0 -1.0 radius 0.4
+	clip { center 0 3.0 -1.0 normal 0 1 0 }
+	clip { center 0 3.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 0.0 base 5.8 4.0 0.0 radius 0.4
+	clip { center 0 4.0 0.0 normal 0 -1 0 }
+	clip { center 0 4.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 -1.0 base 5.8 3.0 -1.0 radius 0.6
+	clip { center 0 3.0 -1.0 normal 0 1 0 }
+	clip { center 0 3.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 0.0 base 5.8 4.0 0.0 radius 0.6
+	clip { center 0 4.0 0.0 normal 0 -1 0 }
+	clip { center 0 4.0 0.0 normal 0 0 -1 }
+}
+ring { center 6.0 4.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 0.0 normal 0 -1 0 }
+	clip { center 0 4.0 0.0 normal 0 0 1 }
+}
+ring { center 6.0 3.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 1.0 normal 0 1 0 }
+	clip { center 0 3.0 1.0 normal 0 0 -1 }
+}
+ring { center 5.8 4.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 0.0 normal 0 -1 0 }
+	clip { center 0 4.0 0.0 normal 0 0 1 }
+}
+ring { center 5.8 3.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 1.0 normal 0 1 0 }
+	clip { center 0 3.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 4.0 0.0 base 5.8 4.0 0.0 radius 0.4
+	clip { center 0 4.0 0.0 normal 0 -1 0 }
+	clip { center 0 4.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 1.0 base 5.8 3.0 1.0 radius 0.4
+	clip { center 0 3.0 1.0 normal 0 1 0 }
+	clip { center 0 3.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 4.0 0.0 base 5.8 4.0 0.0 radius 0.6
+	clip { center 0 4.0 0.0 normal 0 -1 0 }
+	clip { center 0 4.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 1.0 base 5.8 3.0 1.0 radius 0.6
+	clip { center 0 3.0 1.0 normal 0 1 0 }
+	clip { center 0 3.0 1.0 normal 0 0 -1 }
+}
+ring { center 6.0 3.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 1.0 normal 0 1 0 }
+	clip { center 0 3.0 1.0 normal 0 0 1 }
+}
+ring { center 6.0 4.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 2.0 normal 0 -1 0 }
+	clip { center 0 4.0 2.0 normal 0 0 -1 }
+}
+ring { center 5.8 3.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 1.0 normal 0 1 0 }
+	clip { center 0 3.0 1.0 normal 0 0 1 }
+}
+ring { center 5.8 4.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 2.0 normal 0 -1 0 }
+	clip { center 0 4.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 1.0 base 5.8 3.0 1.0 radius 0.4
+	clip { center 0 3.0 1.0 normal 0 1 0 }
+	clip { center 0 3.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 2.0 base 5.8 4.0 2.0 radius 0.4
+	clip { center 0 4.0 2.0 normal 0 -1 0 }
+	clip { center 0 4.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 1.0 base 5.8 3.0 1.0 radius 0.6
+	clip { center 0 3.0 1.0 normal 0 1 0 }
+	clip { center 0 3.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 2.0 base 5.8 4.0 2.0 radius 0.6
+	clip { center 0 4.0 2.0 normal 0 -1 0 }
+	clip { center 0 4.0 2.0 normal 0 0 -1 }
+}
+ring { center 6.0 4.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 2.0 normal 0 -1 0 }
+	clip { center 0 4.0 2.0 normal 0 0 1 }
+}
+ring { center 6.0 3.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 3.0 normal 0 1 0 }
+	clip { center 0 3.0 3.0 normal 0 0 -1 }
+}
+ring { center 5.8 4.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 2.0 normal 0 -1 0 }
+	clip { center 0 4.0 2.0 normal 0 0 1 }
+}
+ring { center 5.8 3.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 3.0 normal 0 1 0 }
+	clip { center 0 3.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 4.0 2.0 base 5.8 4.0 2.0 radius 0.4
+	clip { center 0 4.0 2.0 normal 0 -1 0 }
+	clip { center 0 4.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 3.0 base 5.8 3.0 3.0 radius 0.4
+	clip { center 0 3.0 3.0 normal 0 1 0 }
+	clip { center 0 3.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 4.0 2.0 base 5.8 4.0 2.0 radius 0.6
+	clip { center 0 4.0 2.0 normal 0 -1 0 }
+	clip { center 0 4.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 3.0 base 5.8 3.0 3.0 radius 0.6
+	clip { center 0 3.0 3.0 normal 0 1 0 }
+	clip { center 0 3.0 3.0 normal 0 0 -1 }
+}
+ring { center 6.0 4.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 3.0 normal 0 -1 0 }
+	clip { center 0 4.0 3.0 normal 0 0 1 }
+}
+ring { center 6.0 3.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 4.0 normal 0 1 0 }
+	clip { center 0 3.0 4.0 normal 0 0 -1 }
+}
+ring { center 5.8 4.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 3.0 normal 0 -1 0 }
+	clip { center 0 4.0 3.0 normal 0 0 1 }
+}
+ring { center 5.8 3.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 4.0 normal 0 1 0 }
+	clip { center 0 3.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 4.0 3.0 base 5.8 4.0 3.0 radius 0.4
+	clip { center 0 4.0 3.0 normal 0 -1 0 }
+	clip { center 0 4.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 4.0 base 5.8 3.0 4.0 radius 0.4
+	clip { center 0 3.0 4.0 normal 0 1 0 }
+	clip { center 0 3.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 4.0 3.0 base 5.8 4.0 3.0 radius 0.6
+	clip { center 0 4.0 3.0 normal 0 -1 0 }
+	clip { center 0 4.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 3.0 4.0 base 5.8 3.0 4.0 radius 0.6
+	clip { center 0 3.0 4.0 normal 0 1 0 }
+	clip { center 0 3.0 4.0 normal 0 0 -1 }
+}
+ring { center 6.0 3.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 4.0 normal 0 1 0 }
+	clip { center 0 3.0 4.0 normal 0 0 1 }
+}
+ring { center 6.0 4.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 5.0 normal 0 -1 0 }
+	clip { center 0 4.0 5.0 normal 0 0 -1 }
+}
+ring { center 5.8 3.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 3.0 4.0 normal 0 1 0 }
+	clip { center 0 3.0 4.0 normal 0 0 1 }
+}
+ring { center 5.8 4.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 5.0 normal 0 -1 0 }
+	clip { center 0 4.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 4.0 base 5.8 3.0 4.0 radius 0.4
+	clip { center 0 3.0 4.0 normal 0 1 0 }
+	clip { center 0 3.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 5.0 base 5.8 4.0 5.0 radius 0.4
+	clip { center 0 4.0 5.0 normal 0 -1 0 }
+	clip { center 0 4.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 3.0 4.0 base 5.8 3.0 4.0 radius 0.6
+	clip { center 0 3.0 4.0 normal 0 1 0 }
+	clip { center 0 3.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 5.0 base 5.8 4.0 5.0 radius 0.6
+	clip { center 0 4.0 5.0 normal 0 -1 0 }
+	clip { center 0 4.0 5.0 normal 0 0 -1 }
+}
+ring { center 6.0 5.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 1 }
+}
+ring { center 6.0 4.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 -4.0 normal 0 1 0 }
+	clip { center 0 4.0 -4.0 normal 0 0 -1 }
+}
+ring { center 5.8 5.0 -5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 1 }
+}
+ring { center 5.8 4.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 -4.0 normal 0 1 0 }
+	clip { center 0 4.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 5.0 -5.0 base 5.8 5.0 -5.0 radius 0.4
+	clip { center 0 5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 -4.0 base 5.8 4.0 -4.0 radius 0.4
+	clip { center 0 4.0 -4.0 normal 0 1 0 }
+	clip { center 0 4.0 -4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 5.0 -5.0 base 5.8 5.0 -5.0 radius 0.6
+	clip { center 0 5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 -4.0 base 5.8 4.0 -4.0 radius 0.6
+	clip { center 0 4.0 -4.0 normal 0 1 0 }
+	clip { center 0 4.0 -4.0 normal 0 0 -1 }
+}
+ring { center 6.0 4.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 -4.0 normal 0 1 0 }
+	clip { center 0 4.0 -4.0 normal 0 0 1 }
+}
+ring { center 6.0 5.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 -3.0 normal 0 -1 0 }
+	clip { center 0 5.0 -3.0 normal 0 0 -1 }
+}
+ring { center 5.8 4.0 -4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 -4.0 normal 0 1 0 }
+	clip { center 0 4.0 -4.0 normal 0 0 1 }
+}
+ring { center 5.8 5.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 -3.0 normal 0 -1 0 }
+	clip { center 0 5.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 4.0 -4.0 base 5.8 4.0 -4.0 radius 0.4
+	clip { center 0 4.0 -4.0 normal 0 1 0 }
+	clip { center 0 4.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 5.0 -3.0 base 5.8 5.0 -3.0 radius 0.4
+	clip { center 0 5.0 -3.0 normal 0 -1 0 }
+	clip { center 0 5.0 -3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 4.0 -4.0 base 5.8 4.0 -4.0 radius 0.6
+	clip { center 0 4.0 -4.0 normal 0 1 0 }
+	clip { center 0 4.0 -4.0 normal 0 0 1 }
+}
+cone { apex 6.0 5.0 -3.0 base 5.8 5.0 -3.0 radius 0.6
+	clip { center 0 5.0 -3.0 normal 0 -1 0 }
+	clip { center 0 5.0 -3.0 normal 0 0 -1 }
+}
+ring { center 6.0 5.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 -3.0 normal 0 -1 0 }
+	clip { center 0 5.0 -3.0 normal 0 0 1 }
+}
+ring { center 6.0 4.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 -2.0 normal 0 1 0 }
+	clip { center 0 4.0 -2.0 normal 0 0 -1 }
+}
+ring { center 5.8 5.0 -3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 -3.0 normal 0 -1 0 }
+	clip { center 0 5.0 -3.0 normal 0 0 1 }
+}
+ring { center 5.8 4.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 -2.0 normal 0 1 0 }
+	clip { center 0 4.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 5.0 -3.0 base 5.8 5.0 -3.0 radius 0.4
+	clip { center 0 5.0 -3.0 normal 0 -1 0 }
+	clip { center 0 5.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 -2.0 base 5.8 4.0 -2.0 radius 0.4
+	clip { center 0 4.0 -2.0 normal 0 1 0 }
+	clip { center 0 4.0 -2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 5.0 -3.0 base 5.8 5.0 -3.0 radius 0.6
+	clip { center 0 5.0 -3.0 normal 0 -1 0 }
+	clip { center 0 5.0 -3.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 -2.0 base 5.8 4.0 -2.0 radius 0.6
+	clip { center 0 4.0 -2.0 normal 0 1 0 }
+	clip { center 0 4.0 -2.0 normal 0 0 -1 }
+}
+ring { center 6.0 5.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 -2.0 normal 0 -1 0 }
+	clip { center 0 5.0 -2.0 normal 0 0 1 }
+}
+ring { center 6.0 4.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 -1.0 normal 0 1 0 }
+	clip { center 0 4.0 -1.0 normal 0 0 -1 }
+}
+ring { center 5.8 5.0 -2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 -2.0 normal 0 -1 0 }
+	clip { center 0 5.0 -2.0 normal 0 0 1 }
+}
+ring { center 5.8 4.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 -1.0 normal 0 1 0 }
+	clip { center 0 4.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 5.0 -2.0 base 5.8 5.0 -2.0 radius 0.4
+	clip { center 0 5.0 -2.0 normal 0 -1 0 }
+	clip { center 0 5.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 -1.0 base 5.8 4.0 -1.0 radius 0.4
+	clip { center 0 4.0 -1.0 normal 0 1 0 }
+	clip { center 0 4.0 -1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 5.0 -2.0 base 5.8 5.0 -2.0 radius 0.6
+	clip { center 0 5.0 -2.0 normal 0 -1 0 }
+	clip { center 0 5.0 -2.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 -1.0 base 5.8 4.0 -1.0 radius 0.6
+	clip { center 0 4.0 -1.0 normal 0 1 0 }
+	clip { center 0 4.0 -1.0 normal 0 0 -1 }
+}
+ring { center 6.0 5.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 -1.0 normal 0 -1 0 }
+	clip { center 0 5.0 -1.0 normal 0 0 1 }
+}
+ring { center 6.0 4.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 0.0 normal 0 1 0 }
+	clip { center 0 4.0 0.0 normal 0 0 -1 }
+}
+ring { center 5.8 5.0 -1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 -1.0 normal 0 -1 0 }
+	clip { center 0 5.0 -1.0 normal 0 0 1 }
+}
+ring { center 5.8 4.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 0.0 normal 0 1 0 }
+	clip { center 0 4.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 5.0 -1.0 base 5.8 5.0 -1.0 radius 0.4
+	clip { center 0 5.0 -1.0 normal 0 -1 0 }
+	clip { center 0 5.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 0.0 base 5.8 4.0 0.0 radius 0.4
+	clip { center 0 4.0 0.0 normal 0 1 0 }
+	clip { center 0 4.0 0.0 normal 0 0 -1 }
+}
+cone { apex 6.0 5.0 -1.0 base 5.8 5.0 -1.0 radius 0.6
+	clip { center 0 5.0 -1.0 normal 0 -1 0 }
+	clip { center 0 5.0 -1.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 0.0 base 5.8 4.0 0.0 radius 0.6
+	clip { center 0 4.0 0.0 normal 0 1 0 }
+	clip { center 0 4.0 0.0 normal 0 0 -1 }
+}
+ring { center 6.0 5.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 0.0 normal 0 -1 0 }
+	clip { center 0 5.0 0.0 normal 0 0 1 }
+}
+ring { center 6.0 4.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 1.0 normal 0 1 0 }
+	clip { center 0 4.0 1.0 normal 0 0 -1 }
+}
+ring { center 5.8 5.0 0.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 0.0 normal 0 -1 0 }
+	clip { center 0 5.0 0.0 normal 0 0 1 }
+}
+ring { center 5.8 4.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 1.0 normal 0 1 0 }
+	clip { center 0 4.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 5.0 0.0 base 5.8 5.0 0.0 radius 0.4
+	clip { center 0 5.0 0.0 normal 0 -1 0 }
+	clip { center 0 5.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 1.0 base 5.8 4.0 1.0 radius 0.4
+	clip { center 0 4.0 1.0 normal 0 1 0 }
+	clip { center 0 4.0 1.0 normal 0 0 -1 }
+}
+cone { apex 6.0 5.0 0.0 base 5.8 5.0 0.0 radius 0.6
+	clip { center 0 5.0 0.0 normal 0 -1 0 }
+	clip { center 0 5.0 0.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 1.0 base 5.8 4.0 1.0 radius 0.6
+	clip { center 0 4.0 1.0 normal 0 1 0 }
+	clip { center 0 4.0 1.0 normal 0 0 -1 }
+}
+ring { center 6.0 4.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 1.0 normal 0 1 0 }
+	clip { center 0 4.0 1.0 normal 0 0 1 }
+}
+ring { center 6.0 5.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 2.0 normal 0 -1 0 }
+	clip { center 0 5.0 2.0 normal 0 0 -1 }
+}
+ring { center 5.8 4.0 1.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 1.0 normal 0 1 0 }
+	clip { center 0 4.0 1.0 normal 0 0 1 }
+}
+ring { center 5.8 5.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 2.0 normal 0 -1 0 }
+	clip { center 0 5.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 4.0 1.0 base 5.8 4.0 1.0 radius 0.4
+	clip { center 0 4.0 1.0 normal 0 1 0 }
+	clip { center 0 4.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 5.0 2.0 base 5.8 5.0 2.0 radius 0.4
+	clip { center 0 5.0 2.0 normal 0 -1 0 }
+	clip { center 0 5.0 2.0 normal 0 0 -1 }
+}
+cone { apex 6.0 4.0 1.0 base 5.8 4.0 1.0 radius 0.6
+	clip { center 0 4.0 1.0 normal 0 1 0 }
+	clip { center 0 4.0 1.0 normal 0 0 1 }
+}
+cone { apex 6.0 5.0 2.0 base 5.8 5.0 2.0 radius 0.6
+	clip { center 0 5.0 2.0 normal 0 -1 0 }
+	clip { center 0 5.0 2.0 normal 0 0 -1 }
+}
+ring { center 6.0 5.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 2.0 normal 0 -1 0 }
+	clip { center 0 5.0 2.0 normal 0 0 1 }
+}
+ring { center 6.0 4.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 3.0 normal 0 1 0 }
+	clip { center 0 4.0 3.0 normal 0 0 -1 }
+}
+ring { center 5.8 5.0 2.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 2.0 normal 0 -1 0 }
+	clip { center 0 5.0 2.0 normal 0 0 1 }
+}
+ring { center 5.8 4.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 3.0 normal 0 1 0 }
+	clip { center 0 4.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 5.0 2.0 base 5.8 5.0 2.0 radius 0.4
+	clip { center 0 5.0 2.0 normal 0 -1 0 }
+	clip { center 0 5.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 3.0 base 5.8 4.0 3.0 radius 0.4
+	clip { center 0 4.0 3.0 normal 0 1 0 }
+	clip { center 0 4.0 3.0 normal 0 0 -1 }
+}
+cone { apex 6.0 5.0 2.0 base 5.8 5.0 2.0 radius 0.6
+	clip { center 0 5.0 2.0 normal 0 -1 0 }
+	clip { center 0 5.0 2.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 3.0 base 5.8 4.0 3.0 radius 0.6
+	clip { center 0 4.0 3.0 normal 0 1 0 }
+	clip { center 0 4.0 3.0 normal 0 0 -1 }
+}
+ring { center 6.0 5.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 3.0 normal 0 -1 0 }
+	clip { center 0 5.0 3.0 normal 0 0 1 }
+}
+ring { center 6.0 4.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 4.0 normal 0 1 0 }
+	clip { center 0 4.0 4.0 normal 0 0 -1 }
+}
+ring { center 5.8 5.0 3.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 3.0 normal 0 -1 0 }
+	clip { center 0 5.0 3.0 normal 0 0 1 }
+}
+ring { center 5.8 4.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 4.0 normal 0 1 0 }
+	clip { center 0 4.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 5.0 3.0 base 5.8 5.0 3.0 radius 0.4
+	clip { center 0 5.0 3.0 normal 0 -1 0 }
+	clip { center 0 5.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 4.0 base 5.8 4.0 4.0 radius 0.4
+	clip { center 0 4.0 4.0 normal 0 1 0 }
+	clip { center 0 4.0 4.0 normal 0 0 -1 }
+}
+cone { apex 6.0 5.0 3.0 base 5.8 5.0 3.0 radius 0.6
+	clip { center 0 5.0 3.0 normal 0 -1 0 }
+	clip { center 0 5.0 3.0 normal 0 0 1 }
+}
+cone { apex 6.0 4.0 4.0 base 5.8 4.0 4.0 radius 0.6
+	clip { center 0 4.0 4.0 normal 0 1 0 }
+	clip { center 0 4.0 4.0 normal 0 0 -1 }
+}
+ring { center 6.0 4.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 4.0 normal 0 1 0 }
+	clip { center 0 4.0 4.0 normal 0 0 1 }
+}
+ring { center 6.0 5.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 5.0 normal 0 -1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 -1 }
+}
+ring { center 5.8 4.0 4.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 4.0 4.0 normal 0 1 0 }
+	clip { center 0 4.0 4.0 normal 0 0 1 }
+}
+ring { center 5.8 5.0 5.0 normal 1 0 0 min_radius 0.4 max_radius 0.6
+	clip { center 0 5.0 5.0 normal 0 -1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 4.0 4.0 base 5.8 4.0 4.0 radius 0.4
+	clip { center 0 4.0 4.0 normal 0 1 0 }
+	clip { center 0 4.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 5.0 5.0 base 5.8 5.0 5.0 radius 0.4
+	clip { center 0 5.0 5.0 normal 0 -1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 -1 }
+}
+cone { apex 6.0 4.0 4.0 base 5.8 4.0 4.0 radius 0.6
+	clip { center 0 4.0 4.0 normal 0 1 0 }
+	clip { center 0 4.0 4.0 normal 0 0 1 }
+}
+cone { apex 6.0 5.0 5.0 base 5.8 5.0 5.0 radius 0.6
+	clip { center 0 5.0 5.0 normal 0 -1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 -1 }
+}
+cone { apex 0.6 5.0 5.0 base 0.4 5.0 5.0 radius 1
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+cone { apex 0.6 -5.0 5.0 base 0.4 -5.0 5.0 radius 1
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+cone { apex 0.6 5.0 -5.0 base 0.4 5.0 -5.0 radius 1
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 0.6 -5.0 -5.0 base 0.4 -5.0 -5.0 radius 1
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 0.6 5.0 5.0 base 0.4 5.0 5.0 radius 0.8
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+cone { apex 0.6 -5.0 5.0 base 0.4 -5.0 5.0 radius 0.8
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+cone { apex 0.6 5.0 -5.0 base 0.4 5.0 -5.0 radius 0.8
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 0.6 -5.0 -5.0 base 0.4 -5.0 -5.0 radius 0.8
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 0.6 5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+ring { center 0.4 5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+ring { center 0.6 -5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+ring { center 0.4 -5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+ring { center 0.6 5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 0.4 5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 0.6 -5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 0.4 -5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 1.6 5.0 5.0 base 1.4 5.0 5.0 radius 1
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+cone { apex 1.6 -5.0 5.0 base 1.4 -5.0 5.0 radius 1
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+cone { apex 1.6 5.0 -5.0 base 1.4 5.0 -5.0 radius 1
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 1.6 -5.0 -5.0 base 1.4 -5.0 -5.0 radius 1
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 1.6 5.0 5.0 base 1.4 5.0 5.0 radius 0.8
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+cone { apex 1.6 -5.0 5.0 base 1.4 -5.0 5.0 radius 0.8
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+cone { apex 1.6 5.0 -5.0 base 1.4 5.0 -5.0 radius 0.8
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 1.6 -5.0 -5.0 base 1.4 -5.0 -5.0 radius 0.8
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 1.6 5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+ring { center 1.4 5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+ring { center 1.6 -5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+ring { center 1.4 -5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+ring { center 1.6 5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 1.4 5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 1.6 -5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 1.4 -5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 2.6 5.0 5.0 base 2.4 5.0 5.0 radius 1
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+cone { apex 2.6 -5.0 5.0 base 2.4 -5.0 5.0 radius 1
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+cone { apex 2.6 5.0 -5.0 base 2.4 5.0 -5.0 radius 1
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 2.6 -5.0 -5.0 base 2.4 -5.0 -5.0 radius 1
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 2.6 5.0 5.0 base 2.4 5.0 5.0 radius 0.8
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+cone { apex 2.6 -5.0 5.0 base 2.4 -5.0 5.0 radius 0.8
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+cone { apex 2.6 5.0 -5.0 base 2.4 5.0 -5.0 radius 0.8
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 2.6 -5.0 -5.0 base 2.4 -5.0 -5.0 radius 0.8
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 2.6 5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+ring { center 2.4 5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+ring { center 2.6 -5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+ring { center 2.4 -5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+ring { center 2.6 5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 2.4 5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 2.6 -5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 2.4 -5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 3.6 5.0 5.0 base 3.4 5.0 5.0 radius 1
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+cone { apex 3.6 -5.0 5.0 base 3.4 -5.0 5.0 radius 1
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+cone { apex 3.6 5.0 -5.0 base 3.4 5.0 -5.0 radius 1
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 3.6 -5.0 -5.0 base 3.4 -5.0 -5.0 radius 1
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 3.6 5.0 5.0 base 3.4 5.0 5.0 radius 0.8
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+cone { apex 3.6 -5.0 5.0 base 3.4 -5.0 5.0 radius 0.8
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+cone { apex 3.6 5.0 -5.0 base 3.4 5.0 -5.0 radius 0.8
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 3.6 -5.0 -5.0 base 3.4 -5.0 -5.0 radius 0.8
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 3.6 5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+ring { center 3.4 5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+ring { center 3.6 -5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+ring { center 3.4 -5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+ring { center 3.6 5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 3.4 5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 3.6 -5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 3.4 -5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 4.6 5.0 5.0 base 4.4 5.0 5.0 radius 1
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+cone { apex 4.6 -5.0 5.0 base 4.4 -5.0 5.0 radius 1
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+cone { apex 4.6 5.0 -5.0 base 4.4 5.0 -5.0 radius 1
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 4.6 -5.0 -5.0 base 4.4 -5.0 -5.0 radius 1
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 4.6 5.0 5.0 base 4.4 5.0 5.0 radius 0.8
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+cone { apex 4.6 -5.0 5.0 base 4.4 -5.0 5.0 radius 0.8
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+cone { apex 4.6 5.0 -5.0 base 4.4 5.0 -5.0 radius 0.8
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+cone { apex 4.6 -5.0 -5.0 base 4.4 -5.0 -5.0 radius 0.8
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 4.6 5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+ring { center 4.4 5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 5.0 normal 0 1 0 }
+	clip { center 0 5.0 5.0 normal 0 0 1 }
+}
+ring { center 4.6 -5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+ring { center 4.4 -5.0 5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 5.0 normal 0 0 1 }
+}
+ring { center 4.6 5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 4.4 5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 5.0 -5.0 normal 0 1 0 }
+	clip { center 0 5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 4.6 -5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}
+ring { center 4.4 -5.0 -5.0 normal 1 0 0 min_radius 0.8 max_radius 1
+	clip { center 0 -5.0 -5.0 normal 0 -1 0 }
+	clip { center 0 -5.0 -5.0 normal 0 0 -1 }
+}

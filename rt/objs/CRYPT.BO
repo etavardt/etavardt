@@ -1,0 +1,77 @@
+
+//      the crypt
+
+//      lights
+
+light { type point  falloff 1  position  60 -60 95  color 27 27 27 }
+light { type point  falloff 1  position -60  60 95  color 27 27 27 }
+light { type point  falloff 1  position  60  60 95  color 27 27 27 }
+light { type point  falloff 1  position  60  179 95  color 27 27 27 }
+light { type point  falloff 1  position -60 -179 95  color 27 27 27 }
+light { type point  falloff 1  position  179 -60 95  color 27 27 27 }
+light { type point  falloff 1  position  -179 -60 95  color 27 27 27 }
+
+//      mirrors
+
+surf { spec white }
+
+polygon { points 4
+	vertex -180 -180 0
+	vertex -180 -180 96
+	vertex -180  180 96
+	vertex -180  180 0
+}
+polygon { points 4
+	vertex -180  180 0
+	vertex -180  180 96
+	vertex  180  180 96
+	vertex  180  180 0
+}
+polygon { points 4
+	vertex  180  180 0
+	vertex  180  180 96
+	vertex  180 -180 96
+	vertex  180 -180 0
+}
+polygon { points 4
+	vertex  180 -180 0
+	vertex  180 -180 96
+	vertex -180 -180 96
+	vertex -180 -180 0
+}
+
+//      include 9 crypt sections
+
+#include cryptsec.bo
+
+transform { translate -120 -120 0 }
+#include cryptsec.bo
+transform_pop
+
+transform { translate -120 0 0 }
+#include cryptsec.bo
+transform_pop
+
+transform { translate -120 120 0 }
+#include cryptsec.bo
+transform_pop
+
+transform { translate 120 -120 0 }
+#include cryptsec.bo
+transform_pop
+
+transform { translate 120 0 0 }
+#include cryptsec.bo
+transform_pop
+
+transform { translate 120 120 0 }
+#include cryptsec.bo
+transform_pop
+
+transform { translate 0 -120 0 }
+#include cryptsec.bo
+transform_pop
+
+transform { translate 0 120 0 }
+#include cryptsec.bo
+transform_pop

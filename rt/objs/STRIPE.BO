@@ -1,0 +1,29 @@
+
+//      striped pool ball
+
+
+//      do the stripe first
+
+COLOR_SURF
+
+sphere {
+	center 0 0 0
+	radius 1.25
+	clip { center 0 0  .5 normal 0 0 -1 }
+	clip { center 0 0 -.5 normal 0 0  1 }
+}
+
+//      then the white part
+
+WHITE_SURF
+
+sphere {        // top half
+	center 0 0 0
+	radius 1.25
+	clip { center 0 0 .5 normal 0 0 1 }
+}
+sphere {        // bottom half
+	center 0 0 0
+	radius 1.25
+	clip { center 0 0 -.5 normal 0 0 -1 }
+}

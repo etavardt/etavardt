@@ -1,0 +1,156 @@
+
+//      M
+
+polygon {
+points 4
+vertex 0 0 0
+vertex 0 10 0
+vertex 0 10 80
+vertex 0 0 80
+}
+polygon {
+points 4
+vertex 0 10 80
+vertex 0 10 70
+vertex 0 30 35
+vertex 0 30 45
+}
+polygon {
+points 4
+vertex 0 30 35
+vertex 0 50 70
+vertex 0 50 80
+vertex 0 30 45
+}
+polygon {
+points 4
+vertex 0 50 0
+vertex 0 60 0
+vertex 0 60 80
+vertex 0 50 80
+}
+
+polygon {
+points 4
+vertex -10 0 80
+vertex -10 10 80
+vertex -10 10 0
+vertex -10 0 0
+}
+polygon {
+points 4
+vertex -10 30 45
+vertex -10 30 35
+vertex -10 10 70
+vertex -10 10 80
+}
+polygon {
+points 4
+vertex -10 30 45
+vertex -10 50 80
+vertex -10 50 70
+vertex -10 30 35
+}
+polygon {
+points 4
+vertex -10 50 80
+vertex -10 60 80
+vertex -10 60 0
+vertex -10 50 0
+}
+
+polygon {
+points 4
+vertex 0 0 80
+vertex 0 10 80
+vertex -10 10 80
+vertex -10 0 80
+}
+
+polygon {
+points 4
+vertex 0 10 80
+vertex 0 30 45
+vertex -10 30 45
+vertex -10 10 80
+}
+
+polygon {
+points 4
+vertex 0 30 45
+vertex 0 50 80
+vertex -10 50 80
+vertex -10 30 45
+}
+
+polygon {
+points 4
+vertex 0 50 80
+vertex 0 60 80
+vertex -10 60 80
+vertex -10 50 80
+}
+
+polygon {
+points 4
+vertex 0 60 80
+vertex 0 60 0
+vertex -10 60 0
+vertex -10 60 80
+}
+
+polygon {
+points 4
+vertex 0 60 0
+vertex 0 50 0
+vertex -10 50 0
+vertex -10 60 0
+}
+
+polygon {
+points 4
+vertex -10 50 0
+vertex 0 50  0
+vertex 0 50 70
+vertex -10 50 70
+}
+
+polygon {
+points 4
+vertex 0 50 70
+vertex 0 30 35
+vertex -10 30 35
+vertex -10 50 70
+}
+
+polygon {
+points 4
+vertex 0 30 35
+vertex 0 10 70
+vertex -10 10 70
+vertex -10 30 35
+}
+
+polygon {
+points 4
+vertex 0 10 70
+vertex 0 10 0
+vertex -10 10 0
+vertex -10 10 70
+}
+
+polygon {
+points 4
+vertex 0 10 0
+vertex 0 0 0
+vertex -10 0 0
+vertex -10 10 0
+}
+
+polygon {
+points 4
+vertex 0 0 0
+vertex 0 0 80
+vertex -10 0 80
+vertex -10 0 0
+}

@@ -1,0 +1,127 @@
+
+// Font file       : Simp.CHR
+// Output file     : BobLogo2.BO
+// Style           : Round
+// Letter height   : 10.000000
+// Letter width    : 10.000000
+// Radius          : 0.800000
+// X offset        : 0.000000
+// Y offset        : 0.000000
+// Z offset        : 0.000000
+// String          : Bob
+
+
+//studio  {
+//   from  9.977 4.336 24.085
+//   at  9.977 4.336 0.000
+//   up  0 1 0
+//   angle  45
+//}
+
+//     >>> B <<<  
+sphere  { center  0.800000 7.871428 0.000000 radius  0.800000 }
+cone  { base  0.800000 7.871428 0.000000 base_radius  0.800000 apex  0.800000 0.800000 0.000000 apex_radius  0.800000 }
+sphere  { center  0.800000 0.800000 0.000000 radius  0.800000 }
+sphere  { center  0.800000 7.871428 0.000000 radius  0.800000 }
+cone  { base  0.800000 7.871428 0.000000 base_radius  0.800000 apex  3.830612 7.871428 0.000000 apex_radius  0.800000 }
+sphere  { center  3.830612 7.871428 0.000000 radius  0.800000 }
+cone  { base  3.830612 7.871428 0.000000 base_radius  0.800000 apex  4.840816 7.534694 0.000000 apex_radius  0.800000 }
+sphere  { center  4.840816 7.534694 0.000000 radius  0.800000 }
+cone  { base  4.840816 7.534694 0.000000 base_radius  0.800000 apex  5.177551 7.197959 0.000000 apex_radius  0.800000 }
+sphere  { center  5.177551 7.197959 0.000000 radius  0.800000 }
+cone  { base  5.177551 7.197959 0.000000 base_radius  0.800000 apex  5.514286 6.524490 0.000000 apex_radius  0.800000 }
+sphere  { center  5.514286 6.524490 0.000000 radius  0.800000 }
+cone  { base  5.514286 6.524490 0.000000 base_radius  0.800000 apex  5.514286 5.851020 0.000000 apex_radius  0.800000 }
+sphere  { center  5.514286 5.851020 0.000000 radius  0.800000 }
+cone  { base  5.514286 5.851020 0.000000 base_radius  0.800000 apex  5.177551 5.177551 0.000000 apex_radius  0.800000 }
+sphere  { center  5.177551 5.177551 0.000000 radius  0.800000 }
+cone  { base  5.177551 5.177551 0.000000 base_radius  0.800000 apex  4.840816 4.840816 0.000000 apex_radius  0.800000 }
+sphere  { center  4.840816 4.840816 0.000000 radius  0.800000 }
+cone  { base  4.840816 4.840816 0.000000 base_radius  0.800000 apex  3.830612 4.504082 0.000000 apex_radius  0.800000 }
+sphere  { center  3.830612 4.504082 0.000000 radius  0.800000 }
+sphere  { center  0.800000 4.504082 0.000000 radius  0.800000 }
+cone  { base  0.800000 4.504082 0.000000 base_radius  0.800000 apex  3.830612 4.504082 0.000000 apex_radius  0.800000 }
+sphere  { center  3.830612 4.504082 0.000000 radius  0.800000 }
+cone  { base  3.830612 4.504082 0.000000 base_radius  0.800000 apex  4.840816 4.167347 0.000000 apex_radius  0.800000 }
+sphere  { center  4.840816 4.167347 0.000000 radius  0.800000 }
+cone  { base  4.840816 4.167347 0.000000 base_radius  0.800000 apex  5.177551 3.830612 0.000000 apex_radius  0.800000 }
+sphere  { center  5.177551 3.830612 0.000000 radius  0.800000 }
+cone  { base  5.177551 3.830612 0.000000 base_radius  0.800000 apex  5.514286 3.157143 0.000000 apex_radius  0.800000 }
+sphere  { center  5.514286 3.157143 0.000000 radius  0.800000 }
+cone  { base  5.514286 3.157143 0.000000 base_radius  0.800000 apex  5.514286 2.146939 0.000000 apex_radius  0.800000 }
+sphere  { center  5.514286 2.146939 0.000000 radius  0.800000 }
+cone  { base  5.514286 2.146939 0.000000 base_radius  0.800000 apex  5.177551 1.473469 0.000000 apex_radius  0.800000 }
+sphere  { center  5.177551 1.473469 0.000000 radius  0.800000 }
+cone  { base  5.177551 1.473469 0.000000 base_radius  0.800000 apex  4.840816 1.136735 0.000000 apex_radius  0.800000 }
+sphere  { center  4.840816 1.136735 0.000000 radius  0.800000 }
+cone  { base  4.840816 1.136735 0.000000 base_radius  0.800000 apex  3.830612 0.800000 0.000000 apex_radius  0.800000 }
+sphere  { center  3.830612 0.800000 0.000000 radius  0.800000 }
+cone  { base  3.830612 0.800000 0.000000 base_radius  0.800000 apex  0.800000 0.800000 0.000000 apex_radius  0.800000 }
+sphere  { center  0.800000 0.800000 0.000000 radius  0.800000 }
+
+//     >>> o <<<  
+sphere  { center  9.808164 5.514286 0.000000 radius  0.800000 }
+cone  { base  9.808164 5.514286 0.000000 base_radius  0.800000 apex  9.134694 5.177551 0.000000 apex_radius  0.800000 }
+sphere  { center  9.134694 5.177551 0.000000 radius  0.800000 }
+cone  { base  9.134694 5.177551 0.000000 base_radius  0.800000 apex  8.461225 4.504082 0.000000 apex_radius  0.800000 }
+sphere  { center  8.461225 4.504082 0.000000 radius  0.800000 }
+cone  { base  8.461225 4.504082 0.000000 base_radius  0.800000 apex  8.124490 3.493878 0.000000 apex_radius  0.800000 }
+sphere  { center  8.124490 3.493878 0.000000 radius  0.800000 }
+cone  { base  8.124490 3.493878 0.000000 base_radius  0.800000 apex  8.124490 2.820408 0.000000 apex_radius  0.800000 }
+sphere  { center  8.124490 2.820408 0.000000 radius  0.800000 }
+cone  { base  8.124490 2.820408 0.000000 base_radius  0.800000 apex  8.461225 1.810204 0.000000 apex_radius  0.800000 }
+sphere  { center  8.461225 1.810204 0.000000 radius  0.800000 }
+cone  { base  8.461225 1.810204 0.000000 base_radius  0.800000 apex  9.134694 1.136735 0.000000 apex_radius  0.800000 }
+sphere  { center  9.134694 1.136735 0.000000 radius  0.800000 }
+cone  { base  9.134694 1.136735 0.000000 base_radius  0.800000 apex  9.808164 0.800000 0.000000 apex_radius  0.800000 }
+sphere  { center  9.808164 0.800000 0.000000 radius  0.800000 }
+cone  { base  9.808164 0.800000 0.000000 base_radius  0.800000 apex  10.818368 0.800000 0.000000 apex_radius  0.800000 }
+sphere  { center  10.818368 0.800000 0.000000 radius  0.800000 }
+cone  { base  10.818368 0.800000 0.000000 base_radius  0.800000 apex  11.491837 1.136735 0.000000 apex_radius  0.800000 }
+sphere  { center  11.491837 1.136735 0.000000 radius  0.800000 }
+cone  { base  11.491837 1.136735 0.000000 base_radius  0.800000 apex  12.165307 1.810204 0.000000 apex_radius  0.800000 }
+sphere  { center  12.165307 1.810204 0.000000 radius  0.800000 }
+cone  { base  12.165307 1.810204 0.000000 base_radius  0.800000 apex  12.502041 2.820408 0.000000 apex_radius  0.800000 }
+sphere  { center  12.502041 2.820408 0.000000 radius  0.800000 }
+cone  { base  12.502041 2.820408 0.000000 base_radius  0.800000 apex  12.502041 3.493878 0.000000 apex_radius  0.800000 }
+sphere  { center  12.502041 3.493878 0.000000 radius  0.800000 }
+cone  { base  12.502041 3.493878 0.000000 base_radius  0.800000 apex  12.165307 4.504082 0.000000 apex_radius  0.800000 }
+sphere  { center  12.165307 4.504082 0.000000 radius  0.800000 }
+cone  { base  12.165307 4.504082 0.000000 base_radius  0.800000 apex  11.491837 5.177551 0.000000 apex_radius  0.800000 }
+sphere  { center  11.491837 5.177551 0.000000 radius  0.800000 }
+cone  { base  11.491837 5.177551 0.000000 base_radius  0.800000 apex  10.818368 5.514286 0.000000 apex_radius  0.800000 }
+sphere  { center  10.818368 5.514286 0.000000 radius  0.800000 }
+cone  { base  10.818368 5.514286 0.000000 base_radius  0.800000 apex  9.808164 5.514286 0.000000 apex_radius  0.800000 }
+sphere  { center  9.808164 5.514286 0.000000 radius  0.800000 }
+
+//     >>> b <<<  
+sphere  { center  15.112245 7.871428 0.000000 radius  0.800000 }
+cone  { base  15.112245 7.871428 0.000000 base_radius  0.800000 apex  15.112245 0.800000 0.000000 apex_radius  0.800000 }
+sphere  { center  15.112245 0.800000 0.000000 radius  0.800000 }
+sphere  { center  15.112245 4.504082 0.000000 radius  0.800000 }
+cone  { base  15.112245 4.504082 0.000000 base_radius  0.800000 apex  15.785715 5.177551 0.000000 apex_radius  0.800000 }
+sphere  { center  15.785715 5.177551 0.000000 radius  0.800000 }
+cone  { base  15.785715 5.177551 0.000000 base_radius  0.800000 apex  16.459184 5.514286 0.000000 apex_radius  0.800000 }
+sphere  { center  16.459184 5.514286 0.000000 radius  0.800000 }
+cone  { base  16.459184 5.514286 0.000000 base_radius  0.800000 apex  17.469388 5.514286 0.000000 apex_radius  0.800000 }
+sphere  { center  17.469388 5.514286 0.000000 radius  0.800000 }
+cone  { base  17.469388 5.514286 0.000000 base_radius  0.800000 apex  18.142858 5.177551 0.000000 apex_radius  0.800000 }
+sphere  { center  18.142858 5.177551 0.000000 radius  0.800000 }
+cone  { base  18.142858 5.177551 0.000000 base_radius  0.800000 apex  18.816327 4.504082 0.000000 apex_radius  0.800000 }
+sphere  { center  18.816327 4.504082 0.000000 radius  0.800000 }
+cone  { base  18.816327 4.504082 0.000000 base_radius  0.800000 apex  19.153062 3.493878 0.000000 apex_radius  0.800000 }
+sphere  { center  19.153062 3.493878 0.000000 radius  0.800000 }
+cone  { base  19.153062 3.493878 0.000000 base_radius  0.800000 apex  19.153062 2.820408 0.000000 apex_radius  0.800000 }
+sphere  { center  19.153062 2.820408 0.000000 radius  0.800000 }
+cone  { base  19.153062 2.820408 0.000000 base_radius  0.800000 apex  18.816327 1.810204 0.000000 apex_radius  0.800000 }
+sphere  { center  18.816327 1.810204 0.000000 radius  0.800000 }
+cone  { base  18.816327 1.810204 0.000000 base_radius  0.800000 apex  18.142858 1.136735 0.000000 apex_radius  0.800000 }
+sphere  { center  18.142858 1.136735 0.000000 radius  0.800000 }
+cone  { base  18.142858 1.136735 0.000000 base_radius  0.800000 apex  17.469388 0.800000 0.000000 apex_radius  0.800000 }
+sphere  { center  17.469388 0.800000 0.000000 radius  0.800000 }
+cone  { base  17.469388 0.800000 0.000000 base_radius  0.800000 apex  16.459184 0.800000 0.000000 apex_radius  0.800000 }
+sphere  { center  16.459184 0.800000 0.000000 radius  0.800000 }
+cone  { base  16.459184 0.800000 0.000000 base_radius  0.800000 apex  15.785715 1.136735 0.000000 apex_radius  0.800000 }
+sphere  { center  15.785715 1.136735 0.000000 radius  0.800000 }
+cone  { base  15.785715 1.136735 0.000000 base_radius  0.800000 apex  15.112245 1.810204 0.000000 apex_radius  0.800000 }
+sphere  { center  15.112245 1.810204 0.000000 radius  0.800000 }

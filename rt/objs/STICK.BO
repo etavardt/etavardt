@@ -1,0 +1,64 @@
+
+//      pool stick, tip at 0 0 0, extends along x axis
+
+//      blue chalk surface for tip
+
+surf {
+	diff .1 .3 .8
+	fuzz .1
+	shine 5 .1 .1 .1
+}
+
+ring { center 0 0 0 normal -1 0 0 radius .18 }
+cone { apex 0 0 0 apex_radius .18 base .02 0 0 base_radius .22 }
+cone { apex .02 0 0 apex_radius .22 base .06 0 0 base_radius .24 }
+cone { apex .06 0 0 base .2 0 0 radius .24 }
+
+//      white plastic collar
+
+surf {
+	diff .8 .8 .8
+	spec .1 .1 .1
+	shine 20 white
+}
+ring { center .2 0 0 normal -1 0 0 radius .25 }
+cone { apex .2 0 0 base 1.2 0 0 radius .25 }
+
+//      wood stick
+
+surf {
+	texture {
+		pattern noise
+		scale 1 0.01 0.01
+		terms 2
+		surf { diff brown shine 20 white }
+		surf { diff medium_tan shine 30 white }
+	}
+}
+
+cone { apex 1.2 0 0 apex_radius .25 base 66 0 0 base_radius .5 }
+ring { center 66 0 0 normal 1 0 0 radius .5 }
+
+//      black rubber end
+
+surf {
+	diff .1 .1 .1
+	shine 10 .5 .5 .5
+}
+cone { apex 66 0 0 base 66.05 0 0 radius .45 }
+cone { apex 66.05 0 0 apex_radius .45 base 66.3 0 0 base_radius .2 }
+ring { center 66.3 0 0 normal 1 0 0 radius .2 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

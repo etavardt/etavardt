@@ -1,0 +1,52 @@
+
+//      icosahedron scale +- 1 centered at origin
+
+#define P00 ( 0        0        1)
+#define P01 ( 0        0       -1)
+#define P02 (-0.27639 -0.85065 -0.44721)
+#define P03 (-0.27639 0.850650 -0.44721)
+#define P04 (-0.72360 -0.52573 0.447213)
+#define P05 (-0.72360 0.525731 0.447213)
+#define P06 (-0.89442  1.1e-16 -0.44721)
+#define P07 ( 0.276393 -0.85065 0.447213)
+#define P08 ( 0.276393 0.850650 0.447213)
+#define P09 ( 0.723606 -0.52573 -0.44721)
+#define P10 ( 0.723606 0.525731 -0.44721)
+#define P11 ( 0.894427        0 0.447213)
+
+polygon { points 3 vertex P04 vertex P00 vertex P05 }
+polygon { points 3 vertex P05 vertex P00 vertex P08 }
+polygon { points 3 vertex P08 vertex P00 vertex P11 }
+polygon { points 3 vertex P11 vertex P00 vertex P07 }
+polygon { points 3 vertex P07 vertex P00 vertex P04 }
+
+polygon { points 3 vertex P04 vertex P05 vertex P06 }
+polygon { points 3 vertex P05 vertex P08 vertex P03 }
+polygon { points 3 vertex P08 vertex P11 vertex P10 }
+polygon { points 3 vertex P11 vertex P07 vertex P09 }
+polygon { points 3 vertex P07 vertex P04 vertex P02 }
+
+polygon { points 3 vertex P02 vertex P04 vertex P06 }
+polygon { points 3 vertex P06 vertex P05 vertex P03 }
+polygon { points 3 vertex P03 vertex P08 vertex P10 }
+polygon { points 3 vertex P10 vertex P11 vertex P09 }
+polygon { points 3 vertex P09 vertex P07 vertex P02 }
+
+polygon { points 3 vertex P02 vertex P06 vertex P01 }
+polygon { points 3 vertex P06 vertex P03 vertex P01 }
+polygon { points 3 vertex P03 vertex P10 vertex P01 }
+polygon { points 3 vertex P10 vertex P09 vertex P01 }
+polygon { points 3 vertex P09 vertex P02 vertex P01 }
+
+#undef P00
+#undef P01
+#undef P02
+#undef P03
+#undef P04
+#undef P05
+#undef P06
+#undef P07
+#undef P08
+#undef P09
+#undef P10
+#undef P11

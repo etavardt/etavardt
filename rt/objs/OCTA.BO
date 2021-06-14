@@ -1,0 +1,25 @@
+
+//      octahedron centered at origin size +- .707
+
+#define P00 (-.5 -.5  0 )
+#define P01 (-.5  .5  0 )
+#define P02 ( .5  .5  0 )
+#define P03 ( .5 -.5  0 )
+#define P04 ( 0 0 -0.70710 )
+#define P05 ( 0 0 0.707106 )
+
+polygon { points 3 vertex P02 vertex P01 vertex P04 }
+polygon { points 3 vertex P03 vertex P02 vertex P04 }
+polygon { points 3 vertex P00 vertex P03 vertex P04 }
+polygon { points 3 vertex P01 vertex P00 vertex P04 }
+polygon { points 3 vertex P00 vertex P01 vertex P05 }
+polygon { points 3 vertex P01 vertex P02 vertex P05 }
+polygon { points 3 vertex P02 vertex P03 vertex P05 }
+polygon { points 3 vertex P03 vertex P00 vertex P05 }
+
+#undef P00
+#undef P01
+#undef P02
+#undef P03
+#undef P04
+#undef P05

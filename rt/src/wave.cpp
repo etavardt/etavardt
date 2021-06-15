@@ -3,8 +3,7 @@
 �                                                                         �
 �                             Bob Ray Tracer                              �
 �                                                                         �
-�      Stats.C = Display info about current trace in progress.  Note      �
-�		      that this assumes the use of ansi.sys.		  �
+�                 Wave.C = totally new wave functions - dude		  �
 �                                                                         �
 �       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
 �                                                                         �
@@ -17,61 +16,40 @@
 �                       Requires: defs.h, extern.h                        �
 �                                                                         �
 �������������������������������������������������������������������������ͼ
+
 */
 
 #include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <time.h>
+#include <cmath>
 #include "defs.hpp"
 #include "extern.h"
 
-#define ESC     (27)
-
-void    statistics(int line)
+void    make_waves(Vec P, Vec R, Wave *waves)
+//	Vec     P,      /* the point in question */
+//		R;      /* where to put the result */
+//	Wave    *waves; /* top of the linked list */
 {
-	static int      first_call = 1;
+	Vec     diff;           /* diff between point and source */
+	Flt     dist;           /* dist form point to source of wave */
+	Flt     amp;            /* current height of wave */
 
-	if(first_call) {
-		if(tickflag) {
-			printf("%c[2J", ESC);   /* clear screen 1st time around */
+	MakeVector(0, 0, 0, R);         /* just to be sure */
+	while(waves) {
+		VecSub(P, waves->center, diff);
+		dist = VecNormalize(diff);
+		dist /= waves->wavelength;      /* where in cycle are we? */
+		dist += waves->phase;           /* add on offset */
+
+		if(waves->damp < 1.0) {         /* account for damping */
+			amp = waves->amp * pow(waves->damp, dist);
 		} else {
-			printf("\n");
+			amp = waves->amp;       /* no damping */
 		}
-		first_call = 0;
-	}
 
-	printf("%c[1;1f", ESC);         /* home cursor */
+		amp *= cos(dist * PI*2.0);
 
-	printf("\n\t\t%s\t\t       %s\n\t\t%s\n", _Program, _Version, _Copyright);
+		VecAddS(amp, diff, R, R);
 
-	printf("\ninput file \"%s\"  memory %lu  resolution %1dx%1d  ", Infilename, MemAllocated, Xresolution, Yresolution);
-	printf("line %1d\n", line);
-
-	printf("total rays cast\t\t%8lu\n", nRays);
-	printf("\teye rays\t%8lu\n", nRays-nReflected-nRefracted);
-	printf("\treflected rays\t%8lu\n", nReflected);
-	printf("\trefracted rays\t%8lu\n\n", nRefracted);
-
-	printf("shadow rays\t\t%8lu\n", nShadows);
-	printf("cache hits\t\t%8lu\n", nShadowCacheHits);
-	if(nShadows>0) {
-		printf("cache percent\t%16.6f\n\n", 100.0*(Flt)nShadowCacheHits/(Flt)nShadows);
-	} else {
-		printf("cache percent\n\n");
-	}
-
-	printf("avg rays/pixel\t%16.6f\n", (Flt)nRays / ((Flt)(line+1-start_line)*(Flt)Xresolution));
-	printf("avg queues/ray\t%16.6f\n\n", (Flt)totalQueues / (Flt) totalQueueResets);
-
-	printf("bounds checked\t\t%8lu\n", nChecked);
-	printf("queue inserts\t\t%8lu\n", totalQueues);
-	printf("queue resets\t\t%8lu\n", totalQueueResets);
-	printf("max queue size\t\t%8lu\n", maxQueueSize);
-
-	printf("\nmax recursion depth       %3d/%d  ", deepest+1, maxlevel);
-
-	fflush(stdout);
-
-}       /* end of statistics() */
-
+		waves = waves->next;
+	}       /* end of while loop */
+}       /* end of make_waves() */

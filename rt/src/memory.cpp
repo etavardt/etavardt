@@ -3,7 +3,7 @@
 �                                                                         �
 �                             Bob Ray Tracer                              �
 �                                                                         �
-�                 Config.H = configuration specific material              �
+�              Memory.C = Bob memory functions to replace malloc()	  �
 �                                                                         �
 �       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
 �                                                                         �
@@ -13,47 +13,51 @@
 �  reproduced or integrated into other packages without the prior written �
 �          consent of Christopher D. Watkins and Stephen B. Coy.          �
 �                                                                         �
+�                 Requires: defs.h, extern.h, proto.h                     �
+�                                                                         �
 �������������������������������������������������������������������������ͼ
 */
 
-/* OS and compiler specific garbage */
+#include <cstdlib>
+#include <cstdio>
+#include "defs.hpp"
+#include "extern.h"
+#include "proto.h"
 
-#define index 	strchr
-#define rindex 	strrchr
+#define CHUNK   (32750)         /* just under 32K */
 
-/* Bob specific garbage */
+void    *vmalloc(int size)
+{
+	static char             *ptr;
+	void                    *tmp;
+	static unsigned int     amount = 0;
 
-#define	NSLABS		(3)
-#define	BUNCHINGFACTOR	(4)
-#define PQSIZE          (1000)
+	if(size > CHUNK) {      /* need a big one */
+		tmp = malloc(size);
+		if(tmp) {
+			MemAllocated += size;
+		}
+		return tmp;     /* may be NULL if not available */
+	} else if(size <= amount) {
+		tmp = ptr;
+		ptr += size;
+		amount -= size;
+		MemAllocated += size;
+		return tmp;
+	} else {
+		ptr = (char *)malloc(CHUNK);
+		if(!ptr) {      /* nothing big left so fill in the holes */
+			tmp = malloc(size);
+			if(tmp) {
+				MemAllocated += size;
+			}
+			return tmp;
+		} else {
+			amount = CHUNK;
+		}
+		return vmalloc(size);
+	}
 
-#define L_SAMPLES       (8)     /* default # samples for spherical lights */
-#define	MIN_LIGHT	(0.005)	/* min spotlight size */
+}       /* end of vmalloc() */
 
-#define F_SAMPLES       (8)     /* default # samples for depth of field */
-
-#define MAXLEVEL        (20)    /* max recursion level, start at 0 */
-#define MINWEIGHT       (0.0001)/* min weight for a ray to be considered */
-
-#define	MAX_TOKEN	(80)	/* max token length */
-#define MAX_PARAMS	(10)	/* max number of parameters for file */
-
-#define NLAMBDA         (3)     /* not used anywhere */
-
-/***********************************************************************
- * If your compiler doesn't grok the void type, then define NO_VOID
- * here...
- ***********************************************************************/
-
-#ifdef		NO_VOID
-#define		void		char
-#endif 		/* NO_VOID */
-
-/***********************************************************************\
-*									*
-*       random numbers anyone?  Returns a double 0.0 .. 1.0             *
-*									*
-\***********************************************************************/
-
-#define rnd()   (((double) rand())/RAND_MAX)
 

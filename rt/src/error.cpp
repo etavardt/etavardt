@@ -3,7 +3,7 @@
 �                                                                         �
 �                             Bob Ray Tracer                              �
 �                                                                         �
-�                 Config.H = configuration specific material              �
+�                    Error.C = error trapping routines			  �
 �                                                                         �
 �       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
 �                                                                         �
@@ -13,47 +13,34 @@
 �  reproduced or integrated into other packages without the prior written �
 �          consent of Christopher D. Watkins and Stephen B. Coy.          �
 �                                                                         �
+�                       Requires: defs.h, extern.h                        �
+�                                                                         �
 �������������������������������������������������������������������������ͼ
 */
 
-/* OS and compiler specific garbage */
+#include <cstdio>
+#include <cmath>
+#include "defs.hpp"
+#include "extern.h"
 
-#define index 	strchr
-#define rindex 	strrchr
+/*
+ * various routines to print error messages and die...
+ */
 
-/* Bob specific garbage */
+int     NullIntersect(Object *a, Ray *b, Isect *c)
+{
+	fprintf(stderr, "Called non-existant intersect routine for bounding box, dying...\n");
+	exit(1);
+	return 1;       /* keep lint/compilers quiet */
+}
 
-#define	NSLABS		(3)
-#define	BUNCHINGFACTOR	(4)
-#define PQSIZE          (1000)
+void    NullNormal(Object *a, Isect *b, Flt *c, Flt *d)
+{
+	fprintf(stderr, "Called non-existant normal routine for bounding box, dying...\n");
+	exit(1);
+}
 
-#define L_SAMPLES       (8)     /* default # samples for spherical lights */
-#define	MIN_LIGHT	(0.005)	/* min spotlight size */
-
-#define F_SAMPLES       (8)     /* default # samples for depth of field */
-
-#define MAXLEVEL        (20)    /* max recursion level, start at 0 */
-#define MINWEIGHT       (0.0001)/* min weight for a ray to be considered */
-
-#define	MAX_TOKEN	(80)	/* max token length */
-#define MAX_PARAMS	(10)	/* max number of parameters for file */
-
-#define NLAMBDA         (3)     /* not used anywhere */
-
-/***********************************************************************
- * If your compiler doesn't grok the void type, then define NO_VOID
- * here...
- ***********************************************************************/
-
-#ifdef		NO_VOID
-#define		void		char
-#endif 		/* NO_VOID */
-
-/***********************************************************************\
-*									*
-*       random numbers anyone?  Returns a double 0.0 .. 1.0             *
-*									*
-\***********************************************************************/
-
-#define rnd()   (((double) rand())/RAND_MAX)
-
+ObjectProcs NullProcs = {
+	NullIntersect,
+	NullNormal
+};

@@ -1,19 +1,19 @@
 /*
-ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-บ                                                                         บ
-บ                             Bob Ray Tracer                              บ
-บ                                                                         บ
-บ                  Proto.H = prototypes for all Bob functions 	  	  บ
-บ                                                                         บ
-บ       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     บ
-บ                                                                         บ
-บ       ALL RIGHTS RESERVED.   This software is published, but is NOT     บ
-บ         Public Domain and remains the propery of ALGORITHM, Inc.,       บ
-บ   Christopher D. Watkins and Stephen B. Coy.  This software may not be  บ
-บ  reproduced or integrated into other packages without the prior written บ
-บ          consent of Christopher D. Watkins and Stephen B. Coy.          บ
-บ                                                                         บ
-ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ
+๏ฟฝ                                                                         ๏ฟฝ
+๏ฟฝ                             Bob Ray Tracer                              ๏ฟฝ
+๏ฟฝ                                                                         ๏ฟฝ
+๏ฟฝ                  Proto.H = prototypes for all Bob functions 	  	      ๏ฟฝ
+๏ฟฝ                                                                         ๏ฟฝ
+๏ฟฝ       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     ๏ฟฝ
+๏ฟฝ                                                                         ๏ฟฝ
+๏ฟฝ       ALL RIGHTS RESERVED.   This software is published, but is NOT     ๏ฟฝ
+๏ฟฝ         Public Domain and remains the propery of ALGORITHM, Inc.,       ๏ฟฝ
+๏ฟฝ   Christopher D. Watkins and Stephen B. Coy.  This software may not be  ๏ฟฝ
+๏ฟฝ  reproduced or integrated into other packages without the prior written ๏ฟฝ
+๏ฟฝ          consent of Christopher D. Watkins and Stephen B. Coy.          ๏ฟฝ
+๏ฟฝ                                                                         ๏ฟฝ
+๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ
 
 */
 
@@ -27,6 +27,10 @@ extern int	ConeIntersect (Object *obj , Ray *ray , Isect *hit);
 extern void	ConeNormal (Object *obj , Isect *hit , Point P , Point N);
 extern Object	*MakeCone (Vec basepoint , Flt baseradius , Vec apexpoint , Flt apexradius);
 
+/* clip.c */
+extern void bound_opt(Object *obj);
+extern int clip_check(Clip *head, Vec P);
+
 /* data.c */
 
 /* error.c */
@@ -34,8 +38,8 @@ extern int	NullIntersect (void);
 extern void	NullNormal (void);
 
 /* file.c */
-void            init_env(void);
-FILE            *env_fopen(char *name, char *mode);
+extern void init_env(void);
+extern FILE *env_fopen(char *name, const char *mode);
 
 /* inter.c */
 extern void	CheckAndEnqueue (Object *obj , Flt maxdist);
@@ -75,12 +79,12 @@ extern void     PriorityQueueInsert (Flt key , Object *obj);
 extern void     PriorityQueueDelete (Flt *key , Object **obj);
 
 /* preproc.c */
-extern int      preproc (char *infile , char *outfile);
+extern int      preproc (char *infile , const char *outfile);
 extern void     expand (char *src);
 extern void     sub_macro (Macro *mptr , char *loc);
 extern void     add_macro (char *txt);
 extern void     remove_macro (char *str);
-extern char     *brute (char *text , char *pat , int tlen , int plen);
+extern char     *brute (char *text , const char *pat , int tlen , int plen);
 extern void     clean_up (void);
 extern int      vfgets (char *dst , int max_count , FILE *fp);
 extern char     *get_next_token (char *text);
@@ -134,6 +138,8 @@ extern void     get_map_entry (Texmap *tm, Flt i, Flt j, Color color);
 extern void     tex_read_img (char *file, Texmap *tm);
 
 /* tokens.c */
+extern int     get_token();
+extern int     push_token();
 
 /* trace.c */
 extern Flt	Trace (int level , Flt weight , Ray *ray , Color color , Flt ior , Object *self);
@@ -158,13 +164,13 @@ extern void     matrix_inverse (Matrix in , Matrix out);
 extern void     make_waves (Vec in, Vec out, Wave *head);
 
 /* yystuff.c */
-extern int      yyerror (char *str);
-extern void     ReadSceneFile (char *real, char *temp);
-extern void     ptrchk (void *ptr , char *str);
+extern int      yyerror (const char *str);
+extern void     ReadSceneFile (const char *real, char *temp);
+extern void     ptrchk (void *ptr , const char *str);
 extern void     yystats(void);
 extern void     yy_popfile(void);
 extern void     yy_newfile(char *file);
 extern void     trans_pop(void);
 
-#undef P
+//#undef P
 

@@ -1,0 +1,147 @@
+[
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\DATA.C.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\DATA.C\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/DATA.C"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\STATS.C.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\STATS.C\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/STATS.C"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\VERSION.C.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\VERSION.C\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/VERSION.C"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\bound.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\bound.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/bound.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\clip.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\clip.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/clip.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\cone.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\cone.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/cone.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\error.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\error.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/error.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\file.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\file.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/file.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\inter.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\inter.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/inter.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\main.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\main.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/main.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\memory.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\memory.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/memory.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\noise.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\noise.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/noise.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\parse.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\parse.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/parse.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\pic.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\pic.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/pic.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\poly.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\poly.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/poly.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\pqueue.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\pqueue.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/pqueue.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\preproc.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\preproc.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/preproc.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\ring.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\ring.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/ring.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\screen.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\screen.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/screen.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\shade.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\shade.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/shade.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\shadow.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\shadow.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/shadow.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\sphere.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\sphere.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/sphere.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\texture.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\texture.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/texture.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\tokens.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\tokens.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/tokens.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\trace.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\trace.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/trace.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\tri.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\tri.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/tri.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\vector.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\vector.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/vector.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\wave.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\wave.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/wave.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\usr\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\yystuff.cpp.o -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\yystuff.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/yystuff.cpp"
+}
+]

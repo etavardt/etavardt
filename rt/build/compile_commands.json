@@ -1,6 +1,26 @@
 [
 {
   "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\mingw64\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\Isect_3D.cpp.obj -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\Isect_3D.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/Isect_3D.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\mingw64\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\Object_3D.cpp.obj -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\Object_3D.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/Object_3D.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\mingw64\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\Surface_3D.cpp.obj -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\Surface_3D.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/Surface_3D.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
+  "command": "C:\\Apps\\msys64\\mingw64\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\Texmap_3D.cpp.obj -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\Texmap_3D.cpp\"",
+  "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/Texmap_3D.cpp"
+},
+{
+  "directory": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build",
   "command": "C:\\Apps\\msys64\\mingw64\\bin\\g++.exe -I../src  -std=c++17 -O2 -g -std=gnu++17 -o CMakeFiles\\Bob.dir\\src\\bound.cpp.obj -c \"C:\\Apps\\Dev\\Projects\\VS Code Projects\\bob\\rt\\src\\bound.cpp\"",
   "file": "C:/Apps/Dev/Projects/VS Code Projects/bob/rt/src/bound.cpp"
 },

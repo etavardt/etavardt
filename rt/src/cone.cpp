@@ -1,9 +1,9 @@
 /*
-�������������������������������������������������������������������������ͻ
+�������������������������������������������
 �                                                                         �
 �                             Bob Ray Tracer                              �
 �                                                                         �
-�                       Cone.C = cone primative			          �
+�                       Cone.C = cone primative			                  �
 �                                                                         �
 �       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
 �                                                                         �
@@ -15,7 +15,7 @@
 �                                                                         �
 �                       Requires: defs.h, extern.h                        �
 �                                                                         �
-�������������������������������������������������������������������������ͼ
+�������������������������������������������
 */
 
 
@@ -23,6 +23,8 @@
 #include <math.h>
 #include "defs.hpp"
 #include "extern.hpp"
+
+#include "proto.hpp"
 
 typedef struct t_conedata {
 	Vec 		cone_base;

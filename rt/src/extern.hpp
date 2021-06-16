@@ -1,5 +1,6 @@
+#pragma once
 /*
-�������������������������������������������������������������������������ͻ
+�������������������������������������������
 �                                                                         �
 �                             Bob Ray Tracer                              �
 �                                                                         �
@@ -15,78 +16,84 @@
 �                                                                         �
 �                            Requires: proto.h                            �
 �                                                                         �
-�������������������������������������������������������������������������ͼ
+�������������������������������������������
 */
 
-//#include <cstdio>
-//#include <cstdlib>
-//#include <cstdio>
-#include "proto.hpp"
+//#include "Object_3D.hpp"
+//#include "proto.hpp"
+#include "struct_defs.hpp"
+#include "Surface_3D.hpp"
+#include "Clip.hpp"
+#include "Object_3D.hpp"
 
-extern int 		yylinecount;
-extern Viewpoint 	Eye;
-extern Camera		camera;
-extern int 		Xresolution;
-extern int 		Yresolution;
-extern int              start_line, stop_line;
-extern int              bunching;
+extern Viewpoint Eye;
+extern Camera    camera;
 
-extern int		antialias;
-extern int		jitter;
-extern int		adapt_dist;
+extern int Xresolution;
+extern int Yresolution;
 
-extern Light            *light_head;
-extern int		nLights;
-extern int		no_shadows;
-extern int              caustics;
-extern int              exp_trans;
-extern int              fuzzy_ray;
+extern int start_line, stop_line;
+extern int bunching;
 
-extern Background       background;
-extern Color		Ambient;
-extern Color		HazeColor;
-extern Flt		HazeDensity;
-extern Surface		*CurrentSurface;
-extern Stack		*SurfTop;
-extern Stack            *InfileTop;
-extern Transform        *TransTop;
-extern Clip             *ClipTop;
-extern GlobalClip       *GlobalClipTop;
-extern long             nPrims;
-extern Flt		rayeps;
-extern char		*Progname;
-extern char             Infilename[];
-extern unsigned long    maxQueueSize;
-extern unsigned long    totalQueues;
-extern unsigned long    totalQueueResets;
-extern int              tickflag;
-extern int              resume;
-extern int              gr_mode;
-extern unsigned long    nChecked;
-extern unsigned long    nEnqueued;
-extern unsigned long    nShadowCacheHits;
+extern int yylinecount;
 
-extern Flt		minweight;
-extern int		maxlevel;
-extern int              deepest;
-extern unsigned long    nRays;
-extern unsigned long    nShadows;
-extern unsigned long    nReflected;
-extern unsigned long    nRefracted;
-extern unsigned long    MemAllocated;
+extern int antialias;
+extern int jitter;
+extern int adapt_dist;
 
-extern Vec		Slab[];
-extern ObjectProcs	NullProcs;
-extern Object 		*Root;
+extern Light *light_head;
+extern int    nLights;
+extern int    no_shadows;
+extern int    caustics;
+extern int    exp_trans;
+extern int    fuzzy_ray;
 
-extern char             _Copyright[];
-extern char             _Program[];
-extern char             _Version[];
-extern char             _Date[];
+extern Background  background;
+extern Color       Ambient;
+extern Color       HazeColor;
+extern Flt         HazeDensity;
+extern Surface    *CurrentSurface;
+extern Stack      *SurfTop;
+extern Stack      *InfileTop;
+extern Transform  *TransTop;
+extern Clip       *ClipTop;
+extern GlobalClip *GlobalClipTop;
+extern long        nPrims;
+extern Flt         rayeps;
+extern char       *Progname;
+extern char        Infilename[];
 
-extern FILE             *yyin;
-extern int              cur_token;
-extern char             cur_text[];
-extern Flt              cur_value;
+extern unsigned long maxQueueSize;
+extern unsigned long totalQueues;
+extern unsigned long totalQueueResets;
+extern unsigned long nChecked;
+extern unsigned long nEnqueued;
+extern unsigned long nShadowCacheHits;
 
+extern int tickflag;
+extern int resume;
+extern int gr_mode;
 
+extern Flt minweight;
+extern int maxlevel;
+extern int deepest;
+
+extern unsigned long nRays;
+extern unsigned long nShadows;
+extern unsigned long nReflected;
+extern unsigned long nRefracted;
+extern unsigned long MemAllocated;
+
+extern Vec     Slab[];
+extern Object *Root;
+// TODO: TCE Remove: extern ObjectProcs    NullProcs;
+
+extern char _Copyright[];
+extern char _Program[];
+extern char _Version[];
+extern char _Date[];
+
+extern FILE *yyin;
+extern int   cur_token;
+extern char  cur_text[];
+extern Flt   cur_value;

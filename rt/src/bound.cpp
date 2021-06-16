@@ -1,9 +1,9 @@
 /*
-�������������������������������������������������������������������������ͻ
+�������������������������������������������
 �                                                                         �
 �                             Bob Ray Tracer                              �
 �                                                                         �
-�           Bound.C = generate bounding slabs and tree structure	  �
+�           Bound.C = generate bounding slabs and tree structure	      �
 �                                                                         �
 �       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
 �                                                                         �
@@ -15,37 +15,21 @@
 �                                                                         �
 �                       Requires: defs.h, extern.h                        �
 �                                                                         �
-�������������������������������������������������������������������������ͼ
+�������������������������������������������
 */
 
 #include <cstdio>
 #include <cstdlib>
 #include "defs.hpp"
+#include "struct_defs.hpp"
 #include "extern.hpp"
+#include "proto.hpp"
+#include "Object_3D.hpp"
 
 static long     total;          /* # objects in main list */
 static Flt      Median;         /* 2*median value along axis */
 static int      Axis;           /* axis to split along */
 
-/*
- * This function attempts to use median cut
- * to generate tighter bounding volumes than the old
- * code...
- */
-
-void BuildBoundingSlabs(void)
-{
-	total = nPrims;
-	while(SortAndSplit(&Root, total))
-		;               /* this line intentionally left blank */
-	if(tickflag) {
-		printf("\n\tAfter adding bounding volumes, %ld prims.\n", nPrims);
-		printf("\tExtent of scene\n");
-		printf("\tX  %g -- %g\n", Root->o_dmin[0], Root->o_dmax[0]);
-		printf("\tY  %g -- %g\n", Root->o_dmin[1], Root->o_dmax[1]);
-		printf("\tZ  %g -- %g\n", Root->o_dmin[2], Root->o_dmax[2]);
-	}
-}
 
 void    FindAxis(Object *top, long count)
 {
@@ -181,7 +165,7 @@ int     SortAndSplit(Object **top_handle, long count)
 		ptrchk(cp, "composite object");
 
 		cp->o_type = T_COMPOSITE;
-		cp->o_procs = &NullProcs;       /* die if you call any  */
+//TODO: TCE Remove:		cp->o_procs = &NullProcs;       /* die if you call any  */
 		cp->o_surf = NULL;              /* no surface...        */
 		cd = (CompositeData *)vmalloc(sizeof(CompositeData));
 		ptrchk(cd, "composite data");
@@ -229,3 +213,22 @@ int     SortAndSplit(Object **top_handle, long count)
 	return 0;       /* only happens with list of length 1 */
 }       /* end of SortAndSplit() */
 
+/*
+ * This function attempts to use median cut
+ * to generate tighter bounding volumes than the old
+ * code...
+ */
+extern Object *Root;
+void BuildBoundingSlabs(void)
+{
+	total = nPrims;
+	while(SortAndSplit(&Root, total))
+		;               /* this line intentionally left blank */
+	if(tickflag) {
+		printf("\n\tAfter adding bounding volumes, %ld prims.\n", nPrims);
+		printf("\tExtent of scene\n");
+		printf("\tX  %g -- %g\n", Root->o_dmin[0], Root->o_dmax[0]);
+		printf("\tY  %g -- %g\n", Root->o_dmin[1], Root->o_dmax[1]);
+		printf("\tZ  %g -- %g\n", Root->o_dmin[2], Root->o_dmax[2]);
+	}
+}

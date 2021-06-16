@@ -1,9 +1,9 @@
 /*
-�������������������������������������������������������������������������ͻ
+�������������������������������������������
 �                                                                         �
 �                             Bob Ray Tracer                              �
 �                                                                         �
-�                     Clip.C = clipping routines			  �
+�                     Clip.C = clipping routines			              �
 �                                                                         �
 �       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
 �                                                                         �
@@ -15,12 +15,12 @@
 �                                                                         �
 �                       Requires: defs.h, extern.h                        �
 �                                                                         �
-�������������������������������������������������������������������������ͼ
+�������������������������������������������
 */
 
 #include <cstdio>
 #include <cmath>
-#include "defs.hpp"
+#include "Clip.hpp"
 #include "extern.hpp"
 
 /*

@@ -1,10 +1,10 @@
 /*
-�������������������������������������������������������������������������ͻ
+�������������������������������������������
 �                                                                         �
 �                             Bob Ray Tracer                              �
 �                                                                         �
 �       Inter.C = routines that shuffle through the tree of bounding      �
-�		  objects and try to find the nearest intersection.	  �
+�		  objects and try to find the nearest intersection.	              �
 �                                                                         �
 �       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
 �                                                                         �
@@ -16,7 +16,7 @@
 �                                                                         �
 �                       Requires: defs.h, extern.h                        �
 �                                                                         �
-�������������������������������������������������������������������������ͼ
+�������������������������������������������
 */
 
 #include <cstdio>
@@ -24,6 +24,7 @@
 #include <cassert>
 #include "defs.hpp"
 #include "extern.hpp"
+#include "proto.hpp"
 
 /*
  * intersect.c

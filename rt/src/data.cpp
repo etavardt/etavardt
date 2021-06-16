@@ -1,9 +1,9 @@
 /*
-�������������������������������������������������������������������������ͻ
+�������������������������������������������
 �                                                                         �
 �                             Bob Ray Tracer                              �
 �                                                                         �
-�                    Data.C = aka - where the globals are		  �
+�                    Data.C = aka - where the globals are       		  �
 �                                                                         �
 �       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
 �                                                                         �
@@ -13,13 +13,16 @@
 �  reproduced or integrated into other packages without the prior written �
 �          consent of Christopher D. Watkins and Stephen B. Coy.          �
 �                                                                         �
-�                           Requires: defs.h				  �
+�                           Requires: defs.h	                          �
 �                                                                         �
-�������������������������������������������������������������������������ͼ
+�������������������������������������������
 */
 
 #include <cstdio>
 #include "defs.hpp"
+#include "struct_defs.hpp"
+#include "Object_3D.hpp"
+#include "extern.hpp"
 
 int             yylinecount = 1;
 Viewpoint 	Eye;

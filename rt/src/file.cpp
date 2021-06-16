@@ -1,10 +1,10 @@
 /*
-�������������������������������������������������������������������������ͻ
+�������������������������������������������
 �                                                                         �
 �                             Bob Ray Tracer                              �
 �                                                                         �
 �        File.C = functions to handle opening of files taking into        �
-�		   consideration environment variables.			  �
+�		   consideration environment variables.                           �
 �                                                                         �
 �       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
 �                                                                         �
@@ -14,7 +14,7 @@
 �  reproduced or integrated into other packages without the prior written �
 �          consent of Christopher D. Watkins and Stephen B. Coy.          �
 �                                                                         �
-�������������������������������������������������������������������������ͼ
+�������������������������������������������
 */
 
 #include <cstdio>

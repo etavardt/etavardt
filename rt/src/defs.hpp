@@ -18,7 +18,7 @@
 �������������������������������������������������������������������������ͼ
 */
 
-#include "config.h"
+#include "config.hpp"
 
 #ifdef	HUGE
 #undef	HUGE

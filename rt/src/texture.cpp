@@ -29,7 +29,7 @@
 #include <cstdio>
 #include <cmath>
 #include "defs.hpp"
-#include "extern.h"
+#include "extern.hpp"
 
 /* 
 	Check -- create a checkerboard, strange

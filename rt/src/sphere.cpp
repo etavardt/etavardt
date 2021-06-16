@@ -22,7 +22,7 @@
 #include <cstdlib>
 #include <cmath>
 #include "defs.hpp"
-#include "extern.h"
+#include "extern.hpp"
 
 typedef struct t_spheredata {
 	Vec	sph_center;

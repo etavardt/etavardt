@@ -21,7 +21,7 @@
 #include <cstdio>
 #include <cmath>
 #include "defs.hpp"
-#include "extern.h"
+#include "extern.hpp"
 
 /*
 	clip_check() -- check a point against a list of clips.

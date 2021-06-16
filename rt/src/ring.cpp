@@ -21,7 +21,7 @@
 #include <cstdio>
 #include <cmath>
 #include "defs.hpp"
-#include "extern.h"
+#include "extern.hpp"
 
 typedef struct t_ringdata {
 	Vec	ring_center;

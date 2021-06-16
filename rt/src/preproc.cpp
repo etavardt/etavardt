@@ -30,7 +30,7 @@
 #include <cstring>
 #include <ctype.h>
 #include "defs.hpp"
-#include "extern.h"
+#include "extern.hpp"
 
 extern char *brute(char *text, char *pattern, int tlen, int plen);
 extern char *get_next_token(char *text);

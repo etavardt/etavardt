@@ -21,7 +21,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include "defs.hpp"
-#include "extern.h"
+#include "extern.hpp"
 
 static long     total;          /* # objects in main list */
 static Flt      Median;         /* 2*median value along axis */

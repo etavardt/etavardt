@@ -26,7 +26,7 @@
 #include <cstring>
 #include <string>
 #include "defs.hpp"
-#include "extern.h"
+#include "extern.hpp"
 
 typedef std::string string;
 

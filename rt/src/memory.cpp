@@ -21,8 +21,8 @@
 #include <cstdlib>
 #include <cstdio>
 #include "defs.hpp"
-#include "extern.h"
-#include "proto.h"
+#include "extern.hpp"
+#include "proto.hpp"
 
 #define CHUNK   (32750)         /* just under 32K */
 

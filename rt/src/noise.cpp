@@ -22,7 +22,7 @@
 #include <cstdlib>
 #include <math.h>
 #include "defs.hpp"
-#include "extern.h"
+#include "extern.hpp"
 
 #define NOISE_SEED      (666)           /* just beastly, eh? */
 

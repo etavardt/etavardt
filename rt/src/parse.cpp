@@ -23,8 +23,8 @@
 #include <ctype.h>
 #include <math.h>
 #include "defs.hpp"
-#include "extern.h"
-#include "tokens.h"
+#include "extern.hpp"
+#include "tokens.hpp"
 
 Vec             tmp_vec;
 

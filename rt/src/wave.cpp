@@ -22,7 +22,7 @@
 #include <cstdio>
 #include <cmath>
 #include "defs.hpp"
-#include "extern.h"
+#include "extern.hpp"
 
 void    make_waves(Vec P, Vec R, Wave *waves)
 //	Vec     P,      /* the point in question */

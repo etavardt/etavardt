@@ -27,8 +27,8 @@
 #include <cstdlib>
 #include <cmath>
 #include "defs.hpp"
-#include "pic.h"
-#include "extern.h"
+#include "pic.hpp"
+#include "extern.hpp"
 
 static	Flt	frustrumwidth,
 		frustrumheight;

@@ -23,7 +23,7 @@
 #include <cmath>
 #include <cassert>
 #include "defs.hpp"
-#include "extern.h"
+#include "extern.hpp"
 
 /*
  * intersect.c

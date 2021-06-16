@@ -28,8 +28,8 @@
 #include <cstdlib>
 #include <ctype.h>
 #include "defs.hpp"
-#include "extern.h"
-#include "tokens.h"
+#include "extern.hpp"
+#include "tokens.hpp"
 
 #define NUM_TOKENS      (98)
 

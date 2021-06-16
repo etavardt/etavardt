@@ -22,7 +22,7 @@
 #include <cstdio>
 #include <math.h>
 #include "defs.hpp"
-#include "extern.h"
+#include "extern.hpp"
 
 typedef struct t_conedata {
 	Vec 		cone_base;

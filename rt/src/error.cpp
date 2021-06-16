@@ -21,7 +21,7 @@
 #include <cstdio>
 #include <cmath>
 #include "defs.hpp"
-#include "extern.h"
+#include "extern.hpp"
 
 /*
  * various routines to print error messages and die...

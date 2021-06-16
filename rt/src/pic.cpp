@@ -27,9 +27,9 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include "pic.h"
+#include "pic.hpp"
 #include "defs.hpp"
-#include "extern.h"
+#include "extern.hpp"
 
 #define TIME_OUT        (60)    /* # seconds to trigger paranoid mode */
 

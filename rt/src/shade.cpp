@@ -25,8 +25,8 @@
 #include <cmath>
 #include <memory.h>
 #include "defs.hpp"
-#include "extern.h"
-#include "config.h"
+#include "extern.hpp"
+#include "config.hpp"
 
 #define DEFAULT_IOR     (1.0)
 

@@ -55,8 +55,8 @@
 #include <cmath>
 #include <memory.h>
 #include "defs.hpp"
-#include "extern.h"
-#include "config.h"
+#include "extern.hpp"
+#include "config.hpp"
 
 int     Shadow(Ray *ray, Isect *hit, Flt tmax, Color color, int level, Light *cur_light, int inside)
 //	Ray	*ray;

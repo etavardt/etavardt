@@ -1,20 +1,20 @@
 /*
-ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
-บ                                                                         บ
-บ                             Bob Ray Tracer                              บ
-บ                                                                         บ
-บ          Tokens.H = contains the token values used by the parser        บ
-บ			   as returned by the lexer.			  บ
-บ                                                                         บ
-บ       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     บ
-บ                                                                         บ
-บ       ALL RIGHTS RESERVED.   This software is published, but is NOT     บ
-บ         Public Domain and remains the propery of ALGORITHM, Inc.,       บ
-บ   Christopher D. Watkins and Stephen B. Coy.  This software may not be  บ
-บ  reproduced or integrated into other packages without the prior written บ
-บ          consent of Christopher D. Watkins and Stephen B. Coy.          บ
-บ                                                                         บ
-ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ
+๏ฟฝ                                                                         ๏ฟฝ
+๏ฟฝ                             Bob Ray Tracer                              ๏ฟฝ
+๏ฟฝ                                                                         ๏ฟฝ
+๏ฟฝ          Tokens.H = contains the token values used by the parser        ๏ฟฝ
+๏ฟฝ               as returned by the lexer.                                 ๏ฟฝ
+๏ฟฝ                                                                         ๏ฟฝ
+๏ฟฝ       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     ๏ฟฝ
+๏ฟฝ                                                                         ๏ฟฝ
+๏ฟฝ       ALL RIGHTS RESERVED.   This software is published, but is NOT     ๏ฟฝ
+๏ฟฝ         Public Domain and remains the propery of ALGORITHM, Inc.,       ๏ฟฝ
+๏ฟฝ   Christopher D. Watkins and Stephen B. Coy.  This software may not be  ๏ฟฝ
+๏ฟฝ  reproduced or integrated into other packages without the prior written ๏ฟฝ
+๏ฟฝ          consent of Christopher D. Watkins and Stephen B. Coy.          ๏ฟฝ
+๏ฟฝ                                                                         ๏ฟฝ
+๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ
 */
 
 /* misc stuff */

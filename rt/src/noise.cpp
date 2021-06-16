@@ -1,9 +1,9 @@
 /*
-�������������������������������������������������������������������������ͻ
+�������������������������������������������
 �                                                                         �
 �                             Bob Ray Tracer                              �
 �                                                                         �
-�           Noise.C = turbulence/noise functions / based on Perlin	  �
+�           Noise.C = turbulence/noise functions / based on Perlin        �
 �                                                                         �
 �       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
 �                                                                         �
@@ -15,7 +15,7 @@
 �                                                                         �
 �                       Requires: defs.h, extern.h                        �
 �                                                                         �
-�������������������������������������������������������������������������ͼ
+�������������������������������������������
 */
 
 #include <cstdio>

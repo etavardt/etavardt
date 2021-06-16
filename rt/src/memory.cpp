@@ -1,9 +1,9 @@
 /*
-�������������������������������������������������������������������������ͻ
+�������������������������������������������
 �                                                                         �
 �                             Bob Ray Tracer                              �
 �                                                                         �
-�              Memory.C = Bob memory functions to replace malloc()	  �
+�              Memory.C = Bob memory functions to replace malloc()        �
 �                                                                         �
 �       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
 �                                                                         �
@@ -15,7 +15,7 @@
 �                                                                         �
 �                 Requires: defs.h, extern.h, proto.h                     �
 �                                                                         �
-�������������������������������������������������������������������������ͼ
+�������������������������������������������
 */
 
 #include <cstdlib>

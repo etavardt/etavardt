@@ -40,7 +40,7 @@ int RingIntersect(Object    *obj, Ray    *ray, Isect    *hit)
 {
     RingData    *rp;
     Flt        Vprd, Vpro, t, rad;
-    Vec        point;
+    Point      point;
 
     rp = (RingData *)obj->o_data;    /* point to ring data */
 

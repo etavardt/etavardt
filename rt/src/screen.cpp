@@ -26,6 +26,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
+#include "screen.hpp"
 #include "defs.hpp"
 #include "pic.hpp"
 #include "extern.hpp"
@@ -38,7 +39,7 @@ static    Ray    ray;        /* normal, untweeked ray */
 static    int    x_res, y_res;
 static    Pic    *pic;
 
-void    Screen(Viewpoint *view, char *picfile, int xres, int yres)
+void    Screen(Viewpoint *view, String &picfile, int xres, int yres)
 {
     ScrInit(view, xres, yres, picfile);
 
@@ -59,7 +60,7 @@ void    Screen(Viewpoint *view, char *picfile, int xres, int yres)
     PicClose(pic);
 }
 
-void    ScrInit(Viewpoint    *view, int xres, int yres, char *picfile)
+void    ScrInit(Viewpoint    *view, int xres, int yres, String &picfile)
 {
     /*
      * open the picture file...

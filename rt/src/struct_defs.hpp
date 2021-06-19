@@ -22,6 +22,7 @@
 #define STRUCT_DEFS_HPP
 
 #include <stdio.h>
+#include "defs.hpp"
 //#include "config.hpp"
 /*
     typedefs for the world

@@ -42,7 +42,7 @@ extern int  clip_check(Clip *head, Vec P);
 // TODO: TCE Remove: extern void    NullNormal (void);
 
 /* file.c */
-extern void  init_env(void);
+// TODO: TCE Remove: extern void  init_env(void);
 extern FILE *env_fopen(char *name, const char *mode);
 
 /* inter.c */
@@ -66,10 +66,10 @@ extern void turb3 (Vec p , Vec v , int lvl);
 extern int yyparse (void);
 
 /* pic.c */
-#include "pic.hpp"
-extern Pic  *PicOpen (char *filename , int x , int y);
-extern void  PicWriteLine (Pic *pic , Pixel *buf);
-extern void  PicClose (Pic *pic);
+//#include "pic.hpp"
+//extern Pic  *PicOpen (char *filename , int x , int y);
+//extern void  PicWriteLine (Pic *pic , Pixel *buf);
+//extern void  PicClose (Pic *pic);
 
 /* poly.c */
 extern int     PolyIntersect (Object *obj , Ray *ray , Isect *hit);
@@ -100,7 +100,7 @@ extern int     RingIntersect (Object *obj , Ray *ray , Isect *hit);
 extern void    RingNormal (Object *obj , Isect *hit , Point P , Point N);
 extern Object *MakeRing (Vec pos , Vec norm , Flt min_rad , Flt max_rad);
 
-/* screen.c */
+/* screen.c * /
 extern void Screen (Viewpoint *view , char *picfile , int xres , int yres);
 extern void ScrInit (Viewpoint *view , int xres , int yres , char *picfile);
 extern void Scan0 (void);
@@ -110,7 +110,7 @@ extern void Scan3 (void);
 extern void Scan4 (void);
 extern void Adapt (int i , int j , Flt x , Flt y , Color color , int step);
 extern void Shoot (Flt x , Flt y , Color color);
-
+*/
 /* shade.c */
 extern void Shade (int level , Flt weight , Vec P , Vec N , Vec I , Isect *hit , Color col , Flt ior);
 extern void reflect (Vec I , Vec N , Vec R, Flt dot);
@@ -168,7 +168,7 @@ extern void matrix_inverse (Matrix in , Matrix out);
 extern void make_waves (Vec in, Vec out, Wave *head);
 
 /* yystuff.c */
-extern int  yyerror (const char *str);
+extern void yyerror (const char *str);
 extern void ReadSceneFile (const char *real, char *temp);
 extern void ptrchk (void *ptr , const char *str);
 extern void yystats(void);

@@ -23,6 +23,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <time.h>
+#include "Bob.hpp"
 #include "defs.hpp"
 #include "struct_defs.hpp"
 #include "extern.hpp"
@@ -45,9 +46,9 @@ void    statistics(int line)
 
     printf("%c[1;1f", ESC);         /* home cursor */
 
-    printf("\n\t\t%s\t\t       %s\n\t\t%s\n", _Program, _Version, _Copyright);
+    printf("\n\t\t%s\t\t       %s\n\t\t%s\n", Bob::_Program, Bob::_Version, Bob::_Copyright);
 
-    printf("\ninput file \"%s\"  memory %lu  resolution %1dx%1d  ", Infilename, MemAllocated, Xresolution, Yresolution);
+    printf("\ninput file \"%s\"  memory %lu  resolution %1dx%1d  ", Bob::getApp().infilename, MemAllocated, Xresolution, Yresolution);
     printf("line %1d\n", line);
 
     printf("total rays cast\t\t%8lu\n", nRays);

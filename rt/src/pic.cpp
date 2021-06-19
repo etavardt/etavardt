@@ -25,8 +25,9 @@
 
 #include <cstdio>
 #include <cstdlib>
-#include <cstring>
+//#include <cstring>
 #include <ctime>
+#include "String.hpp"
 #include "pic.hpp"
 #include "defs.hpp"
 #include "struct_defs.hpp"
@@ -37,7 +38,7 @@
 
 time_t  old_time, new_time;
 
-Pic    *PicOpen(char    *filename, int x, int y)
+Pic    *PicOpen(String &filename, int x, int y)
 {
     Pic    *tmp;
     int     line;   /* line to start on */
@@ -47,15 +48,18 @@ Pic    *PicOpen(char    *filename, int x, int y)
 
     tmp = (Pic *)malloc(sizeof(Pic));
     ptrchk(tmp, "Pic structure");
-    tmp->filename = (char *)malloc(strlen(filename)+1);
-    strcpy(tmp->filename, filename);
+//TODO: TCE Remove
+//    tmp->filename = (char *)malloc(strlen(filename)+1);
+//    strcpy(tmp->filename, filename);
+    tmp->filename = filename;
+
     tmp->x = x;
     tmp->y = y;
 
     if(resume) {            /* finish a partial image */
         /* find line where interrupted */
         line = start_line;
-        if(((tmp->filep)=fopen(filename, "rb"))==NULL) {
+        if(((tmp->filep)=fopen(filename.c_str(), "rb"))==NULL) {
             fprintf(stderr, "Error.  Trying to resume generation of %s.\n", filename);
             fprintf(stderr, "        Can't open %s for reading.\n", filename);
             exit(1);
@@ -82,7 +86,7 @@ Pic    *PicOpen(char    *filename, int x, int y)
         fclose(tmp->filep);
 
         /* re-open and set to end */
-        if(((tmp->filep)=fopen(filename, "ab"))==NULL) {
+        if(((tmp->filep)=fopen(filename.c_str(), "ab"))==NULL) {
             fprintf(stderr, "Error.  Trying to resume generation of %s.\n", filename);
             fprintf(stderr, "        Can't open %s for appending.\n", filename);
             exit(1);
@@ -90,8 +94,8 @@ Pic    *PicOpen(char    *filename, int x, int y)
         fseek(tmp->filep, 0L, SEEK_END);
         start_line = line;              /* fake start line */
     } else {                /* start a new image */
-        if(((tmp->filep)=fopen(filename, "wb"))==NULL) {
-            perror(filename);
+        if(((tmp->filep)=fopen(filename.c_str(), "wb"))==NULL) {
+            perror(filename.c_str());
             exit(1);
         }
 
@@ -170,7 +174,7 @@ void    PicWriteLine(Pic *pic, Pixel *buf)
         old_time = new_time;
         /* close, re-open, and set to end */
         fclose(pic->filep);
-        if(((pic->filep)=fopen(pic->filename, "ab"))==NULL) {
+        if(((pic->filep)=fopen(pic->filename.c_str(), "ab"))==NULL) {
             fprintf(stderr, "Error opening %s for appending.\n", pic->filename);
             exit(1);
         }

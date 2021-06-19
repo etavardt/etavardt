@@ -19,7 +19,7 @@
 /* OS and compiler specific garbage */
 
 #define index     strchr
-#define rindex     strrchr
+//TODO: TCE Remove #define rindex     strrchr
 
 /* Bob specific garbage */
 

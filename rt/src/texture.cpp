@@ -28,6 +28,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cmath>
+#include "Bob.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
@@ -374,22 +375,22 @@ void    tex_read_img(char *file, Texmap *tm)
     /* allocate memory for image in RAM */
 
     tm->red = (unsigned char **)vmalloc(sizeof(unsigned char *) * h);
-    ptrchk(tm->red, "image texture map");
+    Bob::getApp().parser.ptrchk(tm->red, "image texture map");
     for(j=0; j<h; j++) {
         tm->red[j] = (unsigned char *)vmalloc(sizeof(unsigned char) * w);
-        ptrchk(tm->red[j], "image texture map");
+        Bob::getApp().parser.ptrchk(tm->red[j], "image texture map");
     }
     tm->grn = (unsigned char **)vmalloc(sizeof(unsigned char *) * h);
-    ptrchk(tm->grn, "image texture map");
+    Bob::getApp().parser.ptrchk(tm->grn, "image texture map");
     for(j=0; j<h; j++) {
         tm->grn[j] = (unsigned char *)vmalloc(sizeof(unsigned char) * w);
-        ptrchk(tm->grn[j], "image texture map");
+        Bob::getApp().parser.ptrchk(tm->grn[j], "image texture map");
     }
     tm->blu = (unsigned char **)vmalloc(sizeof(unsigned char *) * h);
-    ptrchk(tm->blu, "image texture map");
+    Bob::getApp().parser.ptrchk(tm->blu, "image texture map");
     for(j=0; j<h; j++) {
         tm->blu[j] = (unsigned char *)vmalloc(sizeof(unsigned char) * w);
-        ptrchk(tm->blu[j], "image texture map");
+        Bob::getApp().parser.ptrchk(tm->blu[j], "image texture map");
     }
 
     /* read in the image */

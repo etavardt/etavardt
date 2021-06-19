@@ -4,7 +4,7 @@
 
 #include "defs.hpp"
 #include "Surface_3D.hpp"
-#include "Clip.hpp"
+#include "Clip_3D.hpp"
 #include "Ray_3D.hpp"
 #include "Isect_3D.hpp"
 //#include "struct_defs.hpp"

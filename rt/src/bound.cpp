@@ -20,11 +20,18 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <iostream>
+#include "Bob.hpp"
+#include "Exception.hpp"
 #include "defs.hpp"
 #include "struct_defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
 #include "Object_3D.hpp"
+
+using std::cout;
+using std::cerr;
+using std::endl;
 
 static long     total;          /* # objects in main list */
 static Flt      Median;         /* 2*median value along axis */
@@ -48,8 +55,8 @@ void    FindAxis(Object *top, long count)
 
     while(count--) {
         if(top == NULL) {
-            fprintf(stderr, "NULL top in FindAxis, count = %ld\n", count);
-            exit(1);
+            cerr << "NULL top in FindAxis, count = " << count << endl;
+            throw Exception("thrown by FindAxis");
         }
         for(j=0; j<NSLABS; j++) {
             e = top->o_dmin[j] + top->o_dmax[j];
@@ -162,13 +169,13 @@ int     SortAndSplit(Object **top_handle, long count)
         CompositeData   *cd;
 
         cp = (Object *)vmalloc(sizeof(Object));
-        ptrchk(cp, "composite object");
+        Bob::getApp().parser.ptrchk(cp, "composite object");
 
         cp->o_type = T_COMPOSITE;
 //TODO: TCE Remove:        cp->o_procs = &NullProcs;       /* die if you call any  */
         cp->o_surf = NULL;              /* no surface...        */
         cd = (CompositeData *)vmalloc(sizeof(CompositeData));
-        ptrchk(cd, "composite data");
+        Bob::getApp().parser.ptrchk(cd, "composite data");
         cd->size = count;
         total = total-count+1;
 
@@ -206,7 +213,7 @@ int     SortAndSplit(Object **top_handle, long count)
         }
         cp->o_data = (void *) cd;
         ++nPrims;
-        yystats();
+        Bob::getApp().parser.yystats();
 
         return 0;
     }
@@ -225,10 +232,10 @@ void BuildBoundingSlabs(void)
     while(SortAndSplit(&Root, total))
         ;               /* this line intentionally left blank */
     if(tickflag) {
-        printf("\n\tAfter adding bounding volumes, %ld prims.\n", nPrims);
-        printf("\tExtent of scene\n");
-        printf("\tX  %g -- %g\n", Root->o_dmin[0], Root->o_dmax[0]);
-        printf("\tY  %g -- %g\n", Root->o_dmin[1], Root->o_dmax[1]);
-        printf("\tZ  %g -- %g\n", Root->o_dmin[2], Root->o_dmax[2]);
+        cout << "\n\tAfter adding bounding volumes, " << nPrims << " prims.\n";
+        cout << "\tExtent of scene\n";
+        cout << "\tX  " << Root->o_dmin[0] << "--" << Root->o_dmax[0] << "\n";
+        cout << "\tY  " << Root->o_dmin[1] << "--" << Root->o_dmax[1] << "\n";
+        cout << "\tZ  " << Root->o_dmin[2] << "--" << Root->o_dmax[2] << "\n";
     }
 }

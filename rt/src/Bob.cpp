@@ -1,4 +1,3 @@
-#include <cstring> // strtok
 #include <iostream>
 #include "Bob.hpp"
 #include "Exception.hpp"
@@ -27,10 +26,10 @@ int  Bob::runApp() {
     stop_line = (-1);       /* helps to catch no studio error */
     if(preprocess) {
         preproc(infilename.data(), "yyz.b");
-        ReadSceneFile(infilename.c_str(), String("yyz.b").data());
+        parser.ReadSceneFile(infilename, String("yyz.b"));
         /* remove("yyz.b"); */
     } else {
-        ReadSceneFile(infilename.c_str(), infilename.data());
+        parser.ReadSceneFile(infilename, infilename);
     }
 	
     BuildBoundingSlabs();
@@ -47,96 +46,65 @@ int  Bob::runApp() {
 */
 
 ArrayOfStrings Bob::paths;
-//String Bob::paths[MAX_PATHS];
-//int Bob::num_paths;
 
 void Bob::init_env() {
     cerr <<"cerr: " << "In Bob::init_env" << endl;
 
     String path;
 	String sub;
-
-    //num_paths = 1;
-    //paths[0] = "";          /* set first path to nothing */
-    //paths.push_back("");          /* set first path to nothing */
 	
 	cerr << "cerr: " << "In Bob::init_env : Pre getenv" << endl;
     sub = (getenv(BOB_ENV) == NULL) ? "" : getenv(BOB_ENV);
     cerr << "cerr: " << "In Bob::init_env : Post getenv: Pre strdup: sub=" << sub << endl;
 	if (sub == "") { throw Exception("Bob Environment variable was not set"); }
     cerr << "cerr: " << "In Bob::init_env : Post getenv: Pre strdup" << endl;
-//    path = strdup(sub);             /* make a local copy to work with */
+    /* make a local copy to work with */
 	path = eraseAllMatching(sub, "\"");
     cerr << "cerr: " << "In Bob::init_env : Post strdup: Pre strtok" << endl;
 
-//TODO: TCE replace this segment utilizing strtok with a function that returns a std::array of strings
 	paths = toArrayOfStrings(path, PATH_DELIM);
-		cout << "Bob::paths.size(): " << Bob::paths.size() << endl;
+	//cout << "Bob::paths.size(): " << Bob::paths.size() << endl;
 	paths.insert(paths.begin(),""); /* current dir */
-		cout << "Bob::paths.size(): " << Bob::paths.size() << endl;
-	/*
-    sub = strtok(path.data(), DELIMS);
+	//cout << "Bob::paths.size(): " << Bob::paths.size() << endl;
 
-    cerr << "cerr: " << "In Bob::init_env : Post strtok: Pre while: sub=" << sub << endl;
-    while((sub != "") && num_paths < MAX_PATHS) {
-        cerr << "cerr: " << "In Bob::init_env while : Pre strdup" << endl;
-//        paths[num_paths] = strdup(sub.c_str());
-        paths[num_paths] = sub;
-        cerr << "cerr: " << "In Bob::init_env while : Post strdup : Pre strtok" << endl;
-        num_paths++;
-        sub = (strtok(NULL, DELIMS) == NULL) ? "" : strtok(NULL, DELIMS);
-        cerr << "cerr: " << "In Bob::init_env while : Post strtok" << endl;
-    }
-    cerr << "cerr: " << "In Bob::init_env : Post while" << endl;
-	*/
 }       /* end of init_env() */
 
 
 int Bob::processCmdLine(int argCnt, char **argList) {
-    cerr << "cerr: " << "In Bob::processCmdLine : Pre App::processCmdLine" << endl;
+    //cout << "cout: " << "In Bob::processCmdLine : Pre App::processCmdLine" << endl;
     App::processCmdLine(argCnt, argList);
-    cerr << "cerr: " << "In Bob::processCmdLine : Post App::processCmdLine" << endl;
+    //cout << "cout: " << "In Bob::processCmdLine : Post App::processCmdLine" << endl;
 
-    int    i;
-    int     xres = (-1), yres = (-1), depth = (-1), amode = (-1),
+    int i;
+    int xres = (-1), yres = (-1), depth = (-1), amode = (-1),
         start = (-1), stop = (-1), bunch = (-1);
-//    char    infilename[80];
-//    char    outfilename[80];
 
-    cerr << "cerr: " << "In Bob::processCmdLine : Pre init_env" << endl;
+    //cout << "cout: " << "In Bob::processCmdLine : Pre init_env" << endl;
     init_env();     /* init environment paths */
-    cerr << "cerr: " << "In Bob::processCmdLine : Post init_env" << endl;
+    //cout << "cout: " << "In Bob::processCmdLine : Post init_env" << endl;
 
     /* clip path off of program name */
     String arg0 = argList[0];
     size_t pos = arg0.rfind('\\');
     if (pos == String::npos) {
-//        Progname = arg0.data();
         Progname = arg0;
     } else {
-//        Progname = (arg0.substr(0,pos+1)).data();
         Progname = arg0.substr(0,pos+1);
     }
-    /* clip path off of program name * /
-#define rindex     strrchr
-    if((Progname = rindex(argList[0], '\\')) == NULL)
-        Progname = argList[0];
-    else 
-        Progname++;
-*/
+
 //TODO: TCE implement To Lowercase?    strlwr(Progname);
 
     /* init global clips before parser is called */
     GlobalClipTop = (GlobalClip *)vmalloc(sizeof(GlobalClip));
-    ptrchk(GlobalClipTop, "global clip structure");
+    parser.ptrchk(GlobalClipTop, "global clip structure");
     GlobalClipTop->next = NULL;
     GlobalClipTop->clip = NULL;
 
-    infilename[0] = 0;        /* to be safe */
+    infilename[0] = 0; /* to be safe */
 
-    tickflag = 1;                   /* default to full stats */
+    tickflag = 1; /* default to full stats */
     resume = 0;
-    for(i=1; i<argCnt; i++) {        /* loop through command line args */
+    for(i=1; i<argCnt; i++) { /* loop through command line args */
         if(argList[i][0] == '-') {
             switch(argList[i][1]) {
                 case 'i':       /* set resolution */
@@ -194,26 +162,21 @@ int Bob::processCmdLine(int argCnt, char **argList) {
             }    /* end of switch */
         } else {
             infilename = argList[i];
-//            strcpy(infilename, argList[i]);
         }
     }
-    if(infilename[0] == 0)        /* no file name given */
+    if(infilename[0] == 0) /* no file name given */
         usage();    /* no return */
 
     outfilename = infilename;
     infilename.append(".b");
     outfilename.append(".img");
-//    strcpy(outfilename, infilename);
-//    strcat(infilename, ".b");
-//    strcat(outfilename, ".img");
 
     camera.aperture = -1.0;
     camera.focal_length = 0.0;
     Eye.view_aspect = -1.0;
 
     if(tickflag) {
-//        fprintf(stderr, "%s    %s\n%s\n", _Program, _Version, _Copyright);
-        cerr << _Program << "    " << _Version << endl << _Copyright << endl;
+        cout << _Program << "    " << _Version << endl << _Copyright << endl;
     }
 
 
@@ -240,38 +203,23 @@ int Bob::processCmdLine(int argCnt, char **argList) {
         antialias = amode;
     }
 
-
     return 1;
 }
 
 void Bob::usage() {
-    cerr << _Program << "        " << _Version << "        " << _Date << endl << _Copyright << endl << endl;
-    cerr << "Usage:  " << Progname << " [flags] <file>" << endl;
-    cerr << "       -s set silent mode" << endl;
-    cerr << "       -r resume generating an interrupted image." << endl;
-    cerr << "       -i change image size to xres by yres." << endl;
-    cerr << "       -l change start and stop line." << endl;
-    cerr << "       -n no shadows" << endl;
-    cerr << "       -d limit recursion level to depth." << endl;
-    cerr << "       -a change antialiasing to mode.  Valid modes are:" << endl;
-    cerr << "          none, corners, quick, and adaptive." << endl;
-    cerr << "       -p run without the preprocessor." << endl;
-    cerr << "       -b set bunching factor." << endl;
-    cerr << "Assumes file.b for input file and file.img for output file." << endl;
-
-    // fprintf(stderr, "%s        %s        %s\n%s\n\n", _Program, _Version, _Date, _Copyright);
-    // fprintf(stderr, "Usage:  %s [flags] <file>\n", Progname);
-    // fprintf(stderr, "       -s set silent mode\n");
-    // fprintf(stderr, "       -r resume generating an interrupted image.\n");
-    // fprintf(stderr, "       -i change image size to xres by yres.\n");
-    // fprintf(stderr, "       -l change start and stop line.\n");
-    // fprintf(stderr, "       -n no shadows\n");
-    // fprintf(stderr, "       -d limit recursion level to depth.\n");
-    // fprintf(stderr, "       -a change antialiasing to mode.  Valid modes are:\n");
-    // fprintf(stderr, "          none, corners, quick, and adaptive.\n");
-    // fprintf(stderr, "       -p run without the preprocessor.\n");
-    // fprintf(stderr, "       -b set bunching factor.\n");
-    // fprintf(stderr, "Assumes file.b for input file and file.img for output file.\n");
+    cout << _Program << "        " << _Version << "        " << _Date << endl << _Copyright << endl << endl;
+    cout << "Usage:  " << Progname << " [flags] <file>" << endl;
+    cout << "       -s set silent mode" << endl;
+    cout << "       -r resume generating an interrupted image." << endl;
+    cout << "       -i change image size to xres by yres." << endl;
+    cout << "       -l change start and stop line." << endl;
+    cout << "       -n no shadows" << endl;
+    cout << "       -d limit recursion level to depth." << endl;
+    cout << "       -a change antialiasing to mode.  Valid modes are:" << endl;
+    cout << "          none, corners, quick, and adaptive." << endl;
+    cout << "       -p run without the preprocessor." << endl;
+    cout << "       -b set bunching factor." << endl;
+    cout << "Assumes file.b for input file and file.img for output file." << endl;
 
     exit(0);
 }

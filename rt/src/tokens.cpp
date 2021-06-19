@@ -27,6 +27,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctype.h>
+#include "Bob.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "tokens.hpp"
@@ -251,7 +252,7 @@ int     get_token()
 
     fprintf(stderr, "\nError parsing.  Found the character '%c' aka 0x%02x and\n", c, c);
     fprintf(stderr, "I don't know what to do with it.\n");
-    yyerror("");
+    Bob::getApp().parser.yyerror("");
     return 0;
 }       /* end of get_token() */
 

@@ -2,6 +2,7 @@
 
 #include "App.hpp"
 #include "String.hpp"
+#include "Parser.hpp"
 
 #define BOB_ENV         "BOB"
 #define PATH_DELIM      ';'
@@ -26,13 +27,12 @@ class Bob:public App {
     String Progname;
     static String _Program, _Version, _Date, _Copyright;
 
-    //static String paths[MAX_PATHS];
     static ArrayOfStrings paths;
-    //static int num_paths;
 
     String infilename  = "";
     String outfilename = "";
 
     int preprocess = 1;
 
+    Parser parser;
 };

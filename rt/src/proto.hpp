@@ -18,6 +18,7 @@
 */
 #include "Object_3D.hpp"
 #include "Texture_3D.hpp"
+#include "String.hpp"
 #include "defs.hpp"
 #include "struct_defs.hpp"
 
@@ -43,7 +44,8 @@ extern int  clip_check(Clip *head, Vec P);
 
 /* file.c */
 // TODO: TCE Remove: extern void  init_env(void);
-extern FILE *env_fopen(char *name, const char *mode);
+extern FILE *env_fopen(String name, const String mode);
+//extern FILE *env_fopen(char *name, const char *mode);
 
 /* inter.c */
 extern void CheckAndEnqueue (Object *obj , Flt maxdist);
@@ -168,13 +170,17 @@ extern void matrix_inverse (Matrix in , Matrix out);
 extern void make_waves (Vec in, Vec out, Wave *head);
 
 /* yystuff.c */
-extern void yyerror (const char *str);
-extern void ReadSceneFile (const char *real, char *temp);
-extern void ptrchk (void *ptr , const char *str);
-extern void yystats(void);
-extern void yy_popfile(void);
-extern void yy_newfile(char *file);
-extern void trans_pop(void);
+//extern void yyerror (const char *str);
+//extern void ReadSceneFile (const char *real, char *temp);
+//extern void Bob::getApp().parser.ptrchk (void *ptr , const char *str);
+//extern void yyerror (const String str);
+//extern void ReadSceneFile (const String real_name, String tmp_name);
+//extern void ptrchk (void *ptr , const String str);
+//extern void yystats(void);
+//extern void yy_popfile(void);
+//extern void yy_newfile(char *file);
+//extern void yy_newfile(String file);
+//extern void trans_pop(void);
 
 //#undef P
 

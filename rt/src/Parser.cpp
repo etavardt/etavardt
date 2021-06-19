@@ -21,7 +21,12 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctype.h>
-#include <math.h>
+#include <cmath>
+#include <iostream>
+#include "Parser.hpp"
+#include "Exception.hpp"
+#include "String.hpp"
+
 #include "defs.hpp"
 #include "extern.hpp"
 #include "tokens.hpp"
@@ -40,18 +45,18 @@ Clip            *yy_clip();
 /*
     get_vec() -- get a vector.
 */
-void get_vec()
+void Parser::get_vec()
 {
     if(get_token() != NUMBER) {
-        yyerror("Number expected but not found.");
+        yyerror(String("Number expected but not found."));
     }
     tmp_vec[0] = cur_value;
     if(get_token() != NUMBER) {
-        yyerror("Number expected but not found.");
+        yyerror(String("Number expected but not found."));
     }
     tmp_vec[1] = cur_value;
     if(get_token() != NUMBER) {
-        yyerror("Number expected but not found.");
+        yyerror(String("Number expected but not found."));
     }
     tmp_vec[2] = cur_value;
 }
@@ -59,17 +64,17 @@ void get_vec()
 /*
     get_num() -- get a number.
 */
-void get_num()
+void Parser::get_num()
 {
     if(get_token() != NUMBER) {
-        yyerror("Number expected but not found.");
+        yyerror(String("Number expected but not found."));
     }
 }
 
 /*
     yy_background() -- Parse a background structure.
 */
-void yy_background()
+void Parser::yy_background()
 {
     FILE    *fp;
     int     i, r, g, b;
@@ -107,19 +112,19 @@ void yy_background()
                     MakeVector(-1, -1, -1, background.color);
                     break;
                 default :
-                    yyerror("Unexpected token in background structure.");
+                    yyerror(String("Unexpected token in background structure."));
                     break;
             }
         }
     } else {
-        yyerror("Invalid background definition.");
+        yyerror(String("Invalid background definition."));
     }
 }       /* end of yy_background() */
 
 /*
     yy_studio() -- Parse the studio structure
 */
-void yy_studio()
+void Parser::yy_studio()
 {
     Vec     tmp;
 
@@ -137,7 +142,7 @@ void yy_studio()
     stop_line = (-1);
 
     if(get_token() != LEFT_BRACE) {
-        yyerror("Left brace expected.\n");
+        yyerror(String("Left brace expected.\n"));
     }
 
     while(get_token() != RIGHT_BRACE) {
@@ -219,7 +224,7 @@ void yy_studio()
                         camera.projection = P_NO_PARALLAX;
                         break;
                     default :
-                        yyerror("Unknown projection type.");
+                        yyerror(String("Unknown projection type."));
                         break;
                 }
                 break;
@@ -239,7 +244,7 @@ void yy_studio()
                         antialias = A_ADAPTIVE;
                         break;
                     default :
-                        yyerror("Unknown antialias type.");
+                        yyerror(String("Unknown antialias type."));
                         break;
                 }
                 break;
@@ -268,7 +273,7 @@ void yy_studio()
                 exp_trans = 0;
                 break;
             default :
-                yyerror("Unknown studio element.");
+                yyerror(String("Unknown studio element."));
                 break;
         }       /* end of switch */
 
@@ -302,14 +307,14 @@ void yy_studio()
 /*
     yy_light() -- Parse a light.
 */
-void yy_light()
+void Parser::yy_light()
 {
     Light   *tmp;
     int     i;
 
     /* set up light defaults */
     tmp = (Light *)vmalloc(sizeof(Light));
-    ptrchk(tmp, "light structure");
+    ptrchk(tmp, String("light structure"));
     tmp->next = light_head;         /* add to head of list */
     light_head = tmp;
     light_head->type = L_POINT;
@@ -322,7 +327,7 @@ void yy_light()
 
     /* grab and toss left brace */
     if(get_token() != LEFT_BRACE) {
-        yyerror("Left brace expected.");
+        yyerror(String("Left brace expected."));
     }
 
     while(get_token() != RIGHT_BRACE) {
@@ -343,7 +348,7 @@ void yy_light()
                         light_head->type = L_DIRECTIONAL;
                         break;
                     default :
-                        yyerror("Unkown light type.");
+                        yyerror(String("Unkown light type."));
                         break;
                 }       /* end of type switch */
                 break;
@@ -405,7 +410,7 @@ void yy_light()
                 VecNormalize(light_head->dir);
                 break;
             default:
-                yyerror("Unkown light structure element.");
+                yyerror(String("Unkown light structure element."));
                 break;
         }       /* end of light switch() (ha ha) */
     }       /* end of loop looking for right brace */
@@ -417,7 +422,7 @@ void yy_light()
 /*
     yy_surface() -- Parse a surface structure.
 */
-Surface *yy_surface()
+Surface *Parser::yy_surface()
 {
     Surface *surf;
 
@@ -454,7 +459,7 @@ Surface *yy_surface()
 
     /* grab and toss left brace */
     if(get_token() != LEFT_BRACE) {
-        yyerror("Left brace expected.");
+        yyerror(String("Left brace expected."));
     }
 
     while(get_token() != RIGHT_BRACE) {
@@ -544,7 +549,7 @@ Surface *yy_surface()
                 surf->bump = yy_bump();
                 break;
             default :
-                yyerror("Unknown surface element.");
+                yyerror(String("Unknown surface element."));
                 break;
         }       /* end of bump map switch */
     }       /* end of while loop looking for left brace */
@@ -556,7 +561,7 @@ Surface *yy_surface()
 /*
     yy_texture() -- Parse procedural texture definition.
 */
-Texture *yy_texture()
+Texture *Parser::yy_texture()
 {
     Texture *cur_tex;
     Wave    *tmp_wave;
@@ -580,7 +585,7 @@ Texture *yy_texture()
 
     /* grab and toss left brace */
     if(get_token() != LEFT_BRACE) {
-        yyerror("Left brace expected.");
+        yyerror(String("Left brace expected."));
     }
 
     while(get_token() != RIGHT_BRACE) {
@@ -591,7 +596,7 @@ Texture *yy_texture()
                 } else if(cur_tex->surf[1] == NULL) {
                     cur_tex->surf[1] = yy_surface();
                 } else {
-                    yyerror("Sorry, only two surfaces per texture allowed.\n");
+                    yyerror(String("Sorry, only two surfaces per texture allowed.\n"));
                 }
                 break;
             case PATTERN :
@@ -607,7 +612,7 @@ Texture *yy_texture()
                         cur_tex->func = tex_noise;
                         break;
                     default :
-                        yyerror("Unknown texture type.");
+                        yyerror(String("Unknown texture type."));
                         break;
                 }
                 break;
@@ -638,7 +643,7 @@ Texture *yy_texture()
                 } else if(cur_tex->r2 < 0) {
                     cur_tex->r2 = cur_value;
                 } else {
-                    yyerror("Thanks anyway but only two radii are needed.");
+                    yyerror(String("Thanks anyway but only two radii are needed."));
                 }
                 break;
             case TURBULENCE :
@@ -651,14 +656,14 @@ Texture *yy_texture()
                 cur_tex->waves = tmp_wave;
                 break;
             default :
-                yyerror("Unknown texture element.");
+                yyerror(String("Unknown texture element."));
                 break;
         }       /* end of texture switch() */
     }       /* end of loop looking for right brace */
 
     /* clean up loose ends */
     if(cur_tex->func == NULL) {
-        yyerror("No pattern declared for texture.");
+        yyerror(String("No pattern declared for texture."));
     }
     if(cur_tex->func == tex_spherical) {
         if(cur_tex->r2 < 0) {
@@ -673,7 +678,7 @@ Texture *yy_texture()
 /*
     yy_bump() -- Parse bump map structure definition.
 */
-Bump    *yy_bump()
+Bump *Parser::yy_bump()
 {
     Bump    *cur_bump;
     Wave    *tmp_wave;
@@ -689,7 +694,7 @@ Bump    *yy_bump()
 
     /* grab and toss left brace */
     if(get_token() != LEFT_BRACE) {
-        yyerror("Left brace expected.");
+        yyerror(String("Left brace expected."));
     }
 
     while(get_token() != RIGHT_BRACE) {
@@ -712,7 +717,7 @@ Bump    *yy_bump()
                 cur_bump->waves = tmp_wave;
                 break;
             default :
-                yyerror("Unknown bump map element.");
+                yyerror(String("Unknown bump map element."));
                 break;
         }       /* end of bump map switch */
     }       /* end of while loop looking for right brace */
@@ -724,7 +729,7 @@ Bump    *yy_bump()
 /*
     yy_texmap() -- Parse a texure map structure.
 */
-Texmap  *yy_texmap()
+Texmap *Parser::yy_texmap()
 {
     Texmap  *cur_texmap;
 
@@ -746,7 +751,7 @@ Texmap  *yy_texmap()
 
     /* grab and toss left brace */
     if(get_token() != LEFT_BRACE) {
-        yyerror("Left brace expected.");
+        yyerror(String("Left brace expected."));
     }
 
     while(get_token() != RIGHT_BRACE) {
@@ -781,7 +786,7 @@ Texmap  *yy_texmap()
                 cur_texmap->scale *= cur_value;
                 break;
             default :
-                yyerror("Unkown texture map structure element.");
+                yyerror(String("Unkown texture map structure element."));
                 break;
         }       /* end of texture map switch */
     }       /* end of while loop looking for right brace */
@@ -800,7 +805,7 @@ Texmap  *yy_texmap()
 /*
     yy_turbulence() -- Parse a turbulence structure.
 */
-Turbulence      *yy_turbulence()
+Turbulence *Parser::yy_turbulence()
 {
     Turbulence      *cur_turb;
 
@@ -815,7 +820,7 @@ Turbulence      *yy_turbulence()
 
     /* grab and toss left brace */
     if(get_token() != LEFT_BRACE) {
-        yyerror("Left brace expected.");
+        yyerror(String("Left brace expected."));
     }
 
     while(get_token() != RIGHT_BRACE) {
@@ -837,7 +842,7 @@ Turbulence      *yy_turbulence()
                 VecCopy(tmp_vec, cur_turb->trans);
                 break;
             default :
-                yyerror("Unknown turbulence structure element.");
+                yyerror(String("Unknown turbulence structure element."));
                 break;
         }       /* end of turbulence switch */
     }       /* end of while loop looking for right brace */
@@ -849,7 +854,7 @@ Turbulence      *yy_turbulence()
 /*
     yy_wave() -- Parse a wave structure.
 */
-Wave    *yy_wave()
+Wave *Parser::yy_wave()
 {
     Wave    *cur_wave;
 
@@ -865,7 +870,7 @@ Wave    *yy_wave()
 
     /* grab and toss left brace */
     if(get_token() != LEFT_BRACE) {
-        yyerror("Left brace expected.");
+        yyerror(String("Left brace expected."));
     }
 
     while(get_token() != RIGHT_BRACE) {
@@ -891,7 +896,7 @@ Wave    *yy_wave()
                 cur_wave->phase = cur_value;
                 break;
             default :
-                yyerror("Unknown wave structure element.");
+                yyerror(String("Unknown wave structure element."));
                 break;
         }       /* end of wave switch */
     }       /* end of while loop looking for right brace */
@@ -903,7 +908,7 @@ Wave    *yy_wave()
 /*
     yy_transform() -- Parse a transformation.
 */
-void yy_transform()
+void Parser::yy_transform()
 {
     Transform       *cur_trans;
     Matrix          m;
@@ -917,7 +922,7 @@ void yy_transform()
 
     /* grab and toss left brace */
     if(get_token() != LEFT_BRACE) {
-        yyerror("Left brace expected.");
+        yyerror(String("Left brace expected."));
     }
 
     while(get_token() != RIGHT_BRACE) {
@@ -981,7 +986,7 @@ void yy_transform()
                 }
                 break;
             default :
-                yyerror("Unknown transformation element.");
+                yyerror(String("Unknown transformation element."));
                 break;
         }       /* end of transformation switch */
     }       /* end of while loop looking for right brace */
@@ -997,7 +1002,7 @@ void yy_transform()
 /*
     yy_transform_pop() -- Pop the current transformation.
 */
-void yy_transform_pop()
+void Parser::yy_transform_pop()
 {
     trans_pop();
 }       /* end of yy_transform_pop() */
@@ -1005,7 +1010,7 @@ void yy_transform_pop()
 /*
     yy_global_clip() -- Parse a global clip.
 */
-void yy_global_clip()
+void Parser::yy_global_clip()
 {
     GlobalClip      *ptr;
     Clip            *new_clip;
@@ -1018,14 +1023,14 @@ void yy_global_clip()
 
     /* grab and toss left brace */
     if(get_token() != LEFT_BRACE) {
-        yyerror("Left brace expected.");
+        yyerror(String("Left brace expected."));
     }
 
     while(get_token() != RIGHT_BRACE) {
         if(cur_token == CLIP) {
             yy_clip();
         } else {
-            yyerror("Clipping structure expected.");
+            yyerror(String("Clipping structure expected."));
         }
     }       /* end of while loop looking for right brace */
 
@@ -1036,7 +1041,7 @@ void yy_global_clip()
 /*
     yy_clip_pop() -- Pop the current clip.
 */
-void yy_clip_pop()
+void Parser::yy_clip_pop()
 {
     GlobalClipTop = GlobalClipTop->next;
     ClipTop = GlobalClipTop->clip;
@@ -1045,7 +1050,7 @@ void yy_clip_pop()
 /*
     yy_clip() -- Parse a clipping structure.
 */
-Clip    *yy_clip()
+Clip *Parser::yy_clip()
 {
     Clip    *cur_clip;
 
@@ -1062,7 +1067,7 @@ Clip    *yy_clip()
 
     /* grab and toss left brace */
     if(get_token() != LEFT_BRACE) {
-        yyerror("Left brace expected.");
+        yyerror(String("Left brace expected."));
     }
 
     while(get_token() != RIGHT_BRACE) {
@@ -1125,7 +1130,7 @@ Clip    *yy_clip()
             case OUTSIDE :          /* this is the default */
                 break;
             default :
-                yyerror("Unknown clipping structure element.");
+                yyerror(String("Unknown clipping structure element."));
                 break;
         }       /* end of clip switch */
     }       /* end of while loop looking for right brace */
@@ -1147,7 +1152,7 @@ Clip    *yy_clip()
 /*
     yy_sphere() -- Parse a sphere
 */
-void yy_sphere()
+void Parser::yy_sphere()
 {
     Vec     center;
     Flt     radius, fuzz;
@@ -1157,7 +1162,7 @@ void yy_sphere()
 
     /* grab and toss left brace */
     if(get_token() != LEFT_BRACE) {
-        yyerror("Left brace expected.");
+        yyerror(String("Left brace expected."));
     }
 
     while(get_token() != RIGHT_BRACE) {
@@ -1178,7 +1183,7 @@ void yy_sphere()
                 yy_clip();
                 break;
             default :
-                yyerror("Unknown sphere element.");
+                yyerror(String("Unknown sphere element."));
                 break;
         }       /* end of sphere switch */
     }       /* end of while loop looking for right brace */
@@ -1200,7 +1205,7 @@ void yy_sphere()
 /*
     yy_cone() -- Parse a cone.
 */
-void yy_cone()
+void Parser::yy_cone()
 {
     Vec     apex, base;
     Flt     arad, brad;
@@ -1208,7 +1213,7 @@ void yy_cone()
 
     /* grab and toss left brace */
     if(get_token() != LEFT_BRACE) {
-        yyerror("Left brace expected.");
+        yyerror(String("Left brace expected."));
     }
 
     while(get_token() != RIGHT_BRACE) {
@@ -1238,7 +1243,7 @@ void yy_cone()
                 yy_clip();
                 break;
             default :
-                yyerror("Unknown cone element.");
+                yyerror(String("Unknown cone element."));
                 break;
         }       /* end of cone switch */
     }       /* end of while loop looking for right brace */
@@ -1261,7 +1266,7 @@ void yy_cone()
 /*
     yy_ring() -- Parse a ring.
 */
-void yy_ring()
+void Parser::yy_ring()
 {
     Vec     center, normal;
     Flt     min_rad, max_rad;
@@ -1271,7 +1276,7 @@ void yy_ring()
 
     /* grab and toss left brace */
     if(get_token() != LEFT_BRACE) {
-        yyerror("Left brace expected.");
+        yyerror(String("Left brace expected."));
     }
 
     while(get_token() != RIGHT_BRACE) {
@@ -1297,7 +1302,7 @@ void yy_ring()
                 yy_clip();
                 break;
             default :
-                yyerror("Unknown ring element.");
+                yyerror(String("Unknown ring element."));
                 break;
         }       /* end of ring switch */
     }       /* end of while loop looking for right brace */
@@ -1320,7 +1325,7 @@ void yy_ring()
 /*
     yy_polygon() -- Parse a polygon.
 */
-void yy_polygon()
+void Parser::yy_polygon()
 {
     int     num_pnts, i;
     Vec     *vlist;
@@ -1328,14 +1333,14 @@ void yy_polygon()
 
     /* grab and toss left brace */
     if(get_token() != LEFT_BRACE) {
-        yyerror("Left brace expected.");
+        yyerror(String("Left brace expected."));
     }
 
     /* get number of points */
 
     get_token();
     if(cur_token != POINTS) {
-        yyerror("Number of points in polygon needed.");
+        yyerror(String("Number of points in polygon needed."));
     }
     get_num();
     num_pnts = cur_value;
@@ -1358,13 +1363,13 @@ void yy_polygon()
                 yy_clip();
                 break;
             default :
-                yyerror("Unknown polygon element.  Vertex expected.");
+                yyerror(String("Unknown polygon element.  Vertex expected."));
                 break;
         }       /* end of ring switch */
     }       /* end of while loop looking for right brace */
 
     if(i != num_pnts) {
-        yyerror("Number of vertices expected does not match data.");
+        yyerror(String("Number of vertices expected does not match data."));
     }
 
     new_obj = MakePoly(num_pnts, vlist);
@@ -1378,7 +1383,7 @@ void yy_polygon()
 /*
     yy_patch() -- Parse a triangular patch.
 */
-void yy_patch()
+void Parser::yy_patch()
 {
     Vec     data[6];
     int     v, n;
@@ -1386,7 +1391,7 @@ void yy_patch()
 
     /* grab and toss left brace */
     if(get_token() != LEFT_BRACE) {
-        yyerror("Left brace expected.");
+        yyerror(String("Left brace expected."));
     }
 
     v = n = 0;
@@ -1406,13 +1411,13 @@ void yy_patch()
                 yy_clip();
                 break;
             default :
-                yyerror("Unknown triangular patch element.");
+                yyerror(String("Unknown triangular patch element."));
                 break;
         }       /* end of patch switch */
     }       /* end of while loop looking for right brace */
 
     if(n!=3 || v!=3) {
-        yyerror("Patches must have 3 vertices and normals each.");
+        yyerror(String("Patches must have 3 vertices and normals each."));
     }
 
     if(TransTop) {
@@ -1436,7 +1441,7 @@ void yy_patch()
     yyparse() -- The main entry point into the parser.
 */
 
-int     yyparse()
+int Parser::yyparse()
 {
     while(get_token() != END_OF_FILE) {
         switch(cur_token) {
@@ -1485,7 +1490,7 @@ int     yyparse()
                 break;
             default :
                 fprintf(stderr, "\nError parsing, yyparse() found token %d '%s'\n", cur_token, cur_text);
-                yyerror("Unknown token.\n");
+                yyerror(String("Unknown token.\n"));
                 break;
         }       /* end of big switch */
     }       /* end of big loop */
@@ -1493,3 +1498,128 @@ int     yyparse()
     return 0;       /* successful */
 
 }       /* end of yyparse() */
+
+void Parser::yyerror(const String &str) {
+    Infile  *iptr;
+
+    iptr = InfileTop->what;
+    cerr << "\n\nError at line " << (yylinecount+1) << endl;
+    cerr << "file \"" << iptr->file_name << "\"" << endl;
+    cerr << str << endl;
+    cerr << "Error at or near = \"" << cur_text << "\"" << endl;
+    throw Exception("thrown by yyerror");
+}
+
+void Parser::ReadSceneFile(const String real_name, String tmp_name)
+{
+    Infile  *iptr;
+
+    if((yyin = env_fopen(tmp_name, String("r").data())) == NULL) {
+        cerr << "Error, cannot open " << tmp_name << endl;
+        throw Exception("thrown by ReadSceneFile");
+    }
+    Infilename = real_name;
+//    strcpy(Infilename, real_name);
+
+    /* set up input file stack */
+    InfileTop = (Stack *)malloc(sizeof(Stack));
+    ptrchk(InfileTop, "input file stack object");
+    InfileTop->prev = NULL;
+
+    iptr = (Infile *)malloc(sizeof(Infile));
+    ptrchk(iptr, "input file structure");
+    InfileTop->what = iptr;
+
+//    iptr->file_name = strdup(Infilename);
+    iptr->file_name = Infilename;
+    ptrchk(iptr->file_name.data(), "input file name");
+    iptr->line = 0;
+
+    /* parse the input file */
+    if(yyparse() == 1) {
+        cerr << "Invalid input specification" << endl;
+        throw Exception("thrown by ReadSceneFile");
+    }
+
+    /* clean up transform structures */
+    while(TransTop)
+        trans_pop();
+
+    if(stop_line == -1) {
+        cerr << "\n\nError, no studio structure in input file." << endl;
+        throw Exception("thrown by ReadSceneFile");
+    }
+
+    if(tickflag) {
+        cout << "\n\tinputfile = \"" << Infilename << "\"" << endl;
+        cout << "\tlights " << nLights << " prims " << nPrims <<"\n" << endl;
+        cout << "\tresolution " << Xresolution << " " << Yresolution << endl;
+    }
+}
+
+void Parser::ptrchk(void *ptr, const String str) {
+    if (!ptr)
+        throw Exception(String("Error allocating memory for a ").append(str).append("\n").append("thrown by ReadSceneFile"));
+}
+
+void Parser::yystats(void)
+{
+    static int      toc;
+
+    if(tickflag && ((toc&0x0f)==0)) {
+        cout << "\n\tlights " << nLights << " prims " << nPrims << " memory " << MemAllocated << endl;
+    }
+    toc++;
+}
+
+void Parser::yy_newfile(String new_file)
+{
+    Infile  *iptr;
+    Stack   *sptr;
+
+    iptr = InfileTop->what;         /* save line number for current file */
+    iptr->line = yylinecount;
+
+    sptr = (Stack *)vmalloc(sizeof(Stack));
+    ptrchk(sptr, "input file stack object");
+    sptr->prev = InfileTop;
+    InfileTop = sptr;
+
+    iptr = (Infile *)vmalloc(sizeof(Infile));
+    ptrchk(iptr, "input file structure");
+    InfileTop->what = iptr;
+
+//    iptr->file_name = strdup(new_file);
+    iptr->file_name = new_file;
+    iptr->line = 0;
+    yylinecount = -1;
+
+}       /* end of yy_newfile() */
+
+void Parser::yy_popfile()
+{
+    Infile  *iptr;
+    Stack   *sptr;
+
+    if(InfileTop->prev) {
+        iptr = InfileTop->what;
+        sptr = InfileTop;
+        InfileTop = InfileTop->prev;
+        iptr = InfileTop->what;
+        yylinecount = iptr->line;
+    } else {
+        cerr << "\nTemp input file corrupted.  Dying" << endl;
+        throw Exception("thrown by yy_popfile");
+    }
+}
+
+void Parser::trans_pop()
+{
+    Transform       *tptr;
+
+    tptr = TransTop;
+    if(tptr == NULL) {
+        yyerror(String("Trying to pop a transformation from an empty stack."));
+    }
+    TransTop = TransTop->next;
+}

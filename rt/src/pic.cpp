@@ -27,6 +27,7 @@
 #include <cstdlib>
 //#include <cstring>
 #include <ctime>
+#include "Bob.hpp"
 #include "String.hpp"
 #include "pic.hpp"
 #include "defs.hpp"
@@ -47,7 +48,7 @@ Pic    *PicOpen(String &filename, int x, int y)
     time(&old_time);        /* get current time */
 
     tmp = (Pic *)malloc(sizeof(Pic));
-    ptrchk(tmp, "Pic structure");
+    Bob::getApp().parser.ptrchk(tmp, "Pic structure");
 //TODO: TCE Remove
 //    tmp->filename = (char *)malloc(strlen(filename)+1);
 //    strcpy(tmp->filename, filename);

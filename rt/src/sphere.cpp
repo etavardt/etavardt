@@ -21,6 +21,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
+#include "Bob.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
@@ -124,7 +125,7 @@ Object *MakeSphere(Vec pos, Flt radius, Flt fuzzy)
     SphereData    *sp;
 
     tmp = (Object *)vmalloc(sizeof(Object));
-    ptrchk(tmp, "sphere object");
+    Bob::getApp().parser.ptrchk(tmp, "sphere object");
     if(fuzzy > rayeps) {
         tmp->o_type = T_FUZZY;
     } else {
@@ -141,7 +142,7 @@ Object *MakeSphere(Vec pos, Flt radius, Flt fuzzy)
     }
 
     sp = (SphereData *) vmalloc (sizeof(SphereData));
-    ptrchk(tmp, "sphere data");
+    Bob::getApp().parser.ptrchk(tmp, "sphere data");
     VecCopy(pos, sp->sph_center);
     radius = ABS(radius);
     if(radius < rayeps)

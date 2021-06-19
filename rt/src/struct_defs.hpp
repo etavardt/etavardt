@@ -22,6 +22,7 @@
 #define STRUCT_DEFS_HPP
 
 #include <stdio.h>
+#include "String.hpp"
 #include "defs.hpp"
 //#include "config.hpp"
 /*
@@ -75,21 +76,21 @@ typedef struct t_surface {
     struct t_bump           *bump;  /* ptr for surface normal texture * /
     Matrix  matrix;                 /* transformation matrix * /
 } Surface;
-*/
+
 typedef struct t_turbulence {
-    int     terms;          /* # of terms in the series */
-    Vec     trans,          /* pre-process numbers */
+    int     terms;          /* # of terms in the series * /
+    Vec     trans,          /* pre-process numbers * /
         scale;
-    Flt     amp;            /* post turbulence amplification */
+    Flt     amp;            /* post turbulence amplification * /
 } Turbulence;
 
 typedef struct t_wave {
     Vec    center;
     Flt    wavelength,
-        amp,        /* should be about 0 to .6 */
-        damp,        /* damping per wavelength */
-        phase;        /* wavelength offset */
-    struct t_wave    *next;    /* next wave in line */
+        amp,        /* should be about 0 to .6 * /
+        damp,        /* damping per wavelength * /
+        phase;        /* wavelength offset * /
+    struct t_wave    *next;    /* next wave in line * /
 } Wave;
 /*
 typedef struct t_texture {
@@ -104,16 +105,17 @@ typedef struct t_texture {
     Turbulence      *turbulence;
     Wave    *waves;
 } Texture;
-*/
+
 typedef struct t_bump {
-    Vec    trans,        /* apply to resulting normal */
+    Vec    trans,        /* apply to resulting normal * /
         scale;
     Turbulence      *turbulence;
     Wave            *waves;
 } Bump;
-
+*/
 typedef struct t_infile {
-    char            *file_name;
+//    char            *file_name;
+    String          file_name;
     FILE            *fp;
     long            line;
     struct t_infile *next;

@@ -20,6 +20,7 @@
 
 #include <cstdio>
 #include <cmath>
+#include "Bob.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
@@ -97,7 +98,7 @@ Object *MakeRing(Vec pos, Vec norm, Flt min_rad, Flt max_rad)
     Flt             size;
 
     tmp = (Object *)vmalloc(sizeof(Object));
-    ptrchk(tmp, "ring object");
+    Bob::getApp().parser.ptrchk(tmp, "ring object");
     tmp->o_type = T_RING;
     tmp->o_procs = &RingProcs;
     tmp->o_surf = CurrentSurface;
@@ -110,7 +111,7 @@ Object *MakeRing(Vec pos, Vec norm, Flt min_rad, Flt max_rad)
     }
 
     rp = (RingData *)vmalloc(sizeof(RingData));
-    ptrchk(rp, "ring data");
+    Bob::getApp().parser.ptrchk(rp, "ring data");
     VecCopy(pos, rp->ring_center);
     VecCopy(norm, rp->ring_normal);
     VecNormalize(rp->ring_normal);

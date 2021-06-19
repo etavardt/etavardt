@@ -18,7 +18,7 @@
 */
 
 #include <iostream>
-#include <cstdio>
+//#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include "Bob.hpp"
@@ -55,26 +55,21 @@ void qstrcat(char *d, char *s)
         handles filenames wrapped in quotes.
 */
 
-FILE *env_fopen(char *name, const char *mode) {
+FILE *env_fopen(String name, const String mode) {
     FILE            *fp;
     int             i;
-//    static char     full_path[1024];
 	String full_path;
 //	cout << "Bob::paths.size(): " << Bob::paths.size() << endl;
-//    for(i=0; i<Bob::num_paths; i++) {
 	for(i=0; i<Bob::paths.size(); i++) {
 //		cout << "Bob::paths[" << i << "]: " << Bob::paths[i] << endl;
 		full_path = Bob::paths[i].c_str();
-//        strcpy(full_path, Bob::paths[i].c_str());
         if(i) {
 			full_path.append("\\");
-//            strcat(full_path, "/");
         }
 //		cout << "full_path: " << full_path << endl;
 		full_path.append(name);
-//        qstrcat(full_path, name);
 //		cout << "full_path: " << full_path << endl;
-        fp = fopen(full_path.c_str(), mode);
+        fp = fopen(full_path.c_str(), mode.c_str());
 //		cout << "fp: " << fp << endl;
         if(fp) {
             return fp;

@@ -24,6 +24,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <memory.h>
+#include "Bump_3D.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "config.hpp"

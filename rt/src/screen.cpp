@@ -26,6 +26,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
+#include "Bob.hpp"
 #include "screen.hpp"
 #include "defs.hpp"
 #include "pic.hpp"
@@ -237,7 +238,7 @@ void    Scan2(void)
     /* fill to next mod 6 scan line */
     if(start_line%6) {
         buff = (Pixel *)malloc(x_res * sizeof(Pixel));
-        ptrchk(buff, "pixel buffer");
+        Bob::getApp().parser.ptrchk(buff, "pixel buffer");
 
         /* calc stop line for single fill */
         yy = start_line + 6 - (start_line%6);
@@ -260,9 +261,9 @@ void    Scan2(void)
 
     for(i=0; i<7; i++) {
         buf[i] = (Pixel *)malloc((x_res+5) * sizeof(Pixel));
-        ptrchk(buf[i], "sampling buffer");
+        Bob::getApp().parser.ptrchk(buf[i], "sampling buffer");
         flags[i] = (int *)malloc((x_res+5) * sizeof(int));
-        ptrchk(flags[i], "sampling flag buffer");
+        Bob::getApp().parser.ptrchk(flags[i], "sampling flag buffer");
     }
 
     /* start actual sub-sampling */
@@ -686,11 +687,11 @@ void    Scan3(void)
     int     x, y, i, j;
 
     buf = (Pixel *)malloc(x_res * sizeof(Pixel));
-    ptrchk(buf, "output buffer.");
+    Bob::getApp().parser.ptrchk(buf, "output buffer.");
 
     for(x=0; x<4; x++) {
         buff[x] = (unsigned char *)malloc(SIDE*x_res+1);
-        ptrchk(buff[x], "antialiasing buffer.");
+        Bob::getApp().parser.ptrchk(buff[x], "antialiasing buffer.");
     }
 
     for(i=0; i<SIDE+1; i++)    {        /* clear win flags */

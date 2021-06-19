@@ -30,6 +30,7 @@
 #include <cstring>
 #include <ctype.h>
 #include <iostream>
+#include "Bob.hpp"
 #include "Exception.hpp"
 #include "defs.hpp"
 //#include "Object_3D.hpp"
@@ -71,9 +72,9 @@ int     preproc(char *infile, const char *outfile)
     }
 
     line = (char *)malloc(MAX_EXPAND);
-    ptrchk(line, "preprocessor space");
+    Bob::getApp().parser.ptrchk(line, "preprocessor space");
     mline = (char *)malloc(MAX_EXPAND);
-    ptrchk(mline, "preprocessor space");
+    Bob::getApp().parser.ptrchk(mline, "preprocessor space");
 
     outfp = fopen(outfile, "w");
     if(!outfp) {
@@ -269,17 +270,17 @@ void    add_macro(char *txt)
     /* create new link and fill it in */
 
     mptr = (Macro *)malloc(sizeof(Macro));
-    ptrchk(mptr, "macro structure");
+    Bob::getApp().parser.ptrchk(mptr, "macro structure");
 
     sscanf(txt, "%s", macro);
     mptr->macro = strdup(macro);
-    ptrchk(mptr->macro, "macro define");
+    Bob::getApp().parser.ptrchk(mptr->macro, "macro define");
     mptr->mlen = strlen(mptr->macro);
 
     txt += mptr->mlen;
     expand(txt);            /* expand the macro def to line */
     mptr->text = strdup(line);
-    ptrchk(mptr->text, "macro text");
+    Bob::getApp().parser.ptrchk(mptr->text, "macro text");
     mptr->tlen = strlen(mptr->text);
 
     /* toss \n \c at end of macro by replacing with ' ' */

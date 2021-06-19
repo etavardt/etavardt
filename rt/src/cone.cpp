@@ -3,7 +3,7 @@
 �                                                                         �
 �                             Bob Ray Tracer                              �
 �                                                                         �
-�                       Cone.C = cone primative                              �
+�                       Cone.C = cone primative                           �
 �                                                                         �
 �       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
 �                                                                         �
@@ -21,6 +21,7 @@
 
 #include <cstdio>
 #include <math.h>
+#include "Bob.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 
@@ -182,7 +183,7 @@ Object    *MakeCone(Vec basepoint, Flt baseradius, Vec apexpoint, Flt apexradius
     int        i;
 
     obj = (Object *) vmalloc(sizeof (Object));
-    ptrchk(obj, "cone object");
+    Bob::getApp().parser.ptrchk(obj, "cone object");
     obj->o_type = T_CONE;
     obj->o_procs = &ConeProcs;
     obj->o_surf = CurrentSurface;
@@ -195,7 +196,7 @@ Object    *MakeCone(Vec basepoint, Flt baseradius, Vec apexpoint, Flt apexradius
     }
 
     cd = (ConeData *) vmalloc(sizeof(ConeData));
-    ptrchk(cd, "cone data");
+    Bob::getApp().parser.ptrchk(cd, "cone data");
 
     VecCopy(basepoint, cd->cone_base);
     VecCopy(apexpoint, cd->cone_apex);

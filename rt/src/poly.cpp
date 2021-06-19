@@ -20,6 +20,7 @@
 
 #include <cstdio>
 #include <math.h>
+#include "Bob.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
@@ -143,7 +144,7 @@ Object *MakePoly(int npoints, Vec *points)
     int        i, j;
 
     obj = (Object *) vmalloc (sizeof(Object));
-    ptrchk(obj, "polygon object");
+    Bob::getApp().parser.ptrchk(obj, "polygon object");
     obj->o_type = T_POLY;
     obj->o_procs = & PolyProcs;
     obj->o_surf = CurrentSurface;
@@ -156,7 +157,7 @@ Object *MakePoly(int npoints, Vec *points)
     }
 
     pd = (PolyData *) vmalloc (sizeof(PolyData));
-    ptrchk(pd, "polygon data");
+    Bob::getApp().parser.ptrchk(pd, "polygon data");
     pd->poly_npoints = npoints;
     pd->poly_point = points;
 

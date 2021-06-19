@@ -21,9 +21,10 @@
 
 //#include "Object_3D.hpp"
 //#include "proto.hpp"
+#include "String.hpp"
 #include "struct_defs.hpp"
 #include "Surface_3D.hpp"
-#include "Clip.hpp"
+#include "Clip_3D.hpp"
 #include "Object_3D.hpp"
 
 extern Viewpoint Eye;
@@ -61,7 +62,8 @@ extern GlobalClip *GlobalClipTop;
 extern long        nPrims;
 extern Flt         rayeps;
 //extern char       *Progname;
-extern char        Infilename[];
+//extern char        Infilename[];
+extern String Infilename;
 
 extern unsigned long maxQueueSize;
 extern unsigned long totalQueues;

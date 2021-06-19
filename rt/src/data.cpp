@@ -19,6 +19,7 @@
 */
 
 #include <cstdio>
+#include "String.hpp"
 #include "defs.hpp"
 #include "struct_defs.hpp"
 #include "Object_3D.hpp"
@@ -55,7 +56,8 @@ GlobalClip      *GlobalClipTop = NULL;  /* current global clip list */
 long            nPrims = 0;
 Flt        rayeps = 1e-6;
 //char        *Progname;
-char            Infilename[256];
+//char            Infilename[256];
+String          Infilename;
 Stack           *InfileTop = NULL;      /* points to top of input file stack */
 Object          *Root = NULL;
 

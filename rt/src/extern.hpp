@@ -60,7 +60,7 @@ extern Clip       *ClipTop;
 extern GlobalClip *GlobalClipTop;
 extern long        nPrims;
 extern Flt         rayeps;
-extern char       *Progname;
+//extern char       *Progname;
 extern char        Infilename[];
 
 extern unsigned long maxQueueSize;
@@ -88,10 +88,10 @@ extern Vec     Slab[];
 extern Object *Root;
 // TODO: TCE Remove: extern ObjectProcs    NullProcs;
 
-extern char _Copyright[];
-extern char _Program[];
-extern char _Version[];
-extern char _Date[];
+//extern char _Copyright[];
+//extern char _Program[];
+//extern char _Version[];
+//extern char _Date[];
 
 extern FILE *yyin;
 extern int   cur_token;

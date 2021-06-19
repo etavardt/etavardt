@@ -1,3 +1,0 @@
-C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build/CMakeFiles/rebuild_cache.dir
-C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build/CMakeFiles/edit_cache.dir
-C:/Apps/Dev/Projects/VS Code Projects/bob/rt/build/CMakeFiles/Bob.dir

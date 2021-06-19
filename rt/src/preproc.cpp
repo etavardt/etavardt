@@ -29,11 +29,17 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctype.h>
+#include <iostream>
+#include "Exception.hpp"
 #include "defs.hpp"
 //#include "Object_3D.hpp"
 //#include "struct_defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
+
+using std::cout;
+using std::cerr;
+using std::endl;
 
 extern char *brute(char *text, char *pattern, int tlen, int plen);
 extern char *get_next_token(char *text);
@@ -61,7 +67,7 @@ int     preproc(char *infile, const char *outfile)
     char    *rest, *cptr;
 
     if(tickflag) {
-        printf("Preprocessing file:\n\t%s\n", infile);
+        cout << "Preprocessing file:\n\t" << infile << endl;
     }
 
     line = (char *)malloc(MAX_EXPAND);
@@ -73,13 +79,16 @@ int     preproc(char *infile, const char *outfile)
     if(!outfp) {
         fprintf(stderr, "Preprocessor error opening temp file %s for output.\n", outfile);
         exit(1);
+    } else {
+        cout << "Opened " << outfile << " for writing." << endl;
     }
 
-    cur = 0.0;
+    cur = 0;
     fp[cur] = env_fopen(infile, "r");
     if(!fp[cur]) {
-        fprintf(stderr, "Preprocessor error opening file %s for input.\n", infile);
-        exit(1);
+        cerr << "fp[cur]: " << fp[cur] << endl;
+        cerr << "Preprocessor error opening file, infile(" << infile << "), for input." << endl;
+        throw Exception("thrown from preproc");
     }
 
     fprintf(outfp, "bb_newfile \"%s\"\n", infile);
@@ -107,8 +116,9 @@ int     preproc(char *infile, const char *outfile)
                     cur++;
                     fp[cur] = env_fopen(newfile, "r");
                     if(!fp[cur]) {
-                        fprintf(stderr, "Preprocessor error opening file %s for input.\n", newfile);
-                        exit(1);
+                        cerr << "fp[cur]: " << fp[cur] << endl;
+                        cerr << "Preprocessor error opening file, newfile(" << newfile << "), for input." << endl;
+                        throw Exception("thrown from preproc");
                     }
                     fprintf(outfp, "bb_newfile \"%s\"\n", newfile);
                     if(tickflag) {

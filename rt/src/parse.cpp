@@ -1073,423 +1073,423 @@ Clip    *yy_clip()
                 if(TransTop) {
                     trans_vector(TransTop->mat, cur_clip->center, cur_clip->center);
                 }
-        		if(!(cur_clip->type & C_PLANE)) {
-					cur_clip->type |= C_SPHERE;
-				}
-				break;
-			case NORMAL :
-				get_vec();
-				VecCopy(tmp_vec, cur_clip->normal);
-				if(TransTop) {
-					trans_normal(TransTop->mat, cur_clip->normal, cur_clip->normal);
-				}
-				cur_clip->type |= C_PLANE;
-				if(cur_clip->type & C_SPHERE) {
-					cur_clip->type ^= C_SPHERE;
-				}
-				break;
-			case APEX :
-				get_vec();
-				VecCopy(tmp_vec, cur_clip->apex);
-				if(TransTop) {
-					trans_vector(TransTop->mat, cur_clip->apex, cur_clip->apex);
-				}
-				ClipTop->type |= C_CONE;
-				break;
-			case BASE :
-				get_vec();
-				VecCopy(tmp_vec, cur_clip->base);
-				if(TransTop) {
-					trans_vector(TransTop->mat, cur_clip->base, cur_clip->base);
-				}
-				cur_clip->type |= C_CONE;
-				break;
-			case RADIUS :
-				get_num();
-				cur_clip->radius1 = cur_value;
-				cur_clip->radius2 = cur_value;
-				break;
-			case APEX_RADIUS :
-				get_num();
-				cur_clip->radius1 = cur_value;
-				cur_clip->type |= C_CONE;
-				break;
-			case BASE_RADIUS :
-				get_num();
-				cur_clip->radius2 = cur_value;
-				cur_clip->type |= C_CONE;
-				break;
-			case INSIDE :
-				cur_clip->type |= C_INSIDE;
-				break;
-			case OUTSIDE :          /* this is the default */
-				break;
-			default :
-				yyerror("Unknown clipping structure element.");
-				break;
-		}       /* end of clip switch */
-	}       /* end of while loop looking for right brace */
+                if(!(cur_clip->type & C_PLANE)) {
+                    cur_clip->type |= C_SPHERE;
+                }
+                break;
+            case NORMAL :
+                get_vec();
+                VecCopy(tmp_vec, cur_clip->normal);
+                if(TransTop) {
+                    trans_normal(TransTop->mat, cur_clip->normal, cur_clip->normal);
+                }
+                cur_clip->type |= C_PLANE;
+                if(cur_clip->type & C_SPHERE) {
+                    cur_clip->type ^= C_SPHERE;
+                }
+                break;
+            case APEX :
+                get_vec();
+                VecCopy(tmp_vec, cur_clip->apex);
+                if(TransTop) {
+                    trans_vector(TransTop->mat, cur_clip->apex, cur_clip->apex);
+                }
+                ClipTop->type |= C_CONE;
+                break;
+            case BASE :
+                get_vec();
+                VecCopy(tmp_vec, cur_clip->base);
+                if(TransTop) {
+                    trans_vector(TransTop->mat, cur_clip->base, cur_clip->base);
+                }
+                cur_clip->type |= C_CONE;
+                break;
+            case RADIUS :
+                get_num();
+                cur_clip->radius1 = cur_value;
+                cur_clip->radius2 = cur_value;
+                break;
+            case APEX_RADIUS :
+                get_num();
+                cur_clip->radius1 = cur_value;
+                cur_clip->type |= C_CONE;
+                break;
+            case BASE_RADIUS :
+                get_num();
+                cur_clip->radius2 = cur_value;
+                cur_clip->type |= C_CONE;
+                break;
+            case INSIDE :
+                cur_clip->type |= C_INSIDE;
+                break;
+            case OUTSIDE :          /* this is the default */
+                break;
+            default :
+                yyerror("Unknown clipping structure element.");
+                break;
+        }       /* end of clip switch */
+    }       /* end of while loop looking for right brace */
 
-	if(cur_clip->type & C_CONE) {
-		VecSub(cur_clip->base, cur_clip->apex, cur_clip->normal);
-		cur_clip->length = VecNormalize(cur_clip->normal);
-	}
-	if(cur_clip->type & C_SPHERE) {
-		cur_clip->radius1 = cur_clip->radius1 * cur_clip->radius1;
-	}
+    if(cur_clip->type & C_CONE) {
+        VecSub(cur_clip->base, cur_clip->apex, cur_clip->normal);
+        cur_clip->length = VecNormalize(cur_clip->normal);
+    }
+    if(cur_clip->type & C_SPHERE) {
+        cur_clip->radius1 = cur_clip->radius1 * cur_clip->radius1;
+    }
 
-	cur_clip->next = ClipTop;
-	ClipTop = cur_clip;
+    cur_clip->next = ClipTop;
+    ClipTop = cur_clip;
 
-	return cur_clip;
+    return cur_clip;
 }       /* end of yy_clip() */
 
 /*
-	yy_sphere() -- Parse a sphere
+    yy_sphere() -- Parse a sphere
 */
 void yy_sphere()
 {
-	Vec     center;
-	Flt     radius, fuzz;
-	Object  *new_obj;
+    Vec     center;
+    Flt     radius, fuzz;
+    Object  *new_obj;
 
-	fuzz = 0.0;
+    fuzz = 0.0;
 
-	/* grab and toss left brace */
-	if(get_token() != LEFT_BRACE) {
-		yyerror("Left brace expected.");
-	}
+    /* grab and toss left brace */
+    if(get_token() != LEFT_BRACE) {
+        yyerror("Left brace expected.");
+    }
 
-	while(get_token() != RIGHT_BRACE) {
-		switch(cur_token) {
-			case CENTER :
-				get_vec();
-				VecCopy(tmp_vec, center);
-				break;
-			case RADIUS :
-				get_num();
-				radius = cur_value;
-				break;
-			case FUZZ :
-				get_num();
-				fuzz = cur_value;
-				break;
-			case CLIP :
-				yy_clip();
-				break;
-			default :
-				yyerror("Unknown sphere element.");
-				break;
-		}       /* end of sphere switch */
-	}       /* end of while loop looking for right brace */
+    while(get_token() != RIGHT_BRACE) {
+        switch(cur_token) {
+            case CENTER :
+                get_vec();
+                VecCopy(tmp_vec, center);
+                break;
+            case RADIUS :
+                get_num();
+                radius = cur_value;
+                break;
+            case FUZZ :
+                get_num();
+                fuzz = cur_value;
+                break;
+            case CLIP :
+                yy_clip();
+                break;
+            default :
+                yyerror("Unknown sphere element.");
+                break;
+        }       /* end of sphere switch */
+    }       /* end of while loop looking for right brace */
 
-	if(TransTop) {
-		trans_vector(TransTop->mat, center, center);
-		radius  /= TransTop->mat[3][3];
-		fuzz    /= TransTop->mat[3][3];
-	}
+    if(TransTop) {
+        trans_vector(TransTop->mat, center, center);
+        radius  /= TransTop->mat[3][3];
+        fuzz    /= TransTop->mat[3][3];
+    }
 
-	new_obj = MakeSphere(center, radius, fuzz);
-	new_obj->next = Root;
-	Root = new_obj;
+    new_obj = MakeSphere(center, radius, fuzz);
+    new_obj->next = Root;
+    Root = new_obj;
 
-	++nPrims;
-	yystats();
+    ++nPrims;
+    yystats();
 }       /* end of yy_sphere() */
 
 /*
-	yy_cone() -- Parse a cone.
+    yy_cone() -- Parse a cone.
 */
 void yy_cone()
 {
-	Vec     apex, base;
-	Flt     arad, brad;
-	Object  *new_obj;
+    Vec     apex, base;
+    Flt     arad, brad;
+    Object  *new_obj;
 
-	/* grab and toss left brace */
-	if(get_token() != LEFT_BRACE) {
-		yyerror("Left brace expected.");
-	}
+    /* grab and toss left brace */
+    if(get_token() != LEFT_BRACE) {
+        yyerror("Left brace expected.");
+    }
 
-	while(get_token() != RIGHT_BRACE) {
-		switch(cur_token) {
-			case APEX :
-				get_vec();
-				VecCopy(tmp_vec, apex);
-				break;
-			case BASE :
-				get_vec();
-				VecCopy(tmp_vec, base);
-				break;
-			case APEX_RADIUS :
-				get_num();
-				arad = cur_value;
-				break;
-			case BASE_RADIUS :
-				get_num();
-				brad = cur_value;
-				break;
-			case RADIUS :
-				get_num();
-				arad = cur_value;
-				brad = cur_value;
-				break;
-			case CLIP :
-				yy_clip();
-				break;
-			default :
-				yyerror("Unknown cone element.");
-				break;
-		}       /* end of cone switch */
-	}       /* end of while loop looking for right brace */
+    while(get_token() != RIGHT_BRACE) {
+        switch(cur_token) {
+            case APEX :
+                get_vec();
+                VecCopy(tmp_vec, apex);
+                break;
+            case BASE :
+                get_vec();
+                VecCopy(tmp_vec, base);
+                break;
+            case APEX_RADIUS :
+                get_num();
+                arad = cur_value;
+                break;
+            case BASE_RADIUS :
+                get_num();
+                brad = cur_value;
+                break;
+            case RADIUS :
+                get_num();
+                arad = cur_value;
+                brad = cur_value;
+                break;
+            case CLIP :
+                yy_clip();
+                break;
+            default :
+                yyerror("Unknown cone element.");
+                break;
+        }       /* end of cone switch */
+    }       /* end of while loop looking for right brace */
 
-	if(TransTop) {
-		trans_vector(TransTop->mat, apex, apex);
-		trans_vector(TransTop->mat, base, base);
-		arad /= TransTop->mat[3][3];
-		brad /= TransTop->mat[3][3];
-	}
+    if(TransTop) {
+        trans_vector(TransTop->mat, apex, apex);
+        trans_vector(TransTop->mat, base, base);
+        arad /= TransTop->mat[3][3];
+        brad /= TransTop->mat[3][3];
+    }
 
-	new_obj = MakeCone(apex, arad, base, brad);
-	new_obj->next = Root;
-	Root = new_obj;
+    new_obj = MakeCone(apex, arad, base, brad);
+    new_obj->next = Root;
+    Root = new_obj;
 
-	++nPrims;
-	yystats();
+    ++nPrims;
+    yystats();
 }       /* end of yy_cone() */
 
 /*
-	yy_ring() -- Parse a ring.
+    yy_ring() -- Parse a ring.
 */
 void yy_ring()
 {
-	Vec     center, normal;
-	Flt     min_rad, max_rad;
-	Object  *new_obj;
+    Vec     center, normal;
+    Flt     min_rad, max_rad;
+    Object  *new_obj;
 
-	min_rad = 0.0;
+    min_rad = 0.0;
 
-	/* grab and toss left brace */
-	if(get_token() != LEFT_BRACE) {
-		yyerror("Left brace expected.");
-	}
+    /* grab and toss left brace */
+    if(get_token() != LEFT_BRACE) {
+        yyerror("Left brace expected.");
+    }
 
-	while(get_token() != RIGHT_BRACE) {
-		switch(cur_token) {
-			case CENTER :
-				get_vec();
-				VecCopy(tmp_vec, center);
-				break;
-			case NORMAL :
-				get_vec();
-				VecCopy(tmp_vec, normal);
-				break;
-			case MIN_RADIUS :
-				get_num();
-				min_rad = cur_value;
-				break;
-			case MAX_RADIUS :
-			case RADIUS :
-				get_num();
-				max_rad = cur_value;
-				break;
-			case CLIP :
-				yy_clip();
-				break;
-			default :
-				yyerror("Unknown ring element.");
-				break;
-		}       /* end of ring switch */
-	}       /* end of while loop looking for right brace */
+    while(get_token() != RIGHT_BRACE) {
+        switch(cur_token) {
+            case CENTER :
+                get_vec();
+                VecCopy(tmp_vec, center);
+                break;
+            case NORMAL :
+                get_vec();
+                VecCopy(tmp_vec, normal);
+                break;
+            case MIN_RADIUS :
+                get_num();
+                min_rad = cur_value;
+                break;
+            case MAX_RADIUS :
+            case RADIUS :
+                get_num();
+                max_rad = cur_value;
+                break;
+            case CLIP :
+                yy_clip();
+                break;
+            default :
+                yyerror("Unknown ring element.");
+                break;
+        }       /* end of ring switch */
+    }       /* end of while loop looking for right brace */
 
-	if(TransTop) {
-		trans_vector(TransTop->mat, center, center);
-		trans_normal(TransTop->mat, normal, normal);
-		min_rad /= TransTop->mat[3][3];
-		max_rad /= TransTop->mat[3][3];
-	}
+    if(TransTop) {
+        trans_vector(TransTop->mat, center, center);
+        trans_normal(TransTop->mat, normal, normal);
+        min_rad /= TransTop->mat[3][3];
+        max_rad /= TransTop->mat[3][3];
+    }
 
-	new_obj = MakeRing(center, normal, min_rad, max_rad);
-	new_obj->next = Root;
-	Root = new_obj;
+    new_obj = MakeRing(center, normal, min_rad, max_rad);
+    new_obj->next = Root;
+    Root = new_obj;
 
-	++nPrims;
-	yystats();
+    ++nPrims;
+    yystats();
 }       /* end of yy_ring() */
 
 /*
-	yy_polygon() -- Parse a polygon.
+    yy_polygon() -- Parse a polygon.
 */
 void yy_polygon()
 {
-	int     num_pnts, i;
-	Vec     *vlist;
-	Object  *new_obj;
+    int     num_pnts, i;
+    Vec     *vlist;
+    Object  *new_obj;
 
-	/* grab and toss left brace */
-	if(get_token() != LEFT_BRACE) {
-		yyerror("Left brace expected.");
-	}
+    /* grab and toss left brace */
+    if(get_token() != LEFT_BRACE) {
+        yyerror("Left brace expected.");
+    }
 
-	/* get number of points */
+    /* get number of points */
 
-	get_token();
-	if(cur_token != POINTS) {
-		yyerror("Number of points in polygon needed.");
-	}
-	get_num();
-	num_pnts = cur_value;
+    get_token();
+    if(cur_token != POINTS) {
+        yyerror("Number of points in polygon needed.");
+    }
+    get_num();
+    num_pnts = cur_value;
 
-	vlist = (Vec *)vmalloc(num_pnts * sizeof(Vec));
-	ptrchk(vlist, "polygon vertex list");
-	i = 0;
+    vlist = (Vec *)vmalloc(num_pnts * sizeof(Vec));
+    ptrchk(vlist, "polygon vertex list");
+    i = 0;
 
-	while(get_token() != RIGHT_BRACE) {
-		switch(cur_token) {
-			case VERTEX :
-				get_vec();
-				VecCopy(tmp_vec, vlist[i]);
-				if(TransTop) {
-					trans_vector(TransTop->mat, vlist[i], vlist[i]);
-				}
-				i++;
-				break;
-			case CLIP :
-				yy_clip();
-				break;
-			default :
-				yyerror("Unknown polygon element.  Vertex expected.");
-				break;
-		}       /* end of ring switch */
-	}       /* end of while loop looking for right brace */
+    while(get_token() != RIGHT_BRACE) {
+        switch(cur_token) {
+            case VERTEX :
+                get_vec();
+                VecCopy(tmp_vec, vlist[i]);
+                if(TransTop) {
+                    trans_vector(TransTop->mat, vlist[i], vlist[i]);
+                }
+                i++;
+                break;
+            case CLIP :
+                yy_clip();
+                break;
+            default :
+                yyerror("Unknown polygon element.  Vertex expected.");
+                break;
+        }       /* end of ring switch */
+    }       /* end of while loop looking for right brace */
 
-	if(i != num_pnts) {
-		yyerror("Number of vertices expected does not match data.");
-	}
+    if(i != num_pnts) {
+        yyerror("Number of vertices expected does not match data.");
+    }
 
-	new_obj = MakePoly(num_pnts, vlist);
-	new_obj->next = Root;
-	Root = new_obj;
+    new_obj = MakePoly(num_pnts, vlist);
+    new_obj->next = Root;
+    Root = new_obj;
 
-	++nPrims;
-	yystats();
+    ++nPrims;
+    yystats();
 }       /* end of yy_polygon() */
 
 /*
-	yy_patch() -- Parse a triangular patch.
+    yy_patch() -- Parse a triangular patch.
 */
 void yy_patch()
 {
-	Vec     data[6];
-	int     v, n;
-	Object  *new_obj;
+    Vec     data[6];
+    int     v, n;
+    Object  *new_obj;
 
-	/* grab and toss left brace */
-	if(get_token() != LEFT_BRACE) {
-		yyerror("Left brace expected.");
-	}
+    /* grab and toss left brace */
+    if(get_token() != LEFT_BRACE) {
+        yyerror("Left brace expected.");
+    }
 
-	v = n = 0;
-	while(get_token() != RIGHT_BRACE) {
-		switch(cur_token) {
-			case VERTEX :
-				get_vec();
-				VecCopy(tmp_vec, data[v*2]);
-				++v;
-				break;
-			case NORMAL :
-				get_vec();
-				VecCopy(tmp_vec, data[n*2+1]);
-				++n;
-				break;
-			case CLIP :
-				yy_clip();
-				break;
-			default :
-				yyerror("Unknown triangular patch element.");
-				break;
-		}       /* end of patch switch */
-	}       /* end of while loop looking for right brace */
+    v = n = 0;
+    while(get_token() != RIGHT_BRACE) {
+        switch(cur_token) {
+            case VERTEX :
+                get_vec();
+                VecCopy(tmp_vec, data[v*2]);
+                ++v;
+                break;
+            case NORMAL :
+                get_vec();
+                VecCopy(tmp_vec, data[n*2+1]);
+                ++n;
+                break;
+            case CLIP :
+                yy_clip();
+                break;
+            default :
+                yyerror("Unknown triangular patch element.");
+                break;
+        }       /* end of patch switch */
+    }       /* end of while loop looking for right brace */
 
-	if(n!=3 || v!=3) {
-		yyerror("Patches must have 3 vertices and normals each.");
-	}
+    if(n!=3 || v!=3) {
+        yyerror("Patches must have 3 vertices and normals each.");
+    }
 
-	if(TransTop) {
-		trans_vector(TransTop->mat, data[0], data[0]);
-		trans_vector(TransTop->mat, data[2], data[2]);
-		trans_vector(TransTop->mat, data[4], data[4]);
-		trans_normal(TransTop->mat, data[1], data[1]);
-		trans_normal(TransTop->mat, data[3], data[3]);
-		trans_normal(TransTop->mat, data[5], data[5]);
-	}
+    if(TransTop) {
+        trans_vector(TransTop->mat, data[0], data[0]);
+        trans_vector(TransTop->mat, data[2], data[2]);
+        trans_vector(TransTop->mat, data[4], data[4]);
+        trans_normal(TransTop->mat, data[1], data[1]);
+        trans_normal(TransTop->mat, data[3], data[3]);
+        trans_normal(TransTop->mat, data[5], data[5]);
+    }
 
-	new_obj = MakeTri(data);
-	new_obj->next = Root;
-	Root = new_obj;
+    new_obj = MakeTri(data);
+    new_obj->next = Root;
+    Root = new_obj;
 
-	++nPrims;
-	yystats();
+    ++nPrims;
+    yystats();
 }       /* end of yy_patch() */
 
 /*
-	yyparse() -- The main entry point into the parser.
+    yyparse() -- The main entry point into the parser.
 */
 
 int     yyparse()
 {
-	while(get_token() != END_OF_FILE) {
-		switch(cur_token) {
-			case NEWFILE :
-				get_token();    /* get file name */
-				yy_newfile(cur_text);
-				break;
-			case POPFILE :
-				yy_popfile();
-				break;
-			case STUDIO :
-				yy_studio();
-				break;
-			case LIGHT :
-				yy_light();
-				break;
-			case SURFACE :
-				yy_surface();
-				break;
-			case TRANSFORM :
-				yy_transform();
-				break;
-			case TRANS_POP :
-				yy_transform_pop();
-				break;
-			case GLOBAL_CLIP :
-				yy_global_clip();
-				break;
-			case CLIP_POP :
-				yy_clip_pop();
-				break;
-			case SPHERE :
-				yy_sphere();
-				break;
-			case CONE :
-				yy_cone();
-				break;
-			case RING :
-				yy_ring();
-				break;
-			case POLYGON :
-				yy_polygon();
-				break;
-			case PATCH :
-				yy_patch();
-				break;
-			default :
-				fprintf(stderr, "\nError parsing, yyparse() found token %d '%s'\n", cur_token, cur_text);
-				yyerror("Unknown token.\n");
-				break;
-		}       /* end of big switch */
-	}       /* end of big loop */
+    while(get_token() != END_OF_FILE) {
+        switch(cur_token) {
+            case NEWFILE :
+                get_token();    /* get file name */
+                yy_newfile(cur_text);
+                break;
+            case POPFILE :
+                yy_popfile();
+                break;
+            case STUDIO :
+                yy_studio();
+                break;
+            case LIGHT :
+                yy_light();
+                break;
+            case SURFACE :
+                yy_surface();
+                break;
+            case TRANSFORM :
+                yy_transform();
+                break;
+            case TRANS_POP :
+                yy_transform_pop();
+                break;
+            case GLOBAL_CLIP :
+                yy_global_clip();
+                break;
+            case CLIP_POP :
+                yy_clip_pop();
+                break;
+            case SPHERE :
+                yy_sphere();
+                break;
+            case CONE :
+                yy_cone();
+                break;
+            case RING :
+                yy_ring();
+                break;
+            case POLYGON :
+                yy_polygon();
+                break;
+            case PATCH :
+                yy_patch();
+                break;
+            default :
+                fprintf(stderr, "\nError parsing, yyparse() found token %d '%s'\n", cur_token, cur_text);
+                yyerror("Unknown token.\n");
+                break;
+        }       /* end of big switch */
+    }       /* end of big loop */
 
-	return 0;       /* successful */
+    return 0;       /* successful */
 
 }       /* end of yyparse() */

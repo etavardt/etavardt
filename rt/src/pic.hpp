@@ -1,3 +1,4 @@
+#pragma once
 /*
 �������������������������������������������
 �                                                                         �
@@ -15,15 +16,21 @@
 �                                                                         �
 �������������������������������������������
 */
-
 #ifndef PIC_ALREADY
 
 #define PIC_ALREADY
 
+#include "String.hpp"
+#include "struct_defs.hpp"
+
 typedef struct Pic {
-    char    *filename;
+//    char    *filename;
+    String filename;
     FILE    *filep;
     int    x, y;
 } Pic;
+extern Pic    *PicOpen(String &filename, int x, int y);
+extern void  PicWriteLine (Pic *pic , Pixel *buf);
+extern void  PicClose (Pic *pic);
 
 #endif

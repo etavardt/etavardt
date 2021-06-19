@@ -24,34 +24,35 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <string>
+#include <iostream>
+#include "Exception.hpp"
+#include "String.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
 
-typedef std::string string;
+using std::cout;
+using std::cerr;
+using std::endl;
 
-int     yyerror(const char *str)
-{
+void yyerror(const char *str) {
     Infile  *iptr;
 
     iptr = InfileTop->what;
-    fprintf(stderr, "\n\nError at line %d\n", yylinecount+1);
-    fprintf(stderr, "file \"%s\"\n", iptr->file_name);
-    fprintf(stderr, "%s\n", str);
-    fprintf(stderr, "Error at or near = \"%s\"", cur_text);
-    exit(1);
-
-    return 0;       /* keep lint/compilers quiet */
+    cerr << "\n\nError at line " << (yylinecount+1) << endl;
+    cerr << "file \"" << iptr->file_name << "\"" << endl;
+    cerr << str << endl;
+    cerr << "Error at or near = \"" << cur_text << "\"" << endl;
+    throw Exception("thrown by yyerror");
 }
 
 void    ReadSceneFile(const char *real_name, char *tmp_name)
 {
     Infile  *iptr;
 
-    if((yyin = env_fopen(tmp_name, string("r").data())) == NULL) {
-        fprintf(stderr, "Error, cannot open %s\n", tmp_name);
-        exit(1);
+    if((yyin = env_fopen(tmp_name, String("r").data())) == NULL) {
+        cerr << "Error, cannot open " << tmp_name << endl;
+        throw Exception("thrown by ReadSceneFile");
     }
     strcpy(Infilename, real_name);
 
@@ -70,8 +71,8 @@ void    ReadSceneFile(const char *real_name, char *tmp_name)
 
     /* parse the input file */
     if(yyparse() == 1) {
-        fprintf(stderr, "Invalid input specification\n");
-        exit(1);
+        cerr << "Invalid input specification" << endl;
+        throw Exception("thrown by ReadSceneFile");
     }
 
     /* clean up transform structures */
@@ -79,24 +80,20 @@ void    ReadSceneFile(const char *real_name, char *tmp_name)
         trans_pop();
 
     if(stop_line == -1) {
-        fprintf(stderr, "\n\nError, no studio structure in input file.\n");
-        exit(1);
+        cerr << "\n\nError, no studio structure in input file." << endl;
+        throw Exception("thrown by ReadSceneFile");
     }
 
     if(tickflag) {
-        fprintf(stderr, "%c\tinputfile = \"%s\"                    \n", 13, Infilename);
-        fprintf(stderr, "\tlights %d, prims %lu\n", nLights, nPrims);
-        fprintf(stderr, "\tresolution %d %d\n", Xresolution, Yresolution);
+        cout << "\n\tinputfile = \"" << Infilename << "\"" << endl;
+        cout << "\tlights " << nLights << " prims " << nPrims <<"\n" << endl;
+        cout << "\tresolution " << Xresolution << " " << Yresolution << endl;
     }
 }
 
-void    ptrchk(void *ptr, const char *str)
-{
-    if(ptr)
-        return;
-
-    fprintf(stderr, "\n\nError allocating memory for a %s.\n", str);
-    exit(1);
+void ptrchk(void *ptr, const char *str) {
+    if (!ptr)
+        throw Exception(String("Error allocating memory for a ").append(str).append("\n").append("thrown by ReadSceneFile"));
 }
 
 void    yystats(void)
@@ -104,7 +101,7 @@ void    yystats(void)
     static int      toc;
 
     if(tickflag && ((toc&0x0f)==0)) {
-        fprintf(stderr, "%c\tlights %d, prims %ld, memory %lu", 13, nLights, nPrims, MemAllocated);
+        cout << "\n\tlights " << nLights << " prims " << nPrims << " memory " << MemAllocated << endl;
     }
     toc++;
 }
@@ -144,8 +141,8 @@ void    yy_popfile()
         iptr = InfileTop->what;
         yylinecount = iptr->line;
     } else {
-        fprintf(stderr, "\nTemp input file corrupted.  Dying\n");
-        exit(1);;
+        cerr << "\nTemp input file corrupted.  Dying" << endl;
+        throw Exception("thrown by yy_popfile");
     }
 }
 

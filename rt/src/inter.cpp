@@ -4,7 +4,7 @@
 �                             Bob Ray Tracer                              �
 �                                                                         �
 �       Inter.C = routines that shuffle through the tree of bounding      �
-�		  objects and try to find the nearest intersection.	              �
+�          objects and try to find the nearest intersection.                  �
 �                                                                         �
 �       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
 �                                                                         �
@@ -32,8 +32,8 @@
  * as suggested by Kajiya...
  */
 
-Flt	num[NSLABS];
-Flt	den[NSLABS];
+Flt    num[NSLABS];
+Flt    den[NSLABS];
 
 /***********************************************************************
  * CheckAndEnqueue(obj, maxdist)
@@ -45,48 +45,48 @@ Flt	den[NSLABS];
  * Note: should be broken into two separate procedures...
  ***********************************************************************/
 
-void	CheckAndEnqueue(Object *obj, Flt maxdist)
+void    CheckAndEnqueue(Object *obj, Flt maxdist)
 {
-	int i = 0;
+    int i = 0;
 
-	Flt	tmin, tmax;
-	Flt	dmin = -HUGE;
-	Flt	dmax = maxdist;
+    Flt    tmin, tmax;
+    Flt    dmin = -HUGE;
+    Flt    dmax = maxdist;
 
-	nChecked++;
+    nChecked++;
 
-	for(i=0; i<NSLABS; i++) {
+    for(i=0; i<NSLABS; i++) {
 
-		if(den[i] == 0.0)
-			continue;
+        if(den[i] == 0.0)
+            continue;
 
-		/* enters the slab here...	*/
-		tmin = (obj->o_dmin[i] - num[i]) / den[i];
-		/* and exits here...		*/
-		tmax = (obj->o_dmax[i] - num[i]) / den[i];
+        /* enters the slab here...    */
+        tmin = (obj->o_dmin[i] - num[i]) / den[i];
+        /* and exits here...        */
+        tmax = (obj->o_dmax[i] - num[i]) / den[i];
 
-		/* but we may have to swap...	*/
-		if(tmin < tmax) {
-			/* if exited closer than we thought, update 	*/
-			if(tmax < dmax)
-				dmax = tmax;
-			/* if entered farther than we thought, update 	*/
-			if(tmin > dmin)
-				dmin = tmin;
-		} else {
-			/* if exited closer than we thought, update 	*/
-			if(tmin < dmax)
-				dmax = tmin;
-			/* if entered farther than we thought, update 	*/
-			if(tmax > dmin)
-				dmin = tmax;
-		}
+        /* but we may have to swap...    */
+        if(tmin < tmax) {
+            /* if exited closer than we thought, update     */
+            if(tmax < dmax)
+                dmax = tmax;
+            /* if entered farther than we thought, update     */
+            if(tmin > dmin)
+                dmin = tmin;
+        } else {
+            /* if exited closer than we thought, update     */
+            if(tmin < dmax)
+                dmax = tmin;
+            /* if entered farther than we thought, update     */
+            if(tmax > dmin)
+                dmin = tmax;
+        }
 
-		if(dmin>dmax || dmax<rayeps)
-			return;
-	}
-	PriorityQueueInsert(dmin, obj);
-	nEnqueued++;
+        if(dmin>dmax || dmax<rayeps)
+            return;
+    }
+    PriorityQueueInsert(dmin, obj);
+    nEnqueued++;
 }
 
 /***********************************************************************
@@ -95,94 +95,94 @@ void	CheckAndEnqueue(Object *obj, Flt maxdist)
  * Returns true if we hit something in the root model closer than maxdist.  
  * Returns the closest hit in the "hit" buffer.
 
-	Self is a pointer to the last object hit.  If self is NULL then
-	the ray either originated at the eye or the last object may be
-	self-intersecting ie spheres and cones.  This can be used to
-	eliminate doing an intersection test with the last object.
+    Self is a pointer to the last object hit.  If self is NULL then
+    the ray either originated at the eye or the last object may be
+    self-intersecting ie spheres and cones.  This can be used to
+    eliminate doing an intersection test with the last object.
 
  ***********************************************************************/
 
 int Intersect(Ray *ray, Isect *hit, Flt maxdist, Object *self)
 {
-	Isect		nhit;
-	int		i;
-	Flt		min_dist = maxdist;
-	Object          *cobj, *child;
-	Object		*pobj = NULL;
-	CompositeData 	*cdp;
-	Flt		key;
+    Isect        nhit;
+    int        i;
+    Flt        min_dist = maxdist;
+    Object          *cobj, *child;
+    Object        *pobj = NULL;
+    CompositeData     *cdp;
+    Flt        key;
 
-	/* If the object is simple, then return the hit that it gives you */
+    /* If the object is simple, then return the hit that it gives you */
 
-	if(Root->o_type != T_COMPOSITE)
-		return (Root->o_procs->intersect) (Root, ray, hit);
+    if(Root->o_type != T_COMPOSITE)
+        return (Root->o_procs->intersect) (Root, ray, hit);
 
-	for(i=0; i<3; i++) {
-		num[i] = ray->P[i];
-		den[i] = ray->D[i];
-	}
+    for(i=0; i<3; i++) {
+        num[i] = ray->P[i];
+        den[i] = ray->D[i];
+    }
 
-	/* start with an empty priority queue */
-	PriorityQueueNull();
+    /* start with an empty priority queue */
+    PriorityQueueNull();
 
-	CheckAndEnqueue(Root, maxdist);
+    CheckAndEnqueue(Root, maxdist);
 
-	for (;;) {
+    for (;;) {
 
-		if(PriorityQueueEmpty())
-			break;
+        if(PriorityQueueEmpty())
+            break;
 
-		PriorityQueueDelete(&key, &cobj);
+        PriorityQueueDelete(&key, &cobj);
 
-		if(key > min_dist) {
+        if(key > min_dist) {
 
-			/*
-			 * we have already found a primitive
-			 * that was closer, we need look no further...
-			 */
-			 break;
+            /*
+             * we have already found a primitive
+             * that was closer, we need look no further...
+             */
+             break;
 
-		} else if(cobj->o_type == T_COMPOSITE) {
-			/*
-			 * if it is in the queue, it got hit.
-			 * check each of its children to see if their
-			 * bounding volumes get hit.
-			 * if so, then push them into the priority
-			 * queue...
-			 */
-			
-			cdp = (CompositeData *) cobj->o_data;
-			child = cdp->children;
+        } else if(cobj->o_type == T_COMPOSITE) {
+            /*
+             * if it is in the queue, it got hit.
+             * check each of its children to see if their
+             * bounding volumes get hit.
+             * if so, then push them into the priority
+             * queue...
+             */
+            
+            cdp = (CompositeData *) cobj->o_data;
+            child = cdp->children;
 
-			while(child) {
-				if(self != child) {
-					CheckAndEnqueue(child, maxdist);
-				}
-				child = child->next;
-			}
+            while(child) {
+                if(self != child) {
+                    CheckAndEnqueue(child, maxdist);
+                }
+                child = child->next;
+            }
 
-		} else {
+        } else {
 
-			/*
-			 * we have a primitive 
-			 * intersect with the primitive, and possibly
-			 * update the nearest hit if it is indeed closer
-			 * than the one we currently have...
-			 */
-			
-			if((cobj->o_procs->intersect) (cobj, ray, &nhit)) {
-				if(nhit.isect_t < min_dist) {
-					pobj = cobj;
-					*hit = nhit;
-					min_dist = nhit.isect_t;
-				}
-			}
-		}
-	}
+            /*
+             * we have a primitive 
+             * intersect with the primitive, and possibly
+             * update the nearest hit if it is indeed closer
+             * than the one we currently have...
+             */
+            
+            if((cobj->o_procs->intersect) (cobj, ray, &nhit)) {
+                if(nhit.isect_t < min_dist) {
+                    pobj = cobj;
+                    *hit = nhit;
+                    min_dist = nhit.isect_t;
+                }
+            }
+        }
+    }
 
-	if (pobj)
-		return 1;
-	else
-		return 0;
+    if (pobj)
+        return 1;
+    else
+        return 0;
 }
 

@@ -18,51 +18,50 @@
 �������������������������������������������
 */
 
+#include "Bob.hpp"
+#include "Stats.hpp"
+#include "Exception.hpp"
+#include "Object_3D.hpp"
+#include "defs.hpp"
+#include "extern.hpp"
+#include "proto.hpp"
+#include "struct_defs.hpp"
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
-#include "Bob.hpp"
-#include "Exception.hpp"
-#include "defs.hpp"
-#include "struct_defs.hpp"
-#include "extern.hpp"
-#include "proto.hpp"
-#include "Object_3D.hpp"
 
-using std::cout;
 using std::cerr;
+using std::cout;
 using std::endl;
 
-static long     total;          /* # objects in main list */
-static Flt      Median;         /* 2*median value along axis */
-static int      Axis;           /* axis to split along */
+static long total; /* # objects in main list */
+static Flt Median; /* 2*median value along axis */
+static int Axis;   /* axis to split along */
 
-
-void    FindAxis(Object *top, long count)
-{
-    Flt    mins[NSLABS];
-    Flt    maxs[NSLABS];
-    int    i, j , which;
-    Flt     d = -HUGE, e, x, y, z;
-    long    cnt;
+void FindAxis(Object *top, long count) {
+    Flt mins[NSLABS];
+    Flt maxs[NSLABS];
+    int i, j, which;
+    Flt d = -HUGE, e, x, y, z;
+    long cnt;
 
     cnt = count;
-    for(i=0; i<NSLABS; i++) {       /* zero out min/max */
+    for (i = 0; i < NSLABS; i++) { /* zero out min/max */
         mins[i] = HUGE;
         maxs[i] = -HUGE;
     }
     x = y = z = 0.0;
 
-    while(count--) {
-        if(top == NULL) {
+    while (count--) {
+        if (top == NULL) {
             cerr << "NULL top in FindAxis, count = " << count << endl;
             throw Exception("thrown by FindAxis");
         }
-        for(j=0; j<NSLABS; j++) {
+        for (j = 0; j < NSLABS; j++) {
             e = top->o_dmin[j] + top->o_dmax[j];
-            if(e < mins[j])
+            if (e < mins[j])
                 mins[j] = e;
-            if(e > maxs[j])
+            if (e > maxs[j])
                 maxs[j] = e;
         }
         x += top->o_dmin[0] + top->o_dmax[0];
@@ -71,47 +70,51 @@ void    FindAxis(Object *top, long count)
         top = top->next;
     }
 
-    for(i=0; i<NSLABS; i++) {
+    for (i = 0; i < NSLABS; i++) {
         e = maxs[i] - mins[i];
-        if(e>d) {
+        if (e > d) {
             d = e;
             which = i;
         }
     }
 
     Axis = which;
-    switch(Axis) {
-        case 0 : Median = x/cnt; break;
-        case 1 : Median = y/cnt; break;
-        case 2 : Median = z/cnt; break;
+    switch (Axis) {
+    case 0:
+        Median = x / cnt;
+        break;
+    case 1:
+        Median = y / cnt;
+        break;
+    case 2:
+        Median = z / cnt;
+        break;
     }
-}       /* end of FindAxis() */
+} /* end of FindAxis() */
 
+int SortAndSplit(Object **top_handle, long count) {
+    Object *top, *hi, *lo, *cur, *tmp, *hi_end, *lo_end;
+    long lo_cnt, hi_cnt, i, j;
+    Flt dmin, dmax;
 
-int     SortAndSplit(Object **top_handle, long count)
-{
-    Object  *top, *hi, *lo, *cur, *tmp, *hi_end, *lo_end;
-    long    lo_cnt, hi_cnt, i, j;
-    Flt     dmin, dmax;
-
-    if(count <= 0)
+    if (count <= 0)
         return 0;
 
     top = *top_handle;
-    if(count > bunching) {          /* need to split */
+    if (count > bunching) { /* need to split */
         FindAxis(top, count);
         hi_cnt = 0;
         lo_cnt = 0;
         cur = *top_handle;
         hi = (Object *)NULL;
         lo = (Object *)NULL;
-        for(i=0; i<count; i++) {
-            if(Median > (cur->o_dmin[Axis] + cur->o_dmax[Axis])) {
+        for (i = 0; i < count; i++) {
+            if (Median > (cur->o_dmin[Axis] + cur->o_dmax[Axis])) {
                 lo_cnt++;
                 tmp = cur;
                 cur = cur->next;
                 tmp->next = lo;
-                if(lo == NULL) {
+                if (lo == NULL) {
                     lo_end = tmp;
                 }
                 lo = tmp;
@@ -120,12 +123,12 @@ int     SortAndSplit(Object **top_handle, long count)
                 tmp = cur;
                 cur = cur->next;
                 tmp->next = hi;
-                if(hi == NULL) {
+                if (hi == NULL) {
                     hi_end = tmp;
                 }
                 hi = tmp;
             }
-        }       /* end of i loop */
+        } /* end of i loop */
 
         /*
             Fix if either list is length 0 by arbitrarily
@@ -133,9 +136,9 @@ int     SortAndSplit(Object **top_handle, long count)
             new FindAxis code.
         */
 
-        if(lo_cnt == 0) {
+        if (lo_cnt == 0) {
             lo_end = hi;
-            for(i=0; i<count/2; i++) {
+            for (i = 0; i < count / 2; i++) {
                 tmp = hi;
                 hi = hi->next;
                 tmp->next = lo;
@@ -143,9 +146,9 @@ int     SortAndSplit(Object **top_handle, long count)
                 hi_cnt--;
                 lo_cnt++;
             }
-        } else if(hi_cnt == 0) {
+        } else if (hi_cnt == 0) {
             hi_end = lo;
-            for(i=0; i<count/2; i++) {
+            for (i = 0; i < count / 2; i++) {
                 tmp = lo;
                 lo = lo->next;
                 tmp->next = hi;
@@ -164,20 +167,22 @@ int     SortAndSplit(Object **top_handle, long count)
         SortAndSplit(top_handle, hi_cnt);
 
         return 1;
-    } else if(count > 1) {          /* create a composite only if more than one object */
-        Object          *cp;
-        CompositeData   *cd;
+    } else if (count > 1) { /* create a composite only if more than one object */
+        Object *cp;
+        CompositeData *cd;
 
-        cp = (Object *)vmalloc(sizeof(Object));
+        cp = new Object();
+        Stats::trackMemoryUsage(sizeof(Object));
         Bob::getApp().parser.ptrchk(cp, "composite object");
 
         cp->o_type = T_COMPOSITE;
-//TODO: TCE Remove:        cp->o_procs = &NullProcs;       /* die if you call any  */
-        cp->o_surf = NULL;              /* no surface...        */
-        cd = (CompositeData *)vmalloc(sizeof(CompositeData));
+        //TODO: TCE Remove:        cp->o_procs = &NullProcs;       /* die if you call any  */
+        cp->o_surf = NULL; /* no surface...        */
+        cd = new CompositeData();
+        Stats::trackMemoryUsage(sizeof(CompositeData));
         Bob::getApp().parser.ptrchk(cd, "composite data");
         cd->size = count;
-        total = total-count+1;
+        total = total - count + 1;
 
         /*
             Replace the objects in the main list with the
@@ -189,36 +194,36 @@ int     SortAndSplit(Object **top_handle, long count)
         *top_handle = cp;
 
         i = count;
-        while(--i) {            /* make top point to last child object */
+        while (--i) { /* make top point to last child object */
             top = top->next;
         }
-        cp->next = top->next;   /* connect new comp object to remainder of list */
-        top->next = NULL;       /* last child's next pointer */
+        cp->next = top->next; /* connect new comp object to remainder of list */
+        top->next = NULL;     /* last child's next pointer */
 
         /* calc bounding slabs for new composite object */
 
-        for(i=0; i<NSLABS; i++) {       /* for each slab */
+        for (i = 0; i < NSLABS; i++) { /* for each slab */
             dmin = HUGE;
             dmax = -HUGE;
-            top = cd->children;     /* point to first child */
-            for(j=0; j<count; j++) {
-                if(top->o_dmin[i] < dmin)
+            top = cd->children; /* point to first child */
+            for (j = 0; j < count; j++) {
+                if (top->o_dmin[i] < dmin)
                     dmin = top->o_dmin[i];
-                if(top->o_dmax[i] > dmax)
+                if (top->o_dmax[i] > dmax)
                     dmax = top->o_dmax[i];
                 top = top->next;
             }
             cp->o_dmin[i] = dmin;
             cp->o_dmax[i] = dmax;
         }
-        cp->o_data = (void *) cd;
+        cp->o_data = (void *)cd;
         ++nPrims;
-        Bob::getApp().parser.yystats();
+        Stats::yystats();
 
         return 0;
     }
-    return 0;       /* only happens with list of length 1 */
-}       /* end of SortAndSplit() */
+    return 0; /* only happens with list of length 1 */
+} /* end of SortAndSplit() */
 
 /*
  * This function attempts to use median cut
@@ -226,12 +231,12 @@ int     SortAndSplit(Object **top_handle, long count)
  * code...
  */
 extern Object *Root;
-void BuildBoundingSlabs(void)
-{
+void BuildBoundingSlabs(void) {
     total = nPrims;
-    while(SortAndSplit(&Root, total))
-        ;               /* this line intentionally left blank */
-    if(tickflag) {
+    while (SortAndSplit(&Root, total))
+        ; /* this line intentionally left blank */
+//    cout << "In BuildBoundingSlabs tickflag = " << tickflag << endl;
+    if (tickflag) {
         cout << "\n\tAfter adding bounding volumes, " << nPrims << " prims.\n";
         cout << "\tExtent of scene\n";
         cout << "\tX  " << Root->o_dmin[0] << "--" << Root->o_dmax[0] << "\n";

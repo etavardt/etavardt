@@ -71,9 +71,9 @@ int     preproc(char *infile, const char *outfile)
         cout << "Preprocessing file:\n\t" << infile << endl;
     }
 
-    line = (char *)malloc(MAX_EXPAND);
+    line = new char[MAX_EXPAND]();
     Bob::getApp().parser.ptrchk(line, "preprocessor space");
-    mline = (char *)malloc(MAX_EXPAND);
+    mline = new char[MAX_EXPAND]();
     Bob::getApp().parser.ptrchk(mline, "preprocessor space");
 
     outfp = fopen(outfile, "w");
@@ -149,7 +149,8 @@ int     preproc(char *infile, const char *outfile)
     fclose(outfp);
 
     clean_up();
-
+    
+    for(int i=0; i<30; i++) cout << endl;
     return 0;
 }       /* end of preproc() */
 
@@ -269,7 +270,7 @@ void    add_macro(char *txt)
 
     /* create new link and fill it in */
 
-    mptr = (Macro *)malloc(sizeof(Macro));
+    mptr = new Macro();
     Bob::getApp().parser.ptrchk(mptr, "macro structure");
 
     sscanf(txt, "%s", macro);

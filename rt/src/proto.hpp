@@ -55,7 +55,7 @@ extern int  Intersect (Ray *ray , Isect *hit , Flt maxdist , Object *self);
 extern int main (int argc , char **argv);
 
 /* memory.c */
-extern void *vmalloc(int size);
+//extern void *vmalloc(int size);
 
 /* noise.c */
 extern void init_noise (void);
@@ -128,7 +128,7 @@ extern void    SphereNormal (Object *obj , Isect *hit , Point P , Point N);
 extern Object *MakeSphere (Vec pos , Flt radius , Flt fuzzy);
 
 /* stats.c */
-extern void statistics (int line);
+//extern void statistics (int line);
 extern void stat_tic(void);
 extern void init_tic(void);
 

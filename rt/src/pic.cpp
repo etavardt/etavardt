@@ -47,7 +47,8 @@ Pic    *PicOpen(String &filename, int x, int y)
 
     time(&old_time);        /* get current time */
 
-    tmp = (Pic *)malloc(sizeof(Pic));
+//    tmp = (Pic *)malloc(sizeof(Pic));
+    tmp = new Pic();
     Bob::getApp().parser.ptrchk(tmp, "Pic structure");
 //TODO: TCE Remove
 //    tmp->filename = (char *)malloc(strlen(filename)+1);

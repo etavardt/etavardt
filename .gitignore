@@ -1,3 +1,4 @@
 rt/yyz.b
 rt/*.img
 rt/build/**
+rt/*.log

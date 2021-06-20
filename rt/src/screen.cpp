@@ -27,6 +27,7 @@
 #include <cstdlib>
 #include <cmath>
 #include "Bob.hpp"
+#include "Stats.hpp"
 #include "screen.hpp"
 #include "defs.hpp"
 #include "pic.hpp"
@@ -122,7 +123,7 @@ void    Scan0(void)
     int     i, j;
     Flt     x, y;
 
-    buf = (Pixel *)malloc(x_res * sizeof(Pixel));
+    buf = new Pixel[x_res]();
 
     for(j=start_line; j<stop_line; j++) {
         for(i=0; i<x_res; i++) {
@@ -142,7 +143,7 @@ void    Scan0(void)
         }
         PicWriteLine(pic, buf);
         if(tickflag)
-            statistics(j);
+            Stats::statistics(j);
     }
     if(tickflag)
         fprintf(stderr, "\n");
@@ -170,8 +171,8 @@ void    Scan1(void)
      */
 
     oldbuf = NULL;
-    curbuf = (Pixel *)malloc ((x_res+1) * sizeof (Pixel));
-    buf = (Pixel *)malloc ((x_res+1) * sizeof (Pixel));
+    curbuf = new Pixel[x_res+1](); // Why +1
+    buf = new Pixel[x_res+1]();    // Why +1
 
     for(j=start_line; j<stop_line; j++) {
         for(i=0; i<x_res+1; i++) {
@@ -207,11 +208,11 @@ void    Scan1(void)
             curbuf = tmp;
         } else {
             oldbuf = curbuf;
-            curbuf = (Pixel *) malloc ((x_res + 1) * sizeof (Pixel));
+            curbuf = new Pixel[x_res+1](); // Why +1
         }
 
         if(tickflag)
-            statistics(j);
+            Stats::statistics(j);
     }
     if(tickflag)
         fprintf(stderr, "\n");
@@ -237,7 +238,7 @@ void    Scan2(void)
 
     /* fill to next mod 6 scan line */
     if(start_line%6) {
-        buff = (Pixel *)malloc(x_res * sizeof(Pixel));
+        buff = new Pixel[x_res](); // Why +1
         Bob::getApp().parser.ptrchk(buff, "pixel buffer");
 
         /* calc stop line for single fill */
@@ -251,7 +252,7 @@ void    Scan2(void)
             }
             PicWriteLine(pic, buff);
             if(tickflag)
-                statistics(j);
+                Stats::statistics(j);
         }
         start_line = yy;
         free(buff);
@@ -260,9 +261,9 @@ void    Scan2(void)
     /* allocate pixel buffers */
 
     for(i=0; i<7; i++) {
-        buf[i] = (Pixel *)malloc((x_res+5) * sizeof(Pixel));
+        buf[i] = new Pixel[x_res+5](); // Why +5
         Bob::getApp().parser.ptrchk(buf[i], "sampling buffer");
-        flags[i] = (int *)malloc((x_res+5) * sizeof(int));
+        flags[i] = new int[x_res+5](); // Why +5
         Bob::getApp().parser.ptrchk(flags[i], "sampling flag buffer");
     }
 
@@ -643,7 +644,7 @@ void    Scan2(void)
             PicWriteLine(pic, buf[j]);
         }
         if(tickflag)
-            statistics(y+6);
+            Stats::statistics(y+6);
     }       /* end of y loop (finally!) */
     if(tickflag)
         fprintf(stderr, "\n");
@@ -686,11 +687,11 @@ void    Scan3(void)
     Color    color;        /* color of current traced ray */
     int     x, y, i, j;
 
-    buf = (Pixel *)malloc(x_res * sizeof(Pixel));
+    buf = new Pixel[x_res]();
     Bob::getApp().parser.ptrchk(buf, "output buffer.");
 
     for(x=0; x<4; x++) {
-        buff[x] = (unsigned char *)malloc(SIDE*x_res+1);
+        buff[x] = new unsigned char[SIDE*x_res+1](); // Why SIDE*x_res+1
         Bob::getApp().parser.ptrchk(buff[x], "antialiasing buffer.");
     }
 
@@ -746,7 +747,7 @@ void    Scan3(void)
         }
         PicWriteLine(pic, buf);
         if(tickflag)
-            statistics(y);
+            Stats::statistics(y);
     }
     if(tickflag)
         fprintf(stderr, "\n");

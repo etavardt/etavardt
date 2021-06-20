@@ -35,6 +35,7 @@
 #include <cstdio>
 #include <math.h>
 #include "Bob.hpp"
+#include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
@@ -161,13 +162,15 @@ Object    *MakeTri(Vec *point)
 
     CheckTri(point);
 
-    o = (Object *)vmalloc(sizeof(Object));
+    o = new Object();
+    Stats::trackMemoryUsage(sizeof(Object));
     Bob::getApp().parser.ptrchk(o, "patch object");
     o->o_type = T_TRI;
     o->o_procs = &TriProcs;
     o->o_surf = CurrentSurface;
 
-    td = (TriData *)vmalloc(sizeof(TriData));
+    td = new TriData();
+    Stats::trackMemoryUsage(sizeof(TriData));
     Bob::getApp().parser.ptrchk(td, "patch data");
 
     if(ClipTop) {

@@ -22,6 +22,7 @@
 #include <cstdio>
 #include <math.h>
 #include "Bob.hpp"
+#include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 
@@ -182,7 +183,8 @@ Object    *MakeCone(Vec basepoint, Flt baseradius, Vec apexpoint, Flt apexradius
     Vec        tmp;
     int        i;
 
-    obj = (Object *) vmalloc(sizeof (Object));
+    obj = new Object();
+    Stats::trackMemoryUsage(sizeof(Object));
     Bob::getApp().parser.ptrchk(obj, "cone object");
     obj->o_type = T_CONE;
     obj->o_procs = &ConeProcs;
@@ -195,7 +197,8 @@ Object    *MakeCone(Vec basepoint, Flt baseradius, Vec apexpoint, Flt apexradius
         obj->clips = NULL;
     }
 
-    cd = (ConeData *) vmalloc(sizeof(ConeData));
+    cd = new ConeData();
+    Stats::trackMemoryUsage(sizeof(ConeData));
     Bob::getApp().parser.ptrchk(cd, "cone data");
 
     VecCopy(basepoint, cd->cone_base);

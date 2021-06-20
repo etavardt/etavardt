@@ -84,7 +84,7 @@ extern unsigned long nRays;
 extern unsigned long nShadows;
 extern unsigned long nReflected;
 extern unsigned long nRefracted;
-extern unsigned long MemAllocated;
+//extern unsigned long MemAllocated;
 
 extern Vec     Slab[];
 extern Object *Root;

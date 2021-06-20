@@ -77,7 +77,7 @@ int             gr_mode = 0;
 unsigned long   nChecked = 0;
 unsigned long   nEnqueued = 0;
 unsigned long   nShadowCacheHits = 0;
-unsigned long   MemAllocated = 0;
+//unsigned long   MemAllocated = 0;
 
 FILE     *yyin;         /* pointer to input file */
 int      cur_token;     /* parser token stuff */

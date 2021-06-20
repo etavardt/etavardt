@@ -21,6 +21,7 @@
 #include <cstdio>
 #include <math.h>
 #include "Bob.hpp"
+#include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
@@ -143,7 +144,8 @@ Object *MakePoly(int npoints, Vec *points)
     Flt        d, dmax, dmin;
     int        i, j;
 
-    obj = (Object *) vmalloc (sizeof(Object));
+    obj = new Object();
+    Stats::trackMemoryUsage(sizeof(Object));
     Bob::getApp().parser.ptrchk(obj, "polygon object");
     obj->o_type = T_POLY;
     obj->o_procs = & PolyProcs;
@@ -156,7 +158,8 @@ Object *MakePoly(int npoints, Vec *points)
         obj->clips = NULL;
     }
 
-    pd = (PolyData *) vmalloc (sizeof(PolyData));
+    pd = new PolyData();
+    Stats::trackMemoryUsage(sizeof(PolyData));
     Bob::getApp().parser.ptrchk(pd, "polygon data");
     pd->poly_npoints = npoints;
     pd->poly_point = points;

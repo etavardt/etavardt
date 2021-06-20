@@ -18,44 +18,46 @@
 �������������������������������������������
 */
 
+#include "Parser.hpp"
+#include "Stats.hpp"
+#include "Exception.hpp"
+#include "String.hpp"
+#include <cmath>
 #include <cstdio>
 #include <cstdlib>
 #include <ctype.h>
-#include <cmath>
 #include <iostream>
-#include "Parser.hpp"
-#include "Exception.hpp"
-#include "String.hpp"
+//#include <array>
 
 #include "defs.hpp"
 #include "extern.hpp"
-#include "tokens.hpp"
 #include "proto.hpp"
+#include "tokens.hpp"
 
-Vec             tmp_vec;
+Vec tmp_vec;
 
-Surface         *yy_surface();
-Wave            *yy_wave();
-Texture         *yy_texture();
-Bump            *yy_bump();
-Texmap          *yy_texmap();
-Turbulence      *yy_turbulence();
-Clip            *yy_clip();
+Surface *yy_surface();
+Wave *yy_wave();
+Texture *yy_texture();
+Bump *yy_bump();
+Texmap *yy_texmap();
+Turbulence *yy_turbulence();
+Clip *yy_clip();
 
 /*
     get_vec() -- get a vector.
 */
-void Parser::get_vec()
-{
-    if(get_token() != NUMBER) {
+void Parser::get_vec() {
+//    cout << "cout: In Parser::get_vec Pre get_token" << endl;
+    if (get_token() != NUMBER) {
         yyerror(String("Number expected but not found."));
     }
     tmp_vec[0] = cur_value;
-    if(get_token() != NUMBER) {
+    if (get_token() != NUMBER) {
         yyerror(String("Number expected but not found."));
     }
     tmp_vec[1] = cur_value;
-    if(get_token() != NUMBER) {
+    if (get_token() != NUMBER) {
         yyerror(String("Number expected but not found."));
     }
     tmp_vec[2] = cur_value;
@@ -64,9 +66,9 @@ void Parser::get_vec()
 /*
     get_num() -- get a number.
 */
-void Parser::get_num()
-{
-    if(get_token() != NUMBER) {
+void Parser::get_num() {
+//    cout << "cout: In Parser::get_num Pre get_token" << endl;
+    if (get_token() != NUMBER) {
         yyerror(String("Number expected but not found."));
     }
 }
@@ -74,210 +76,216 @@ void Parser::get_num()
 /*
     yy_background() -- Parse a background structure.
 */
-void Parser::yy_background()
-{
-    FILE    *fp;
-    int     i, r, g, b;
-    char    str[256];
+void Parser::yy_background() {
+    FILE *fp;
+    int i, r, g, b;
+    char str[256];
 
-    get_token();    /* peek at next token */
-    if(cur_token == NUMBER) {
+//    cout << "cout: In Parser::yy_background Pre get_token" << endl;
+    get_token(); /* peek at next token */
+//    cout << "cout: In Parser::yy_background Post get_token cur_token=" << cur_token << endl;
+    if (cur_token == NUMBER) {
         push_token();
         get_vec();
         VecCopy(tmp_vec, background.color);
-    } else if(cur_token == LEFT_BRACE) {
-        while(get_token() != RIGHT_BRACE) {
-            switch(cur_token) {
-                case COLOR :
-                    get_vec();
-                    VecCopy(tmp_vec, background.color);
-                    break;
-                case UP :
-                    get_vec();
-                    VecCopy(tmp_vec, background.up);
-                    break;
-                case UNKNOWN :  /* must be a palette */
-                    fp = env_fopen(cur_text, "r");
-                    if(!fp) {
-                        fprintf(stderr, "Error opening file %s for input as palette file.\n", cur_text);
-                        exit(1);
-                    }
-                    for(i=0; i<256; i++) {
-                        fgets(str, 256, fp);
-                        sscanf(str, "%d %d %d", &r, &g, &b);
-                        background.pal[i][0] = r;
-                        background.pal[i][1] = g;
-                        background.pal[i][2] = b;
-                    }
-                    MakeVector(-1, -1, -1, background.color);
-                    break;
-                default :
-                    yyerror(String("Unexpected token in background structure."));
-                    break;
+    } else if (cur_token == LEFT_BRACE) {
+        while (get_token() != RIGHT_BRACE) {
+//            cout << "cout: In Parser::yy_background Post while get_token cur_token=" << cur_token << endl;
+            switch (cur_token) {
+            case COLOR:
+                get_vec();
+                VecCopy(tmp_vec, background.color);
+                break;
+            case UP:
+                get_vec();
+                VecCopy(tmp_vec, background.up);
+                break;
+            case UNKNOWN: /* must be a palette */
+//                cout << "cout: In Parser::yy_background cur_token= UNKOWN(" << cur_token << ")" << endl;
+//                cout << "cout: In Parser::yy_background Pre env_fopen cur_text:" << cur_text << endl;
+                fp = env_fopen(cur_text, "r");
+//                cout << "cout: In Parser::yy_background Post env_fopen fp:" << fp << endl;
+                if (!fp) {
+                    fprintf(stderr, "Error opening file %s for input as palette file.\n", cur_text);
+                    exit(1);
+                }
+                for (i = 0; i < 256; i++) {
+                    fgets(str, 256, fp);
+                    sscanf(str, "%d %d %d", &r, &g, &b);
+                    background.pal[i][0] = r;
+                    background.pal[i][1] = g;
+                    background.pal[i][2] = b;
+                }
+                MakeVector(-1, -1, -1, background.color);
+                break;
+            default:
+                yyerror(String("Unexpected token in background structure."));
+                break;
             }
         }
     } else {
         yyerror(String("Invalid background definition."));
     }
-}       /* end of yy_background() */
+} /* end of yy_background() */
 
 /*
     yy_studio() -- Parse the studio structure
 */
-void Parser::yy_studio()
-{
-    Vec     tmp;
+void Parser::yy_studio() {
+    Vec tmp;
 
+//    cout << "cout: In Parser::yy_studio Pre MakeVectors" << endl;
     /* assign defaults */
     Eye.view_aspect = 1.0;
-    MakeVector(0, 0, 0, Ambient);   /* no global illumination */
+    MakeVector(0, 0, 0, Ambient); /* no global illumination */
     MakeVector(0, 0, 0, background.color);
     MakeVector(0, 0, 0, background.up);
-    camera.aperture = 0.0;          /* pinhole camera */
-    camera.focal_length = 0.0;      /* fix later */
+    camera.aperture = 0.0;     /* pinhole camera */
+    camera.focal_length = 0.0; /* fix later */
     camera.samples = F_SAMPLES;
     camera.projection = P_FLAT;
-    HazeDensity = 0.0;              /* on a clear day... */
+    HazeDensity = 0.0; /* on a clear day... */
     start_line = 0;
     stop_line = (-1);
 
-    if(get_token() != LEFT_BRACE) {
+//    cout << "cout: In Parser::yy_studio Pre get_token" << endl;
+    if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected.\n"));
     }
 
-    while(get_token() != RIGHT_BRACE) {
-        switch(cur_token) {
-            case FROM :
-                get_vec();
-                VecCopy(tmp_vec, Eye.view_from);
+    while (get_token() != RIGHT_BRACE) {
+        switch (cur_token) {
+        case FROM:
+            get_vec();
+            VecCopy(tmp_vec, Eye.view_from);
+            break;
+        case AT:
+            get_vec();
+            VecCopy(tmp_vec, Eye.view_at);
+            break;
+        case UP:
+            get_vec();
+            VecCopy(tmp_vec, Eye.view_up);
+            break;
+        case ANGLE:
+            get_num();
+            Eye.view_angle_x = degtorad(cur_value / 2.0);
+            break;
+        case WIDTH:
+            get_num();
+            Eye.view_angle_x = cur_value;
+            break;
+        case RESOLUTION:
+            get_num();
+            Xresolution = cur_value;
+            get_num();
+            Yresolution = cur_value;
+            break;
+        case START:
+            get_num();
+            start_line = cur_value;
+            break;
+        case STOP:
+            get_num();
+            stop_line = cur_value;
+            break;
+        case ASPECT:
+            get_num();
+            Eye.view_aspect = cur_value;
+            break;
+        case BUNCHING:
+            get_num();
+            bunching = cur_value;
+            break;
+        case AMBIENT:
+            get_vec();
+            VecCopy(tmp_vec, Ambient);
+            break;
+        case BKG:
+            yy_background();
+            break;
+        case APERTURE:
+            get_num();
+            camera.aperture = cur_value;
+            break;
+        case FOCAL_LENGTH:
+            get_num();
+            camera.focal_length = cur_value;
+            break;
+        case SAMPLES:
+            get_num();
+            camera.samples = cur_value;
+            break;
+        case PROJECTION:
+            get_token();
+            switch (cur_token) {
+            case FLAT:
+                camera.projection = P_FLAT;
                 break;
-            case AT :
-                get_vec();
-                VecCopy(tmp_vec, Eye.view_at);
+            case ORTHO:
+                camera.projection = P_ORTHOGRAPHIC;
                 break;
-            case UP :
-                get_vec();
-                VecCopy(tmp_vec, Eye.view_up);
+            case FISHEYE:
+                camera.projection = P_FISHEYE;
                 break;
-            case ANGLE :
-                get_num();
-                Eye.view_angle_x = degtorad(cur_value/2.0);
+            case NO_PARALLAX:
+                camera.projection = P_NO_PARALLAX;
                 break;
-            case WIDTH :
-                get_num();
-                Eye.view_angle_x = cur_value;
+            default:
+                yyerror(String("Unknown projection type."));
                 break;
-            case RESOLUTION :
-                get_num();
-                Xresolution = cur_value;
-                get_num();
-                Yresolution = cur_value;
+            }
+            break;
+        case ANTIALIAS:
+            get_token();
+            switch (cur_token) {
+            case NONE:
+                antialias = A_NONE;
                 break;
-            case START :
-                get_num();
-                start_line = cur_value;
+            case CORNERS:
+                antialias = A_CORNERS;
                 break;
-            case STOP :
-                get_num();
-                stop_line = cur_value;
+            case QUICK:
+                antialias = A_QUICK;
                 break;
-            case ASPECT :
-                get_num();
-                Eye.view_aspect = cur_value;
+            case ADAPTIVE:
+                antialias = A_ADAPTIVE;
                 break;
-            case BUNCHING :
-                get_num();
-                bunching = cur_value;
+            default:
+                yyerror(String("Unknown antialias type."));
                 break;
-            case AMBIENT :
-                get_vec();
-                VecCopy(tmp_vec, Ambient);
-                break;
-            case BKG :
-                yy_background();
-                break;
-            case APERTURE :
-                get_num();
-                camera.aperture = cur_value;
-                break;
-            case FOCAL_LENGTH :
-                get_num();
-                camera.focal_length = cur_value;
-                break;
-            case SAMPLES :
-                get_num();
-                camera.samples = cur_value;
-                break;
-            case PROJECTION :
-                get_token();
-                switch(cur_token) {
-                    case FLAT :
-                        camera.projection = P_FLAT;
-                        break;
-                    case ORTHO :
-                        camera.projection = P_ORTHOGRAPHIC;
-                        break;
-                    case FISHEYE :
-                        camera.projection = P_FISHEYE;
-                        break;
-                    case NO_PARALLAX :
-                        camera.projection = P_NO_PARALLAX;
-                        break;
-                    default :
-                        yyerror(String("Unknown projection type."));
-                        break;
-                }
-                break;
-            case ANTIALIAS :
-                get_token();
-                switch(cur_token) {
-                    case NONE :
-                        antialias = A_NONE;
-                        break;
-                    case CORNERS :
-                        antialias = A_CORNERS;
-                        break;
-                    case QUICK :
-                        antialias = A_QUICK;
-                        break;
-                    case ADAPTIVE :
-                        antialias = A_ADAPTIVE;
-                        break;
-                    default :
-                        yyerror(String("Unknown antialias type."));
-                        break;
-                }
-                break;
-            case JITTER :
-                jitter = 1;
-                break;
-            case THRESHOLD :
-                get_num();
-                adapt_dist = cur_value;
-                break;
-            case HAZE :
-                get_num();
-                HazeDensity = cur_value;
-                break;
-            case DEPTH :
-                get_num();
-                maxlevel = cur_value;
-                break;
-            case NO_SHADOWS :
-                no_shadows = 1;
-                break;
-            case CAUSTICS :
-                caustics = 1;
-                break;
-            case NO_EXP_TRANS :
-                exp_trans = 0;
-                break;
-            default :
-                yyerror(String("Unknown studio element."));
-                break;
-        }       /* end of switch */
+            }
+            break;
+        case JITTER:
+            jitter = 1;
+            break;
+        case THRESHOLD:
+            get_num();
+            adapt_dist = cur_value;
+            break;
+        case HAZE:
+            get_num();
+            HazeDensity = cur_value;
+            break;
+        case DEPTH:
+            get_num();
+            maxlevel = cur_value;
+            break;
+        case NO_SHADOWS:
+            no_shadows = 1;
+            break;
+        case CAUSTICS:
+            caustics = 1;
+            break;
+        case NO_EXP_TRANS:
+            exp_trans = 0;
+            break;
+        default:
+            yyerror(String("Unknown studio element."));
+            break;
+        } /* end of switch */
 
-    }       /* end of while loop, must be done */
+    } /* end of while loop, must be done */
 
     /* clean up loose ends in studio structure */
 
@@ -286,149 +294,151 @@ void Parser::yy_studio()
 
     VecNormalize(Eye.view_up);
 
-    if(camera.aperture>0.0 && camera.focal_length==0.0) {
+    if (camera.aperture > 0.0 && camera.focal_length == 0.0) {
         VecSub(Eye.view_from, Eye.view_at, tmp);
         camera.focal_length = VecLen(tmp);
     }
 
-    if(stop_line == (-1)) {         /* do whole image */
+    if (stop_line == (-1)) { /* do whole image */
         stop_line = Yresolution;
     }
 
     VecCopy(background.color, HazeColor);
-    if(background.up[0]==0 && background.up[1]==0 && background.up[2]==0) {
+    if (background.up[0] == 0 && background.up[1] == 0 && background.up[2] == 0) {
         VecCopy(Eye.view_up, background.up);
     } else {
         VecNormalize(background.up);
     }
 
-}       /* end of yy_studio() */
+} /* end of yy_studio() */
 
 /*
     yy_light() -- Parse a light.
 */
-void Parser::yy_light()
-{
-    Light   *tmp;
-    int     i;
+void Parser::yy_light() {
+    Light *tmp;
+    int i;
 
+//    cout << "cout: In Parser::yy_light Pre allocs" << endl;
     /* set up light defaults */
-    tmp = (Light *)vmalloc(sizeof(Light));
+    tmp = new Light();
+    Stats::trackMemoryUsage(sizeof(Light));
     ptrchk(tmp, String("light structure"));
-    tmp->next = light_head;         /* add to head of list */
+    tmp->next = light_head; /* add to head of list */
     light_head = tmp;
     light_head->type = L_POINT;
     light_head->illum = L_INFINITE;
     light_head->samples = L_SAMPLES;
     light_head->flag = 0;
-    for(i=0; i<MAXLEVEL; i++) {
+    for (i = 0; i < MAXLEVEL; i++) {
         light_head->light_obj_cache[i] = NULL;
     }
 
+//    cout << "cout: In Parser::yy_light Pre get_token" << endl;
     /* grab and toss left brace */
-    if(get_token() != LEFT_BRACE) {
+    if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
     }
 
-    while(get_token() != RIGHT_BRACE) {
-        switch(cur_token) {
-            case TYPE :
-                get_token();
-                switch(cur_token) {
-                    case POINT :
-                        light_head->type = L_POINT;
-                        break;
-                    case SPHERICAL :
-                        light_head->type = L_SPHERICAL;
-                        break;
-                    case SPOT :
-                        light_head->type = L_SPOT;
-                        break;
-                    case DIRECTIONAL :
-                        light_head->type = L_DIRECTIONAL;
-                        break;
-                    default :
-                        yyerror(String("Unkown light type."));
-                        break;
-                }       /* end of type switch */
+    while (get_token() != RIGHT_BRACE) {
+        switch (cur_token) {
+        case TYPE:
+            get_token();
+            switch (cur_token) {
+            case POINT:
+                light_head->type = L_POINT;
                 break;
-            case COLOR :
-                get_vec();
-                VecCopy(tmp_vec, light_head->color);
+            case SPHERICAL:
+                light_head->type = L_SPHERICAL;
                 break;
-            case CENTER :
-                get_vec();
-                if(TransTop) {
-                    trans_vector(TransTop->mat, tmp_vec, tmp_vec);
-                }
-                VecCopy(tmp_vec, light_head->position);
+            case SPOT:
+                light_head->type = L_SPOT;
                 break;
-            case FALLOFF :
-                get_num();
-                light_head->illum = cur_value;
-                break;
-            case NO_SHADOWS :
-                get_num();
-                light_head->flag |= L_NOSHADOWS;
-                break;
-            case NOSPEC :
-                get_num();
-                light_head->flag |= L_NOSPEC;
-                break;
-            case DIRECTION :
-                get_vec();
-                if(TransTop) {
-                    trans_normal(TransTop->mat, tmp_vec, tmp_vec);
-                }
-                VecCopy(tmp_vec, light_head->dir);
-                VecS((-1.0), light_head->dir, light_head->dir);
-                VecNormalize(light_head->dir);
-                break;
-            case RADIUS :
-                get_num();
-                light_head->radius = cur_value;
-                break;
-            case MIN_ANGLE :
-                get_num();
-                light_head->min_angle = cos(degtorad(cur_value/2.0));
-                break;
-            case MAX_ANGLE :
-                get_num();
-                light_head->max_angle = cos(degtorad(cur_value/2.0));
-                break;
-            case SAMPLES :
-                get_num();
-                light_head->samples = cur_value;
-                break;
-            case AT :
-                get_vec();
-                if(TransTop) {
-                    trans_vector(TransTop->mat, tmp_vec, tmp_vec);
-                }
-                VecCopy(tmp_vec, light_head->dir);
-                VecSub(light_head->position, light_head->dir, light_head->dir);
-                VecNormalize(light_head->dir);
+            case DIRECTIONAL:
+                light_head->type = L_DIRECTIONAL;
                 break;
             default:
-                yyerror(String("Unkown light structure element."));
+                yyerror(String("Unkown light type."));
                 break;
-        }       /* end of light switch() (ha ha) */
-    }       /* end of loop looking for right brace */
+            } /* end of type switch */
+            break;
+        case COLOR:
+            get_vec();
+            VecCopy(tmp_vec, light_head->color);
+            break;
+        case CENTER:
+            get_vec();
+            if (TransTop) {
+                trans_vector(TransTop->mat, tmp_vec, tmp_vec);
+            }
+            VecCopy(tmp_vec, light_head->position);
+            break;
+        case FALLOFF:
+            get_num();
+            light_head->illum = cur_value;
+            break;
+        case NO_SHADOWS:
+            get_num();
+            light_head->flag |= L_NOSHADOWS;
+            break;
+        case NOSPEC:
+            get_num();
+            light_head->flag |= L_NOSPEC;
+            break;
+        case DIRECTION:
+            get_vec();
+            if (TransTop) {
+                trans_normal(TransTop->mat, tmp_vec, tmp_vec);
+            }
+            VecCopy(tmp_vec, light_head->dir);
+            VecS((-1.0), light_head->dir, light_head->dir);
+            VecNormalize(light_head->dir);
+            break;
+        case RADIUS:
+            get_num();
+            light_head->radius = cur_value;
+            break;
+        case MIN_ANGLE:
+            get_num();
+            light_head->min_angle = cos(degtorad(cur_value / 2.0));
+            break;
+        case MAX_ANGLE:
+            get_num();
+            light_head->max_angle = cos(degtorad(cur_value / 2.0));
+            break;
+        case SAMPLES:
+            get_num();
+            light_head->samples = cur_value;
+            break;
+        case AT:
+            get_vec();
+            if (TransTop) {
+                trans_vector(TransTop->mat, tmp_vec, tmp_vec);
+            }
+            VecCopy(tmp_vec, light_head->dir);
+            VecSub(light_head->position, light_head->dir, light_head->dir);
+            VecNormalize(light_head->dir);
+            break;
+        default:
+            yyerror(String("Unkown light structure element."));
+            break;
+        } /* end of light switch() (ha ha) */
+    }     /* end of loop looking for right brace */
 
     nLights++;
-    yystats();
-}       /* end of yy_light() */
+    Stats::yystats();
+} /* end of yy_light() */
 
 /*
     yy_surface() -- Parse a surface structure.
 */
-Surface *Parser::yy_surface()
-{
+Surface *Parser::yy_surface() {
     Surface *surf;
 
+//    cout << "cout: In Parser::yy_surface Pre allocs" << endl;
     /* allocate surface and fill in default values */
-
-    surf = (Surface *)vmalloc (sizeof(Surface));
+    surf = new Surface();
+    Stats::trackMemoryUsage(sizeof(Surface));
     ptrchk(surf, "surface");
 
     /* assign defaults */
@@ -452,121 +462,120 @@ Surface *Parser::yy_surface()
     /* if a transformation exists, set matrix to inverse
        of current matrix at TransTop */
 
-    if(TransTop) {
+    if (TransTop) {
         surf->flags |= S_TRANSFORM;
         matrix_inverse(TransTop->mat, surf->matrix);
     }
 
+//    cout << "cout: In Parser::yy_surface Pre get_token" << endl;
     /* grab and toss left brace */
-    if(get_token() != LEFT_BRACE) {
+    if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
     }
 
-    while(get_token() != RIGHT_BRACE) {
-        switch(cur_token) {
-            case DIFFUSE :
-                get_token();    /* peek ahead */
-                if(cur_token == LEFT_BRACE) {
-                    push_token();
-                    surf->tm_diff = yy_texmap();
-                    surf->flags |= S_TM_DIFF;
-                } else {
-                    push_token();
-                    get_vec();
-                    VecCopy(tmp_vec, surf->diff);
-                }
-                break;
-            case SPECULAR :
-                get_token();    /* peek ahead */
-                if(cur_token == LEFT_BRACE) {
-                    push_token();
-                    surf->tm_spec = yy_texmap();
-                    surf->flags |= S_TM_SPEC;
-                } else {
-                    push_token();
-                    get_vec();
-                    VecCopy(tmp_vec, surf->spec);
-                    if(surf->shine != 0
-                       && surf->cshine[0] != 0
-                       && surf->cshine[1] != 0
-                       && surf->cshine[2] != 0) {
-                        VecCopy(tmp_vec, surf->cshine);
-                    }
-                }
-                break;
-            case TRANSPARENT :
-                get_token();    /* peek ahead */
-                if(cur_token == LEFT_BRACE) {
-                    push_token();
-                    surf->tm_trans = yy_texmap();
-                    surf->flags |= S_TM_TRANS;
-                } else {
-                    push_token();
-                    get_vec();
-                    VecCopy(tmp_vec, surf->trans);
-                }
-                surf->flags &= ~S_CACHE;
-                break;
-            case AMBIENT :
-                get_token();    /* peek ahead */
-                if(cur_token == LEFT_BRACE) {
-                    push_token();
-                    surf->tm_amb = yy_texmap();
-                    surf->flags |= S_TM_AMB;
-                } else {
-                    push_token();
-                    get_vec();
-                    VecCopy(tmp_vec, surf->amb);
-                }
-                break;
-            case SHINE :
-                get_num();
-                surf->shine = cur_value;
-                get_token();    /* peek ahead */
+    while (get_token() != RIGHT_BRACE) {
+        switch (cur_token) {
+        case DIFFUSE:
+            get_token(); /* peek ahead */
+            if (cur_token == LEFT_BRACE) {
                 push_token();
-                if(cur_token == NUMBER) {
-                    get_vec();
+                surf->tm_diff = yy_texmap();
+                surf->flags |= S_TM_DIFF;
+            } else {
+                push_token();
+                get_vec();
+                VecCopy(tmp_vec, surf->diff);
+            }
+            break;
+        case SPECULAR:
+            get_token(); /* peek ahead */
+            if (cur_token == LEFT_BRACE) {
+                push_token();
+                surf->tm_spec = yy_texmap();
+                surf->flags |= S_TM_SPEC;
+            } else {
+                push_token();
+                get_vec();
+                VecCopy(tmp_vec, surf->spec);
+                if (surf->shine != 0 && surf->cshine[0] != 0 && surf->cshine[1] != 0 && surf->cshine[2] != 0) {
                     VecCopy(tmp_vec, surf->cshine);
-                } else {
-                    VecCopy(surf->spec, surf->cshine);
                 }
-                break;
-            case IOR :
-                get_num();
-                surf->ior = cur_value;
-                break;
-            case FUZZ :
-                get_num();
-                surf->fuzz = cur_value;
-                break;
-            case NO_ANTIALIAS :
-                surf->flags |= S_NO_ANTIALIAS;
-                break;
-            case TEXTURE :
-                surf->tex = yy_texture();
-                break;
-            case BUMP :
-                surf->bump = yy_bump();
-                break;
-            default :
-                yyerror(String("Unknown surface element."));
-                break;
-        }       /* end of bump map switch */
-    }       /* end of while loop looking for left brace */
+            }
+            break;
+        case TRANSPARENT:
+            get_token(); /* peek ahead */
+            if (cur_token == LEFT_BRACE) {
+                push_token();
+                surf->tm_trans = yy_texmap();
+                surf->flags |= S_TM_TRANS;
+            } else {
+                push_token();
+                get_vec();
+                VecCopy(tmp_vec, surf->trans);
+            }
+            surf->flags &= ~S_CACHE;
+            break;
+        case AMBIENT:
+            get_token(); /* peek ahead */
+            if (cur_token == LEFT_BRACE) {
+                push_token();
+                surf->tm_amb = yy_texmap();
+                surf->flags |= S_TM_AMB;
+            } else {
+                push_token();
+                get_vec();
+                VecCopy(tmp_vec, surf->amb);
+            }
+            break;
+        case SHINE:
+            get_num();
+            surf->shine = cur_value;
+            get_token(); /* peek ahead */
+            push_token();
+            if (cur_token == NUMBER) {
+                get_vec();
+                VecCopy(tmp_vec, surf->cshine);
+            } else {
+                VecCopy(surf->spec, surf->cshine);
+            }
+            break;
+        case IOR:
+            get_num();
+            surf->ior = cur_value;
+            break;
+        case FUZZ:
+            get_num();
+            surf->fuzz = cur_value;
+            break;
+        case NO_ANTIALIAS:
+            surf->flags |= S_NO_ANTIALIAS;
+            break;
+        case TEXTURE:
+            surf->tex = yy_texture();
+            break;
+        case BUMP:
+            surf->bump = yy_bump();
+            break;
+        default:
+            yyerror(String("Unknown surface element."));
+            break;
+        } /* end of bump map switch */
+    }     /* end of while loop looking for left brace */
 
-    CurrentSurface = surf;  /* so primitives can find it */
+    CurrentSurface = surf; /* so primitives can find it */
     return surf;
-}       /* end of yy_surface() */
+} /* end of yy_surface() */
 
 /*
     yy_texture() -- Parse procedural texture definition.
 */
-Texture *Parser::yy_texture()
-{
+Texture *Parser::yy_texture() {
     Texture *cur_tex;
-    Wave    *tmp_wave;
+    Wave *tmp_wave;
 
-    cur_tex = (Texture *)vmalloc(sizeof(Texture));
+//    cout << "cout: In Parser::yy_texture Pre alloc" << endl;
+    cur_tex = new Texture();
+    Stats::trackMemoryUsage(sizeof(Texture));
     ptrchk(cur_tex, "procedural texture structure");
 
     /* assign defaults */
@@ -583,107 +592,109 @@ Texture *Parser::yy_texture()
     cur_tex->surf[0] = NULL;
     cur_tex->surf[1] = NULL;
 
+//    cout << "cout: In Parser::yy_texture Pre get_token" << endl;
     /* grab and toss left brace */
-    if(get_token() != LEFT_BRACE) {
+    if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
     }
 
-    while(get_token() != RIGHT_BRACE) {
-        switch(cur_token) {
-            case SURFACE :
-                if(cur_tex->surf[0] == NULL) {
-                    cur_tex->surf[0] = yy_surface();
-                } else if(cur_tex->surf[1] == NULL) {
-                    cur_tex->surf[1] = yy_surface();
-                } else {
-                    yyerror(String("Sorry, only two surfaces per texture allowed.\n"));
-                }
+    while (get_token() != RIGHT_BRACE) {
+        switch (cur_token) {
+        case SURFACE:
+            if (cur_tex->surf[0] == NULL) {
+                cur_tex->surf[0] = yy_surface();
+            } else if (cur_tex->surf[1] == NULL) {
+                cur_tex->surf[1] = yy_surface();
+            } else {
+                yyerror(String("Sorry, only two surfaces per texture allowed.\n"));
+            }
+            break;
+        case PATTERN:
+            get_token();
+            switch (cur_token) {
+            case CHECKER:
+                cur_tex->func = tex_checker;
                 break;
-            case PATTERN :
-                get_token();
-                switch(cur_token) {
-                    case CHECKER :
-                        cur_tex->func = tex_checker;
-                        break;
-                    case SPHERICAL :
-                        cur_tex->func = tex_spherical;
-                        break;
-                    case NOISE :
-                        cur_tex->func = tex_noise;
-                        break;
-                    default :
-                        yyerror(String("Unknown texture type."));
-                        break;
-                }
+            case SPHERICAL:
+                cur_tex->func = tex_spherical;
                 break;
-            case SCALE :
-                get_vec();
-                VecCopy(tmp_vec, cur_tex->scale);
+            case NOISE:
+                cur_tex->func = tex_noise;
                 break;
-            case TRANSLATE :
-                get_vec();
-                VecCopy(tmp_vec, cur_tex->trans);
+            default:
+                yyerror(String("Unknown texture type."));
                 break;
-            case BLEND :
-                get_num();
-                cur_tex->blur = cur_value;
-                break;
-            case FUZZ :
-                get_num();
-                cur_tex->fuzz = cur_value;
-                break;
-            case TERMS :
-                get_num();
-                cur_tex->terms = cur_value;
-                break;
-            case RADIUS :
-                get_num();
-                if(cur_tex->r1 < 0) {
-                    cur_tex->r1 = cur_value;
-                } else if(cur_tex->r2 < 0) {
-                    cur_tex->r2 = cur_value;
-                } else {
-                    yyerror(String("Thanks anyway but only two radii are needed."));
-                }
-                break;
-            case TURBULENCE :
-                cur_tex->turbulence = yy_turbulence();
-                break;
-            case WAVE :
-                /* get new wave structure and add to head of list */
-                tmp_wave = yy_wave();
-                tmp_wave->next = cur_tex->waves;
-                cur_tex->waves = tmp_wave;
-                break;
-            default :
-                yyerror(String("Unknown texture element."));
-                break;
-        }       /* end of texture switch() */
-    }       /* end of loop looking for right brace */
+            }
+            break;
+        case SCALE:
+            get_vec();
+            VecCopy(tmp_vec, cur_tex->scale);
+            break;
+        case TRANSLATE:
+            get_vec();
+            VecCopy(tmp_vec, cur_tex->trans);
+            break;
+        case BLEND:
+            get_num();
+            cur_tex->blur = cur_value;
+            break;
+        case FUZZ:
+            get_num();
+            cur_tex->fuzz = cur_value;
+            break;
+        case TERMS:
+            get_num();
+            cur_tex->terms = cur_value;
+            break;
+        case RADIUS:
+            get_num();
+            if (cur_tex->r1 < 0) {
+                cur_tex->r1 = cur_value;
+            } else if (cur_tex->r2 < 0) {
+                cur_tex->r2 = cur_value;
+            } else {
+                yyerror(String("Thanks anyway but only two radii are needed."));
+            }
+            break;
+        case TURBULENCE:
+            cur_tex->turbulence = yy_turbulence();
+            break;
+        case WAVE:
+            /* get new wave structure and add to head of list */
+            tmp_wave = yy_wave();
+            tmp_wave->next = cur_tex->waves;
+            cur_tex->waves = tmp_wave;
+            break;
+        default:
+            yyerror(String("Unknown texture element."));
+            break;
+        } /* end of texture switch() */
+    }     /* end of loop looking for right brace */
 
     /* clean up loose ends */
-    if(cur_tex->func == NULL) {
+    if (cur_tex->func == NULL) {
         yyerror(String("No pattern declared for texture."));
     }
-    if(cur_tex->func == tex_spherical) {
-        if(cur_tex->r2 < 0) {
+    if (cur_tex->func == tex_spherical) {
+        if (cur_tex->r2 < 0) {
             cur_tex->r2 = cur_tex->r1;
         }
     }
 
     return cur_tex;
 
-}       /* end of yy_texture() */
+} /* end of yy_texture() */
 
 /*
     yy_bump() -- Parse bump map structure definition.
 */
-Bump *Parser::yy_bump()
-{
-    Bump    *cur_bump;
-    Wave    *tmp_wave;
+Bump *Parser::yy_bump() {
+    Bump *cur_bump;
+    Wave *tmp_wave;
 
-    cur_bump = (Bump *)vmalloc(sizeof(Bump));
+//    cout << "cout: In Parser::yy_bump Pre allocs" << endl;
+    cur_bump = new Bump();
+    Stats::trackMemoryUsage(sizeof(Bump));
     ptrchk(cur_bump, "surface normal bump structure");
 
     /* fill in defaults */
@@ -692,56 +703,58 @@ Bump *Parser::yy_bump()
     cur_bump->turbulence = NULL;
     cur_bump->waves = NULL;
 
+//    cout << "cout: In Parser::yy_bump Pre get_token" << endl;
     /* grab and toss left brace */
-    if(get_token() != LEFT_BRACE) {
+    if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
     }
 
-    while(get_token() != RIGHT_BRACE) {
-        switch(cur_token) {
-            case SCALE :
-                get_vec();
-                VecCopy(tmp_vec, cur_bump->scale);
-                break;
-            case TRANSLATE :
-                get_vec();
-                VecCopy(tmp_vec, cur_bump->trans);
-                break;
-            case TURBULENCE :
-                cur_bump->turbulence = yy_turbulence();
-                break;
-            case WAVE :
-                /* get new wave structure and add to head of list */
-                tmp_wave = yy_wave();
-                tmp_wave->next = cur_bump->waves;
-                cur_bump->waves = tmp_wave;
-                break;
-            default :
-                yyerror(String("Unknown bump map element."));
-                break;
-        }       /* end of bump map switch */
-    }       /* end of while loop looking for right brace */
+    while (get_token() != RIGHT_BRACE) {
+        switch (cur_token) {
+        case SCALE:
+            get_vec();
+            VecCopy(tmp_vec, cur_bump->scale);
+            break;
+        case TRANSLATE:
+            get_vec();
+            VecCopy(tmp_vec, cur_bump->trans);
+            break;
+        case TURBULENCE:
+            cur_bump->turbulence = yy_turbulence();
+            break;
+        case WAVE:
+            /* get new wave structure and add to head of list */
+            tmp_wave = yy_wave();
+            tmp_wave->next = cur_bump->waves;
+            cur_bump->waves = tmp_wave;
+            break;
+        default:
+            yyerror(String("Unknown bump map element."));
+            break;
+        } /* end of bump map switch */
+    }     /* end of while loop looking for right brace */
 
     return cur_bump;
 
-}       /* end of yy_bump() */
+} /* end of yy_bump() */
 
 /*
     yy_texmap() -- Parse a texure map structure.
 */
-Texmap *Parser::yy_texmap()
-{
-    Texmap  *cur_texmap;
+Texmap *Parser::yy_texmap() {
+    Texmap *cur_texmap;
 
+//    cout << "cout: In Parser::yy_texmap Pre allocs" << endl;
     /* allocate and fill in the defaults */
-    cur_texmap = (Texmap *)vmalloc(sizeof(Texmap));
+    cur_texmap = new Texmap();
+    Stats::trackMemoryUsage(sizeof(Texmap));
     ptrchk(cur_texmap, "texture map structure");
     MakeVector(0.0, 0.0, 0.0, cur_texmap->position);
     MakeVector(0.0, 0.0, 1.0, cur_texmap->normal);
     MakeVector(1.0, 0.0, 0.0, cur_texmap->across);
     MakeVector(0.0, -1.0, 0.0, cur_texmap->down);
-    if(TransTop) {
-        cur_texmap->scale = 1.0/TransTop->mat[3][3];
+    if (TransTop) {
+        cur_texmap->scale = 1.0 / TransTop->mat[3][3];
     } else {
         cur_texmap->scale = 1.0;
     }
@@ -749,47 +762,48 @@ Texmap *Parser::yy_texmap()
     cur_texmap->grn = NULL;
     cur_texmap->blu = NULL;
 
+//    cout << "cout: In Parser::yy_texmap Pre get_token" << endl;
     /* grab and toss left brace */
-    if(get_token() != LEFT_BRACE) {
+    if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
     }
 
-    while(get_token() != RIGHT_BRACE) {
-        switch(cur_token) {
-            case IMAGE :
-                get_token();
-                tex_read_img(cur_text, cur_texmap);
-                break;
-            case CENTER :
-                get_vec();
-                VecCopy(tmp_vec, cur_texmap->position);
-                if(TransTop) {
-                    trans_vector(TransTop->mat, cur_texmap->position, cur_texmap->position);
-                }
-                break;
-            case NORMAL :
-                get_vec();
-                VecCopy(tmp_vec, cur_texmap->normal);
-                if(TransTop) {
-                    trans_normal(TransTop->mat, cur_texmap->normal, cur_texmap->normal);
-                }
-                break;
-            case ACROSS :
-                get_vec();
-                VecCopy(tmp_vec, cur_texmap->across);
-                if(TransTop) {
-                    trans_normal(TransTop->mat, cur_texmap->across, cur_texmap->across);
-                }
-                break;
-            case SCALE :
-                get_num();
-                cur_texmap->scale *= cur_value;
-                break;
-            default :
-                yyerror(String("Unkown texture map structure element."));
-                break;
-        }       /* end of texture map switch */
-    }       /* end of while loop looking for right brace */
+    while (get_token() != RIGHT_BRACE) {
+        switch (cur_token) {
+        case IMAGE:
+            get_token();
+            tex_read_img(cur_text, cur_texmap);
+            break;
+        case CENTER:
+            get_vec();
+            VecCopy(tmp_vec, cur_texmap->position);
+            if (TransTop) {
+                trans_vector(TransTop->mat, cur_texmap->position, cur_texmap->position);
+            }
+            break;
+        case NORMAL:
+            get_vec();
+            VecCopy(tmp_vec, cur_texmap->normal);
+            if (TransTop) {
+                trans_normal(TransTop->mat, cur_texmap->normal, cur_texmap->normal);
+            }
+            break;
+        case ACROSS:
+            get_vec();
+            VecCopy(tmp_vec, cur_texmap->across);
+            if (TransTop) {
+                trans_normal(TransTop->mat, cur_texmap->across, cur_texmap->across);
+            }
+            break;
+        case SCALE:
+            get_num();
+            cur_texmap->scale *= cur_value;
+            break;
+        default:
+            yyerror(String("Unkown texture map structure element."));
+            break;
+        } /* end of texture map switch */
+    }     /* end of while loop looking for right brace */
 
     /* make sure everything is normalized and perpendicular */
 
@@ -800,17 +814,18 @@ Texmap *Parser::yy_texmap()
 
     return cur_texmap;
 
-}       /* end of yy_texmap() */
+} /* end of yy_texmap() */
 
 /*
     yy_turbulence() -- Parse a turbulence structure.
 */
-Turbulence *Parser::yy_turbulence()
-{
-    Turbulence      *cur_turb;
+Turbulence *Parser::yy_turbulence() {
+    Turbulence *cur_turb;
 
+//    cout << "cout: In Parser::yy_turbulence Pre allocs" << endl;
     /* allocate and fill in defaults */
-    cur_turb = (Turbulence *)vmalloc(sizeof(Turbulence));
+    cur_turb = new Turbulence();
+    Stats::trackMemoryUsage(sizeof(Turbulence));
     ptrchk(cur_turb, "turbulence structure");
 
     cur_turb->terms = 1;
@@ -818,243 +833,251 @@ Turbulence *Parser::yy_turbulence()
     MakeVector(1, 1, 1, cur_turb->scale);
     MakeVector(0, 0, 0, cur_turb->trans);
 
+//    cout << "cout: In Parser::yy_turbulence Pre get_token" << endl;
     /* grab and toss left brace */
-    if(get_token() != LEFT_BRACE) {
+    if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
     }
 
-    while(get_token() != RIGHT_BRACE) {
-        switch(cur_token) {
-            case TERMS :
-                get_num();
-                cur_turb->terms = cur_value;
-                break;
-            case AMP :
-                get_num();
-                cur_turb->amp = cur_value;
-                break;
-            case SCALE :
-                get_vec();
-                VecCopy(tmp_vec, cur_turb->scale);
-                break;
-            case TRANSLATE :
-                get_vec();
-                VecCopy(tmp_vec, cur_turb->trans);
-                break;
-            default :
-                yyerror(String("Unknown turbulence structure element."));
-                break;
-        }       /* end of turbulence switch */
-    }       /* end of while loop looking for right brace */
+    while (get_token() != RIGHT_BRACE) {
+        switch (cur_token) {
+        case TERMS:
+            get_num();
+            cur_turb->terms = cur_value;
+            break;
+        case AMP:
+            get_num();
+            cur_turb->amp = cur_value;
+            break;
+        case SCALE:
+            get_vec();
+            VecCopy(tmp_vec, cur_turb->scale);
+            break;
+        case TRANSLATE:
+            get_vec();
+            VecCopy(tmp_vec, cur_turb->trans);
+            break;
+        default:
+            yyerror(String("Unknown turbulence structure element."));
+            break;
+        } /* end of turbulence switch */
+    }     /* end of while loop looking for right brace */
 
     return cur_turb;
 
-}       /* end of yy_turbulence() */
+} /* end of yy_turbulence() */
 
 /*
     yy_wave() -- Parse a wave structure.
 */
-Wave *Parser::yy_wave()
-{
-    Wave    *cur_wave;
+Wave *Parser::yy_wave() {
+    Wave *cur_wave;
 
+//    cout << "cout: In Parser::yy_wave Pre allocs" << endl;
     /* allocate and fill in defaults */
-    cur_wave = (Wave *)vmalloc(sizeof(Wave));
+    cur_wave = new Wave();
+    Stats::trackMemoryUsage(sizeof(Wave));
     ptrchk(cur_wave, "wave structure");
 
     MakeVector(0, 0, 0, cur_wave->center);
     cur_wave->wavelength = 1.0;
-    cur_wave->amp        = 0.1;
-    cur_wave->damp       = 1.0;
-    cur_wave->phase      = 0.0;
+    cur_wave->amp = 0.1;
+    cur_wave->damp = 1.0;
+    cur_wave->phase = 0.0;
 
+//    cout << "cout: In Parser::yy_wave Pre get_token" << endl;
     /* grab and toss left brace */
-    if(get_token() != LEFT_BRACE) {
+    if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
     }
 
-    while(get_token() != RIGHT_BRACE) {
-        switch(cur_token) {
-            case CENTER :
-                get_vec();
-                VecCopy(tmp_vec, cur_wave->center);
-                break;
-            case LENGTH :
-                get_num();
-                cur_wave->wavelength = cur_value;
-                break;
-            case AMP :
-                get_num();
-                cur_wave->amp = cur_value;
-                break;
-            case DAMPING :
-                get_num();
-                cur_wave->damp = cur_value;
-                break;
-            case PHASE :
-                get_num();
-                cur_wave->phase = cur_value;
-                break;
-            default :
-                yyerror(String("Unknown wave structure element."));
-                break;
-        }       /* end of wave switch */
-    }       /* end of while loop looking for right brace */
+    while (get_token() != RIGHT_BRACE) {
+        switch (cur_token) {
+        case CENTER:
+            get_vec();
+            VecCopy(tmp_vec, cur_wave->center);
+            break;
+        case LENGTH:
+            get_num();
+            cur_wave->wavelength = cur_value;
+            break;
+        case AMP:
+            get_num();
+            cur_wave->amp = cur_value;
+            break;
+        case DAMPING:
+            get_num();
+            cur_wave->damp = cur_value;
+            break;
+        case PHASE:
+            get_num();
+            cur_wave->phase = cur_value;
+            break;
+        default:
+            yyerror(String("Unknown wave structure element."));
+            break;
+        } /* end of wave switch */
+    }     /* end of while loop looking for right brace */
 
     return cur_wave;
 
-}       /* end of yy_wave() */
+} /* end of yy_wave() */
 
 /*
     yy_transform() -- Parse a transformation.
 */
-void Parser::yy_transform()
-{
-    Transform       *cur_trans;
-    Matrix          m;
-    Flt             theta, tmp;
+void Parser::yy_transform() {
+    Transform *cur_trans;
+    Matrix m;
+    Flt theta, tmp;
 
-    cur_trans = (Transform *)vmalloc(sizeof(Transform));
+//    cout << "cout: In Parser::yy_transform Pre allocs" << endl;
+    cur_trans = new Transform();
+    Stats::trackMemoryUsage(sizeof(Transform));
     ptrchk(cur_trans, "transform structure");
     cur_trans->next = TransTop;
     TransTop = cur_trans;
     identity(cur_trans->mat);
 
+//    cout << "cout: In Parser::yy_transform Pre get_token" << endl;
     /* grab and toss left brace */
-    if(get_token() != LEFT_BRACE) {
+    if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
     }
 
-    while(get_token() != RIGHT_BRACE) {
-        switch(cur_token) {
-            case ROTATE :
-                get_vec();
+    while (get_token() != RIGHT_BRACE) {
+        switch (cur_token) {
+        case ROTATE:
+            get_vec();
 
-                /* do x axis rotation */
-                identity(m);
-                theta = degtorad(tmp_vec[0]);
-                m[1][1] = cos(theta);
-                m[2][1] = -sin(theta);
-                m[1][2] = sin(theta);
-                m[2][2] = cos(theta);
-                matrix_cat(TransTop->mat, m, TransTop->mat);
+            /* do x axis rotation */
+            identity(m);
+            theta = degtorad(tmp_vec[0]);
+            m[1][1] = cos(theta);
+            m[2][1] = -sin(theta);
+            m[1][2] = sin(theta);
+            m[2][2] = cos(theta);
+            matrix_cat(TransTop->mat, m, TransTop->mat);
 
-                /* do y axis rotation */
-                identity(m);
-                theta = degtorad(tmp_vec[1]);
-                m[0][0] = cos(theta);
-                m[2][0] = sin(theta);
-                m[0][2] = -sin(theta);
-                m[2][2] = cos(theta);
-                matrix_cat(TransTop->mat, m, TransTop->mat);
+            /* do y axis rotation */
+            identity(m);
+            theta = degtorad(tmp_vec[1]);
+            m[0][0] = cos(theta);
+            m[2][0] = sin(theta);
+            m[0][2] = -sin(theta);
+            m[2][2] = cos(theta);
+            matrix_cat(TransTop->mat, m, TransTop->mat);
 
-                /* do z axis rotation */
-                identity(m);
-                theta = degtorad(tmp_vec[2]);
-                m[0][0] = cos(theta);
-                m[1][0] = -sin(theta);
-                m[0][1] = sin(theta);
-                m[1][1] = cos(theta);
-                matrix_cat(TransTop->mat, m, TransTop->mat);
+            /* do z axis rotation */
+            identity(m);
+            theta = degtorad(tmp_vec[2]);
+            m[0][0] = cos(theta);
+            m[1][0] = -sin(theta);
+            m[0][1] = sin(theta);
+            m[1][1] = cos(theta);
+            matrix_cat(TransTop->mat, m, TransTop->mat);
 
-                break;
-            case TRANSLATE :
-                get_vec();
-                identity(m);    /* make identity matrix */
-                m[3][0] = tmp_vec[0];
-                m[3][1] = tmp_vec[1];
-                m[3][2] = tmp_vec[2];
+            break;
+        case TRANSLATE:
+            get_vec();
+            identity(m); /* make identity matrix */
+            m[3][0] = tmp_vec[0];
+            m[3][1] = tmp_vec[1];
+            m[3][2] = tmp_vec[2];
 
-                matrix_cat(TransTop->mat, m, TransTop->mat);
+            matrix_cat(TransTop->mat, m, TransTop->mat);
 
-                break;
-            case SCALE :
+            break;
+        case SCALE:
+            get_num();
+            tmp = cur_value;
+            get_token();
+            if (cur_token == NUMBER) {
+                identity(m); /* make identity matrix */
+                m[0][0] = tmp;
+                m[1][1] = cur_value;
                 get_num();
-                tmp = cur_value;
-                get_token();
-                if(cur_token == NUMBER) {
-                    identity(m);    /* make identity matrix */
-                    m[0][0] = tmp;
-                    m[1][1] = cur_value;
-                    get_num();
-                    m[2][2] = cur_value;
+                m[2][2] = cur_value;
 
-                    matrix_cat(TransTop->mat, m, TransTop->mat);
-                } else {
-                    push_token();
-                    TransTop->mat[3][3] /= tmp;
-                }
-                break;
-            default :
-                yyerror(String("Unknown transformation element."));
-                break;
-        }       /* end of transformation switch */
-    }       /* end of while loop looking for right brace */
+                matrix_cat(TransTop->mat, m, TransTop->mat);
+            } else {
+                push_token();
+                TransTop->mat[3][3] /= tmp;
+            }
+            break;
+        default:
+            yyerror(String("Unknown transformation element."));
+            break;
+        } /* end of transformation switch */
+    }     /* end of while loop looking for right brace */
 
     /* concatenate new transformation onto previous ones */
 
-    if(TransTop->next) {
+    if (TransTop->next) {
         matrix_cat(TransTop->mat, TransTop->next->mat, TransTop->mat);
     }
 
-}       /* end of yy_transform() */
+} /* end of yy_transform() */
 
 /*
     yy_transform_pop() -- Pop the current transformation.
 */
-void Parser::yy_transform_pop()
-{
+void Parser::yy_transform_pop() {
+//    cout << "cout: In Parser::yy_transform_pop Pre trans_pop" << endl;
     trans_pop();
-}       /* end of yy_transform_pop() */
+} /* end of yy_transform_pop() */
 
 /*
     yy_global_clip() -- Parse a global clip.
 */
-void Parser::yy_global_clip()
-{
-    GlobalClip      *ptr;
-    Clip            *new_clip;
+void Parser::yy_global_clip() {
+    GlobalClip *ptr;
+    Clip *new_clip;
 
-    ptr = (GlobalClip *)vmalloc(sizeof(GlobalClip));
+//    cout << "cout: In Parser::yy_global_clip Pre allocs" << endl;
+    ptr = new GlobalClip();
+    Stats::trackMemoryUsage(sizeof(GlobalClip));
     ptrchk(ptr, "global clipping linked list structure");
-    ptr->next       = GlobalClipTop;
-    ptr->clip       = NULL;
-    GlobalClipTop   = ptr;
+    ptr->next = GlobalClipTop;
+    ptr->clip = NULL;
+    GlobalClipTop = ptr;
 
+//    cout << "cout: In Parser::yy_global_clip Pre get_token" << endl;
     /* grab and toss left brace */
-    if(get_token() != LEFT_BRACE) {
+    if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
     }
 
-    while(get_token() != RIGHT_BRACE) {
-        if(cur_token == CLIP) {
+    while (get_token() != RIGHT_BRACE) {
+        if (cur_token == CLIP) {
             yy_clip();
         } else {
             yyerror(String("Clipping structure expected."));
         }
-    }       /* end of while loop looking for right brace */
+    } /* end of while loop looking for right brace */
 
     ptr->clip = ClipTop;
 
-}       /* end of yy_global_clip() */
+} /* end of yy_global_clip() */
 
 /*
     yy_clip_pop() -- Pop the current clip.
 */
-void Parser::yy_clip_pop()
-{
+void Parser::yy_clip_pop() {
+//    cout << "cout: In Parser::yy_clip_pop" << endl;
     GlobalClipTop = GlobalClipTop->next;
     ClipTop = GlobalClipTop->clip;
-}       /* end of yy_clip_pop() */
+} /* end of yy_clip_pop() */
 
 /*
     yy_clip() -- Parse a clipping structure.
 */
-Clip *Parser::yy_clip()
-{
-    Clip    *cur_clip;
+Clip *Parser::yy_clip() {
+    Clip *cur_clip;
 
-    cur_clip = (Clip *)vmalloc(sizeof(Clip));
+//    cout << "cout: In Parser::yy_clip Pre allocs" << endl;
+    cur_clip = new Clip();
+    Stats::trackMemoryUsage(sizeof(Clip));
     ptrchk(cur_clip, "clipping structure");
     MakeVector(0, 0, 0, cur_clip->center);
     MakeVector(0, 0, 1, cur_clip->normal);
@@ -1062,84 +1085,85 @@ Clip *Parser::yy_clip()
     MakeVector(0, 0, 0, cur_clip->base);
     cur_clip->radius1 = 0.0;
     cur_clip->radius2 = 0.0;
-    cur_clip->length  = 0.0;
-    cur_clip->type    = 0;
+    cur_clip->length = 0.0;
+    cur_clip->type = 0;
 
+//    cout << "cout: In Parser::yy_clip Pre get_token" << endl;
     /* grab and toss left brace */
-    if(get_token() != LEFT_BRACE) {
+    if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
     }
 
-    while(get_token() != RIGHT_BRACE) {
-        switch(cur_token) {
-            case CENTER :
-                get_vec();
-                VecCopy(tmp_vec, cur_clip->center);
-                if(TransTop) {
-                    trans_vector(TransTop->mat, cur_clip->center, cur_clip->center);
-                }
-                if(!(cur_clip->type & C_PLANE)) {
-                    cur_clip->type |= C_SPHERE;
-                }
-                break;
-            case NORMAL :
-                get_vec();
-                VecCopy(tmp_vec, cur_clip->normal);
-                if(TransTop) {
-                    trans_normal(TransTop->mat, cur_clip->normal, cur_clip->normal);
-                }
-                cur_clip->type |= C_PLANE;
-                if(cur_clip->type & C_SPHERE) {
-                    cur_clip->type ^= C_SPHERE;
-                }
-                break;
-            case APEX :
-                get_vec();
-                VecCopy(tmp_vec, cur_clip->apex);
-                if(TransTop) {
-                    trans_vector(TransTop->mat, cur_clip->apex, cur_clip->apex);
-                }
-                ClipTop->type |= C_CONE;
-                break;
-            case BASE :
-                get_vec();
-                VecCopy(tmp_vec, cur_clip->base);
-                if(TransTop) {
-                    trans_vector(TransTop->mat, cur_clip->base, cur_clip->base);
-                }
-                cur_clip->type |= C_CONE;
-                break;
-            case RADIUS :
-                get_num();
-                cur_clip->radius1 = cur_value;
-                cur_clip->radius2 = cur_value;
-                break;
-            case APEX_RADIUS :
-                get_num();
-                cur_clip->radius1 = cur_value;
-                cur_clip->type |= C_CONE;
-                break;
-            case BASE_RADIUS :
-                get_num();
-                cur_clip->radius2 = cur_value;
-                cur_clip->type |= C_CONE;
-                break;
-            case INSIDE :
-                cur_clip->type |= C_INSIDE;
-                break;
-            case OUTSIDE :          /* this is the default */
-                break;
-            default :
-                yyerror(String("Unknown clipping structure element."));
-                break;
-        }       /* end of clip switch */
-    }       /* end of while loop looking for right brace */
+    while (get_token() != RIGHT_BRACE) {
+        switch (cur_token) {
+        case CENTER:
+            get_vec();
+            VecCopy(tmp_vec, cur_clip->center);
+            if (TransTop) {
+                trans_vector(TransTop->mat, cur_clip->center, cur_clip->center);
+            }
+            if (!(cur_clip->type & C_PLANE)) {
+                cur_clip->type |= C_SPHERE;
+            }
+            break;
+        case NORMAL:
+            get_vec();
+            VecCopy(tmp_vec, cur_clip->normal);
+            if (TransTop) {
+                trans_normal(TransTop->mat, cur_clip->normal, cur_clip->normal);
+            }
+            cur_clip->type |= C_PLANE;
+            if (cur_clip->type & C_SPHERE) {
+                cur_clip->type ^= C_SPHERE;
+            }
+            break;
+        case APEX:
+            get_vec();
+            VecCopy(tmp_vec, cur_clip->apex);
+            if (TransTop) {
+                trans_vector(TransTop->mat, cur_clip->apex, cur_clip->apex);
+            }
+            ClipTop->type |= C_CONE;
+            break;
+        case BASE:
+            get_vec();
+            VecCopy(tmp_vec, cur_clip->base);
+            if (TransTop) {
+                trans_vector(TransTop->mat, cur_clip->base, cur_clip->base);
+            }
+            cur_clip->type |= C_CONE;
+            break;
+        case RADIUS:
+            get_num();
+            cur_clip->radius1 = cur_value;
+            cur_clip->radius2 = cur_value;
+            break;
+        case APEX_RADIUS:
+            get_num();
+            cur_clip->radius1 = cur_value;
+            cur_clip->type |= C_CONE;
+            break;
+        case BASE_RADIUS:
+            get_num();
+            cur_clip->radius2 = cur_value;
+            cur_clip->type |= C_CONE;
+            break;
+        case INSIDE:
+            cur_clip->type |= C_INSIDE;
+            break;
+        case OUTSIDE: /* this is the default */
+            break;
+        default:
+            yyerror(String("Unknown clipping structure element."));
+            break;
+        } /* end of clip switch */
+    }     /* end of while loop looking for right brace */
 
-    if(cur_clip->type & C_CONE) {
+    if (cur_clip->type & C_CONE) {
         VecSub(cur_clip->base, cur_clip->apex, cur_clip->normal);
         cur_clip->length = VecNormalize(cur_clip->normal);
     }
-    if(cur_clip->type & C_SPHERE) {
+    if (cur_clip->type & C_SPHERE) {
         cur_clip->radius1 = cur_clip->radius1 * cur_clip->radius1;
     }
 
@@ -1147,51 +1171,51 @@ Clip *Parser::yy_clip()
     ClipTop = cur_clip;
 
     return cur_clip;
-}       /* end of yy_clip() */
+} /* end of yy_clip() */
 
 /*
     yy_sphere() -- Parse a sphere
 */
-void Parser::yy_sphere()
-{
-    Vec     center;
-    Flt     radius, fuzz;
-    Object  *new_obj;
+void Parser::yy_sphere() {
+    Vec center;
+    Flt radius, fuzz;
+    Object *new_obj;
 
     fuzz = 0.0;
 
+//    cout << "cout: In Parser::yy_sphere Pre get_token" << endl;
     /* grab and toss left brace */
-    if(get_token() != LEFT_BRACE) {
+    if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
     }
 
-    while(get_token() != RIGHT_BRACE) {
-        switch(cur_token) {
-            case CENTER :
-                get_vec();
-                VecCopy(tmp_vec, center);
-                break;
-            case RADIUS :
-                get_num();
-                radius = cur_value;
-                break;
-            case FUZZ :
-                get_num();
-                fuzz = cur_value;
-                break;
-            case CLIP :
-                yy_clip();
-                break;
-            default :
-                yyerror(String("Unknown sphere element."));
-                break;
-        }       /* end of sphere switch */
-    }       /* end of while loop looking for right brace */
+    while (get_token() != RIGHT_BRACE) {
+        switch (cur_token) {
+        case CENTER:
+            get_vec();
+            VecCopy(tmp_vec, center);
+            break;
+        case RADIUS:
+            get_num();
+            radius = cur_value;
+            break;
+        case FUZZ:
+            get_num();
+            fuzz = cur_value;
+            break;
+        case CLIP:
+            yy_clip();
+            break;
+        default:
+            yyerror(String("Unknown sphere element."));
+            break;
+        } /* end of sphere switch */
+    }     /* end of while loop looking for right brace */
 
-    if(TransTop) {
+    if (TransTop) {
         trans_vector(TransTop->mat, center, center);
-        radius  /= TransTop->mat[3][3];
-        fuzz    /= TransTop->mat[3][3];
+        radius /= TransTop->mat[3][3];
+        fuzz /= TransTop->mat[3][3];
     }
 
     new_obj = MakeSphere(center, radius, fuzz);
@@ -1199,56 +1223,56 @@ void Parser::yy_sphere()
     Root = new_obj;
 
     ++nPrims;
-    yystats();
-}       /* end of yy_sphere() */
+    Stats::yystats();
+} /* end of yy_sphere() */
 
 /*
     yy_cone() -- Parse a cone.
 */
-void Parser::yy_cone()
-{
-    Vec     apex, base;
-    Flt     arad, brad;
-    Object  *new_obj;
+void Parser::yy_cone() {
+    Vec apex, base;
+    Flt arad, brad;
+    Object *new_obj;
 
+//    cout << "cout: In Parser::yy_cone Pre get_token" << endl;
     /* grab and toss left brace */
-    if(get_token() != LEFT_BRACE) {
+    if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
     }
 
-    while(get_token() != RIGHT_BRACE) {
-        switch(cur_token) {
-            case APEX :
-                get_vec();
-                VecCopy(tmp_vec, apex);
-                break;
-            case BASE :
-                get_vec();
-                VecCopy(tmp_vec, base);
-                break;
-            case APEX_RADIUS :
-                get_num();
-                arad = cur_value;
-                break;
-            case BASE_RADIUS :
-                get_num();
-                brad = cur_value;
-                break;
-            case RADIUS :
-                get_num();
-                arad = cur_value;
-                brad = cur_value;
-                break;
-            case CLIP :
-                yy_clip();
-                break;
-            default :
-                yyerror(String("Unknown cone element."));
-                break;
-        }       /* end of cone switch */
-    }       /* end of while loop looking for right brace */
+    while (get_token() != RIGHT_BRACE) {
+        switch (cur_token) {
+        case APEX:
+            get_vec();
+            VecCopy(tmp_vec, apex);
+            break;
+        case BASE:
+            get_vec();
+            VecCopy(tmp_vec, base);
+            break;
+        case APEX_RADIUS:
+            get_num();
+            arad = cur_value;
+            break;
+        case BASE_RADIUS:
+            get_num();
+            brad = cur_value;
+            break;
+        case RADIUS:
+            get_num();
+            arad = cur_value;
+            brad = cur_value;
+            break;
+        case CLIP:
+            yy_clip();
+            break;
+        default:
+            yyerror(String("Unknown cone element."));
+            break;
+        } /* end of cone switch */
+    }     /* end of while loop looking for right brace */
 
-    if(TransTop) {
+    if (TransTop) {
         trans_vector(TransTop->mat, apex, apex);
         trans_vector(TransTop->mat, base, base);
         arad /= TransTop->mat[3][3];
@@ -1260,54 +1284,54 @@ void Parser::yy_cone()
     Root = new_obj;
 
     ++nPrims;
-    yystats();
-}       /* end of yy_cone() */
+    Stats::yystats();
+} /* end of yy_cone() */
 
 /*
     yy_ring() -- Parse a ring.
 */
-void Parser::yy_ring()
-{
-    Vec     center, normal;
-    Flt     min_rad, max_rad;
-    Object  *new_obj;
+void Parser::yy_ring() {
+    Vec center, normal;
+    Flt min_rad, max_rad;
+    Object *new_obj;
 
     min_rad = 0.0;
 
+//    cout << "cout: In Parser::yy_ring Pre get_token" << endl;
     /* grab and toss left brace */
-    if(get_token() != LEFT_BRACE) {
+    if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
     }
 
-    while(get_token() != RIGHT_BRACE) {
-        switch(cur_token) {
-            case CENTER :
-                get_vec();
-                VecCopy(tmp_vec, center);
-                break;
-            case NORMAL :
-                get_vec();
-                VecCopy(tmp_vec, normal);
-                break;
-            case MIN_RADIUS :
-                get_num();
-                min_rad = cur_value;
-                break;
-            case MAX_RADIUS :
-            case RADIUS :
-                get_num();
-                max_rad = cur_value;
-                break;
-            case CLIP :
-                yy_clip();
-                break;
-            default :
-                yyerror(String("Unknown ring element."));
-                break;
-        }       /* end of ring switch */
-    }       /* end of while loop looking for right brace */
+    while (get_token() != RIGHT_BRACE) {
+        switch (cur_token) {
+        case CENTER:
+            get_vec();
+            VecCopy(tmp_vec, center);
+            break;
+        case NORMAL:
+            get_vec();
+            VecCopy(tmp_vec, normal);
+            break;
+        case MIN_RADIUS:
+            get_num();
+            min_rad = cur_value;
+            break;
+        case MAX_RADIUS:
+        case RADIUS:
+            get_num();
+            max_rad = cur_value;
+            break;
+        case CLIP:
+            yy_clip();
+            break;
+        default:
+            yyerror(String("Unknown ring element."));
+            break;
+        } /* end of ring switch */
+    }     /* end of while loop looking for right brace */
 
-    if(TransTop) {
+    if (TransTop) {
         trans_vector(TransTop->mat, center, center);
         trans_normal(TransTop->mat, normal, normal);
         min_rad /= TransTop->mat[3][3];
@@ -1319,56 +1343,57 @@ void Parser::yy_ring()
     Root = new_obj;
 
     ++nPrims;
-    yystats();
-}       /* end of yy_ring() */
+    Stats::yystats();
+} /* end of yy_ring() */
 
 /*
     yy_polygon() -- Parse a polygon.
 */
-void Parser::yy_polygon()
-{
-    int     num_pnts, i;
-    Vec     *vlist;
-    Object  *new_obj;
+void Parser::yy_polygon() {
+    int num_pnts, i;
+    Vec *vlist;
+    Object *new_obj;
 
+//    cout << "cout: In Parser::yy_polygon Pre get_token" << endl;
     /* grab and toss left brace */
-    if(get_token() != LEFT_BRACE) {
+    if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
     }
 
     /* get number of points */
 
     get_token();
-    if(cur_token != POINTS) {
+    if (cur_token != POINTS) {
         yyerror(String("Number of points in polygon needed."));
     }
     get_num();
     num_pnts = cur_value;
-
-    vlist = (Vec *)vmalloc(num_pnts * sizeof(Vec));
+    
+    vlist = new Vec[num_pnts]();
+    Stats::trackMemoryUsage(sizeof(Vec[num_pnts]));
     ptrchk(vlist, "polygon vertex list");
     i = 0;
 
-    while(get_token() != RIGHT_BRACE) {
-        switch(cur_token) {
-            case VERTEX :
-                get_vec();
-                VecCopy(tmp_vec, vlist[i]);
-                if(TransTop) {
-                    trans_vector(TransTop->mat, vlist[i], vlist[i]);
-                }
-                i++;
-                break;
-            case CLIP :
-                yy_clip();
-                break;
-            default :
-                yyerror(String("Unknown polygon element.  Vertex expected."));
-                break;
-        }       /* end of ring switch */
-    }       /* end of while loop looking for right brace */
+    while (get_token() != RIGHT_BRACE) {
+        switch (cur_token) {
+        case VERTEX:
+            get_vec();
+            VecCopy(tmp_vec, vlist[i]);
+            if (TransTop) {
+                trans_vector(TransTop->mat, vlist[i], vlist[i]);
+            }
+            i++;
+            break;
+        case CLIP:
+            yy_clip();
+            break;
+        default:
+            yyerror(String("Unknown polygon element.  Vertex expected."));
+            break;
+        } /* end of ring switch */
+    }     /* end of while loop looking for right brace */
 
-    if(i != num_pnts) {
+    if (i != num_pnts) {
         yyerror(String("Number of vertices expected does not match data."));
     }
 
@@ -1377,50 +1402,50 @@ void Parser::yy_polygon()
     Root = new_obj;
 
     ++nPrims;
-    yystats();
-}       /* end of yy_polygon() */
+    Stats::yystats();
+} /* end of yy_polygon() */
 
 /*
     yy_patch() -- Parse a triangular patch.
 */
-void Parser::yy_patch()
-{
-    Vec     data[6];
-    int     v, n;
-    Object  *new_obj;
+void Parser::yy_patch() {
+    Vec data[6];
+    int v, n;
+    Object *new_obj;
 
+//    cout << "cout: In Parser::yy_patch Pre get_token" << endl;
     /* grab and toss left brace */
-    if(get_token() != LEFT_BRACE) {
+    if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
     }
 
     v = n = 0;
-    while(get_token() != RIGHT_BRACE) {
-        switch(cur_token) {
-            case VERTEX :
-                get_vec();
-                VecCopy(tmp_vec, data[v*2]);
-                ++v;
-                break;
-            case NORMAL :
-                get_vec();
-                VecCopy(tmp_vec, data[n*2+1]);
-                ++n;
-                break;
-            case CLIP :
-                yy_clip();
-                break;
-            default :
-                yyerror(String("Unknown triangular patch element."));
-                break;
-        }       /* end of patch switch */
-    }       /* end of while loop looking for right brace */
+    while (get_token() != RIGHT_BRACE) {
+        switch (cur_token) {
+        case VERTEX:
+            get_vec();
+            VecCopy(tmp_vec, data[v * 2]);
+            ++v;
+            break;
+        case NORMAL:
+            get_vec();
+            VecCopy(tmp_vec, data[n * 2 + 1]);
+            ++n;
+            break;
+        case CLIP:
+            yy_clip();
+            break;
+        default:
+            yyerror(String("Unknown triangular patch element."));
+            break;
+        } /* end of patch switch */
+    }     /* end of while loop looking for right brace */
 
-    if(n!=3 || v!=3) {
+    if (n != 3 || v != 3) {
         yyerror(String("Patches must have 3 vertices and normals each."));
     }
 
-    if(TransTop) {
+    if (TransTop) {
         trans_vector(TransTop->mat, data[0], data[0]);
         trans_vector(TransTop->mat, data[2], data[2]);
         trans_vector(TransTop->mat, data[4], data[4]);
@@ -1434,126 +1459,135 @@ void Parser::yy_patch()
     Root = new_obj;
 
     ++nPrims;
-    yystats();
-}       /* end of yy_patch() */
+    Stats::yystats();
+} /* end of yy_patch() */
 
 /*
     yyparse() -- The main entry point into the parser.
 */
 
-int Parser::yyparse()
-{
-    while(get_token() != END_OF_FILE) {
-        switch(cur_token) {
-            case NEWFILE :
-                get_token();    /* get file name */
-                yy_newfile(cur_text);
-                break;
-            case POPFILE :
-                yy_popfile();
-                break;
-            case STUDIO :
-                yy_studio();
-                break;
-            case LIGHT :
-                yy_light();
-                break;
-            case SURFACE :
-                yy_surface();
-                break;
-            case TRANSFORM :
-                yy_transform();
-                break;
-            case TRANS_POP :
-                yy_transform_pop();
-                break;
-            case GLOBAL_CLIP :
-                yy_global_clip();
-                break;
-            case CLIP_POP :
-                yy_clip_pop();
-                break;
-            case SPHERE :
-                yy_sphere();
-                break;
-            case CONE :
-                yy_cone();
-                break;
-            case RING :
-                yy_ring();
-                break;
-            case POLYGON :
-                yy_polygon();
-                break;
-            case PATCH :
-                yy_patch();
-                break;
-            default :
-                fprintf(stderr, "\nError parsing, yyparse() found token %d '%s'\n", cur_token, cur_text);
-                yyerror(String("Unknown token.\n"));
-                break;
-        }       /* end of big switch */
-    }       /* end of big loop */
+int Parser::yyparse() {
+//    cout << "cout: In Parser::yyparse Pre get_token" << endl;
+    while (get_token() != END_OF_FILE) {
+//        cout << "cout: In Parser::yyparse cur_token=" << cur_token << endl;
+        switch (cur_token) {
+        case NEWFILE:
+            get_token(); /* get file name */
+            yy_newfile(cur_text);
+            break;
+        case POPFILE:
+            yy_popfile();
+            break;
+        case STUDIO:
+            yy_studio();
+            break;
+        case LIGHT:
+            yy_light();
+            break;
+        case SURFACE:
+            yy_surface();
+            break;
+        case TRANSFORM:
+            yy_transform();
+            break;
+        case TRANS_POP:
+            yy_transform_pop();
+            break;
+        case GLOBAL_CLIP:
+            yy_global_clip();
+            break;
+        case CLIP_POP:
+            yy_clip_pop();
+            break;
+        case SPHERE:
+            yy_sphere();
+            break;
+        case CONE:
+            yy_cone();
+            break;
+        case RING:
+            yy_ring();
+            break;
+        case POLYGON:
+            yy_polygon();
+            break;
+        case PATCH:
+            yy_patch();
+            break;
+        default:
+            fprintf(stderr, "\nError parsing, yyparse() found token %d '%s'\n", cur_token, cur_text);
+            yyerror(String("Unknown token.\n"));
+            break;
+        } /* end of big switch */
+    }     /* end of big loop */
 
-    return 0;       /* successful */
+    return 0; /* successful */
 
-}       /* end of yyparse() */
+} /* end of yyparse() */
 
 void Parser::yyerror(const String &str) {
-    Infile  *iptr;
+    Infile *iptr;
 
     iptr = InfileTop->what;
-    cerr << "\n\nError at line " << (yylinecount+1) << endl;
+    cerr << "\n\nError at line " << (yylinecount + 1) << endl;
     cerr << "file \"" << iptr->file_name << "\"" << endl;
     cerr << str << endl;
     cerr << "Error at or near = \"" << cur_text << "\"" << endl;
     throw Exception("thrown by yyerror");
 }
 
-void Parser::ReadSceneFile(const String real_name, String tmp_name)
-{
-    Infile  *iptr;
+void Parser::ReadSceneFile(const String &real_name, String tmp_name) {
+//    cout << "cout: In Parser::ReadSceneFile real_name=" << real_name << " \ttmp_name=" << tmp_name << endl;
 
-    if((yyin = env_fopen(tmp_name, String("r").data())) == NULL) {
+    Infile *iptr;
+
+    if ((yyin = env_fopen(tmp_name, String("r").data())) == NULL) {
         cerr << "Error, cannot open " << tmp_name << endl;
         throw Exception("thrown by ReadSceneFile");
     }
+//    cout << "cout: In Parser::ReadSceneFile Post env_fopen Pre malloc of Stack *InfileTop" << endl;
     Infilename = real_name;
-//    strcpy(Infilename, real_name);
 
     /* set up input file stack */
-    InfileTop = (Stack *)malloc(sizeof(Stack));
+    InfileTop = new Stack();
+//    Stats::trackMemoryUsage(sizeof(Stack));
     ptrchk(InfileTop, "input file stack object");
     InfileTop->prev = NULL;
 
-    iptr = (Infile *)malloc(sizeof(Infile));
+//    cout << "cout: In Parser::ReadSceneFile Post malloc of Stack InfileTop Pre malloc of Infile *iptr" << endl;
+
+    iptr = new Infile();
+//    Stats::trackMemoryUsage(sizeof(Infile));
     ptrchk(iptr, "input file structure");
     InfileTop->what = iptr;
 
-//    iptr->file_name = strdup(Infilename);
     iptr->file_name = Infilename;
     ptrchk(iptr->file_name.data(), "input file name");
     iptr->line = 0;
 
+//    cout << "cout: In Parser::ReadSceneFile Post ptrchk of input file name Pre Parse the input file" << endl;
+
     /* parse the input file */
-    if(yyparse() == 1) {
+    if (yyparse() == 1) {
         cerr << "Invalid input specification" << endl;
         throw Exception("thrown by ReadSceneFile");
     }
 
+//    cout << "cout: In Parser::ReadSceneFile Post yyparse Pre clean up transform structures" << endl;
     /* clean up transform structures */
-    while(TransTop)
+    while (TransTop)
         trans_pop();
 
-    if(stop_line == -1) {
+    if (stop_line == -1) {
         cerr << "\n\nError, no studio structure in input file." << endl;
         throw Exception("thrown by ReadSceneFile");
     }
 
-    if(tickflag) {
-        cout << "\n\tinputfile = \"" << Infilename << "\"" << endl;
-        cout << "\tlights " << nLights << " prims " << nPrims <<"\n" << endl;
+    if (tickflag) {
+        cout << "\tinputfile = \"" << Infilename << "\"" << endl;
+        cout << "\tlights " << nLights << " prims " << nPrims << "\n" << endl;
         cout << "\tresolution " << Xresolution << " " << Yresolution << endl;
+        for(int i=0; i<30; i++) cout << endl;
     }
 }
 
@@ -1562,46 +1596,38 @@ void Parser::ptrchk(void *ptr, const String str) {
         throw Exception(String("Error allocating memory for a ").append(str).append("\n").append("thrown by ReadSceneFile"));
 }
 
-void Parser::yystats(void)
-{
-    static int      toc;
+void Parser::yy_newfile(String new_file) {
+    Infile *iptr;
+    Stack *sptr;
 
-    if(tickflag && ((toc&0x0f)==0)) {
-        cout << "\n\tlights " << nLights << " prims " << nPrims << " memory " << MemAllocated << endl;
-    }
-    toc++;
-}
-
-void Parser::yy_newfile(String new_file)
-{
-    Infile  *iptr;
-    Stack   *sptr;
-
-    iptr = InfileTop->what;         /* save line number for current file */
+    iptr = InfileTop->what; /* save line number for current file */
     iptr->line = yylinecount;
 
-    sptr = (Stack *)vmalloc(sizeof(Stack));
+//    cout << "cout: In Parser::yy_newfile Pre allocs" << endl;
+    sptr = new Stack();
+    Stats::trackMemoryUsage(sizeof(Stack));
     ptrchk(sptr, "input file stack object");
     sptr->prev = InfileTop;
     InfileTop = sptr;
 
-    iptr = (Infile *)vmalloc(sizeof(Infile));
+    iptr = new Infile();
+    Stats::trackMemoryUsage(sizeof(Infile));
     ptrchk(iptr, "input file structure");
     InfileTop->what = iptr;
 
-//    iptr->file_name = strdup(new_file);
+    //    iptr->file_name = strdup(new_file);
     iptr->file_name = new_file;
     iptr->line = 0;
     yylinecount = -1;
 
-}       /* end of yy_newfile() */
+} /* end of yy_newfile() */
 
-void Parser::yy_popfile()
-{
-    Infile  *iptr;
-    Stack   *sptr;
+void Parser::yy_popfile() {
+    Infile *iptr;
+    Stack *sptr;
 
-    if(InfileTop->prev) {
+//    cout << "cout: In Parser::yy_patch Pre InfileTop->prev check" << endl;
+    if (InfileTop->prev) {
         iptr = InfileTop->what;
         sptr = InfileTop;
         InfileTop = InfileTop->prev;
@@ -1613,12 +1639,12 @@ void Parser::yy_popfile()
     }
 }
 
-void Parser::trans_pop()
-{
-    Transform       *tptr;
+void Parser::trans_pop() {
+    Transform *tptr;
 
+//    cout << "cout: In Parser::trans_pop Pre TransTop ptr check" << endl;
     tptr = TransTop;
-    if(tptr == NULL) {
+    if (tptr == NULL) {
         yyerror(String("Trying to pop a transformation from an empty stack."));
     }
     TransTop = TransTop->next;

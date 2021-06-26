@@ -12,16 +12,17 @@
 
 class Object_3D {
     public:
-    Object_3D(); //default Constructor
+    Object_3D() {} //default Constructor
+    ~Object_3D();
     
     unsigned short o_type;
 
     Flt o_dmin[NSLABS];
     Flt o_dmax[NSLABS];
 
-    Surface *o_surf;
-    void    *o_data;
-    Clip    *clips;
+    Surface_3D *o_surf;
+    void       *o_data;
+    Clip       *clips;
 
     Object_3D *next;          /* next object in original list, sibling */
 /*
@@ -30,17 +31,19 @@ class Object_3D {
         void    (*normal) (t_object*, Isect*, Flt*, Flt*);
     } * o_procs;
 */
-    typedef struct t_isect {
-        Flt      isect_t;       /* distance to intersection */
-        int      isect_enter;   /* entering? ie hit front? */
-        Object_3D *isect_prim;    /* object we hit */
-        Surface  *isect_surf;    /* surface def of hit object */
-        Object_3D *isect_self;    /* pointer to self for queue elimination */
-    } Isect;
-    int  Intersect(Object_3D *a, Ray *b, Object_3D::Isect *c);
-    void Normal(Object_3D *a, Object_3D::Isect *b, Flt *c, Flt *d);
+    class Isect {
+        public:
+        Flt         isect_t;       /* distance to intersection */
+        int         isect_enter;   /* entering? ie hit front? */
+        Object_3D  *isect_prim;    /* object we hit */
+        Surface_3D *isect_surf;    /* surface def of hit object */
+        Object_3D  *isect_self;    /* pointer to self for queue elimination */
+    };
+    virtual int  intersect(Object_3D *a, Ray *b, Object_3D::Isect *c);
+    virtual void normal(Object_3D *a, Object_3D::Isect *b, Flt *c, Flt *d);
 
 };
+/*
 typedef struct t_object {
     unsigned short o_type;
 
@@ -48,11 +51,11 @@ typedef struct t_object {
     Flt o_dmax[NSLABS];
 
     struct t_isect {
-        Flt      isect_t;       /* distance to intersection */
-        int      isect_enter;   /* entering? ie hit front? */
-        t_object *isect_prim;    /* object we hit */
-        Surface  *isect_surf;    /* surface def of hit object */
-        t_object *isect_self;    /* pointer to self for queue elimination */
+        Flt      isect_t;       //* distance to intersection * /
+        int      isect_enter;   //* entering? ie hit front? * /
+        t_object *isect_prim;    //* object we hit * /
+        Surface  *isect_surf;    //* surface def of hit object * /
+        t_object *isect_self;    //* pointer to self for queue elimination * /
     };
     struct t_objectprocs {
         int     (*intersect) (t_object*, Ray*, t_isect*);
@@ -63,19 +66,22 @@ typedef struct t_object {
     void    *o_data;
     Clip    *clips;
 
-    struct t_object *next;          /* next object in original list, sibling */
+    struct t_object *next;          //* next object in original list, sibling * /
 } Object;
+*/
+typedef Object_3D Object;
 
-typedef struct Object::t_isect Isect;
+//typedef struct Object::t_isect Isect;
+typedef struct Object_3D::Isect Isect;
 
+/*
 typedef struct t_compositedata {
     unsigned long   size;
     Object          *children;
 } CompositeData;
-
+*/
 //TODO: TCE Remove
-typedef struct t_object::t_objectprocs ObjectProcs;
+//typedef struct t_object::t_objectprocs ObjectProcs;
 
 //#endif //Object_3D_HPP
 
-//typedef Object_3D Object;

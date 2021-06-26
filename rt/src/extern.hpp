@@ -26,6 +26,7 @@
 #include "Surface_3D.hpp"
 #include "Clip_3D.hpp"
 #include "Object_3D.hpp"
+#include "Light_3D.hpp"
 
 extern Viewpoint Eye;
 extern Camera    camera;
@@ -53,7 +54,7 @@ extern Background  background;
 extern Color       Ambient;
 extern Color       HazeColor;
 extern Flt         HazeDensity;
-extern Surface    *CurrentSurface;
+extern Surface_3D *CurrentSurface;
 extern Stack      *SurfTop;
 extern Stack      *InfileTop;
 extern Transform  *TransTop;
@@ -97,5 +98,6 @@ extern Object *Root;
 
 extern FILE *yyin;
 extern int   cur_token;
-extern char  cur_text[];
+//extern char  cur_text[];
+extern String cur_text;
 extern Flt   cur_value;

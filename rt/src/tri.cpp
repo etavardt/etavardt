@@ -32,57 +32,74 @@
     interpolation...
 */
 
-#include <cstdio>
-#include <math.h>
 #include "Bob.hpp"
 #include "Stats.hpp"
+#include "Tri_3D.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
+#include <cstdio>
+#include <math.h>
+
+/*
+ObjectProcs TriProcs = {
+    TriIntersect,
+    TriNormal,
+};
+*/
 
 typedef struct t_patchdata {
-    Vec    tri_P[3];
-    Vec    tri_N[3];
-    Vec    tri_bb[3];
-    Vec     normal;         /* place to store normal */
+    Vec tri_P[3];
+    Vec tri_N[3];
+    Vec tri_bb[3];
+    Vec normal; /* place to store normal */
 } TriData;
 
-int    TriIntersect(Object *obj, Ray *ray, Isect *hit)
-{
-    TriData    *td;
-    Flt    n, d, dist;
-    Flt    r, s, t;
-    Flt    a, b;
-    Vec    Q;
+Tri_3D::Tri_3D() : Object_3D() {
+    Object_3D::o_type = T_TRI;
+    Object_3D::o_surf = CurrentSurface;
+}
+Tri_3D::~Tri_3D() {
+    Object_3D::~Object_3D();
+    if (o_data != NULL) {
+        delete (TriData *)o_data;
+    }
+}
+int Tri_3D::intersect(Object *obj, Ray *ray, Isect *hit) {
+    TriData *td;
+    Flt n, d, dist;
+    Flt r, s, t;
+    Flt a, b;
+    Vec Q;
 
-    td = (TriData *) obj->o_data;
+    td = (TriData *)obj->o_data;
 
     /*
-     * The matrix td->tri_bb transforms vectors in the world 
+     * The matrix td->tri_bb transforms vectors in the world
      * space into a space with the following properties.
      *
      * 1.  The sides of the triangle are coincident with the
      *     x and y axis, and have unit length.
-     * 2.  The normal to the triangle is coincident with the 
+     * 2.  The normal to the triangle is coincident with the
      *     z axis.
      *
      */
 
     /*
      * d is the slope with respect to the z axis.  If d is zero, then
-     * the ray is parallel to the plane of the polygon, and we count 
+     * the ray is parallel to the plane of the polygon, and we count
      * it as a miss...
      */
 
     d = VecDot(ray->D, td->tri_bb[2]);
-    if(ABS(d) < rayeps)
+    if (ABS(d) < rayeps)
         return 0;
 
     /*
      * Q is a vector from the eye to the triangles "origin" vertex.
      * n is then set to be the distance of the tranformed eyepoint
      * to the plane in the polygon.
-     * Together, n and d allow you to find the distance to the polygon, 
+     * Together, n and d allow you to find the distance to the polygon,
      * which is merely n / d.
      */
 
@@ -92,15 +109,15 @@ int    TriIntersect(Object *obj, Ray *ray, Isect *hit)
 
     dist = n / d;
 
-    if(dist < rayeps) {
+    if (dist < rayeps) {
         return 0;
     }
-    
+
     /* calc intersect point, Q */
     RayPoint(ray, dist, Q);
 
     /* if clipping and doesn't pass, bail */
-    if(obj->clips && !clip_check(obj->clips, Q)) {
+    if (obj->clips && !clip_check(obj->clips, Q)) {
         return 0;
     }
 
@@ -114,10 +131,10 @@ int    TriIntersect(Object *obj, Ray *ray, Isect *hit)
     a = VecDot(Q, td->tri_bb[0]);
     b = VecDot(Q, td->tri_bb[1]);
 
-    if(a<0.0 || b<0.0 || a+b>1.0) {
+    if (a < 0.0 || b < 0.0 || a + b > 1.0) {
         return 0;
     }
-    
+
     r = 1.0 - a - b;
     s = a;
     t = b;
@@ -137,8 +154,7 @@ int    TriIntersect(Object *obj, Ray *ray, Isect *hit)
     return 1;
 }
 
-void    TriNormal(Object *obj, Isect *hit, Point P, Point N)
-{
+void Tri_3D::normal(Object *obj, Isect *hit, Point P, Point N) {
     TriData *td;
 
     td = (TriData *)obj->o_data;
@@ -147,40 +163,34 @@ void    TriNormal(Object *obj, Isect *hit, Point P, Point N)
     VecCopy(td->normal, N);
 }
 
-ObjectProcs TriProcs = {
-    TriIntersect,
-    TriNormal,
-};
+Tri_3D *Tri_3D::makeTri(Vec *point) {
+    Tri_3D *o;
+    TriData *td;
+    int i, j;
+    Flt dmin, dmax, d;
+    Vec B[3];
 
-Object    *MakeTri(Vec *point)
-{
-    Object    *o;
-    TriData    *td;
-    int    i, j;
-    Flt    dmin, dmax, d;
-    Vec    B[3];
+    checkTri(point);
 
-    CheckTri(point);
-
-    o = new Object();
-    Stats::trackMemoryUsage(sizeof(Object));
+    o = new Tri_3D();
+    Stats::trackMemoryUsage(sizeof(Tri_3D));
     Bob::getApp().parser.ptrchk(o, "patch object");
-    o->o_type = T_TRI;
-    o->o_procs = &TriProcs;
-    o->o_surf = CurrentSurface;
+//    o->o_type = T_TRI;
+//    o->o_procs = &TriProcs;
+//    o->o_surf = CurrentSurface;
 
     td = new TriData();
     Stats::trackMemoryUsage(sizeof(TriData));
     Bob::getApp().parser.ptrchk(td, "patch data");
 
-    if(ClipTop) {
+    if (ClipTop) {
         o->clips = ClipTop;
         ClipTop = GlobalClipTop->clip;
     } else {
         o->clips = NULL;
     }
 
-    /* 
+    /*
      * copy in the points....
      */
     VecCopy(point[0], td->tri_P[0]);
@@ -204,36 +214,37 @@ Object    *MakeTri(Vec *point)
      * | N  |
      * and store it in td->tri_bb[]
      */
-    
+
     VecSub(td->tri_P[1], td->tri_P[0], B[0]);
     VecSub(td->tri_P[2], td->tri_P[0], B[1]);
     VecCross(B[0], B[1], B[2]);
     VecNormalize(B[2]);
 
-    InvertMatrix(B, td->tri_bb);
+    invertMatrix(B, td->tri_bb);
 
-    for(i=0; i<NSLABS; i++) {
+    for (i = 0; i < NSLABS; i++) {
         dmin = HUGE;
         dmax = -HUGE;
 
-        for(j=0; j<3; j++) {
+        for (j = 0; j < 3; j++) {
             d = VecDot(Slab[i], td->tri_P[j]);
-            if(d < dmin) dmin = d;
-            if(d > dmax) dmax = d;
+            if (d < dmin)
+                dmin = d;
+            if (d > dmax)
+                dmax = d;
         }
         o->o_dmin[i] = dmin - rayeps;
         o->o_dmax[i] = dmax + rayeps;
     }
 
-    o->o_data = (void *) td;
+    o->o_data = (void *)td;
 
     return o;
 }
 
-void    InvertMatrix(Vec in[3], Vec out[3])
-{
-    int    i, j;
-    Flt    det;
+void Tri_3D::invertMatrix(Vec in[3], Vec out[3]) {
+    int i, j;
+    Flt det;
 
     out[0][0] = (in[1][1] * in[2][2] - in[1][2] * in[2][1]);
     out[1][0] = -(in[0][1] * in[2][2] - in[0][2] * in[2][1]);
@@ -246,34 +257,27 @@ void    InvertMatrix(Vec in[3], Vec out[3])
     out[0][2] = (in[1][0] * in[2][1] - in[1][1] * in[2][0]);
     out[1][2] = -(in[0][0] * in[2][1] - in[0][1] * in[2][0]);
     out[2][2] = (in[0][0] * in[1][1] - in[0][1] * in[1][0]);
-    
-    det = 
-    in[0][0] * in[1][1] * in[2][2] +
-    in[0][1] * in[1][2] * in[2][0] +
-    in[0][2] * in[1][0] * in[2][1] -
-    in[0][2] * in[1][1] * in[2][0] -
-    in[0][0] * in[1][2] * in[2][1] -
-    in[0][1] * in[1][0] * in[2][2];
+
+    det = in[0][0] * in[1][1] * in[2][2] + in[0][1] * in[1][2] * in[2][0] + in[0][2] * in[1][0] * in[2][1] - in[0][2] * in[1][1] * in[2][0] - in[0][0] * in[1][2] * in[2][1] - in[0][1] * in[1][0] * in[2][2];
 
     det = 1 / det;
 
-    for (i = 0; i < 3; i ++) {
+    for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
             out[i][j] *= det;
         }
     }
-    }
+}
 
 /*
     CheckTri() -- make sure that all the vertex normals are on the
         same side of the patch.
 */
 
-void CheckTri(Vec *point)
-{
-    Vec     N, A, B;
-    int     i;
-    Flt     dot;
+void Tri_3D::checkTri(Vec *point) {
+    Vec N, A, B;
+    int i;
+    Flt dot;
 
     /* calc surface normal as cross of edge vectors */
 
@@ -283,10 +287,10 @@ void CheckTri(Vec *point)
 
     /* compare with each normal and flip if needed to same side */
 
-    for(i=0; i<3; i++) {
-        dot = VecDot(N, point[i*2+1]);
-        if(dot <= 0.0) {
-            VecNegate(point[i*2+1]);
+    for (i = 0; i < 3; i++) {
+        dot = VecDot(N, point[i * 2 + 1]);
+        if (dot <= 0.0) {
+            VecNegate(point[i * 2 + 1]);
         }
     }
 }

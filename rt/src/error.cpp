@@ -26,12 +26,12 @@
 /*
  * various routines to print error messages and die...
  */
-
+/*
 int     NullIntersect(Object *a, Ray *b, Isect *c)
 {
     fprintf(stderr, "Called non-existant intersect routine for bounding box, dying...\n");
     exit(1);
-    return 1;       /* keep lint/compilers quiet */
+    return 1;       //* keep lint/compilers quiet * /
 }
 
 void    NullNormal(Object *a, Isect *b, Flt *c, Flt *d)
@@ -44,3 +44,4 @@ ObjectProcs NullProcs = {
     NullIntersect,
     NullNormal
 };
+*/

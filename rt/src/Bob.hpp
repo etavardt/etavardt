@@ -9,6 +9,8 @@
 //#define DELIMS          ";"
 #define MAX_PATHS       (32)
 
+class App;
+
 class Bob:public App {
 
     protected:

@@ -103,6 +103,11 @@
         "cfenv": "cpp",
         "cinttypes": "cpp",
         "cstdbool": "cpp",
-        "version": "cpp"
+        "version": "cpp",
+        "SCREEN.C": "cpp",
+        "IMG2TGA.C": "cpp",
+        "csignal": "cpp",
+        "*.ipp": "cpp",
+        "TEXTURE.C": "cpp"
     }
 }

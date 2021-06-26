@@ -1,7 +1,11 @@
 #pragma once
 #include "defs.hpp"
 
-typedef struct t_texmap {
+class Texmap {
+    public:
+    Texmap(){}
+    ~Texmap(){}
+
     Vec position,       /* upper left hand corner of image */
         normal,         /* same as projection direction */
         across,         /* across top of image to upper right */
@@ -12,4 +16,4 @@ typedef struct t_texmap {
         **red,
         **grn,
         **blu;
-} Texmap;
+};

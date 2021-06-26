@@ -23,125 +23,30 @@
         parentheses as white space.
 */
 
-#include <cstring>
-#include <cstdio>
-#include <cstdlib>
-#include <ctype.h>
+#include "tokens.hpp"
 #include "Bob.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include "tokens.hpp"
 #include "proto.hpp"
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctype.h>
 
-#define NUM_TOKENS      (98)
+#define NUM_TOKENS (98)
 
-static int      token_pushed=0;
+static int token_pushed = 0;
 
 typedef struct t_token {
-    const char    *name;
-    int     value;
+//    const char *name;
+    String name;
+    int value;
 } Token;
 
-Token token_list[] = {
-    "bb_newfile",   NEWFILE,
-    "bb_popfile",   POPFILE,
-    "studio",       STUDIO,
-    "from",         FROM,
-    "at",           AT,
-    "up",           UP,
-    "angle",        ANGLE,
-    "resolution",   RESOLUTION,
-    "background",   BKG,
-    "start",        START,
-    "stop",         STOP,
-    "aspect",       ASPECT,
-    "ambient",      AMBIENT,
-    "haze",         HAZE,
-    "aperture",     APERTURE,
-    "focal_length", FOCAL_LENGTH,
-    "antialias",    ANTIALIAS,
-    "depth",        DEPTH,
-    "no_shadows",   NO_SHADOWS,
-    "samples",      SAMPLES,
-    "jitter",       JITTER,
-    "threshold",    THRESHOLD,
-    "caustics",     CAUSTICS,
-    "no_exp_trans", NO_EXP_TRANS,
-    "no_antialias", NO_ANTIALIAS,
-    "none",         NONE,
-    "corners",      CORNERS,
-    "adaptive",     ADAPTIVE,
-    "quick",        QUICK,
-    "bunching",     BUNCHING,
-    "projection",   PROJECTION,
-    "flat",         FLAT,
-    "orthogonal",   ORTHO,
-    "width",        WIDTH,
-    "fisheye",      FISHEYE,
-    "no_parallax",  NO_PARALLAX,
-    "transform",    TRANSFORM,
-    "transform_pop",TRANS_POP,
-    "rotate",       ROTATE,
-    "translate",    TRANSLATE,
-    "scale",        SCALE,
-    "light",        LIGHT,
-    "type",         TYPE,
-    "point",        POINT,
-    "spherical",    SPHERICAL,
-    "spot",         SPOT,
-    "direction",    DIRECTION,
-    "directional",  DIRECTIONAL,
-    "min_angle",    MIN_ANGLE,
-    "max_angle",    MAX_ANGLE,
-    "no_spec",      NOSPEC,
-    "color",        COLOR,
-    "falloff",      FALLOFF,
-    "surface",      SURFACE,
-    "diffuse",      DIFFUSE,
-    "specular",     SPECULAR,
-    "transparent",  TRANSPARENT,
-    "shine",        SHINE,
-    "ior",          IOR,
-    "fuzz",         FUZZ,
-    "texture",      TEXTURE,
-    "bump",         BUMP,
-    "pattern",      PATTERN,
-    "checker",      CHECKER,
-    "noise",        NOISE,
-    "turbulence",   TURBULENCE,
-    "offset",       OFFSET,
-    "terms",        TERMS,
-    "amplitude",    AMP,
-    "wave",         WAVE,
-    "wavelength",   LENGTH,
-    "blend",        BLEND,
-    "image",        IMAGE,
-    "across",       ACROSS,
-    "damping",      DAMPING,
-    "phase",        PHASE,
-    "cone",         CONE,
-    "sphere",       SPHERE,
-    "polygon",      POLYGON,
-    "patch",        PATCH,
-    "ring",         RING,
-    "vertex",       VERTEX,
-    "points",       POINTS,
-    "center",       CENTER,
-    "position",     CENTER,         /* synonym for center */
-    "radius",       RADIUS,
-    "min_radius",   MIN_RADIUS,
-    "max_radius",   MAX_RADIUS,
-    "base",         BASE,
-    "apex",         APEX,
-    "base_radius",  BASE_RADIUS,
-    "apex_radius",  APEX_RADIUS,
-    "normal",       NORMAL,
-    "clip",         CLIP,
-    "inside",       INSIDE,
-    "outside",      OUTSIDE,
-    "global_clip",  GLOBAL_CLIP,
-    "clip_pop",     CLIP_POP
-};
+Token token_list[] = {"bb_newfile", NEWFILE,  "bb_popfile", POPFILE,    "studio",     STUDIO,     "from",       FROM,  "at",      AT,      "up",          UP,          "angle",       ANGLE,       "resolution", RESOLUTION, "background",    BKG,       "start",  START,  "stop",      STOP,      "aspect",      ASPECT,      "ambient",    AMBIENT, "haze",  HAZE,  "aperture", APERTURE, "focal_length", FOCAL_LENGTH, "antialias", ANTIALIAS, "depth",     DEPTH,     "no_shadows",  NO_SHADOWS,  "samples",   SAMPLES,   "jitter",    JITTER,    "threshold", THRESHOLD, "caustics", CAUSTICS, "no_exp_trans", NO_EXP_TRANS, "no_antialias", NO_ANTIALIAS, "none",    NONE,    "corners",  CORNERS,  "adaptive",    ADAPTIVE,    "quick", QUICK,
+                      "bunching",   BUNCHING, "projection", PROJECTION, "flat",       FLAT,       "orthogonal", ORTHO, "width",   WIDTH,   "fisheye",     FISHEYE,     "no_parallax", NO_PARALLAX, "transform",  TRANSFORM,  "transform_pop", TRANS_POP, "rotate", ROTATE, "translate", TRANSLATE, "scale",       SCALE,       "light",      LIGHT,   "type",  TYPE,  "point",    POINT,    "spherical",    SPHERICAL,    "spot",      SPOT,      "direction", DIRECTION, "directional", DIRECTIONAL, "min_angle", MIN_ANGLE, "max_angle", MAX_ANGLE, "no_spec",   NOSPEC,    "color",    COLOR,    "falloff",      FALLOFF,      "surface",      SURFACE,      "diffuse", DIFFUSE, "specular", SPECULAR, "transparent", TRANSPARENT, "shine", SHINE,
+                      "ior",        IOR,      "fuzz",       FUZZ,       "texture",    TEXTURE,    "bump",       BUMP,  "pattern", PATTERN, "checker",     CHECKER,     "noise",       NOISE,       "turbulence", TURBULENCE, "offset",        OFFSET,    "terms",  TERMS,  "amplitude", AMP,       "wave",        WAVE,        "wavelength", LENGTH,  "blend", BLEND, "image",    IMAGE,    "across",       ACROSS,       "damping",   DAMPING,   "phase",     PHASE,     "cone",        CONE,        "sphere",    SPHERE,    "polygon",   POLYGON,   "patch",     PATCH,     "ring",     RING,     "vertex",       VERTEX,       "points",       POINTS,       "center",  CENTER,  "position", CENTER, /* synonym for center */
+                      "radius",     RADIUS,   "min_radius", MIN_RADIUS, "max_radius", MAX_RADIUS, "base",       BASE,  "apex",    APEX,    "base_radius", BASE_RADIUS, "apex_radius", APEX_RADIUS, "normal",     NORMAL,     "clip",          CLIP,      "inside", INSIDE, "outside",   OUTSIDE,   "global_clip", GLOBAL_CLIP, "clip_pop",   CLIP_POP};
 
 /*
     match_token() -- compares the string in cur_test with the list
@@ -163,20 +68,19 @@ Token token_list[] = {
         flexibilty should be quite easy to come up with.
 */
 
-int     match_token()
-{
-    int     i, length;
+int match_token() {
+    int i, length;
 
-    length = strlen(cur_text);
-    for(i=0; i<NUM_TOKENS; i++) {
-        if(!strncmp(cur_text, token_list[i].name, length)) {
+//    length = strlen(cur_text);
+    for (i = 0; i < NUM_TOKENS; i++) {
+//        if (!strncmp(cur_text, token_list[i].name, length)) {
+        if (cur_text == token_list[i].name.substr(0,cur_text.size())) {
             cur_token = token_list[i].value;
             return cur_token;
         }
     }
     return UNKNOWN;
-}       /* end of match_token() */
-
+} /* end of match_token() */
 
 /*
     get_token() -- Gets the next token from the input stream and
@@ -184,66 +88,72 @@ int     match_token()
         pushed back, then it is returned again.
 */
 
-int     get_token()
-{
-    int     c, i;
+int get_token() {
+    int c, i;
 
-    if(token_pushed) {
+    if (token_pushed) {
         token_pushed = 0;
         return cur_token;
     }
 
     /* no token waiting so we have to build one */
 
-    cur_text[0] = 0;
+//    cur_text[0] = 0;
+    cur_text = "";
     i = 0;
 
     /* get rid of any whitespace */
-    while(isspace(c = fgetc(yyin)) || c=='(' || c==')') {
-        if(c == '\n') {
+    while (isspace(c = fgetc(yyin)) || c == '(' || c == ')') {
+        if (c == '\n') {
             yylinecount++;
         }
     }
 
     /* check for end of file */
-    if(c == EOF) {
+    if (c == EOF) {
         cur_token = END_OF_FILE;
         return cur_token;
     }
 
-    if(c == '{') {
+    if (c == '{') {
         cur_token = LEFT_BRACE;
         return LEFT_BRACE;
-    } else if(c == '}') {
+    } else if (c == '}') {
         cur_token = RIGHT_BRACE;
         return RIGHT_BRACE;
-    } else if(c== '\"') {   /* start of quoted string, most likely a file name */
-        while((c = fgetc(yyin)) != '\"') {
-            cur_text[i++] = c;
+    } else if (c == '\"') { /* start of quoted string, most likely a file name */
+//        cur_text = "";
+        while ((c = fgetc(yyin)) != '\"') {
+            //cur_text[i++] = c;
+            cur_text += (char(c));
         }
-        cur_text[i] = 0;        /* null terminate the string */
+        //cur_text[i] = 0; /* null terminate the string */
         cur_token = UNKNOWN;
         return cur_token;
-    } else if(isalpha(c)) {         /* must be a keyword */
+    } else if (isalpha(c)) { /* must be a keyword */
+//        cur_text = "";
         do {
-            cur_text[i++] = c;
+            //cur_text[i++] = c;
+            cur_text += (char(c));
             c = fgetc(yyin);
-        } while(isalnum(c) || c=='_' || c=='.' || c=='\\' || c==':');
-        ungetc(c, yyin);        /* push back the character that doesn't belong */
+        } while (isalnum(c) || c == '_' || c == '.' || c == '\\' || c == ':');
+        ungetc(c, yyin); /* push back the character that doesn't belong */
 
-        cur_text[i] = 0;        /* null terminate */
+//        cur_text[i] = 0; /* null terminate */
 
         cur_token = match_token();
         return cur_token;
-    } else if(isdigit(c) || c=='+' || c=='.' || c=='-') {
+    } else if (isdigit(c) || c == '+' || c == '.' || c == '-') {
+//        cur_text = "";
         do {
-            cur_text[i++] = c;
+            //cur_text[i++] = c;
+            cur_text += (char(c));
             c = fgetc(yyin);
-        } while(isdigit(c) || c=='+' || c=='.' || c=='-' || c=='e' || c=='E');
-        ungetc(c, yyin);        /* push back the character that doesn't belong */
+        } while (isdigit(c) || c == '+' || c == '.' || c == '-' || c == 'e' || c == 'E');
+        ungetc(c, yyin); /* push back the character that doesn't belong */
 
-        cur_text[i] = 0;
-        cur_value = atof(cur_text);
+//        cur_text[i] = 0;
+        cur_value = atof(cur_text.c_str());
         cur_token = NUMBER;
         return cur_token;
     }
@@ -254,7 +164,7 @@ int     get_token()
     fprintf(stderr, "I don't know what to do with it.\n");
     Bob::getApp().parser.yyerror("");
     return 0;
-}       /* end of get_token() */
+} /* end of get_token() */
 
 /*
     push_token() -- Sets a flag which indicates that the previous
@@ -262,10 +172,8 @@ int     get_token()
         be returned by the next call to get_token.
 */
 
-int     push_token()
-{
+int push_token() {
     token_pushed = 1;
 
-    return cur_token;       /* why?  I don't know */
-}       /* end of push_token() */
-
+    return cur_token; /* why?  I don't know */
+} /* end of push_token() */

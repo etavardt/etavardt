@@ -54,12 +54,15 @@
 #include <cstdio>
 #include <cmath>
 #include <memory.h>
+#include "Object_3D.hpp"
+#include "Surface_3D.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "config.hpp"
 #include "proto.hpp"
 
-int     Shadow(Ray *ray, Isect *hit, Flt tmax, Color color, int level, Light *cur_light, int inside)
+extern int  Intersect (Ray *ray , Isect *hit , Flt maxdist , Object *self);
+
 //    Ray    *ray;
 //    Isect    *hit;
 //    Flt    tmax;        /* dist to light we are trying to hit */
@@ -67,13 +70,13 @@ int     Shadow(Ray *ray, Isect *hit, Flt tmax, Color color, int level, Light *cu
 //    int    level;        /* current tree level */
 //    Light   *cur_light;     /* light we are checking for shadow */
 //    int     inside;
-{
-    Object          *cached;
-    Surface         *prev_surf;     /* used if light is inside object */
-    static Surface  tmp_surf;       /* to allow textured shadows */
-    static int      i, in_surf;
-    Flt             t, caustic_scale;
-    Vec             P;              /* point for texture call */
+int Shadow(Ray *ray, Isect *hit, Flt tmax, Color &color, int level, Light *cur_light, int inside) {
+    Object           *cached;
+    Surface_3D       *prev_surf;     /* used if light is inside object */
+    static Surface_3D *tmp_surf;       /* to allow textured shadows */
+    static int        i, in_surf;
+    Flt               t, caustic_scale;
+    Vec               P;              /* point for texture call */
 
     ++nShadows;
     prev_surf = NULL;
@@ -81,26 +84,28 @@ int     Shadow(Ray *ray, Isect *hit, Flt tmax, Color color, int level, Light *cu
 
     /* check cache first */
     if(cached = cur_light->light_obj_cache[level]) {
-        if((cached->o_procs->intersect)(cached, ray, hit)
-            && hit->isect_t < tmax) {
+//        if((cached->o_procs->intersect)(cached, ray, hit) && hit->isect_t < tmax) {
+        if(cached->intersect(cached, ray, hit) && hit->isect_t < tmax) {
             nShadowCacheHits++;
             return 0;
         }
     }
     cur_light->light_obj_cache[level] = NULL;    /* missed! */
 
-    MakeVector(1.0, 1.0, 1.0, color);       /* start totally trans */
+    //MakeVector(1.0, 1.0, 1.0, color);       /* start totally trans */
+    color = 1.0; /* start totally trans */
 
     while(Intersect(ray, hit, tmax, hit->isect_self)) {
         if(in_surf) {           /* if exiting */
             t = hit->isect_t;
-            memcpy(&tmp_surf, hit->isect_surf, sizeof(Surface));
-            if(tmp_surf.tex) {      /* need to check texturing */
+//            memcpy(&tmp_surf, hit->isect_surf, sizeof(Surface));
+            tmp_surf = hit->isect_surf;
+            if(tmp_surf->tex) {      /* need to check texturing */
                 RayPoint(ray, t, P);
-                tex_fix(&tmp_surf, P, P);
-            } else if(tmp_surf.flags & S_TM_TRANS) {
+                tex_fix(*tmp_surf, P, P);
+            } else if(tmp_surf->flags & S_TM_TRANS) {
                 RayPoint(ray, t, P);
-                map_fix(&tmp_surf, P);
+                map_fix(*tmp_surf, P);
             }
 
             if(caustics) {
@@ -110,7 +115,7 @@ int     Shadow(Ray *ray, Isect *hit, Flt tmax, Color color, int level, Light *cu
                 RayPoint(ray, t, P);
                 prim = hit->isect_prim;
                 /* (*prim->o_procs->normal) (prim, &hit, P, N); */
-                (*prim->o_procs->normal) (prim, hit, P, N);
+                prim->normal(prim, hit, P, N);
 
                 caustic_scale = VecDot(ray->D, N);
                 if(caustic_scale < 0.0) {
@@ -120,21 +125,41 @@ int     Shadow(Ray *ray, Isect *hit, Flt tmax, Color color, int level, Light *cu
             } else {
                 caustic_scale = 1.0;
             }
-
+/*
             for(i=0; i<3; i++) {
-                if(tmp_surf.trans[i] > rayeps) {
+                if(tmp_surf->trans[i] > rayeps) {
                     if(exp_trans) {
-                        color[i] *= caustic_scale * pow(tmp_surf.trans[i], t);
+                        color[i] *= caustic_scale * pow(tmp_surf->trans[i], t);
                     } else {
-                        color[i] *= caustic_scale * tmp_surf.trans[i];
+                        color[i] *= caustic_scale * tmp_surf->trans[i];
                     }
-                } else {    /* its black so zero it out */
+                } else {    /* its black so zero it out * /
                     color[i] = 0.0;
                 }
             }
+*/
+            if(tmp_surf->trans.r > rayeps) {
+                double eTran = (exp_trans) ? pow(tmp_surf->trans.r, t) : tmp_surf->trans.r;
+                color.r *= caustic_scale * eTran;
+            } else {    /* its black so zero it out */
+                color.r = 0.0;
+            }
+            if(tmp_surf->trans.g > rayeps) {
+                double eTran = (exp_trans) ? pow(tmp_surf->trans.g, t) : tmp_surf->trans.g;
+                color.g *= caustic_scale * eTran;
+            } else {    /* its black so zero it out */
+                color.g = 0.0;
+            }
+            if(tmp_surf->trans.b > rayeps) {
+                double eTran = (exp_trans) ? pow(tmp_surf->trans.b, t) : tmp_surf->trans.b;
+                color.b *= caustic_scale * eTran;
+            } else {    /* its black so zero it out */
+                color.b = 0.0;
+            }
+
             /* check if totally blocked */
-            if(color[0]<rayeps && color[1]<rayeps && color[2]<rayeps) {
-                if(tmp_surf.flags & S_CACHE) {  /* only if cacheable */
+            if(color.r<rayeps && color.g<rayeps && color.b<rayeps) {
+                if(tmp_surf->flags & S_CACHE) {  /* only if cacheable */
                     cur_light->light_obj_cache[level] = hit->isect_prim;
                 }
                 return 0;    /* totally shadowed */
@@ -143,19 +168,21 @@ int     Shadow(Ray *ray, Isect *hit, Flt tmax, Color color, int level, Light *cu
         } else {
             /* check for opaque object */
             t = hit->isect_t;
-            memcpy(&tmp_surf, hit->isect_surf, sizeof(Surface));
-            if(tmp_surf.tex) {      /* need to check texturing */
+            //memcpy(&tmp_surf, hit->isect_surf, sizeof(Surface));
+            tmp_surf = hit->isect_surf;
+            if(tmp_surf->tex) {      /* need to check texturing */
                 RayPoint(ray, t, P);
-                tex_fix(&tmp_surf, P, P);
-            } else if(tmp_surf.flags & S_TM_TRANS) {
+                tex_fix(*tmp_surf, P, P);
+            } else if(tmp_surf->flags & S_TM_TRANS) {
                 RayPoint(ray, t, P);
-                map_fix(&tmp_surf, P);
+                map_fix(*tmp_surf, P);
             }
-            if(tmp_surf.trans[0] < rayeps &&
-               tmp_surf.trans[1] < rayeps &&
-               tmp_surf.trans[2] < rayeps) {
-                MakeVector(0.0, 0.0, 0.0, color);
-                if(tmp_surf.flags & S_CACHE) {  /* only if cacheable */
+            if(tmp_surf->trans.r < rayeps &&
+               tmp_surf->trans.g < rayeps &&
+               tmp_surf->trans.b < rayeps) {
+                //MakeVector(0.0, 0.0, 0.0, color);
+                color = 0.0;
+                if(tmp_surf->flags & S_CACHE) {  /* only if cacheable */
                     cur_light->light_obj_cache[level] = hit->isect_prim;
                 }
                 return 0;
@@ -172,17 +199,37 @@ int     Shadow(Ray *ray, Isect *hit, Flt tmax, Color color, int level, Light *cu
     }
 
     if(in_surf && prev_surf) {      /* if light is in transparent object */
+    /*
         for(i=0; i<3; i++) {
-            if(tmp_surf.trans[i] > rayeps) {
+            if(tmp_surf->trans[i] > rayeps) {
                 if(exp_trans) {
-                    color[i] *= pow(tmp_surf.trans[i], tmax);
+                    color[i] *= pow(tmp_surf->trans[i], tmax);
                 } else {
-                    color[i] *= tmp_surf.trans[i];
+                    color[i] *= tmp_surf->trans[i];
                 }
             } else {
                 color[i] = 0.0;
             }
         }
+        */
+            if(tmp_surf->trans.r > rayeps) {
+                double eTran = (exp_trans) ? pow(tmp_surf->trans.r, tmax) : tmp_surf->trans.r;
+                color.r *= eTran;
+            } else {    /* its black so zero it out */
+                color.r = 0.0;
+            }
+            if(tmp_surf->trans.g > rayeps) {
+                double eTran = (exp_trans) ? pow(tmp_surf->trans.g, tmax) : tmp_surf->trans.g;
+                color.g *= eTran;
+            } else {    /* its black so zero it out */
+                color.g = 0.0;
+            }
+            if(tmp_surf->trans.b > rayeps) {
+                double eTran = (exp_trans) ? pow(tmp_surf->trans.b, tmax) : tmp_surf->trans.b;
+                color.b *= eTran;
+            } else {    /* its black so zero it out */
+                color.b = 0.0;
+            }
     }
 
     return 1;    /* fully or partially illuminated */
@@ -198,7 +245,6 @@ int     Shadow(Ray *ray, Isect *hit, Flt tmax, Color color, int level, Light *cu
     surface of the light being sampled.
 */
 
-int     sShadow(Ray *ray, Isect *hit, Flt tmax, Color color, int level, Light *cur_light, int inside)
 //    Ray    *ray;
 //    Isect    *hit;
 //    Flt    tmax;        /* dist to light we are trying to hit */
@@ -206,16 +252,17 @@ int     sShadow(Ray *ray, Isect *hit, Flt tmax, Color color, int level, Light *c
 //    int    level;        /* current tree level */
 //    Light   *cur_light;     /* light source */
 //    int     inside;
-{
-    int    sample, visible;
-    Color    tmp_color;
-    Ray    tmp_ray;
-    Vec    tweek;
-    Flt    radius;        /* light radius */
-    Flt    len;        /* length to tweek vector */
+int sShadow(Ray *ray, Isect *hit, Flt tmax, Color &color, int level, Light *cur_light, int inside) {
+    int   sample, visible;
+    Color tmp_color;
+    Ray   tmp_ray;
+    Vec   tweek;
+    Flt   radius;        /* light radius */
+    Flt   len;        /* length to tweek vector */
 
     radius = cur_light->radius;
-    MakeVector(0.0, 0.0, 0.0, color);
+    //MakeVector(0.0, 0.0, 0.0, color);
+    color = 0.0;
     visible = 0;        /* assume totally shadowed to start */
     len = radius/tmax;
     for(sample=0; sample<cur_light->samples; sample++) {
@@ -229,12 +276,14 @@ int     sShadow(Ray *ray, Isect *hit, Flt tmax, Color color, int level, Light *c
         VecNormalize(tmp_ray.D);
 
         if(Shadow(&tmp_ray, hit, tmax, tmp_color, level, cur_light, inside)) {
-            VecAdd(tmp_color, color, color);
+            //VecAdd(tmp_color, color, color);
+            color += tmp_color;
             visible = 1;
         }
     }
-    VecS((1.0/cur_light->samples), color, color);
+    //VecS((1.0/cur_light->samples), color, color);
+    double invcls = (1.0/cur_light->samples);
+    color *= invcls;
 
     return visible;
 }
-

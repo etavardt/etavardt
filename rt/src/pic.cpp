@@ -26,61 +26,66 @@
 #include <cstdio>
 #include <cstdlib>
 //#include <cstring>
-#include <ctime>
 #include "Bob.hpp"
+#include "Exception.hpp"
 #include "String.hpp"
-#include "pic.hpp"
 #include "defs.hpp"
-#include "struct_defs.hpp"
 #include "extern.hpp"
+#include "pic.hpp"
 #include "proto.hpp"
+#include "struct_defs.hpp"
+#include <ctime>
+#include <iostream>
 
-#define TIME_OUT        (60)    /* # seconds to trigger paranoid mode */
+using std::cerr;
+using std::cout;
+using std::endl;
 
-time_t  old_time, new_time;
+#define TIME_OUT (60) /* # seconds to trigger paranoid mode */
 
-Pic    *PicOpen(String &filename, int x, int y)
-{
-    Pic    *tmp;
-    int     line;   /* line to start on */
-    int     i, c;
+time_t old_time, new_time;
 
-    time(&old_time);        /* get current time */
+Pic *PicOpen(String &filename, int x, int y) {
+    Pic *tmp;
+    int line; /* line to start on */
+    int i, c;
 
-//    tmp = (Pic *)malloc(sizeof(Pic));
+    time(&old_time); /* get current time */
+
+    //    tmp = (Pic *)malloc(sizeof(Pic));
     tmp = new Pic();
     Bob::getApp().parser.ptrchk(tmp, "Pic structure");
-//TODO: TCE Remove
-//    tmp->filename = (char *)malloc(strlen(filename)+1);
-//    strcpy(tmp->filename, filename);
+    // TODO: TCE Remove
+    //    tmp->filename = (char *)malloc(strlen(filename)+1);
+    //    strcpy(tmp->filename, filename);
     tmp->filename = filename;
 
     tmp->x = x;
     tmp->y = y;
 
-    if(resume) {            /* finish a partial image */
+    if (resume) { /* finish a partial image */
         /* find line where interrupted */
         line = start_line;
-        if(((tmp->filep)=fopen(filename.c_str(), "rb"))==NULL) {
-            fprintf(stderr, "Error.  Trying to resume generation of %s.\n", filename);
-            fprintf(stderr, "        Can't open %s for reading.\n", filename);
-            exit(1);
+        if (((tmp->filep) = fopen(filename.c_str(), "rb")) == NULL) {
+            cerr << "Error.  Trying to resume generation of " << filename << "." << endl;
+            cerr << "        Can't open " << filename << " for reading." << endl;
+            throw Exception("thrown from picOpen");
         }
         /* skip header */
-        for(i=0; i<10; i++) {
+        for (i = 0; i < 10; i++) {
             fgetc(tmp->filep);
         }
         i = 0;
-        while(1) {
+        while (1) {
             c = fgetc(tmp->filep);
-            if(c == EOF) {
+            if (c == EOF) {
                 break;
             }
             fgetc(tmp->filep);
             fgetc(tmp->filep);
             fgetc(tmp->filep);
             i += c;
-            if(i >= x) {
+            if (i >= x) {
                 i = 0;
                 line++;
             }
@@ -88,47 +93,46 @@ Pic    *PicOpen(String &filename, int x, int y)
         fclose(tmp->filep);
 
         /* re-open and set to end */
-        if(((tmp->filep)=fopen(filename.c_str(), "ab"))==NULL) {
-            fprintf(stderr, "Error.  Trying to resume generation of %s.\n", filename);
-            fprintf(stderr, "        Can't open %s for appending.\n", filename);
-            exit(1);
+        if (((tmp->filep) = fopen(filename.c_str(), "ab")) == NULL) {
+            cerr << "Error.  Trying to resume generation of " << filename << endl;
+            cerr << "        Can't open " << filename << " for appending." << endl;
+            throw Exception("thrown from picOpen");
         }
         fseek(tmp->filep, 0L, SEEK_END);
-        start_line = line;              /* fake start line */
-    } else {                /* start a new image */
-        if(((tmp->filep)=fopen(filename.c_str(), "wb"))==NULL) {
+        start_line = line; /* fake start line */
+    } else {               /* start a new image */
+        if (((tmp->filep) = fopen(filename.c_str(), "wb")) == NULL) {
             perror(filename.c_str());
             exit(1);
         }
 
-        fputc(x/256, tmp->filep);       /* image size */
-        fputc(x%256, tmp->filep);
-        fputc(y/256, tmp->filep);
-        fputc(y%256, tmp->filep);
-    
-        fputc(start_line/256, tmp->filep);      /* image range */
-        fputc(start_line%256, tmp->filep);
-        fputc(stop_line/256, tmp->filep);
-        fputc(stop_line%256, tmp->filep);
+        fputc(x / 256, tmp->filep); /* image size */
+        fputc(x % 256, tmp->filep);
+        fputc(y / 256, tmp->filep);
+        fputc(y % 256, tmp->filep);
 
-        fputc(    0, tmp->filep);
-        fputc(   24, tmp->filep);       /* # bitplanes */
+        fputc(start_line / 256, tmp->filep); /* image range */
+        fputc(start_line % 256, tmp->filep);
+        fputc(stop_line / 256, tmp->filep);
+        fputc(stop_line % 256, tmp->filep);
+
+        fputc(0, tmp->filep);
+        fputc(24, tmp->filep); /* # bitplanes */
     }
 
-    return(tmp);
+    return (tmp);
 }
 
-void    PicWriteLine(Pic *pic, Pixel *buf)
-{
-    int    i,        /* which pixel? */
-        total,        /* how many left in scan? */
-        count,        /* current run total */
-        cr, cg, cb,    /* current run color */
+void PicWriteLine(Pic &pic, const Pixel buf[]) {
+    int i,          /* which pixel? */
+        total,      /* how many left in scan? */
+        count,      /* current run total */
+        cr, cg, cb, /* current run color */
         r, g, b;    /* next pixel color */
-    double  seconds;        /* another helping? */
+    double seconds; /* another helping? */
 
     i = 0;
-    total = pic->x;
+    total = pic.x;
     cr = buf[i].r;
     cg = buf[i].g;
     cb = buf[i].b;
@@ -136,57 +140,60 @@ void    PicWriteLine(Pic *pic, Pixel *buf)
     do {
         count = 1;
         total--;
-        while(1) {
+        while (1) {
             r = buf[i].r;
             g = buf[i].g;
             b = buf[i].b;
             i++;
-            if(r!=cr || g!=cg || b!=cb || count>=254 || total<=0) {
+            if (r != cr || g != cg || b != cb || count >= 254 || total <= 0) {
                 break;
             }
             total--;
             count++;
         }
-        if(fputc(count, pic->filep) == EOF) {
-            fprintf(stderr, "Error writing to disk.  Must be out of space.\n");
-            exit(1);
+        if (fputc(count, pic.filep) == EOF) {
+            cerr << "Error writing to disk.  Must be out of space." << endl;
+            throw Exception("thrown from picWriteLine");
         }
-        fputc(cb, pic->filep);
-        fputc(cg, pic->filep);
-        fputc(cr, pic->filep);
+        fputc(cb, pic.filep);
+        fputc(cg, pic.filep);
+        fputc(cr, pic.filep);
+
+        // fputc(cr, pic.filep);
+        // fputc(cg, pic.filep);
+        // fputc(cb, pic.filep);
 
         cr = r;
         cg = g;
         cb = b;
 
-        if(total==1) {        /* if at last pixel */
-            fputc(1, pic->filep);
-            fputc(buf[pic->x-1].b, pic->filep);
-            fputc(buf[pic->x-1].g, pic->filep);
-            fputc(buf[pic->x-1].r, pic->filep);
+        if (total == 1) { /* if at last pixel */
+            fputc(1, pic.filep);
+            // fputc(buf[pic.x - 1].b, pic.filep);
+            // fputc(buf[pic.x - 1].g, pic.filep);
+            // fputc(buf[pic.x - 1].r, pic.filep);
+            fputc(buf[pic.x - 1].r, pic.filep);
+            fputc(buf[pic.x - 1].g, pic.filep);
+            fputc(buf[pic.x - 1].b, pic.filep);
             total--;
         }
-    } while(total>0);
-    fflush(pic->filep);
+    } while (total > 0);
+    fflush(pic.filep);
 
     /* check time for paranoid mode */
     time(&new_time);
     seconds = difftime(new_time, old_time);
-    if(seconds > TIME_OUT) {
+    if (seconds > TIME_OUT) {
         old_time = new_time;
         /* close, re-open, and set to end */
-        fclose(pic->filep);
-        if(((pic->filep)=fopen(pic->filename.c_str(), "ab"))==NULL) {
-            fprintf(stderr, "Error opening %s for appending.\n", pic->filename);
-            exit(1);
+        fclose(pic.filep);
+        if (((pic.filep) = fopen(pic.filename.c_str(), "ab")) == NULL) {
+            cerr << "Error opening " << pic.filename << " for appending." << endl;
+            throw Exception("thrown from picWriteLine");
         }
-        fseek(pic->filep, 0L, SEEK_END);
+        fseek(pic.filep, 0L, SEEK_END);
     }
 
-}       /* end of PicWriteLine() */
-            
-void    PicClose(Pic *pic)
-{
-    fclose(pic->filep);
-}
+} /* end of PicWriteLine() */
 
+void PicClose(Pic &pic) { fclose(pic.filep); }

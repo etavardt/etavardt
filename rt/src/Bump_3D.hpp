@@ -3,9 +3,13 @@
 #include "Wave_3D.hpp"
 #include "defs.hpp"
 
-typedef struct t_bump {
+class Bump {
+    public:
+    Bump() {}
+    ~Bump(){}
+
     Vec trans,        /* apply to resulting normal */
         scale;
-    Turbulence      *turbulence;
-    Wave            *waves;
-} Bump;
+    Turbulence *turbulence;
+    Wave       *waves;
+};

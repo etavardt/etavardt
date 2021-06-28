@@ -19,9 +19,15 @@
 */
 
 #include "Parser.hpp"
-#include "Stats.hpp"
 #include "Exception.hpp"
+#include "Stats.hpp"
 #include "String.hpp"
+#include "Ring_3D.hpp"
+#include "Sphere_3D.hpp"
+#include "Tri_3D.hpp"
+#include "Cone_3D.hpp"
+#include "Poly_3D.hpp"
+#include "Light_3D.hpp"
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -36,7 +42,7 @@
 
 Vec tmp_vec;
 
-Surface *yy_surface();
+Surface_3D *yy_surface();
 Wave *yy_wave();
 Texture *yy_texture();
 Bump *yy_bump();
@@ -48,7 +54,7 @@ Clip *yy_clip();
     get_vec() -- get a vector.
 */
 void Parser::get_vec() {
-//    cout << "cout: In Parser::get_vec Pre get_token" << endl;
+    //    cout << "cout: In Parser::get_vec Pre get_token" << endl;
     if (get_token() != NUMBER) {
         yyerror(String("Number expected but not found."));
     }
@@ -67,7 +73,7 @@ void Parser::get_vec() {
     get_num() -- get a number.
 */
 void Parser::get_num() {
-//    cout << "cout: In Parser::get_num Pre get_token" << endl;
+    //    cout << "cout: In Parser::get_num Pre get_token" << endl;
     if (get_token() != NUMBER) {
         yyerror(String("Number expected but not found."));
     }
@@ -81,42 +87,48 @@ void Parser::yy_background() {
     int i, r, g, b;
     char str[256];
 
-//    cout << "cout: In Parser::yy_background Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_background Pre get_token" << endl;
     get_token(); /* peek at next token */
-//    cout << "cout: In Parser::yy_background Post get_token cur_token=" << cur_token << endl;
+                 //    cout << "cout: In Parser::yy_background Post get_token cur_token=" << cur_token << endl;
     if (cur_token == NUMBER) {
         push_token();
         get_vec();
-        VecCopy(tmp_vec, background.color);
+        //        VecCopy(tmp_vec, background.color);
+        background.color = tmp_vec;
     } else if (cur_token == LEFT_BRACE) {
         while (get_token() != RIGHT_BRACE) {
-//            cout << "cout: In Parser::yy_background Post while get_token cur_token=" << cur_token << endl;
+            //            cout << "cout: In Parser::yy_background Post while get_token cur_token=" << cur_token << endl;
             switch (cur_token) {
             case COLOR:
                 get_vec();
-                VecCopy(tmp_vec, background.color);
+                //                VecCopy(tmp_vec, background.color);
+                background.color = tmp_vec;
                 break;
             case UP:
                 get_vec();
                 VecCopy(tmp_vec, background.up);
                 break;
             case UNKNOWN: /* must be a palette */
-//                cout << "cout: In Parser::yy_background cur_token= UNKOWN(" << cur_token << ")" << endl;
-//                cout << "cout: In Parser::yy_background Pre env_fopen cur_text:" << cur_text << endl;
+                          //                cout << "cout: In Parser::yy_background cur_token= UNKOWN(" << cur_token << ")" << endl;
+                          //                cout << "cout: In Parser::yy_background Pre env_fopen cur_text:" << cur_text << endl;
                 fp = env_fopen(cur_text, "r");
-//                cout << "cout: In Parser::yy_background Post env_fopen fp:" << fp << endl;
+                //                cout << "cout: In Parser::yy_background Post env_fopen fp:" << fp << endl;
                 if (!fp) {
-                    fprintf(stderr, "Error opening file %s for input as palette file.\n", cur_text);
-                    exit(1);
+                    cerr << "Error opening file " << cur_text << " for input as palette file." << endl;
+                    throw Exception("Thrown from yy_background");
                 }
                 for (i = 0; i < 256; i++) {
                     fgets(str, 256, fp);
                     sscanf(str, "%d %d %d", &r, &g, &b);
-                    background.pal[i][0] = r;
-                    background.pal[i][1] = g;
-                    background.pal[i][2] = b;
+//                    background.pal[i][0] = r;
+//                    background.pal[i][1] = g;
+//                    background.pal[i][2] = b;
+                    background.pal[i].r = r;
+                    background.pal[i].g = g;
+                    background.pal[i].b = b;
                 }
-                MakeVector(-1, -1, -1, background.color);
+                //                MakeVector(-1, -1, -1, background.color);
+                background.color = -1;
                 break;
             default:
                 yyerror(String("Unexpected token in background structure."));
@@ -134,11 +146,13 @@ void Parser::yy_background() {
 void Parser::yy_studio() {
     Vec tmp;
 
-//    cout << "cout: In Parser::yy_studio Pre MakeVectors" << endl;
+    //    cout << "cout: In Parser::yy_studio Pre MakeVectors" << endl;
     /* assign defaults */
     Eye.view_aspect = 1.0;
-    MakeVector(0, 0, 0, Ambient); /* no global illumination */
-    MakeVector(0, 0, 0, background.color);
+    //    MakeVector(0, 0, 0, Ambient); /* no global illumination */
+    //    MakeVector(0, 0, 0, background.color);
+    Ambient = 0; /* no global illumination */
+    background.color = 0;
     MakeVector(0, 0, 0, background.up);
     camera.aperture = 0.0;     /* pinhole camera */
     camera.focal_length = 0.0; /* fix later */
@@ -148,7 +162,7 @@ void Parser::yy_studio() {
     start_line = 0;
     stop_line = (-1);
 
-//    cout << "cout: In Parser::yy_studio Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_studio Pre get_token" << endl;
     if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected.\n"));
     }
@@ -199,7 +213,8 @@ void Parser::yy_studio() {
             break;
         case AMBIENT:
             get_vec();
-            VecCopy(tmp_vec, Ambient);
+            // VecCopy(tmp_vec, Ambient);
+            Ambient = tmp_vec;
             break;
         case BKG:
             yy_background();
@@ -303,7 +318,8 @@ void Parser::yy_studio() {
         stop_line = Yresolution;
     }
 
-    VecCopy(background.color, HazeColor);
+    // VecCopy(background.color, HazeColor);
+    HazeColor = background.color;
     if (background.up[0] == 0 && background.up[1] == 0 && background.up[2] == 0) {
         VecCopy(Eye.view_up, background.up);
     } else {
@@ -319,22 +335,22 @@ void Parser::yy_light() {
     Light *tmp;
     int i;
 
-//    cout << "cout: In Parser::yy_light Pre allocs" << endl;
+    //    cout << "cout: In Parser::yy_light Pre allocs" << endl;
     /* set up light defaults */
     tmp = new Light();
     Stats::trackMemoryUsage(sizeof(Light));
     ptrchk(tmp, String("light structure"));
-    tmp->next = light_head; /* add to head of list */
-    light_head = tmp;
-    light_head->type = L_POINT;
-    light_head->illum = L_INFINITE;
-    light_head->samples = L_SAMPLES;
-    light_head->flag = 0;
+    tmp->next = Light::light_head; /* add to head of list */
+    Light::light_head = tmp;
+    Light::light_head->type = L_POINT;
+    Light::light_head->illum = L_INFINITE;
+    Light::light_head->samples = L_SAMPLES;
+    Light::light_head->flag = 0;
     for (i = 0; i < MAXLEVEL; i++) {
-        light_head->light_obj_cache[i] = NULL;
+        Light::light_head->light_obj_cache[i] = NULL;
     }
 
-//    cout << "cout: In Parser::yy_light Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_light Pre get_token" << endl;
     /* grab and toss left brace */
     if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
@@ -346,16 +362,16 @@ void Parser::yy_light() {
             get_token();
             switch (cur_token) {
             case POINT:
-                light_head->type = L_POINT;
+                Light::light_head->type = L_POINT;
                 break;
             case SPHERICAL:
-                light_head->type = L_SPHERICAL;
+                Light::light_head->type = L_SPHERICAL;
                 break;
             case SPOT:
-                light_head->type = L_SPOT;
+                Light::light_head->type = L_SPOT;
                 break;
             case DIRECTIONAL:
-                light_head->type = L_DIRECTIONAL;
+                Light::light_head->type = L_DIRECTIONAL;
                 break;
             default:
                 yyerror(String("Unkown light type."));
@@ -364,60 +380,61 @@ void Parser::yy_light() {
             break;
         case COLOR:
             get_vec();
-            VecCopy(tmp_vec, light_head->color);
+            // VecCopy(tmp_vec, light_head->color);
+            Light::light_head->color = tmp_vec;
             break;
         case CENTER:
             get_vec();
             if (TransTop) {
                 trans_vector(TransTop->mat, tmp_vec, tmp_vec);
             }
-            VecCopy(tmp_vec, light_head->position);
+            VecCopy(tmp_vec, Light::light_head->position);
             break;
         case FALLOFF:
             get_num();
-            light_head->illum = cur_value;
+            Light::light_head->illum = cur_value;
             break;
         case NO_SHADOWS:
             get_num();
-            light_head->flag |= L_NOSHADOWS;
+            Light::light_head->flag |= L_NOSHADOWS;
             break;
         case NOSPEC:
             get_num();
-            light_head->flag |= L_NOSPEC;
+            Light::light_head->flag |= L_NOSPEC;
             break;
         case DIRECTION:
             get_vec();
             if (TransTop) {
                 trans_normal(TransTop->mat, tmp_vec, tmp_vec);
             }
-            VecCopy(tmp_vec, light_head->dir);
-            VecS((-1.0), light_head->dir, light_head->dir);
-            VecNormalize(light_head->dir);
+            VecCopy(tmp_vec, Light::light_head->dir);
+            VecS((-1.0), Light::light_head->dir, Light::light_head->dir);
+            VecNormalize(Light::light_head->dir);
             break;
         case RADIUS:
             get_num();
-            light_head->radius = cur_value;
+            Light::light_head->radius = cur_value;
             break;
         case MIN_ANGLE:
             get_num();
-            light_head->min_angle = cos(degtorad(cur_value / 2.0));
+            Light::light_head->min_angle = cos(degtorad(cur_value / 2.0));
             break;
         case MAX_ANGLE:
             get_num();
-            light_head->max_angle = cos(degtorad(cur_value / 2.0));
+            Light::light_head->max_angle = cos(degtorad(cur_value / 2.0));
             break;
         case SAMPLES:
             get_num();
-            light_head->samples = cur_value;
+            Light::light_head->samples = cur_value;
             break;
         case AT:
             get_vec();
             if (TransTop) {
                 trans_vector(TransTop->mat, tmp_vec, tmp_vec);
             }
-            VecCopy(tmp_vec, light_head->dir);
-            VecSub(light_head->position, light_head->dir, light_head->dir);
-            VecNormalize(light_head->dir);
+            VecCopy(tmp_vec, Light::light_head->dir);
+            VecSub(Light::light_head->position, Light::light_head->dir, Light::light_head->dir);
+            VecNormalize(Light::light_head->dir);
             break;
         default:
             yyerror(String("Unkown light structure element."));
@@ -432,32 +449,37 @@ void Parser::yy_light() {
 /*
     yy_surface() -- Parse a surface structure.
 */
-Surface *Parser::yy_surface() {
-    Surface *surf;
+Surface_3D *Parser::yy_surface() {
+    Surface_3D *surf;
 
-//    cout << "cout: In Parser::yy_surface Pre allocs" << endl;
+    //    cout << "cout: In Parser::yy_surface Pre allocs" << endl;
     /* allocate surface and fill in default values */
-    surf = new Surface();
-    Stats::trackMemoryUsage(sizeof(Surface));
+    surf = new Surface_3D();
+    Stats::trackMemoryUsage(sizeof(Surface_3D));
     ptrchk(surf, "surface");
 
     /* assign defaults */
 
-    MakeVector(0, 0, 0, surf->diff);
-    MakeVector(0, 0, 0, surf->spec);
-    surf->shine = 0.0;
-    MakeVector(0, 0, 0, surf->cshine);
-    MakeVector(0, 0, 0, surf->trans);
-    surf->ior = 1.0;
-    MakeVector(0, 0, 0, surf->amb);
-    surf->fuzz = 0.0;
-    surf->flags = S_CACHE;
-    surf->tex = NULL;
-    surf->bump = NULL;
-    surf->tm_diff = NULL;
-    surf->tm_spec = NULL;
-    surf->tm_trans = NULL;
-    surf->tm_amb = NULL;
+    // MakeVector(0, 0, 0, surf->diff);
+    // MakeVector(0, 0, 0, surf->spec);
+    //surf->diff = 0;
+    //surf->spec = 0;
+    //surf->shine = 0.0;
+    // MakeVector(0, 0, 0, surf->cshine);
+    // MakeVector(0, 0, 0, surf->trans);
+    //surf->cshine = 0;
+    //surf->trans = 0;
+    //surf->ior = 1.0;
+    // MakeVector(0, 0, 0, surf->amb);
+    //surf->amb = 0;
+    //surf->fuzz = 0.0;
+    //surf->flags = S_CACHE;
+    //surf->tex = NULL;
+    //surf->bump = NULL;
+    //surf->tm_diff = NULL;
+    //surf->tm_spec = NULL;
+    //surf->tm_trans = NULL;
+    //surf->tm_amb = NULL;
 
     /* if a transformation exists, set matrix to inverse
        of current matrix at TransTop */
@@ -467,7 +489,7 @@ Surface *Parser::yy_surface() {
         matrix_inverse(TransTop->mat, surf->matrix);
     }
 
-//    cout << "cout: In Parser::yy_surface Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_surface Pre get_token" << endl;
     /* grab and toss left brace */
     if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
@@ -484,7 +506,8 @@ Surface *Parser::yy_surface() {
             } else {
                 push_token();
                 get_vec();
-                VecCopy(tmp_vec, surf->diff);
+                // VecCopy(tmp_vec, surf->diff);
+                surf->diff = tmp_vec;
             }
             break;
         case SPECULAR:
@@ -496,9 +519,11 @@ Surface *Parser::yy_surface() {
             } else {
                 push_token();
                 get_vec();
-                VecCopy(tmp_vec, surf->spec);
-                if (surf->shine != 0 && surf->cshine[0] != 0 && surf->cshine[1] != 0 && surf->cshine[2] != 0) {
-                    VecCopy(tmp_vec, surf->cshine);
+                // VecCopy(tmp_vec, surf->spec);
+                surf->spec = tmp_vec;
+                if (surf->shine != 0 && surf->cshine.r != 0 && surf->cshine.g != 0 && surf->cshine.b != 0) {
+                    // VecCopy(tmp_vec, surf->cshine);
+                    surf->cshine = tmp_vec;
                 }
             }
             break;
@@ -511,7 +536,8 @@ Surface *Parser::yy_surface() {
             } else {
                 push_token();
                 get_vec();
-                VecCopy(tmp_vec, surf->trans);
+                // VecCopy(tmp_vec, surf->trans);
+                surf->trans = tmp_vec;
             }
             surf->flags &= ~S_CACHE;
             break;
@@ -524,7 +550,8 @@ Surface *Parser::yy_surface() {
             } else {
                 push_token();
                 get_vec();
-                VecCopy(tmp_vec, surf->amb);
+                // VecCopy(tmp_vec, surf->amb);
+                surf->amb = tmp_vec;
             }
             break;
         case SHINE:
@@ -534,9 +561,11 @@ Surface *Parser::yy_surface() {
             push_token();
             if (cur_token == NUMBER) {
                 get_vec();
-                VecCopy(tmp_vec, surf->cshine);
+                // VecCopy(tmp_vec, surf->cshine);
+                surf->cshine = tmp_vec;
             } else {
-                VecCopy(surf->spec, surf->cshine);
+                // VecCopy(surf->spec, surf->cshine);
+                surf->cshine = surf->spec;
             }
             break;
         case IOR:
@@ -573,7 +602,7 @@ Texture *Parser::yy_texture() {
     Texture *cur_tex;
     Wave *tmp_wave;
 
-//    cout << "cout: In Parser::yy_texture Pre alloc" << endl;
+    //    cout << "cout: In Parser::yy_texture Pre alloc" << endl;
     cur_tex = new Texture();
     Stats::trackMemoryUsage(sizeof(Texture));
     ptrchk(cur_tex, "procedural texture structure");
@@ -592,7 +621,7 @@ Texture *Parser::yy_texture() {
     cur_tex->surf[0] = NULL;
     cur_tex->surf[1] = NULL;
 
-//    cout << "cout: In Parser::yy_texture Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_texture Pre get_token" << endl;
     /* grab and toss left brace */
     if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
@@ -692,7 +721,7 @@ Bump *Parser::yy_bump() {
     Bump *cur_bump;
     Wave *tmp_wave;
 
-//    cout << "cout: In Parser::yy_bump Pre allocs" << endl;
+    //    cout << "cout: In Parser::yy_bump Pre allocs" << endl;
     cur_bump = new Bump();
     Stats::trackMemoryUsage(sizeof(Bump));
     ptrchk(cur_bump, "surface normal bump structure");
@@ -703,7 +732,7 @@ Bump *Parser::yy_bump() {
     cur_bump->turbulence = NULL;
     cur_bump->waves = NULL;
 
-//    cout << "cout: In Parser::yy_bump Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_bump Pre get_token" << endl;
     /* grab and toss left brace */
     if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
@@ -744,7 +773,7 @@ Bump *Parser::yy_bump() {
 Texmap *Parser::yy_texmap() {
     Texmap *cur_texmap;
 
-//    cout << "cout: In Parser::yy_texmap Pre allocs" << endl;
+    //    cout << "cout: In Parser::yy_texmap Pre allocs" << endl;
     /* allocate and fill in the defaults */
     cur_texmap = new Texmap();
     Stats::trackMemoryUsage(sizeof(Texmap));
@@ -762,7 +791,7 @@ Texmap *Parser::yy_texmap() {
     cur_texmap->grn = NULL;
     cur_texmap->blu = NULL;
 
-//    cout << "cout: In Parser::yy_texmap Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_texmap Pre get_token" << endl;
     /* grab and toss left brace */
     if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
@@ -772,7 +801,7 @@ Texmap *Parser::yy_texmap() {
         switch (cur_token) {
         case IMAGE:
             get_token();
-            tex_read_img(cur_text, cur_texmap);
+            tex_read_img(cur_text, *cur_texmap);
             break;
         case CENTER:
             get_vec();
@@ -822,7 +851,7 @@ Texmap *Parser::yy_texmap() {
 Turbulence *Parser::yy_turbulence() {
     Turbulence *cur_turb;
 
-//    cout << "cout: In Parser::yy_turbulence Pre allocs" << endl;
+    //    cout << "cout: In Parser::yy_turbulence Pre allocs" << endl;
     /* allocate and fill in defaults */
     cur_turb = new Turbulence();
     Stats::trackMemoryUsage(sizeof(Turbulence));
@@ -833,7 +862,7 @@ Turbulence *Parser::yy_turbulence() {
     MakeVector(1, 1, 1, cur_turb->scale);
     MakeVector(0, 0, 0, cur_turb->trans);
 
-//    cout << "cout: In Parser::yy_turbulence Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_turbulence Pre get_token" << endl;
     /* grab and toss left brace */
     if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
@@ -873,7 +902,7 @@ Turbulence *Parser::yy_turbulence() {
 Wave *Parser::yy_wave() {
     Wave *cur_wave;
 
-//    cout << "cout: In Parser::yy_wave Pre allocs" << endl;
+    //    cout << "cout: In Parser::yy_wave Pre allocs" << endl;
     /* allocate and fill in defaults */
     cur_wave = new Wave();
     Stats::trackMemoryUsage(sizeof(Wave));
@@ -885,7 +914,7 @@ Wave *Parser::yy_wave() {
     cur_wave->damp = 1.0;
     cur_wave->phase = 0.0;
 
-//    cout << "cout: In Parser::yy_wave Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_wave Pre get_token" << endl;
     /* grab and toss left brace */
     if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
@@ -931,7 +960,7 @@ void Parser::yy_transform() {
     Matrix m;
     Flt theta, tmp;
 
-//    cout << "cout: In Parser::yy_transform Pre allocs" << endl;
+    //    cout << "cout: In Parser::yy_transform Pre allocs" << endl;
     cur_trans = new Transform();
     Stats::trackMemoryUsage(sizeof(Transform));
     ptrchk(cur_trans, "transform structure");
@@ -939,7 +968,7 @@ void Parser::yy_transform() {
     TransTop = cur_trans;
     identity(cur_trans->mat);
 
-//    cout << "cout: In Parser::yy_transform Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_transform Pre get_token" << endl;
     /* grab and toss left brace */
     if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
@@ -1023,7 +1052,7 @@ void Parser::yy_transform() {
     yy_transform_pop() -- Pop the current transformation.
 */
 void Parser::yy_transform_pop() {
-//    cout << "cout: In Parser::yy_transform_pop Pre trans_pop" << endl;
+    //    cout << "cout: In Parser::yy_transform_pop Pre trans_pop" << endl;
     trans_pop();
 } /* end of yy_transform_pop() */
 
@@ -1034,7 +1063,7 @@ void Parser::yy_global_clip() {
     GlobalClip *ptr;
     Clip *new_clip;
 
-//    cout << "cout: In Parser::yy_global_clip Pre allocs" << endl;
+    //    cout << "cout: In Parser::yy_global_clip Pre allocs" << endl;
     ptr = new GlobalClip();
     Stats::trackMemoryUsage(sizeof(GlobalClip));
     ptrchk(ptr, "global clipping linked list structure");
@@ -1042,7 +1071,7 @@ void Parser::yy_global_clip() {
     ptr->clip = NULL;
     GlobalClipTop = ptr;
 
-//    cout << "cout: In Parser::yy_global_clip Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_global_clip Pre get_token" << endl;
     /* grab and toss left brace */
     if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
@@ -1064,7 +1093,7 @@ void Parser::yy_global_clip() {
     yy_clip_pop() -- Pop the current clip.
 */
 void Parser::yy_clip_pop() {
-//    cout << "cout: In Parser::yy_clip_pop" << endl;
+    //    cout << "cout: In Parser::yy_clip_pop" << endl;
     GlobalClipTop = GlobalClipTop->next;
     ClipTop = GlobalClipTop->clip;
 } /* end of yy_clip_pop() */
@@ -1075,7 +1104,7 @@ void Parser::yy_clip_pop() {
 Clip *Parser::yy_clip() {
     Clip *cur_clip;
 
-//    cout << "cout: In Parser::yy_clip Pre allocs" << endl;
+    //    cout << "cout: In Parser::yy_clip Pre allocs" << endl;
     cur_clip = new Clip();
     Stats::trackMemoryUsage(sizeof(Clip));
     ptrchk(cur_clip, "clipping structure");
@@ -1088,7 +1117,7 @@ Clip *Parser::yy_clip() {
     cur_clip->length = 0.0;
     cur_clip->type = 0;
 
-//    cout << "cout: In Parser::yy_clip Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_clip Pre get_token" << endl;
     /* grab and toss left brace */
     if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
@@ -1183,7 +1212,7 @@ void Parser::yy_sphere() {
 
     fuzz = 0.0;
 
-//    cout << "cout: In Parser::yy_sphere Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_sphere Pre get_token" << endl;
     /* grab and toss left brace */
     if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
@@ -1218,7 +1247,7 @@ void Parser::yy_sphere() {
         fuzz /= TransTop->mat[3][3];
     }
 
-    new_obj = MakeSphere(center, radius, fuzz);
+    new_obj = Sphere_3D::makeSphere(center, radius, fuzz);
     new_obj->next = Root;
     Root = new_obj;
 
@@ -1234,7 +1263,7 @@ void Parser::yy_cone() {
     Flt arad, brad;
     Object *new_obj;
 
-//    cout << "cout: In Parser::yy_cone Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_cone Pre get_token" << endl;
     /* grab and toss left brace */
     if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
@@ -1279,7 +1308,7 @@ void Parser::yy_cone() {
         brad /= TransTop->mat[3][3];
     }
 
-    new_obj = MakeCone(apex, arad, base, brad);
+    new_obj = Cone_3D::makeCone(apex, arad, base, brad);
     new_obj->next = Root;
     Root = new_obj;
 
@@ -1293,11 +1322,11 @@ void Parser::yy_cone() {
 void Parser::yy_ring() {
     Vec center, normal;
     Flt min_rad, max_rad;
-    Object *new_obj;
+    Ring_3D *new_obj;
 
     min_rad = 0.0;
 
-//    cout << "cout: In Parser::yy_ring Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_ring Pre get_token" << endl;
     /* grab and toss left brace */
     if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
@@ -1338,7 +1367,7 @@ void Parser::yy_ring() {
         max_rad /= TransTop->mat[3][3];
     }
 
-    new_obj = MakeRing(center, normal, min_rad, max_rad);
+    new_obj = Ring_3D::makeRing(center, normal, min_rad, max_rad);
     new_obj->next = Root;
     Root = new_obj;
 
@@ -1354,7 +1383,7 @@ void Parser::yy_polygon() {
     Vec *vlist;
     Object *new_obj;
 
-//    cout << "cout: In Parser::yy_polygon Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_polygon Pre get_token" << endl;
     /* grab and toss left brace */
     if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
@@ -1368,7 +1397,7 @@ void Parser::yy_polygon() {
     }
     get_num();
     num_pnts = cur_value;
-    
+
     vlist = new Vec[num_pnts]();
     Stats::trackMemoryUsage(sizeof(Vec[num_pnts]));
     ptrchk(vlist, "polygon vertex list");
@@ -1397,7 +1426,7 @@ void Parser::yy_polygon() {
         yyerror(String("Number of vertices expected does not match data."));
     }
 
-    new_obj = MakePoly(num_pnts, vlist);
+    new_obj = Poly_3D::makePoly(num_pnts, vlist);
     new_obj->next = Root;
     Root = new_obj;
 
@@ -1413,7 +1442,7 @@ void Parser::yy_patch() {
     int v, n;
     Object *new_obj;
 
-//    cout << "cout: In Parser::yy_patch Pre get_token" << endl;
+    //    cout << "cout: In Parser::yy_patch Pre get_token" << endl;
     /* grab and toss left brace */
     if (get_token() != LEFT_BRACE) {
         yyerror(String("Left brace expected."));
@@ -1454,7 +1483,7 @@ void Parser::yy_patch() {
         trans_normal(TransTop->mat, data[5], data[5]);
     }
 
-    new_obj = MakeTri(data);
+    new_obj = Tri_3D::makeTri(data);
     new_obj->next = Root;
     Root = new_obj;
 
@@ -1467,9 +1496,9 @@ void Parser::yy_patch() {
 */
 
 int Parser::yyparse() {
-//    cout << "cout: In Parser::yyparse Pre get_token" << endl;
+    //    cout << "cout: In Parser::yyparse Pre get_token" << endl;
     while (get_token() != END_OF_FILE) {
-//        cout << "cout: In Parser::yyparse cur_token=" << cur_token << endl;
+        //        cout << "cout: In Parser::yyparse cur_token=" << cur_token << endl;
         switch (cur_token) {
         case NEWFILE:
             get_token(); /* get file name */
@@ -1515,7 +1544,7 @@ int Parser::yyparse() {
             yy_patch();
             break;
         default:
-            fprintf(stderr, "\nError parsing, yyparse() found token %d '%s'\n", cur_token, cur_text);
+            cerr << "\nError parsing, yyparse() found token " << cur_token << " '" << cur_text << "'" << endl;
             yyerror(String("Unknown token.\n"));
             break;
         } /* end of big switch */
@@ -1537,7 +1566,7 @@ void Parser::yyerror(const String &str) {
 }
 
 void Parser::ReadSceneFile(const String &real_name, String tmp_name) {
-//    cout << "cout: In Parser::ReadSceneFile real_name=" << real_name << " \ttmp_name=" << tmp_name << endl;
+    //    cout << "cout: In Parser::ReadSceneFile real_name=" << real_name << " \ttmp_name=" << tmp_name << endl;
 
     Infile *iptr;
 
@@ -1545,19 +1574,19 @@ void Parser::ReadSceneFile(const String &real_name, String tmp_name) {
         cerr << "Error, cannot open " << tmp_name << endl;
         throw Exception("thrown by ReadSceneFile");
     }
-//    cout << "cout: In Parser::ReadSceneFile Post env_fopen Pre malloc of Stack *InfileTop" << endl;
+    //    cout << "cout: In Parser::ReadSceneFile Post env_fopen Pre malloc of Stack *InfileTop" << endl;
     Infilename = real_name;
 
     /* set up input file stack */
     InfileTop = new Stack();
-//    Stats::trackMemoryUsage(sizeof(Stack));
+    //    Stats::trackMemoryUsage(sizeof(Stack));
     ptrchk(InfileTop, "input file stack object");
     InfileTop->prev = NULL;
 
-//    cout << "cout: In Parser::ReadSceneFile Post malloc of Stack InfileTop Pre malloc of Infile *iptr" << endl;
+    //    cout << "cout: In Parser::ReadSceneFile Post malloc of Stack InfileTop Pre malloc of Infile *iptr" << endl;
 
     iptr = new Infile();
-//    Stats::trackMemoryUsage(sizeof(Infile));
+    //    Stats::trackMemoryUsage(sizeof(Infile));
     ptrchk(iptr, "input file structure");
     InfileTop->what = iptr;
 
@@ -1565,7 +1594,7 @@ void Parser::ReadSceneFile(const String &real_name, String tmp_name) {
     ptrchk(iptr->file_name.data(), "input file name");
     iptr->line = 0;
 
-//    cout << "cout: In Parser::ReadSceneFile Post ptrchk of input file name Pre Parse the input file" << endl;
+    //    cout << "cout: In Parser::ReadSceneFile Post ptrchk of input file name Pre Parse the input file" << endl;
 
     /* parse the input file */
     if (yyparse() == 1) {
@@ -1573,7 +1602,7 @@ void Parser::ReadSceneFile(const String &real_name, String tmp_name) {
         throw Exception("thrown by ReadSceneFile");
     }
 
-//    cout << "cout: In Parser::ReadSceneFile Post yyparse Pre clean up transform structures" << endl;
+    //    cout << "cout: In Parser::ReadSceneFile Post yyparse Pre clean up transform structures" << endl;
     /* clean up transform structures */
     while (TransTop)
         trans_pop();
@@ -1587,7 +1616,8 @@ void Parser::ReadSceneFile(const String &real_name, String tmp_name) {
         cout << "\tinputfile = \"" << Infilename << "\"" << endl;
         cout << "\tlights " << nLights << " prims " << nPrims << "\n" << endl;
         cout << "\tresolution " << Xresolution << " " << Yresolution << endl;
-        for(int i=0; i<30; i++) cout << endl;
+        for (int i = 0; i < 30; i++)
+            cout << endl;
     }
 }
 
@@ -1603,7 +1633,7 @@ void Parser::yy_newfile(String new_file) {
     iptr = InfileTop->what; /* save line number for current file */
     iptr->line = yylinecount;
 
-//    cout << "cout: In Parser::yy_newfile Pre allocs" << endl;
+    //    cout << "cout: In Parser::yy_newfile Pre allocs" << endl;
     sptr = new Stack();
     Stats::trackMemoryUsage(sizeof(Stack));
     ptrchk(sptr, "input file stack object");
@@ -1626,7 +1656,7 @@ void Parser::yy_popfile() {
     Infile *iptr;
     Stack *sptr;
 
-//    cout << "cout: In Parser::yy_patch Pre InfileTop->prev check" << endl;
+    //    cout << "cout: In Parser::yy_patch Pre InfileTop->prev check" << endl;
     if (InfileTop->prev) {
         iptr = InfileTop->what;
         sptr = InfileTop;
@@ -1642,7 +1672,7 @@ void Parser::yy_popfile() {
 void Parser::trans_pop() {
     Transform *tptr;
 
-//    cout << "cout: In Parser::trans_pop Pre TransTop ptr check" << endl;
+    //    cout << "cout: In Parser::trans_pop Pre TransTop ptr check" << endl;
     tptr = TransTop;
     if (tptr == NULL) {
         yyerror(String("Trying to pop a transformation from an empty stack."));

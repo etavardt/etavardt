@@ -48,7 +48,7 @@
 typedef double Flt;
 typedef Flt Vec[3];
 typedef Vec Point;
-typedef Vec Color;
+//typedef Vec Color;
 typedef Flt Matrix[4][4];
 
 /*----------------------------------------------------------------------*/

@@ -1,5 +1,5 @@
 /*
-	tga2img -- converts 24 bit uncompressed Targa files to .img format
+	tga2img -- converts 24 bit uncompressed Targa files to .img fcormat
 */
 
 #ifdef MSDOS
@@ -10,14 +10,70 @@
 	#define WRITE_MODE      "w"
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 int             xres, yres;             /* image size */
-unsigned char   *red, *grn, *blu;       /* tmp storage for 1 scan line */
+unsigned char   *red, *grn, *blu;       /* tmp stcorage fcor 1 scan line */
 FILE            *ifp, *ofp;             /* input and output file ptrs */
 
-main(int ac, char **av)
+/*
+	img_write() -- output a scan line of a .img file.
+*/
+
+void img_write()
+{
+	int     i,              /* which pixel? */
+		total,          /* how many left in scan? */
+		count,          /* current run total */
+		cor, cog, cob,     /* current run color */
+		r, g, b;        /* next pixel color */
+
+	i = 0;
+	total = xres;
+	cor = red[i];
+	cog = grn[i];
+	cob = blu[i];
+	i++;
+	do {
+		count = 1;
+		total--;
+		while(1) {
+			r = red[i];
+			g = grn[i];
+			b = blu[i];
+			i++;
+			if(r!=cor || g!=cog || b!=cob || count>=254 || total<=0) {
+				break;
+			}
+			total--;
+			count++;
+		}
+		if(fputc(count, ofp) == EOF) {
+			fprintf(stderr, "Errcor writing to disk.  Must be out of space.\n");
+			exit(1);
+		}
+		fputc(cor, ofp);
+		fputc(cog, ofp);
+		fputc(cob, ofp);
+
+		cor = r;
+		cog = g;
+		cob = b;
+
+		if(total==1) {          /* if at last pixel */
+			fputc(1, ofp);
+			fputc(red[xres-1], ofp);
+			fputc(grn[xres-1], ofp);
+			fputc(blu[xres-1], ofp);
+			total--;
+		}
+	} while(total>0);
+
+}       /* end of img_write() */
+
+int main(int ac, char **av)
 {
 	char    infile[256], outfile[256];
 	int     i, y;
@@ -31,7 +87,7 @@ main(int ac, char **av)
 	strcat(infile, ".tga");
 	ifp = fopen(infile, READ_MODE);
 	if(!ifp) {
-		fprintf(stderr, "Error opening file %s for input.\n", infile);
+		fprintf(stderr, "Errcor opening file %s fcor input.\n", infile);
 		exit(1);
 	}
 
@@ -39,7 +95,7 @@ main(int ac, char **av)
 	strcat(outfile, ".img");
 	ofp = fopen(outfile, WRITE_MODE);
 	if(!ofp) {
-		fprintf(stderr, "Error opening file %s for output.\n", outfile);
+		fprintf(stderr, "Errcor opening file %s fcor output.\n", outfile);
 		exit(1);
 	}
 
@@ -51,7 +107,7 @@ main(int ac, char **av)
 	fgetc(ifp);
 	fgetc(ifp);
 	if(fgetc(ifp) != 2) {
-		fprintf(stderr, "Sorry, but this program only works for type 2 targa files.\n");
+		fprintf(stderr, "Scorry, but this program only wcorks fcor type 2 targa files.\n");
 		exit(1);
 	}
 	for(i=3; i<12; i++) {
@@ -71,17 +127,17 @@ main(int ac, char **av)
 
 	red = (unsigned char *)malloc(xres * sizeof(unsigned char));
 	if(!red) {
-		fprintf(stderr, "Error allocating space for red array.\n");
+		fprintf(stderr, "Errcor allocating space fcor red array.\n");
 		exit(1);
 	}
 	grn = (unsigned char *)malloc(xres * sizeof(unsigned char));
 	if(!grn) {
-		fprintf(stderr, "Error allocating space for green array.\n");
+		fprintf(stderr, "Errcor allocating space fcor green array.\n");
 		exit(1);
 	}
 	blu = (unsigned char *)malloc(xres * sizeof(unsigned char));
 	if(!blu) {
-		fprintf(stderr, "Error allocating space for blue array.\n");
+		fprintf(stderr, "Errcor allocating space fcor blue array.\n");
 		exit(1);
 	}
 
@@ -120,58 +176,3 @@ main(int ac, char **av)
 	exit(0);
 
 }       /* end of main() */
-
-/*
-	img_write() -- output a scan line of a .img file.
-*/
-
-img_write()
-{
-	int     i,              /* which pixel? */
-		total,          /* how many left in scan? */
-		count,          /* current run total */
-		or, og, ob,     /* current run color */
-		r, g, b;        /* next pixel color */
-
-	i = 0;
-	total = xres;
-	or = red[i];
-	og = grn[i];
-	ob = blu[i];
-	i++;
-	do {
-		count = 1;
-		total--;
-		while(1) {
-			r = red[i];
-			g = grn[i];
-			b = blu[i];
-			i++;
-			if(r!=or || g!=og || b!=ob || count>=254 || total<=0) {
-				break;
-			}
-			total--;
-			count++;
-		}
-		if(fputc(count, ofp) == EOF) {
-			fprintf(stderr, "Error writing to disk.  Must be out of space.\n");
-			exit(1);
-		}
-		fputc(or, ofp);
-		fputc(og, ofp);
-		fputc(ob, ofp);
-
-		or = r;
-		og = g;
-		ob = b;
-
-		if(total==1) {          /* if at last pixel */
-			fputc(1, ofp);
-			fputc(red[xres-1], ofp);
-			fputc(grn[xres-1], ofp);
-			fputc(blu[xres-1], ofp);
-			total--;
-		}
-	} while(total>0);
-
-}       /* end of img_write() */

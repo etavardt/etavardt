@@ -22,9 +22,11 @@
 #define STRUCT_DEFS_HPP
 
 #include "String.hpp"
+#include "Color.hpp"
 #include "defs.hpp"
 #include <stdio.h>
 
+class Object_3D;
 /*
     typedefs for the world
 */
@@ -45,20 +47,20 @@ typedef struct t_stack {
     struct t_stack *prev;
 } Stack;
 
-typedef struct t_light {
-    Vec position;
-    Vec dir;
-    Color color;
-    Flt radius;    /* radius/spherical, max_angle/spotlight */
-    Flt min_angle, /* angles for spot lights */
-        max_angle;
-    short type;    /* what type is this? */
-    short illum;   /* how does the light fall off? */
-    short flag;    /* noshadows? nospec? */
-    short samples; /* num samples for spherical light */
-    struct t_object *light_obj_cache[MAXLEVEL];
-    struct t_light *next; /* next light in list */
-} Light;
+// typedef struct t_light {
+//     Vec position;
+//     Vec dir;
+//     Color color;
+//     Flt radius;    /* radius/spherical, max_angle/spotlight */
+//     Flt min_angle, /* angles for spot lights */
+//         max_angle;
+//     short type;    /* what type is this? */
+//     short illum;   /* how does the light fall off? */
+//     short flag;    /* noshadows? nospec? */
+//     short samples; /* num samples for spherical light */
+//     struct t_object *light_obj_cache[MAXLEVEL];
+//     struct t_light *next; /* next light in list */
+// } Light;
 
 typedef struct t_viewpoint {
     Vec view_from;
@@ -87,7 +89,7 @@ typedef struct t_transform {
     struct t_transform *next;
 } Transform;
 
-typedef unsigned char Palette[256][3];
+typedef Color Palette[256];
 
 typedef struct t_background {
     Color color;
@@ -103,5 +105,11 @@ typedef struct t_macro {
         tlen;             /* length of text */
     struct t_macro *next; /* stack link */
 } Macro;
+
+//TODO: TCE:maybe move to bound.hpp
+typedef struct t_compositedata {
+    unsigned long   size;
+    Object_3D          *children;
+} CompositeData;
 
 #endif //STRUCT_DEFS_HPP

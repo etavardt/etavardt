@@ -18,7 +18,7 @@
 
 /* OS and compiler specific garbage */
 
-#define index strchr
+//#define index strchr
 
 /* Bob specific garbage */
 

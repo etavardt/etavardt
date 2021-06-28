@@ -22,6 +22,7 @@
 #include <cstdio>
 #include <cmath>
 #include <cassert>
+#include "Object_3D.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
@@ -45,7 +46,7 @@ Flt    den[NSLABS];
  * Note: should be broken into two separate procedures...
  ***********************************************************************/
 
-void    CheckAndEnqueue(Object *obj, Flt maxdist)
+void CheckAndEnqueue(Object *obj, Flt maxdist)
 {
     int i = 0;
 
@@ -90,32 +91,33 @@ void    CheckAndEnqueue(Object *obj, Flt maxdist)
 }
 
 /***********************************************************************
- * Intersect(ray, hit, maxdist, self)
+ * Intersect(ray, hit, maxdist, lastObjHit)
  * 
  * Returns true if we hit something in the root model closer than maxdist.  
  * Returns the closest hit in the "hit" buffer.
 
-    Self is a pointer to the last object hit.  If self is NULL then
+    lastObjHit is a pointer to the last object hit.  If lastObjHit is NULL then
     the ray either originated at the eye or the last object may be
-    self-intersecting ie spheres and cones.  This can be used to
+    lastObjHit-intersecting ie spheres and cones.  This can be used to
     eliminate doing an intersection test with the last object.
 
  ***********************************************************************/
 
-int Intersect(Ray *ray, Isect *hit, Flt maxdist, Object *self)
+int Intersect(Ray *ray, Isect *hit, Flt maxdist, Object *lastObjHit)
 {
-    Isect        nhit;
-    int        i;
-    Flt        min_dist = maxdist;
-    Object          *cobj, *child;
+    Isect          nhit;
+    int            i;
+    Flt            min_dist = maxdist;
+    Object        *cobj, *child;
     Object        *pobj = NULL;
-    CompositeData     *cdp;
-    Flt        key;
+    CompositeData *cdp;
+    Flt            key;
 
     /* If the object is simple, then return the hit that it gives you */
 
     if(Root->o_type != T_COMPOSITE)
-        return (Root->o_procs->intersect) (Root, ray, hit);
+        return Root->intersect(Root, ray, hit);
+//        return (Root->o_procs->intersect) (Root, ray, hit);
 
     for(i=0; i<3; i++) {
         num[i] = ray->P[i];
@@ -155,7 +157,7 @@ int Intersect(Ray *ray, Isect *hit, Flt maxdist, Object *self)
             child = cdp->children;
 
             while(child) {
-                if(self != child) {
+                if(lastObjHit != child) {
                     CheckAndEnqueue(child, maxdist);
                 }
                 child = child->next;
@@ -170,7 +172,8 @@ int Intersect(Ray *ray, Isect *hit, Flt maxdist, Object *self)
              * than the one we currently have...
              */
             
-            if((cobj->o_procs->intersect) (cobj, ray, &nhit)) {
+//            if((cobj->o_procs->intersect) (cobj, ray, &nhit)) {
+            if(cobj->intersect(cobj, ray, &nhit)) {
                 if(nhit.isect_t < min_dist) {
                     pobj = cobj;
                     *hit = nhit;

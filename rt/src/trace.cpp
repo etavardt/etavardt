@@ -25,55 +25,63 @@
     a value to use for determining color attenuation for haze and
     transparent objects.
 */
-
-#include <cstdio>
-#include <cmath>
+#include "Object_3D.hpp"
+#include "Color.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include "proto.hpp"
+//#include "proto.hpp"
+#include <cmath>
+#include <cstdio>
+//class Isect;
+extern int  Intersect (Ray *ray , Isect *hit , Flt maxdist , Object *self);
+extern void Shade (int level , Flt weight , Vec P , Vec N , Vec I , Isect *hit , Color &col , Flt ior);
 
-void    bkg(Vec dir, Color col)
-{
-    Flt     dot, index;
-    int     indx;
+void bkg(Vec dir, Color &col) {
+    Flt dot, index;
+    int indx;
 
-    if(background.color[0] < 0.0) {
+    if (background.color.r < 0.0) { // Using a color from a Pallet not a single color. Works how?
         dot = -VecDot(dir, background.up);
         index = 127.0 * dot + 128.0;
         indx = index;
         index -= indx;
-        col[0] = (1.0-index)*background.pal[indx][0]/256.0 + index*background.pal[indx+1][0]/256.0;
-        col[1] = (1.0-index)*background.pal[indx][1]/256.0 + index*background.pal[indx+1][1]/256.0;
-        col[2] = (1.0-index)*background.pal[indx][2]/256.0 + index*background.pal[indx+1][2]/256.0;
-    } else {
-        VecCopy(background.color, col);
+        col.r = (1.0 - index) * background.pal[indx].r / 256.0 + index * background.pal[indx + 1].r / 256.0;
+        col.g = (1.0 - index) * background.pal[indx].g / 256.0 + index * background.pal[indx + 1].g / 256.0;
+        col.b = (1.0 - index) * background.pal[indx].b / 256.0 + index * background.pal[indx + 1].b / 256.0;
+    } else { // not using a Pallet
+        //        VecCopy(background.color, col);
+        //        col.r = background.color.r;
+        //        col.g = background.color.g;
+        //        col.b = background.color.b;
+        col = background.color;
     }
-}       /* end of bkg */
+} /* end of bkg */
 
-Flt     Trace(int    level, Flt    weight, Ray    *ray, Color    color, Flt    ior, Object    *self)
 //    Flt    ior;        /* current material ior */
-{
-    Object    *prim;
-    Vec    P, N;
-    Isect    hit;
+Flt Trace(int level, Flt weight, Ray *ray, Color &color, Flt ior, Object *obj) {
+    Object *prim;
+    Vec P, N;
+    Isect hit;
 
-    if(level >= maxlevel) {
-        color[0] = color[1] = color[2] = 0.0;
+    if (level >= maxlevel) {
+        //color.r = color.g = color.b = 0.0;
+        color = 0.0;
         return 0.0;
-    } else if(level > deepest) {
+    } else if (level > deepest) {
         deepest = level;
     }
-        
-    nRays ++;
 
-    if(Intersect(ray, &hit, HUGE, self)) {
+    nRays++;
+
+    if (Intersect(ray, &hit, HUGE, obj)) {
 
         /* end of warning */
 
         prim = hit.isect_prim;
         RayPoint(ray, hit.isect_t, P);
         /* get normal vector of intersection */
-        (*prim -> o_procs -> normal) (prim, &hit, P, N);
+//        (*prim->o_procs->normal)(prim, &hit, P, N);
+        prim->normal(prim, &hit, P, N);
 
         Shade(level, weight, P, N, ray->D, &hit, color, ior);
         return hit.isect_t;
@@ -83,4 +91,3 @@ Flt     Trace(int    level, Flt    weight, Ray    *ray, Color    color, Flt    i
         return HUGE;
     }
 }
-

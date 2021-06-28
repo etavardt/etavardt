@@ -17,7 +17,8 @@
 �������������������������������������������
 */
 #include "Object_3D.hpp"
-#include "Texture_3D.hpp"
+#include "Light_3D.hpp"
+//#include "Texture_3D.hpp"
 #include "String.hpp"
 #include "defs.hpp"
 #include "struct_defs.hpp"
@@ -28,9 +29,9 @@ extern void BuildBoundingSlabs (void);
 //extern int  SortAndSplit (Object **handle, long count);
 
 /* cone.c */
-extern int     ConeIntersect (Object *obj , Ray *ray , Isect *hit);
-extern void    ConeNormal (Object *obj , Isect *hit , Point P , Point N);
-extern Object *MakeCone (Vec basepoint , Flt baseradius , Vec apexpoint , Flt apexradius);
+//extern int     ConeIntersect (Object *obj , Ray *ray , Isect *hit);
+//extern void    ConeNormal (Object *obj , Isect *hit , Point P , Point N);
+//extern Object *MakeCone (Vec basepoint , Flt baseradius , Vec apexpoint , Flt apexradius);
 
 /* clip.c */
 extern void bound_opt(Object *obj);
@@ -49,7 +50,7 @@ extern FILE *env_fopen(String name, const String mode);
 
 /* inter.c */
 extern void CheckAndEnqueue (Object *obj , Flt maxdist);
-extern int  Intersect (Ray *ray , Isect *hit , Flt maxdist , Object *self);
+//extern int  Intersect (Ray *ray , Isect *hit , Flt maxdist , Object *self);
 
 /* main.c */
 extern int main (int argc , char **argv);
@@ -74,9 +75,9 @@ extern int yyparse (void);
 //extern void  PicClose (Pic *pic);
 
 /* poly.c */
-extern int     PolyIntersect (Object *obj , Ray *ray , Isect *hit);
-extern void    PolyNormal (Object *obj , Isect *hit , Point P , Point N);
-extern Object *MakePoly (int npoints , Vec *points);
+//extern int     PolyIntersect (Object *obj , Ray *ray , Isect *hit);
+//extern void    PolyNormal (Object *obj , Isect *hit , Point P , Point N);
+//extern Object *MakePoly (int npoints , Vec *points);
 
 /* pqueue.c */
 extern void PriorityQueueNull (void);
@@ -98,9 +99,9 @@ extern int   cpy_tok (char *dst , char *src);
 extern int   is_tok (int c);
 
 /* ring.c */
-extern int     RingIntersect (Object *obj , Ray *ray , Isect *hit);
-extern void    RingNormal (Object *obj , Isect *hit , Point P , Point N);
-extern Object *MakeRing (Vec pos , Vec norm , Flt min_rad , Flt max_rad);
+//extern int     RingIntersect (Object *obj , Ray *ray , Isect *hit);
+//extern void    RingNormal (Object *obj , Isect *hit , Point P , Point N);
+//extern Object *MakeRing (Vec pos , Vec norm , Flt min_rad , Flt max_rad);
 
 /* screen.c * /
 extern void Screen (Viewpoint *view , char *picfile , int xres , int yres);
@@ -110,22 +111,22 @@ extern void Scan1 (void);
 extern void Scan2 (void);
 extern void Scan3 (void);
 extern void Scan4 (void);
-extern void Adapt (int i , int j , Flt x , Flt y , Color color , int step);
-extern void Shoot (Flt x , Flt y , Color color);
+extern void Adapt (int i , int j , Flt x , Flt y , Color &color , int step);
+extern void Shoot (Flt x , Flt y , Color &color);
 */
 /* shade.c */
-extern void Shade (int level , Flt weight , Vec P , Vec N , Vec I , Isect *hit , Color col , Flt ior);
+//extern void Shade (int level , Flt weight , Vec P , Vec N , Vec I , Isect *hit , Color &col , Flt ior);
 extern void reflect (Vec I , Vec N , Vec R, Flt dot);
 extern int  refract (Flt eta, Vec I, Vec N, Vec T, Flt dot);
 
 /* shadow.c */
-extern int Shadow (Ray *ray , Isect *hit , Flt tmax , Color color , int level , Light *lptr, int inside);
-extern int sShadow (Ray *ray , Isect *hit , Flt tmax , Color color , int level , Light *lptr, int inside);
+extern int Shadow (Ray *ray , Isect *hit , Flt tmax , Color &color , int level , Light *lptr, int inside);
+extern int sShadow (Ray *ray , Isect *hit , Flt tmax , Color &color , int level , Light *lptr, int inside);
 
 /* sphere.c */
-extern int     SphereIntersect (Object *obj , Ray *ray , Isect *hit);
-extern void    SphereNormal (Object *obj , Isect *hit , Point P , Point N);
-extern Object *MakeSphere (Vec pos , Flt radius , Flt fuzzy);
+//extern int     SphereIntersect (Object *obj , Ray *ray , Isect *hit);
+//extern void    SphereNormal (Object *obj , Isect *hit , Point P , Point N);
+//extern Object *MakeSphere (Vec pos , Flt radius , Flt fuzzy);
 
 /* stats.c */
 //extern void statistics (int line);
@@ -133,30 +134,33 @@ extern void stat_tic(void);
 extern void init_tic(void);
 
 /* texture.c */
-extern Flt  tex_checker (Point P , Texture *tex);
-extern Flt  tex_spherical (Point P , Texture *tex);
-extern Flt  tex_noise (Point P , Texture *tex);
-extern void tex_fix (Surface *surf , Point P, Point OP);
-extern void map_fix (Surface *surf, Point P);
-extern void tex_project (Texmap *tm, Point OP, Flt *i, Flt *j);
-extern void tile (Texmap *tm, Flt *i, Flt *j);
-extern void get_map_entry (Texmap *tm, Flt i, Flt j, Color color);
-extern void tex_read_img (char *file, Texmap *tm);
+/* TCE: sudo Overloaded in Parser on cur_tex->func */
+extern Flt tex_checker (const Point P , const Texture &tex);
+extern Flt tex_spherical (const Point P , const Texture &tex);
+extern Flt tex_noise (const Point P , const Texture &tex);
+
+
+extern void tex_fix (Surface_3D &surf , Point P, Point OP);
+extern void map_fix (Surface_3D &surf, Point P);
+//extern void tex_project (Texmap &tm, Point OP, Flt *i, Flt *j);
+//extern void tile (Texmap &tm, Flt *i, Flt *j);
+//extern void get_map_entry (Texmap *tm, Flt i, Flt j, Color &color);
+extern void tex_read_img (const String &file, Texmap &tm);
 
 /* tokens.c */
 extern int get_token();
 extern int push_token();
 
 /* trace.c */
-extern Flt  Trace (int level , Flt weight , Ray *ray , Color color , Flt ior , Object *self);
-extern void bkg (Vec dir, Color col);
+extern Flt  Trace (int level , Flt weight , Ray *ray , Color &color , Flt ior , Object *self);
+extern void bkg (Vec dir, Color &col);
 
 /* tri.c */
-extern int     TriIntersect (Object *obj , Ray *ray , Isect *hit);
-extern void    TriNormal (Object *obj , Isect *hit , Point P , Point N);
-extern Object *MakeTri (Vec *point);
-extern void    InvertMatrix (Vec in [3 ], Vec out [3 ]);
-extern void    CheckTri (Vec *point);
+//extern int     TriIntersect (Object *obj , Ray *ray , Isect *hit);
+//extern void    TriNormal (Object *obj , Isect *hit , Point P , Point N);
+//extern Object *MakeTri (Vec *point);
+//extern void    InvertMatrix (Vec in [3 ], Vec out [3 ]);
+//extern void    CheckTri (Vec *point);
 
 /* vector.c */
 extern Flt  VecNormalize (Vec vec);
@@ -167,7 +171,7 @@ extern void trans_normal (Matrix mat , Vec in , Vec out);
 extern void matrix_inverse (Matrix in , Matrix out);
 
 /* wave.c */
-extern void make_waves (Vec in, Vec out, Wave *head);
+//extern void make_waves (Vec in, Vec out, Wave *head);
 
 /* yystuff.c */
 //extern void yyerror (const char *str);

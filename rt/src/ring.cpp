@@ -18,94 +18,100 @@
 �������������������������������������������
 */
 
-#include <cstdio>
-#include <cmath>
 #include "Bob.hpp"
+#include "Ring_3D.hpp"
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
+#include <cmath>
+#include <cstdio>
 
 typedef struct t_ringdata {
-    Vec    ring_center;
-    Vec    ring_normal;
-    Flt    D;
-    Flt    min_radius, max_radius;    /* actually store squared values */
+    Vec ring_center;
+    Vec ring_normal;
+    Flt D;
+    Flt min_radius, max_radius; /* actually store squared values */
 } RingData;
-
+/*
 ObjectProcs RingProcs = {
     RingIntersect,
     RingNormal,
 };
+*/
 
-int RingIntersect(Object    *obj, Ray    *ray, Isect    *hit)
-{
-    RingData    *rp;
-    Flt        Vprd, Vpro, t, rad;
-    Point      point;
+Ring_3D::Ring_3D(): Object_3D() {
+    Object_3D::o_type = T_RING;
+    Object_3D::o_surf = CurrentSurface;
+}
+Ring_3D::~Ring_3D() {
+    Object_3D::~Object_3D();
+    if (o_data != NULL) {
+        delete (RingData*)o_data;
+    }
+}
 
-    rp = (RingData *)obj->o_data;    /* point to ring data */
+int Ring_3D::intersect(Object_3D *obj, Ray *ray, Isect *hit) {
+    RingData *rp;
+    Flt Vprd, Vpro, t, rad;
+    Point point;
+
+    rp = (RingData *)obj->o_data; /* point to ring data */
 
     Vprd = VecDot(rp->ring_normal, ray->D);
 
-    if(Vprd == 0) {            /* ray in plane */
+    if (Vprd == 0) { /* ray in plane */
         return 0;
     }
 
     Vpro = -(VecDot(rp->ring_normal, ray->P) + rp->D);
 
-    t = Vpro/Vprd;
+    t = Vpro / Vprd;
 
-    if(t < rayeps) {        /* intersect behind us or self */        
+    if (t < rayeps) { /* intersect behind us or self */
         return 0;
     }
 
     RayPoint(ray, t, point);
 
     /* if clipping planes and doesn't pass, bail */
-    if(obj->clips && !clip_check(obj->clips, point)) {
+    if (obj->clips && !clip_check(obj->clips, point)) {
         return 0;
     }
 
     /* calc dist to ring center */
     VecSub(rp->ring_center, point, point);
-    rad = VecDot(point, point);    /* calc dist^2 */
+    rad = VecDot(point, point); /* calc dist^2 */
 
-    if(rad>rp->max_radius || rad<rp->min_radius) {
-        return 0;        /* missed the ring */
+    if (rad > rp->max_radius || rad < rp->min_radius) {
+        return 0; /* missed the ring */
     }
 
     hit->isect_t = t;
     hit->isect_prim = obj;
-    hit->isect_self = obj;        /* rings are not self intersecting */
+    hit->isect_self = obj; /* rings are not self intersecting */
     hit->isect_surf = obj->o_surf;
 
     return 1;
 }
 
-void    RingNormal(Object *obj, Isect *hit, Point P, Point N)
-{
-    RingData    *rp;
+void Ring_3D::normal(Object_3D *obj, Isect *hit, Point P, Point N) {
+    RingData *rp;
     rp = (RingData *)obj->o_data;
 
-    VecCopy(rp->ring_normal, N);    /* already normalized */
+    VecCopy(rp->ring_normal, N); /* already normalized */
 }
 
-Object *MakeRing(Vec pos, Vec norm, Flt min_rad, Flt max_rad)
-{
-    Object        *tmp;
-    int        i;
-    RingData    *rp;
-    Flt             size;
+Ring_3D *Ring_3D::makeRing(Vec pos, Vec norm, Flt min_rad, Flt max_rad) {
+    Ring_3D *tmp;
+    RingData *rp;
+    Flt size;
 
-    tmp = new Object();
-    Stats::trackMemoryUsage(sizeof(Object));
+    tmp = new Ring_3D();
+    Stats::trackMemoryUsage(sizeof(Ring_3D));
     Bob::getApp().parser.ptrchk(tmp, "ring object");
-    tmp->o_type = T_RING;
-    tmp->o_procs = &RingProcs;
-    tmp->o_surf = CurrentSurface;
 
-    if(ClipTop) {
+    if (ClipTop) {
         tmp->clips = ClipTop;
         ClipTop = GlobalClipTop->clip;
     } else {
@@ -124,23 +130,21 @@ Object *MakeRing(Vec pos, Vec norm, Flt min_rad, Flt max_rad)
     tmp->o_data = (void *)rp;
 
     /*
-     * figure out dmin and dmax values for 
+     * figure out dmin and dmax values for
      * each of the slabs...
      */
 
-    max_rad = ABS(max_rad);        /* just to be sure... */
-    for(i=0; i<NSLABS; i++) {
+    max_rad = ABS(max_rad); /* just to be sure... */
+    for (int i = 0; i < NSLABS; i++) {
         size = VecDot(Slab[i], rp->ring_normal);
-        size = max_rad * sqrt(1.0 - size*size);
+        size = max_rad * sqrt(1.0 - size * size);
         tmp->o_dmin[i] = pos[i] - size;
         tmp->o_dmax[i] = pos[i] + size;
     }
 
-    if(tmp->clips) {
+    if (tmp->clips) {
         bound_opt(tmp);
     }
 
     return tmp;
 }
-
-

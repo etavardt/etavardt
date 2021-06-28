@@ -4,7 +4,7 @@
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
-#include "screen.hpp"
+#include "Screen_3D.hpp"
 #include <filesystem>
 #include <iostream>
 
@@ -39,7 +39,8 @@ int Bob::runApp() {
     //    cout << "cout: In Bob::runApp Post BuildBoundingSlabs Pre init_noise" << endl;
     init_noise();
     //    cout << "cout: In Bob::runApp Post init_noise Pre Screen" << endl;
-    Screen(&Eye, outfilename, Xresolution, Yresolution);
+    Screen scr;
+    scr.screen(&Eye, outfilename, Xresolution, Yresolution);
     //    cout << "cout: In Bob::runApp Post Screen return to caller" << endl;
 
     return 1;
@@ -164,7 +165,7 @@ int Bob::processCmdLine(int argCnt, char **argList) {
                     amode = A_ADAPTIVE;
                     break;
                 default:
-                    fprintf(stderr, "Error, unkown antialiasing mode %s.\n", argList[i]);
+                    cerr << "Error, unkown antialiasing mode " << argList[i] << "." << endl;
                     usage();
                     break;
                 }
@@ -185,7 +186,7 @@ int Bob::processCmdLine(int argCnt, char **argList) {
                 usage(); /* no return */
                 break;
             default:
-                fprintf(stderr, "Error, unkown command line flag %s.\n", argList[i]);
+                cerr << "Error, unkown command line flag " << argList[i] << "." << endl;
                 usage();
                 break;
             } /* end of switch */

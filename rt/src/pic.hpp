@@ -30,7 +30,7 @@ typedef struct Pic {
     int    x, y;
 } Pic;
 extern Pic    *PicOpen(String &filename, int x, int y);
-extern void  PicWriteLine (Pic *pic , Pixel *buf);
-extern void  PicClose (Pic *pic);
+extern void  PicWriteLine (Pic &pic , const Pixel buf[]);
+extern void  PicClose (Pic &pic);
 
 #endif

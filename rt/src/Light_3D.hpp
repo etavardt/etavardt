@@ -4,10 +4,10 @@
 //#include "defs.hpp"
 class Object_3D;
 
-class Light {
+class Light_3D {
     public:
-    Light(){}
-    ~Light(){}
+    Light_3D(){}
+    ~Light_3D(){}
     
     Vec position;
     Vec dir;
@@ -20,5 +20,9 @@ class Light {
     short flag;    /* noshadows? nospec? */
     short samples; /* num samples for spherical light */
     Object_3D *light_obj_cache[MAXLEVEL];
-    Light *next; /* next light in list */
+    Light_3D *next; /* next light in list */
+
+    static Light_3D *light_head;
 } ;
+
+typedef Light_3D Light;

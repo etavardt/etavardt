@@ -27,6 +27,7 @@
 #include "Tri_3D.hpp"
 #include "Cone_3D.hpp"
 #include "Poly_3D.hpp"
+#include "Light_3D.hpp"
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -339,14 +340,14 @@ void Parser::yy_light() {
     tmp = new Light();
     Stats::trackMemoryUsage(sizeof(Light));
     ptrchk(tmp, String("light structure"));
-    tmp->next = light_head; /* add to head of list */
-    light_head = tmp;
-    light_head->type = L_POINT;
-    light_head->illum = L_INFINITE;
-    light_head->samples = L_SAMPLES;
-    light_head->flag = 0;
+    tmp->next = Light::light_head; /* add to head of list */
+    Light::light_head = tmp;
+    Light::light_head->type = L_POINT;
+    Light::light_head->illum = L_INFINITE;
+    Light::light_head->samples = L_SAMPLES;
+    Light::light_head->flag = 0;
     for (i = 0; i < MAXLEVEL; i++) {
-        light_head->light_obj_cache[i] = NULL;
+        Light::light_head->light_obj_cache[i] = NULL;
     }
 
     //    cout << "cout: In Parser::yy_light Pre get_token" << endl;
@@ -361,16 +362,16 @@ void Parser::yy_light() {
             get_token();
             switch (cur_token) {
             case POINT:
-                light_head->type = L_POINT;
+                Light::light_head->type = L_POINT;
                 break;
             case SPHERICAL:
-                light_head->type = L_SPHERICAL;
+                Light::light_head->type = L_SPHERICAL;
                 break;
             case SPOT:
-                light_head->type = L_SPOT;
+                Light::light_head->type = L_SPOT;
                 break;
             case DIRECTIONAL:
-                light_head->type = L_DIRECTIONAL;
+                Light::light_head->type = L_DIRECTIONAL;
                 break;
             default:
                 yyerror(String("Unkown light type."));
@@ -380,60 +381,60 @@ void Parser::yy_light() {
         case COLOR:
             get_vec();
             // VecCopy(tmp_vec, light_head->color);
-            light_head->color = tmp_vec;
+            Light::light_head->color = tmp_vec;
             break;
         case CENTER:
             get_vec();
             if (TransTop) {
                 trans_vector(TransTop->mat, tmp_vec, tmp_vec);
             }
-            VecCopy(tmp_vec, light_head->position);
+            VecCopy(tmp_vec, Light::light_head->position);
             break;
         case FALLOFF:
             get_num();
-            light_head->illum = cur_value;
+            Light::light_head->illum = cur_value;
             break;
         case NO_SHADOWS:
             get_num();
-            light_head->flag |= L_NOSHADOWS;
+            Light::light_head->flag |= L_NOSHADOWS;
             break;
         case NOSPEC:
             get_num();
-            light_head->flag |= L_NOSPEC;
+            Light::light_head->flag |= L_NOSPEC;
             break;
         case DIRECTION:
             get_vec();
             if (TransTop) {
                 trans_normal(TransTop->mat, tmp_vec, tmp_vec);
             }
-            VecCopy(tmp_vec, light_head->dir);
-            VecS((-1.0), light_head->dir, light_head->dir);
-            VecNormalize(light_head->dir);
+            VecCopy(tmp_vec, Light::light_head->dir);
+            VecS((-1.0), Light::light_head->dir, Light::light_head->dir);
+            VecNormalize(Light::light_head->dir);
             break;
         case RADIUS:
             get_num();
-            light_head->radius = cur_value;
+            Light::light_head->radius = cur_value;
             break;
         case MIN_ANGLE:
             get_num();
-            light_head->min_angle = cos(degtorad(cur_value / 2.0));
+            Light::light_head->min_angle = cos(degtorad(cur_value / 2.0));
             break;
         case MAX_ANGLE:
             get_num();
-            light_head->max_angle = cos(degtorad(cur_value / 2.0));
+            Light::light_head->max_angle = cos(degtorad(cur_value / 2.0));
             break;
         case SAMPLES:
             get_num();
-            light_head->samples = cur_value;
+            Light::light_head->samples = cur_value;
             break;
         case AT:
             get_vec();
             if (TransTop) {
                 trans_vector(TransTop->mat, tmp_vec, tmp_vec);
             }
-            VecCopy(tmp_vec, light_head->dir);
-            VecSub(light_head->position, light_head->dir, light_head->dir);
-            VecNormalize(light_head->dir);
+            VecCopy(tmp_vec, Light::light_head->dir);
+            VecSub(Light::light_head->position, Light::light_head->dir, Light::light_head->dir);
+            VecNormalize(Light::light_head->dir);
             break;
         default:
             yyerror(String("Unkown light structure element."));

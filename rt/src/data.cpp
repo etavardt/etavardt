@@ -37,7 +37,7 @@ int         antialias  = 0;        /* default to none */
 int         jitter     = 0;        /* none */
 int         adapt_dist = 8;        /* threshold for adaptive sampling */
 
-Light      *light_head = NULL;
+//Light      *light_head = NULL;
 int         nLights    = 0;        /* it's a dark world out there */
 int         no_shadows = 0;        /* shadows by default */
 int         caustics   = 0;        /* no fake caustics */

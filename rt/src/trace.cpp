@@ -36,7 +36,7 @@
 extern int  Intersect (Ray *ray , Isect *hit , Flt maxdist , Object *self);
 extern void Shade (int level , Flt weight , Vec P , Vec N , Vec I , Isect *hit , Color &col , Flt ior);
 
-void bkg(Vec dir, Color col) {
+void bkg(Vec dir, Color &col) {
     Flt dot, index;
     int indx;
 
@@ -64,7 +64,8 @@ Flt Trace(int level, Flt weight, Ray *ray, Color &color, Flt ior, Object *obj) {
     Isect hit;
 
     if (level >= maxlevel) {
-        color.r = color.g = color.b = 0.0;
+        //color.r = color.g = color.b = 0.0;
+        color = 0.0;
         return 0.0;
     } else if (level > deepest) {
         deepest = level;

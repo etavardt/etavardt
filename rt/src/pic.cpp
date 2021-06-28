@@ -159,9 +159,9 @@ void PicWriteLine(Pic &pic, const Pixel buf[]) {
         fputc(cg, pic.filep);
         fputc(cr, pic.filep);
 
-//        fputc(cr, pic.filep);
-//        fputc(cg, pic.filep);
-//        fputc(cb, pic.filep);
+        // fputc(cr, pic.filep);
+        // fputc(cg, pic.filep);
+        // fputc(cb, pic.filep);
 
         cr = r;
         cg = g;
@@ -169,12 +169,12 @@ void PicWriteLine(Pic &pic, const Pixel buf[]) {
 
         if (total == 1) { /* if at last pixel */
             fputc(1, pic.filep);
-            fputc(buf[pic.x - 1].b, pic.filep);
-            fputc(buf[pic.x - 1].g, pic.filep);
+            // fputc(buf[pic.x - 1].b, pic.filep);
+            // fputc(buf[pic.x - 1].g, pic.filep);
+            // fputc(buf[pic.x - 1].r, pic.filep);
             fputc(buf[pic.x - 1].r, pic.filep);
-//            fputc(buf[pic.x - 1].r, pic.filep);
-//            fputc(buf[pic.x - 1].g, pic.filep);
-//            fputc(buf[pic.x - 1].b, pic.filep);
+            fputc(buf[pic.x - 1].g, pic.filep);
+            fputc(buf[pic.x - 1].b, pic.filep);
             total--;
         }
     } while (total > 0);

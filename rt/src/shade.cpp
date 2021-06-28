@@ -22,10 +22,12 @@
 
 #include "Bump_3D.hpp"
 #include "Color.hpp"
+#include "Light_3D.hpp"
 #include "config.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
+
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -196,8 +198,8 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect *hit, Color &col,
        without any thickness. */
 
     if (inside == 0 || surf->flags & S_CACHE) { /* only if entering or cacheable */
-        cur_light = light_head;
-        for (cur_light = light_head; cur_light; cur_light = cur_light->next) { /* for each light */
+        cur_light = Light::light_head;
+        for (cur_light = Light::light_head; cur_light; cur_light = cur_light->next) { /* for each light */
             /* get vector to light */
             switch (cur_light->type) {
             case L_DIRECTIONAL:

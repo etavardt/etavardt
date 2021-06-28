@@ -26,7 +26,7 @@
 #include "Surface_3D.hpp"
 #include "Clip_3D.hpp"
 #include "Object_3D.hpp"
-#include "Light_3D.hpp"
+//#include "Light_3D.hpp"
 
 extern Viewpoint Eye;
 extern Camera    camera;
@@ -43,7 +43,7 @@ extern int antialias;
 extern int jitter;
 extern int adapt_dist;
 
-extern Light *light_head;
+//extern Light *light_head; TCE: moved to Light class Light_3D.*pp
 extern int    nLights;
 extern int    no_shadows;
 extern int    caustics;

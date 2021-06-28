@@ -1008,11 +1008,12 @@ void Screen::adapt(int i, int j, Flt x, Flt y, Color &color, int step) {
     return;
 } /* end of Adapt() */
 
-typedef Vec ColorVec;
+//typedef Vec ColorVec;
+
 //    Flt        x, y;        /* where on screen to shoot */
 //    Color        color;        /* color to return from shot */
 void Screen::shoot(Flt x, Flt y, Color &color) {
-    ColorVec sum_color; /* summed color for DOF effects */
+//    ColorVec sum_color; /* summed color for DOF effects */
     Flt random;
     Ray ray2; /* ray tweeked for non-pinhole cameras */
     Vec dir;
@@ -1022,7 +1023,11 @@ void Screen::shoot(Flt x, Flt y, Color &color) {
     switch (camera.projection) {
     case P_FLAT:
     case P_NO_PARALLAX:
-        VecComb(-frustrumheight * (2.0 * y / (Flt)y_res - 1.0), looking_up, frustrumwidth * (2.0 * x / (Flt)x_res - 1.0), leftvec, dir);
+        VecComb(-frustrumheight * (2.0 * y / (Flt)y_res - 1.0),
+                looking_up,
+                frustrumwidth * (2.0 * x / (Flt)x_res - 1.0),
+                leftvec,
+                dir);
         VecAdd(dir, viewvec, ray.D);
         VecNormalize(ray.D);
         break;
@@ -1042,7 +1047,9 @@ void Screen::shoot(Flt x, Flt y, Color &color) {
 
     fuzzy_ray = 0;
     if (camera.aperture > 0.0) {
-        MakeVector(0, 0, 0, sum_color);
+        Color sum_color; /* summed color for DOF effects */
+
+//        MakeVector(0, 0, 0, sum_color);
         for (sample = 0; sample < camera.samples; sample++) {
             dir[0] = ray.P[0] + ray.D[0] * camera.focal_length;
             dir[1] = ray.P[1] + ray.D[1] * camera.focal_length;
@@ -1071,16 +1078,18 @@ void Screen::shoot(Flt x, Flt y, Color &color) {
             if (color.b > 1.0) color.b = 1.0;
 
 //            VecAdd(color, sum_color, sum_color);
-            sum_color[0] += color.r;
-            sum_color[1] += color.g;
-            sum_color[2] += color.b;
+            sum_color += color;
+            // sum_color[0] += color.r;
+            // sum_color[1] += color.g;
+            // sum_color[2] += color.b;
         }
 //        VecS((1.0 / (Flt)camera.samples), sum_color, color);
-        Flt cs = (1.0 / (Flt)camera.samples);
 //        color.r = (1.0 / (Flt)camera.samples) * sum_color[0];//?
-        color.r = cs * sum_color[0];
-        color.g = cs * sum_color[1];
-        color.b = cs * sum_color[2];
+        Flt cs = (1.0 / (Flt)camera.samples);
+        color = sum_color * cs;
+        // color.r = cs * sum_color[0];
+        // color.g = cs * sum_color[1];
+        // color.b = cs * sum_color[2];
     } else {
         Trace(0, 1.0, &ray, color, 1.0, NULL);
 //            if (color[0] > 1.0)

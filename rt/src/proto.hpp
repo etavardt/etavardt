@@ -17,6 +17,7 @@
 �������������������������������������������
 */
 #include "Object_3D.hpp"
+#include "Light_3D.hpp"
 //#include "Texture_3D.hpp"
 #include "String.hpp"
 #include "defs.hpp"
@@ -152,7 +153,7 @@ extern int push_token();
 
 /* trace.c */
 extern Flt  Trace (int level , Flt weight , Ray *ray , Color &color , Flt ior , Object *self);
-extern void bkg (Vec dir, Color col);
+extern void bkg (Vec dir, Color &col);
 
 /* tri.c */
 //extern int     TriIntersect (Object *obj , Ray *ray , Isect *hit);

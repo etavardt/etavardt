@@ -39,7 +39,7 @@ int Bob::runApp() {
     //    cout << "cout: In Bob::runApp Post BuildBoundingSlabs Pre init_noise" << endl;
     init_noise();
     //    cout << "cout: In Bob::runApp Post init_noise Pre Screen" << endl;
-    Screen scr;
+    Screen_3D scr;
     scr.screen(&Eye, outfilename, Xresolution, Yresolution);
     //    cout << "cout: In Bob::runApp Post Screen return to caller" << endl;
 

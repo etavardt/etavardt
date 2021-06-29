@@ -3,7 +3,7 @@
 #include "struct_defs.hpp"
 #include "String.hpp"
 
-class Screen {
+class Screen_3D {
     private:
     void scrInit(Viewpoint *view, int xres, int yres, String &picfile);
     void scan0(void);
@@ -16,8 +16,8 @@ class Screen {
     int comp(unsigned int a, unsigned int b);
 
     public:
-    Screen(){}
-    ~Screen(){}
+    Screen_3D(){}
+    ~Screen_3D(){}
 
     void screen(Viewpoint *view, String &picfile, int xres, int yres);
 

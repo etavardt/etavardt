@@ -63,22 +63,12 @@ int main(int ac, char **av) {
 	}
 
 	/* Read .img header.  Get resolution and toss the rest. (TCE: img file is Big Endian)*/
-	// xres = fgetc(ifp)<<8;
-	// xres += fgetc(ifp);
-	// yres = fgetc(ifp)<<8;
-	// yres += fgetc(ifp);
 
 	xres = ifs.get()<<8;
 	xres += ifs.get();
 	yres = ifs.get()<<8;
 	yres += ifs.get();
 
-	// fgetc(ifp);
-	// fgetc(ifp);
-	// fgetc(ifp);
-	// fgetc(ifp);
-	// fgetc(ifp);
-	// fgetc(ifp);
 	ifs.get();
 	ifs.get();
 	ifs.get();
@@ -88,18 +78,6 @@ int main(int ac, char **av) {
 
 	/* write .tga header */
 
-	// fputc(0, ofp);
-	// fputc(0, ofp);
-	// fputc(2, ofp);          /* type 2 targa file */
-	// for(i=3; i<12; i++) {
-	// 	fputc(0, ofp);
-	// }
-	// fputc(xres&0xff, ofp); /* TCE: Little Endian? */
-	// fputc(xres/256, ofp);
-	// fputc(yres&0xff, ofp);
-	// fputc(yres/256, ofp);
-	// fputc(24, ofp);         /* bits per pixel TCE: RGB 8 bits each for total of 24 */
-	// fputc(32, ofp);         /* image descriptor TCE:? */
 	ofs.put(0);
 	ofs.put(0);
 	ofs.put(2);          /* type 2 targa file */
@@ -129,22 +107,14 @@ int main(int ac, char **av) {
 			grn = ifs.get();
 			blu = ifs.get();
 
-//			printf("\n%d: *RGB(%d, %d, %d) : Run Count(%d) : Total(%d)", (xres - (total+count)), red, grn, blu, count, total);
+			//cout << "\n" << (xres - (total+count)) << ": RGB(" << red << ", " << grn << ", " << blu << ") : Run Count(" << count << ") : Total(" << total << ")";
 			if (!ifs.good()) {
 				ifs.close();
 				ofs.close();
 				cout << "exiting prematurly due to a bad char read" << endl;
 				exit(1);
 			}
-			// if (count < 0) {
-			// 	fclose(ifp);
-			// 	fclose(ofp);
-			// 	exit(1);
-			// }
 			for(i=0; i<count; i++) {
-//				fputc(red, ofp); /* TCE: tga color starts at 19 */
-//				fputc(grn, ofp);
-//				fputc(blu, ofp);
 				ofs.put(red); /* TCE: tga color starts at 19 */
 				ofs.put(grn);
 				ofs.put(blu);
@@ -154,8 +124,6 @@ int main(int ac, char **av) {
 
 	/* wave goodbye */
 
-//	fclose(ifp);
-//	fclose(ofp);
 	ifs.close();
 	ofs.close();
 

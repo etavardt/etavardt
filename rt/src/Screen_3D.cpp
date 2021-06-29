@@ -41,7 +41,7 @@ static Ray ray; /* normal, untweeked ray */
 static int x_res, y_res;
 static Pic *pic;
 
-void Screen::screen(Viewpoint *view, String &picfile, int xres, int yres) {
+void Screen_3D::screen(Viewpoint *view, String &picfile, int xres, int yres) {
     scrInit(view, xres, yres, picfile);
 
     switch (antialias) {
@@ -61,7 +61,7 @@ void Screen::screen(Viewpoint *view, String &picfile, int xres, int yres) {
     PicClose(*pic);
 }
 
-void Screen::scrInit(Viewpoint *view, int xres, int yres, String &picfile) {
+void Screen_3D::scrInit(Viewpoint *view, int xres, int yres, String &picfile) {
     /*
      * open the picture file...
      */
@@ -113,7 +113,7 @@ void Screen::scrInit(Viewpoint *view, int xres, int yres, String &picfile) {
     comp - compares two numbers, returns 1 if close enough, 0 otherwise
 */
 
-int Screen::comp(unsigned int a, unsigned int b) {
+int Screen_3D::comp(unsigned int a, unsigned int b) {
     int diff;
 
     diff = a - b;
@@ -130,7 +130,7 @@ int Screen::comp(unsigned int a, unsigned int b) {
          Jitter value +- 0.5
 */
 
-void Screen::scan0(void) {
+void Screen_3D::scan0(void) {
     Pixel *buf;
     Color color; /* color of current traced ray */
     int i, j;
@@ -173,7 +173,7 @@ void Screen::scan0(void) {
          Jitter value +- 0.5
 */
 
-void Screen::scan1(void) {
+void Screen_3D::scan1(void) {
     Pixel *buf, *oldbuf, *curbuf, *tmp;
     int red, green, blue;
     Color color; /* color of current traced ray */
@@ -241,7 +241,7 @@ void Screen::scan1(void) {
         No jitter option.
 */
 
-void Screen::scan2(void) {
+void Screen_3D::scan2(void) {
     Pixel *buf[7], *pixelBuf;
     int *flags[7];
     Color color; /* color of current traced ray */
@@ -759,7 +759,7 @@ void Screen::scan2(void) {
 static unsigned char win[SIDE + 1][SIDE + 1][4]; /* r,g,b,flag */
 static unsigned char *buff[4];
 
-void Screen::scan3(void) {
+void Screen_3D::scan3(void) {
     Pixel *pixelBuf;
     Color color; /* color of current traced ray */
     int x, y, i, j;
@@ -847,7 +847,7 @@ void Screen::scan3(void) {
 //    Flt    x, y;        /* upper left hand of pixel */
 //    Color  color;       /* return pixel color here in 0..255 range */
 //    int    step;        /* what level we're at */
-void Screen::adapt(int i, int j, Flt x, Flt y, Color &color, int step) {
+void Screen_3D::adapt(int i, int j, Flt x, Flt y, Color &color, int step) {
     int k, fuzzed;
     int ave[3], c0[3], c1[3], c2[3], c3[3];
 
@@ -1012,7 +1012,7 @@ void Screen::adapt(int i, int j, Flt x, Flt y, Color &color, int step) {
 
 //    Flt        x, y;        /* where on screen to shoot */
 //    Color        color;        /* color to return from shot */
-void Screen::shoot(Flt x, Flt y, Color &color) {
+void Screen_3D::shoot(Flt x, Flt y, Color &color) {
 //    ColorVec sum_color; /* summed color for DOF effects */
     Flt random;
     Ray ray2; /* ray tweeked for non-pinhole cameras */

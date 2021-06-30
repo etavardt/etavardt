@@ -50,7 +50,7 @@
     ior    current ior
 */
 
-void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect *hit, Color &col, Flt ior) {
+void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col, Flt ior) {
     /* the following locals have been declared static to help */
     /* shrink the amount of stack spaced needed for recursive */
     /* calls to shade() */
@@ -84,7 +84,7 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect *hit, Color &col,
         inside = 0;
     }
 
-    surf = hit->isect_prim->o_surf; /* pick out surf we hit */
+    surf = hit.isect_prim->o_surf; /* pick out surf we hit */
 
     /* transform point if needed */
 
@@ -235,8 +235,11 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect *hit, Color &col,
                 VecCopy(L, tray.D);
                 // MakeVector(1.0, 1.0, 1.0, c_shadow);    /* needed to make no_shadow lights work */
                 c_shadow = 1.0; /* needed to make no_shadow lights work */
-                memcpy((char *)(&nhit), (char *)hit, sizeof(Isect));
-                if (no_shadows || (cur_light->flag & L_NOSHADOWS) || (cur_light->type == L_SPHERICAL ? sShadow(&tray, &nhit, t, c_shadow, level, cur_light, inside) : Shadow(&tray, &nhit, t, c_shadow, level, cur_light, inside))) {
+                //memcpy((char *)(&nhit), (char *)hit, sizeof(Isect));
+                nhit = hit;
+                if (no_shadows
+                || (cur_light->flag & L_NOSHADOWS)
+                || (cur_light->type == L_SPHERICAL ? sShadow(&tray, nhit, t, c_shadow, level, *cur_light, inside) : Shadow(&tray, nhit, t, c_shadow, level, *cur_light, inside))) {
                     ldot = VecDot(fuzz_N, L);
                     /* scale diff by angle of incidence */
                     // VecS(ldot, surf->diff, c_diff);
@@ -308,7 +311,7 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect *hit, Color &col,
             } else {
                 reflect(I, fuzz_N, tray.D, dot);
             }
-            t = Trace(level + 1, max_weight, &tray, tcol, ior, hit->isect_self);
+            t = Trace(level + 1, max_weight, &tray, tcol, ior, hit.isect_self);
             // VecMul(surf->spec, tcol, tcol);
             tcol *= surf->spec;
             // VecAdd(tcol, col, col);
@@ -334,7 +337,7 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect *hit, Color &col,
             }
         }
         if (transmit) {
-            new_ior = hit->isect_enter ? (surf->ior) : DEFAULT_IOR;
+            new_ior = hit.isect_enter ? (surf->ior) : DEFAULT_IOR;
             inside ^= 1; /* toggle inside flag */
             /* printf("level %d inside toggled to %d\n", level, inside); */
         } else { /* total internal reflection */
@@ -343,7 +346,7 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect *hit, Color &col,
             /* printf("level %d total internal reflection, inside at %d\n", level, inside); */
         }
         still_inside = inside;
-        t = Trace(level + 1, weight, &tray, tcol, new_ior, hit->isect_self);
+        t = Trace(level + 1, weight, &tray, tcol, new_ior, hit.isect_self);
         inside = still_inside;
         if (t < HUGE && inside) {
             /*
@@ -401,7 +404,7 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect *hit, Color &col,
     /* and finally add haze color if needed */
 
     if (inside == 0 && HazeDensity > 0.0) {
-        haze = 1.0 - pow(1.0 - HazeDensity, hit->isect_t);
+        haze = 1.0 - pow(1.0 - HazeDensity, hit.isect_t);
         bkg(I, HazeColor); /* get color for haze */
         // VecComb(haze, HazeColor, 1.0-haze, col, col);
         col = (HazeColor * haze) + (col * (1.0 - haze));

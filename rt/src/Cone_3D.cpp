@@ -59,7 +59,7 @@ Cone_3D::~Cone_3D() {
     }
 }
 
-int Cone_3D::intersect(Object *obj, Ray *ray, Isect *hit) {
+int Cone_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
     Ray tray;
     ConeData *cd;
     Vec V, P;
@@ -131,9 +131,9 @@ int Cone_3D::intersect(Object *obj, Ray *ray, Isect *hit) {
         if (!obj->clips || clip_check(obj->clips, P)) {
             d = VecDot(cd->cone_w, P);
             if (d >= cd->cone_min_d && d <= cd->cone_max_d) { /* hit! */
-                hit->isect_t = t1;
-                hit->isect_prim = obj;
-                hit->isect_surf = obj->o_surf;
+                hit.isect_t = t1;
+                hit.isect_prim = obj;
+                hit.isect_surf = obj->o_surf;
 
                 return 1;
             }
@@ -145,9 +145,9 @@ int Cone_3D::intersect(Object *obj, Ray *ray, Isect *hit) {
         if (!obj->clips || clip_check(obj->clips, P)) {
             d = VecDot(cd->cone_w, P);
             if (d >= cd->cone_min_d && d <= cd->cone_max_d) {
-                hit->isect_t = t2;
-                hit->isect_prim = obj;
-                hit->isect_surf = obj->o_surf;
+                hit.isect_t = t2;
+                hit.isect_prim = obj;
+                hit.isect_surf = obj->o_surf;
 
                 return 1;
             }
@@ -156,7 +156,7 @@ int Cone_3D::intersect(Object *obj, Ray *ray, Isect *hit) {
     return 0;
 }
 
-void Cone_3D::normal(Object *obj, Isect *hit, Point P, Point N) {
+void Cone_3D::normal(Object *obj, Isect &hit, Point P, Point N) {
     Flt t;
     Vec V;
     ConeData *cd;
@@ -177,7 +177,7 @@ void Cone_3D::normal(Object *obj, Isect *hit, Point P, Point N) {
     VecAddS(-cd->cone_slope, cd->cone_w, N, N);
     VecNormalize(N);
 
-    hit->isect_self = NULL;
+    hit.isect_self = NULL;
 }
 
 Cone_3D *Cone_3D::makeCone(Vec basepoint, Flt baseradius, Vec apexpoint, Flt apexradius) {

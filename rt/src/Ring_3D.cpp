@@ -51,7 +51,7 @@ Ring_3D::~Ring_3D() {
     }
 }
 
-int Ring_3D::intersect(Object_3D *obj, Ray *ray, Isect *hit) {
+int Ring_3D::intersect(Object_3D *obj, Ray *ray, Isect &hit) {
     RingData *rp;
     Flt Vprd, Vpro, t, rad;
     Point point;
@@ -87,15 +87,15 @@ int Ring_3D::intersect(Object_3D *obj, Ray *ray, Isect *hit) {
         return 0; /* missed the ring */
     }
 
-    hit->isect_t = t;
-    hit->isect_prim = obj;
-    hit->isect_self = obj; /* rings are not self intersecting */
-    hit->isect_surf = obj->o_surf;
+    hit.isect_t = t;
+    hit.isect_prim = obj;
+    hit.isect_self = obj; /* rings are not self intersecting */
+    hit.isect_surf = obj->o_surf;
 
     return 1;
 }
 
-void Ring_3D::normal(Object_3D *obj, Isect *hit, Point P, Point N) {
+void Ring_3D::normal(Object_3D *obj, Isect &hit, Point P, Point N) {
     RingData *rp;
     rp = (RingData *)obj->o_data;
 

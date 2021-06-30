@@ -23,23 +23,15 @@
         actually calling the trace function.
 */
 
-#include "Bob.hpp"
 #include "Screen_3D.hpp"
+#include "Bob.hpp"
 #include "Color.hpp"
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include "pic.hpp"
+//#include "pic.hpp"
 #include "proto.hpp"
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-
-static Flt frustrumwidth, frustrumheight;
-static Point viewvec, leftvec, looking_up, viewpoint;
-static Ray ray; /* normal, untweeked ray */
-static int x_res, y_res;
-static Pic *pic;
+#include <cmath> //TCE: There appears to be now pure C++ for this
 
 void Screen_3D::screen(Viewpoint *view, String &picfile, int xres, int yres) {
     scrInit(view, xres, yres, picfile);
@@ -62,16 +54,10 @@ void Screen_3D::screen(Viewpoint *view, String &picfile, int xres, int yres) {
 }
 
 void Screen_3D::scrInit(Viewpoint *view, int xres, int yres, String &picfile) {
-    /*
-     * open the picture file...
-     */
-
+    // open the picture file...
     pic = PicOpen(picfile, xres, yres);
 
-    /*
-     * determine the viewing frustrum
-     */
-
+    // determine the viewing frustrum
     x_res = xres;
     y_res = yres;
 
@@ -111,8 +97,8 @@ void Screen_3D::scrInit(Viewpoint *view, int xres, int yres, String &picfile) {
 
 /*
     comp - compares two numbers, returns 1 if close enough, 0 otherwise
+    used in scan2 only
 */
-
 int Screen_3D::comp(unsigned int a, unsigned int b) {
     int diff;
 
@@ -129,7 +115,6 @@ int Screen_3D::comp(unsigned int a, unsigned int b) {
     Scan0 -- Basic one ray per pixel, right through the center.
          Jitter value +- 0.5
 */
-
 void Screen_3D::scan0(void) {
     Pixel *buf;
     Color color; /* color of current traced ray */
@@ -150,9 +135,9 @@ void Screen_3D::scan0(void) {
 
             shoot(x, y, color);
 
-//            buf[i].r = (unsigned char)(255.0 * color[0]);
-//            buf[i].g = (unsigned char)(255.0 * color[1]);
-//            buf[i].b = (unsigned char)(255.0 * color[2]);
+            // buf[i].r = (unsigned char)(255.0 * color[0]);
+            // buf[i].g = (unsigned char)(255.0 * color[1]);
+            // buf[i].b = (unsigned char)(255.0 * color[2]);
             buf[i].r = (unsigned char)(255.0 * color.r);
             buf[i].g = (unsigned char)(255.0 * color.g);
             buf[i].b = (unsigned char)(255.0 * color.b);
@@ -172,7 +157,6 @@ void Screen_3D::scan0(void) {
          the results.
          Jitter value +- 0.5
 */
-
 void Screen_3D::scan1(void) {
     Pixel *buf, *oldbuf, *curbuf, *tmp;
     int red, green, blue;
@@ -200,9 +184,9 @@ void Screen_3D::scan1(void) {
             }
             shoot(x, y, color);
 
-//            curbuf[i].r = (unsigned char)(255.0 * color[0]);
-//            curbuf[i].g = (unsigned char)(255.0 * color[1]);
-//            curbuf[i].b = (unsigned char)(255.0 * color[2]);
+            // curbuf[i].r = (unsigned char)(255.0 * color[0]);
+            // curbuf[i].g = (unsigned char)(255.0 * color[1]);
+            // curbuf[i].b = (unsigned char)(255.0 * color[2]);
             curbuf[i].r = (unsigned char)(255.0 * color.r);
             curbuf[i].g = (unsigned char)(255.0 * color.g);
             curbuf[i].b = (unsigned char)(255.0 * color.b);
@@ -240,7 +224,6 @@ void Screen_3D::scan1(void) {
     Scan2 -- Undersampling, possible 18 to 1 speedup.
         No jitter option.
 */
-
 void Screen_3D::scan2(void) {
     Pixel *buf[7], *pixelBuf;
     int *flags[7];
@@ -259,9 +242,9 @@ void Screen_3D::scan2(void) {
         for (j = start_line; j < yy; j++) {
             for (i = 0; i < x_res; i++) {
                 shoot((Flt)i + 0.5, (Flt)j + 0.5, color);
-//                buff[i].r = (unsigned char)(255.0 * color[0]);
-//                buff[i].g = (unsigned char)(255.0 * color[1]);
-//                buff[i].b = (unsigned char)(255.0 * color[2]);
+                // buff[i].r = (unsigned char)(255.0 * color[0]);
+                // buff[i].g = (unsigned char)(255.0 * color[1]);
+                // buff[i].b = (unsigned char)(255.0 * color[2]);
                 pixelBuf[i].r = (unsigned char)(255.0 * color.r);
                 pixelBuf[i].g = (unsigned char)(255.0 * color.g);
                 pixelBuf[i].b = (unsigned char)(255.0 * color.b);
@@ -312,9 +295,9 @@ void Screen_3D::scan2(void) {
             if (!flags[j][i]) {
                 flags[j][i] = 1;
                 shoot((Flt)i + 0.5, (Flt)y + 0.5, color);
-//                buf[j][i].r = (unsigned char)(255.0 * color[0]);
-//                buf[j][i].g = (unsigned char)(255.0 * color[1]);
-//                buf[j][i].b = (unsigned char)(255.0 * color[2]);
+                // buf[j][i].r = (unsigned char)(255.0 * color[0]);
+                // buf[j][i].g = (unsigned char)(255.0 * color[1]);
+                // buf[j][i].b = (unsigned char)(255.0 * color[2]);
                 buf[j][i].r = (unsigned char)(255.0 * color.r);
                 buf[j][i].g = (unsigned char)(255.0 * color.g);
                 buf[j][i].b = (unsigned char)(255.0 * color.b);
@@ -325,9 +308,9 @@ void Screen_3D::scan2(void) {
             if (!flags[j][i]) {
                 flags[j][i] = 1;
                 shoot((Flt)i + 0.5, (Flt)y + 0.5, color);
-//                buf[j][i].r = (unsigned char)(255.0 * color[0]);
-//                buf[j][i].g = (unsigned char)(255.0 * color[1]);
-//                buf[j][i].b = (unsigned char)(255.0 * color[2]);
+                // buf[j][i].r = (unsigned char)(255.0 * color[0]);
+                // buf[j][i].g = (unsigned char)(255.0 * color[1]);
+                // buf[j][i].b = (unsigned char)(255.0 * color[2]);
                 buf[j][i].r = (unsigned char)(255.0 * color.r);
                 buf[j][i].g = (unsigned char)(255.0 * color.g);
                 buf[j][i].b = (unsigned char)(255.0 * color.b);
@@ -338,9 +321,9 @@ void Screen_3D::scan2(void) {
             if (!flags[j][i]) {
                 flags[j][i] = 1;
                 shoot((Flt)i + 0.5, (Flt)y + 0.5 + 6, color);
-//                buf[j][i].r = (unsigned char)(255.0 * color[0]);
-//                buf[j][i].g = (unsigned char)(255.0 * color[1]);
-//                buf[j][i].b = (unsigned char)(255.0 * color[2]);
+                // buf[j][i].r = (unsigned char)(255.0 * color[0]);
+                // buf[j][i].g = (unsigned char)(255.0 * color[1]);
+                // buf[j][i].b = (unsigned char)(255.0 * color[2]);
                 buf[j][i].r = (unsigned char)(255.0 * color.r);
                 buf[j][i].g = (unsigned char)(255.0 * color.g);
                 buf[j][i].b = (unsigned char)(255.0 * color.b);
@@ -351,9 +334,9 @@ void Screen_3D::scan2(void) {
             if (!flags[j][i]) {
                 flags[j][i] = 1;
                 shoot((Flt)i + 0.5, (Flt)y + 0.5 + 6, color);
-//                buf[j][i].r = (unsigned char)(255.0 * color[0]);
-//                buf[j][i].g = (unsigned char)(255.0 * color[1]);
-//                buf[j][i].b = (unsigned char)(255.0 * color[2]);
+                // buf[j][i].r = (unsigned char)(255.0 * color[0]);
+                // buf[j][i].g = (unsigned char)(255.0 * color[1]);
+                // buf[j][i].b = (unsigned char)(255.0 * color[2]);
                 buf[j][i].r = (unsigned char)(255.0 * color.r);
                 buf[j][i].g = (unsigned char)(255.0 * color.g);
                 buf[j][i].b = (unsigned char)(255.0 * color.b);
@@ -364,9 +347,9 @@ void Screen_3D::scan2(void) {
             if (!flags[j][i]) {
                 flags[j][i] = 1;
                 shoot((Flt)i + 0.5, (Flt)y + 0.5 + 3, color);
-//                buf[j][i].r = (unsigned char)(255.0 * color[0]);
-//                buf[j][i].g = (unsigned char)(255.0 * color[1]);
-//                buf[j][i].b = (unsigned char)(255.0 * color[2]);
+                // buf[j][i].r = (unsigned char)(255.0 * color[0]);
+                // buf[j][i].g = (unsigned char)(255.0 * color[1]);
+                // buf[j][i].b = (unsigned char)(255.0 * color[2]);
                 buf[j][i].r = (unsigned char)(255.0 * color.r);
                 buf[j][i].g = (unsigned char)(255.0 * color.g);
                 buf[j][i].b = (unsigned char)(255.0 * color.b);
@@ -469,9 +452,9 @@ void Screen_3D::scan2(void) {
                         if (!flags[j][i]) {
                             flags[j][i] = 1;
                             shoot((Flt)i + 0.5, (Flt)y + 0.5 + j, color);
-//                            buf[j][i].r = (unsigned char)(255.0 * color[0]);
-//                            buf[j][i].g = (unsigned char)(255.0 * color[1]);
-//                            buf[j][i].b = (unsigned char)(255.0 * color[2]);
+                            // buf[j][i].r = (unsigned char)(255.0 * color[0]);
+                            // buf[j][i].g = (unsigned char)(255.0 * color[1]);
+                            // buf[j][i].b = (unsigned char)(255.0 * color[2]);
                             buf[j][i].r = (unsigned char)(255.0 * color.r);
                             buf[j][i].g = (unsigned char)(255.0 * color.g);
                             buf[j][i].b = (unsigned char)(255.0 * color.b);
@@ -558,9 +541,9 @@ void Screen_3D::scan2(void) {
                         if (!flags[j][i]) {
                             flags[j][i] = 1;
                             shoot((Flt)i + 0.5, (Flt)y + 0.5 + j, color);
-//                            buf[j][i].r = (unsigned char)(255.0 * color[0]);
-//                            buf[j][i].g = (unsigned char)(255.0 * color[1]);
-//                            buf[j][i].b = (unsigned char)(255.0 * color[2]);
+                            // buf[j][i].r = (unsigned char)(255.0 * color[0]);
+                            // buf[j][i].g = (unsigned char)(255.0 * color[1]);
+                            // buf[j][i].b = (unsigned char)(255.0 * color[2]);
                             buf[j][i].r = (unsigned char)(255.0 * color.r);
                             buf[j][i].g = (unsigned char)(255.0 * color.g);
                             buf[j][i].b = (unsigned char)(255.0 * color.b);
@@ -647,9 +630,9 @@ void Screen_3D::scan2(void) {
                         if (!flags[j][i]) {
                             flags[j][i] = 1;
                             shoot((Flt)i + 0.5, (Flt)y + 0.5 + j, color);
-//                            buf[j][i].r = (unsigned char)(255.0 * color[0]);
-//                            buf[j][i].g = (unsigned char)(255.0 * color[1]);
-//                            buf[j][i].b = (unsigned char)(255.0 * color[2]);
+                            // buf[j][i].r = (unsigned char)(255.0 * color[0]);
+                            // buf[j][i].g = (unsigned char)(255.0 * color[1]);
+                            // buf[j][i].b = (unsigned char)(255.0 * color[2]);
                             buf[j][i].r = (unsigned char)(255.0 * color.r);
                             buf[j][i].g = (unsigned char)(255.0 * color.g);
                             buf[j][i].b = (unsigned char)(255.0 * color.b);
@@ -721,9 +704,9 @@ void Screen_3D::scan2(void) {
                         if (!flags[j][i]) {
                             flags[j][i] = 1;
                             shoot((Flt)i + 0.5, (Flt)y + 0.5 + j, color);
-//                            buf[j][i].r = (unsigned char)(255.0 * color[0]);
-//                            buf[j][i].g = (unsigned char)(255.0 * color[1]);
-//                            buf[j][i].b = (unsigned char)(255.0 * color[2]);
+                            // buf[j][i].r = (unsigned char)(255.0 * color[0]);
+                            // buf[j][i].g = (unsigned char)(255.0 * color[1]);
+                            // buf[j][i].b = (unsigned char)(255.0 * color[2]);
                             buf[j][i].r = (unsigned char)(255.0 * color.r);
                             buf[j][i].g = (unsigned char)(255.0 * color.g);
                             buf[j][i].b = (unsigned char)(255.0 * color.b);
@@ -742,80 +725,85 @@ void Screen_3D::scan2(void) {
             Stats::statistics(y + 6);
     } /* end of y loop (finally!) */
     if (tickflag)
-        fprintf(stderr, "\n");
+        cerr << endl;
 } /* end of Scan2() */
 
 /*
     Scan3 -- Adaptive supersampling with optional jitter.
          Jitter +- 0.125
+
+    unsigned char win[SIDE + 1][SIDE + 1][4]; // r,g,b,flag TCE: Why [5][5][4]
 */
-
-#define SIDE (4)
-
-#define RAW (0)
-#define COOKED (1)
-#define FUZZY (2)
-
-static unsigned char win[SIDE + 1][SIDE + 1][4]; /* r,g,b,flag */
-static unsigned char *buff[4];
-
 void Screen_3D::scan3(void) {
     Pixel *pixelBuf;
-    Color color; /* color of current traced ray */
+    Color color; // color of current traced ray 
     int x, y, i, j;
+
+    unsigned char *buff[4]; //TCE: Why 4
 
     pixelBuf = new Pixel[x_res]();
     Bob::getApp().parser.ptrchk(pixelBuf, "output buffer.");
 
     for (x = 0; x < 4; x++) {
-        buff[x] = new unsigned char[SIDE * x_res + 1](); // Why SIDE*x_res+1
+        // buff[x] = new unsigned char[SIDE * x_res + 1](); // Why SIDE*x_res+1
+        buff[x] = new unsigned char[x_res * (SIDE + 1)](); // Why SIDE*x_res+1
         Bob::getApp().parser.ptrchk(buff[x], "antialiasing buffer.");
     }
 
-    for (i = 0; i < SIDE + 1; i++) { /* clear win flags */
+    for (i = 0; i < SIDE + 1; i++) { // clear win flags
         for (j = 0; j < SIDE + 1; j++) {
             win[i][j][3] = RAW;
         }
     }
-    for (i = 0; i < SIDE * x_res + 1; i++) { /* clear buff flags */
+    for (i = 0; i < SIDE * x_res + 1; i++) { // clear buff flags
         buff[3][i] = RAW;
     }
 
     for (y = start_line; y < stop_line; y++) {
 
-        /* clear left edge of win for starting a new row */
+        // clear left edge of win for starting a new row
         for (j = 0; j < SIDE + 1; j++) {
             win[0][j][3] = RAW;
         }
 
         for (x = 0; x < x_res; x++) {
 
-            for (i = 1; i < SIDE + 1; i++)                  /* buff to top row of win */
-                if (win[i][0][3] = buff[3][x * SIDE + i]) { /* if cooked */
-                    win[i][0][0] = buff[0][x * SIDE + i];
-                    win[i][0][1] = buff[1][x * SIDE + i];
-                    win[i][0][2] = buff[2][x * SIDE + i];
+            for (i = 1; i < SIDE + 1; i++)                  // buff to top row of win
+                if (win[i][0][3] = buff[3][x * i]) { // if cooked :TCE says ?Huh? flag portion? and an assignment during if?
+                    win[i][0][0] = buff[0][x * i];   // TCE: x*SIDE+i looks like a buff overrun scenario
+                    win[i][0][1] = buff[1][x * i];   // buff was created with [4][SIDE * x_res + 1]
+                    win[i][0][2] = buff[2][x * i];   // With operator precedence and all i should have a max value of 1
                 }
+                // if (win[i][0][3] = buff[3][x * SIDE + i]) { // if cooked :TCE says ?Huh? flag portion? and an assignment during if?
+                //     win[i][0][0] = buff[0][x * SIDE + i];   // TCE: x*SIDE+i looks like a buff overrun scenario
+                //     win[i][0][1] = buff[1][x * SIDE + i];   // buff was created with [4][SIDE * x_res + 1]
+                //     win[i][0][2] = buff[2][x * SIDE + i];   // With operator precedence and all i should have a max value of 1
+                // }
 
-            for (i = 1; i < SIDE + 1; i++) /* clear rest of win */
+            for (i = 1; i < SIDE + 1; i++) // clear rest of win
                 for (j = 1; j < SIDE + 1; j++)
                     win[i][j][3] = RAW;
             color = 0.0; // TCE: added this
             adapt(0, 0, (Flt)x, (Flt)y, color, SIDE);
 
-//            buf[x].r = (unsigned char)(color[0]);
-//            buf[x].g = (unsigned char)(color[1]);
-//            buf[x].b = (unsigned char)(color[2]);
-            pixelBuf[x].r = (unsigned char)(color.r);
-            pixelBuf[x].g = (unsigned char)(color.g);
-            pixelBuf[x].b = (unsigned char)(color.b);
+            // buf[x].r = (unsigned char)(color[0]);
+            // buf[x].g = (unsigned char)(color[1]);
+            // buf[x].b = (unsigned char)(color[2]);
+            pixelBuf[x].r = color.r;
+            pixelBuf[x].g = color.g;
+            pixelBuf[x].b = color.b;
 
             for (i = 0; i < SIDE + 1; i++)                     /* bottom row of win to buff */
-                if (buff[3][x * SIDE + i] = win[i][SIDE][3]) { /* if cooked */
-                    buff[0][x * SIDE + i] = win[i][SIDE][0];
-                    buff[1][x * SIDE + i] = win[i][SIDE][1];
-                    buff[2][x * SIDE + i] = win[i][SIDE][2];
+                if (buff[3][x * i] = win[i][SIDE][3]) { /* if cooked */
+                    buff[0][x * i] = win[i][SIDE][0];
+                    buff[1][x * i] = win[i][SIDE][1];
+                    buff[2][x * i] = win[i][SIDE][2];
                 }
+                // if (buff[3][x * SIDE + i] = win[i][SIDE][3]) { /* if cooked */
+                //     buff[0][x * SIDE + i] = win[i][SIDE][0];
+                //     buff[1][x * SIDE + i] = win[i][SIDE][1];
+                //     buff[2][x * SIDE + i] = win[i][SIDE][2];
+                // }
 
             for (j = 0; j < SIDE + 1; j++) {          /* right edge of win to left */
                 if (win[0][j][3] = win[SIDE][j][3]) { /* if cooked */
@@ -830,7 +818,8 @@ void Screen_3D::scan3(void) {
             Stats::statistics(y);
     }
     if (tickflag)
-        fprintf(stderr, "\n");
+        cout << endl;
+        // fprintf(stderr, "\n");
 
     //free(pixelBuf);
     delete pixelBuf;
@@ -843,10 +832,11 @@ void Screen_3D::scan3(void) {
 
 #define ARAND() (((rand() / (Flt)RAND_MAX) / 4.0) - 0.125)
 
+// used in scan3
 //    int    i, j;        /* where in win to put results */
 //    Flt    x, y;        /* upper left hand of pixel */
 //    Color  color;       /* return pixel color here in 0..255 range */
-//    int    step;        /* what level we're at */
+//    int    step;        /* what level we're at with values (4, 2, 1)*/
 void Screen_3D::adapt(int i, int j, Flt x, Flt y, Color &color, int step) {
     int k, fuzzed;
     int ave[3], c0[3], c1[3], c2[3], c3[3];
@@ -858,9 +848,9 @@ void Screen_3D::adapt(int i, int j, Flt x, Flt y, Color &color, int step) {
             shoot(x + (Flt)i / SIDE, y + (Flt)j / SIDE, color);
         }
 
-//        c0[0] = win[i][j][0] = (unsigned char)(255.0 * color[0]);
-//        c0[1] = win[i][j][1] = (unsigned char)(255.0 * color[1]);
-//        c0[2] = win[i][j][2] = (unsigned char)(255.0 * color[2]);
+        // c0[0] = win[i][j][0] = (unsigned char)(255.0 * color[0]);
+        // c0[1] = win[i][j][1] = (unsigned char)(255.0 * color[1]);
+        // c0[2] = win[i][j][2] = (unsigned char)(255.0 * color[2]);
         c0[0] = win[i][j][0] = (unsigned char)(255.0 * color.r);
         c0[1] = win[i][j][1] = (unsigned char)(255.0 * color.g);
         c0[2] = win[i][j][2] = (unsigned char)(255.0 * color.b);
@@ -882,9 +872,9 @@ void Screen_3D::adapt(int i, int j, Flt x, Flt y, Color &color, int step) {
             shoot((Flt)x + (Flt)(i + step) / SIDE, (Flt)y + (Flt)j / SIDE, color);
         }
 
-//        c1[0] = win[i + step][j][0] = (unsigned char)(255.0 * color[0]);
-//        c1[1] = win[i + step][j][1] = (unsigned char)(255.0 * color[1]);
-//        c1[2] = win[i + step][j][2] = (unsigned char)(255.0 * color[2]);
+        // c1[0] = win[i + step][j][0] = (unsigned char)(255.0 * color[0]);
+        // c1[1] = win[i + step][j][1] = (unsigned char)(255.0 * color[1]);
+        // c1[2] = win[i + step][j][2] = (unsigned char)(255.0 * color[2]);
         c1[0] = win[i + step][j][0] = (unsigned char)(255.0 * color.r);
         c1[1] = win[i + step][j][1] = (unsigned char)(255.0 * color.g);
         c1[2] = win[i + step][j][2] = (unsigned char)(255.0 * color.b);
@@ -906,9 +896,9 @@ void Screen_3D::adapt(int i, int j, Flt x, Flt y, Color &color, int step) {
             shoot((Flt)x + (Flt)i / SIDE, (Flt)y + (Flt)(j + step) / SIDE, color);
         }
 
-//        c2[0] = win[i][j + step][0] = (unsigned char)(255.0 * color[0]);
-//        c2[1] = win[i][j + step][1] = (unsigned char)(255.0 * color[1]);
-//        c2[2] = win[i][j + step][2] = (unsigned char)(255.0 * color[2]);
+        // c2[0] = win[i][j + step][0] = (unsigned char)(255.0 * color[0]);
+        // c2[1] = win[i][j + step][1] = (unsigned char)(255.0 * color[1]);
+        // c2[2] = win[i][j + step][2] = (unsigned char)(255.0 * color[2]);
         c2[0] = win[i][j + step][0] = (unsigned char)(255.0 * color.r);
         c2[1] = win[i][j + step][1] = (unsigned char)(255.0 * color.g);
         c2[2] = win[i][j + step][2] = (unsigned char)(255.0 * color.b);
@@ -930,9 +920,9 @@ void Screen_3D::adapt(int i, int j, Flt x, Flt y, Color &color, int step) {
             shoot((Flt)x + (Flt)(i + step) / SIDE, (Flt)y + (Flt)(j + step) / SIDE, color);
         }
 
-//        c3[0] = win[i + step][j + step][0] = (unsigned char)(255.0 * color[0]);
-//        c3[1] = win[i + step][j + step][1] = (unsigned char)(255.0 * color[1]);
-//        c3[2] = win[i + step][j + step][2] = (unsigned char)(255.0 * color[2]);
+        // c3[0] = win[i + step][j + step][0] = (unsigned char)(255.0 * color[0]);
+        // c3[1] = win[i + step][j + step][1] = (unsigned char)(255.0 * color[1]);
+        // c3[2] = win[i + step][j + step][2] = (unsigned char)(255.0 * color[2]);
         c3[0] = win[i + step][j + step][0] = (unsigned char)(255.0 * color.r);
         c3[1] = win[i + step][j + step][1] = (unsigned char)(255.0 * color.g);
         c3[2] = win[i + step][j + step][2] = (unsigned char)(255.0 * color.b);
@@ -952,9 +942,25 @@ void Screen_3D::adapt(int i, int j, Flt x, Flt y, Color &color, int step) {
         ave[k] /= 4;
     }
 
-    fuzzed = win[i][j][3] & win[i + step][j][3] & win[i][j + step][3] & win[i + step][j + step][3] & FUZZY;
+    fuzzed = win[i]       [j]       [3]
+           & win[i + step][j]       [3]
+           & win[i]       [j + step][3]
+           & win[i + step][j + step][3]
+           & FUZZY;
 
-    if (step == 1 || fuzzed || ABS(ave[0] - c0[0]) < adapt_dist && ABS(ave[1] - c0[1]) < adapt_dist && ABS(ave[2] - c0[2]) < adapt_dist && ABS(ave[0] - c1[0]) < adapt_dist && ABS(ave[1] - c1[1]) < adapt_dist && ABS(ave[2] - c1[2]) < adapt_dist && ABS(ave[0] - c2[0]) < adapt_dist && ABS(ave[1] - c2[1]) < adapt_dist && ABS(ave[2] - c2[2]) < adapt_dist && ABS(ave[0] - c3[0]) < adapt_dist && ABS(ave[1] - c3[1]) < adapt_dist && ABS(ave[2] - c3[2]) < adapt_dist) { /* close enough */
+    if (step == 1 || fuzzed
+    || ABS(ave[0] - c0[0]) < adapt_dist
+    && ABS(ave[1] - c0[1]) < adapt_dist
+    && ABS(ave[2] - c0[2]) < adapt_dist
+    && ABS(ave[0] - c1[0]) < adapt_dist
+    && ABS(ave[1] - c1[1]) < adapt_dist
+    && ABS(ave[2] - c1[2]) < adapt_dist
+    && ABS(ave[0] - c2[0]) < adapt_dist
+    && ABS(ave[1] - c2[1]) < adapt_dist
+    && ABS(ave[2] - c2[2]) < adapt_dist
+    && ABS(ave[0] - c3[0]) < adapt_dist
+    && ABS(ave[1] - c3[1]) < adapt_dist
+    && ABS(ave[2] - c3[2]) < adapt_dist) { /* close enough */
         color.r = ave[0];
         color.g = ave[1];
         color.b = ave[2];
@@ -970,33 +976,33 @@ void Screen_3D::adapt(int i, int j, Flt x, Flt y, Color &color, int step) {
     ave[2] = 0;
 
     adapt(i, j, (Flt)x, (Flt)y, color, step);
-//    ave[0] += (unsigned char)(color[0]);
-//    ave[1] += (unsigned char)(color[1]);
-//    ave[2] += (unsigned char)(color[2]);
+    // ave[0] += (unsigned char)(color[0]);
+    // ave[1] += (unsigned char)(color[1]);
+    // ave[2] += (unsigned char)(color[2]);
     ave[0] += (unsigned char)(color.r);
     ave[1] += (unsigned char)(color.g);
     ave[2] += (unsigned char)(color.b);
 
     adapt(i + step, j, (Flt)x, (Flt)y, color, step);
-//    ave[0] += (unsigned char)(color[0]);
-//    ave[1] += (unsigned char)(color[1]);
-//    ave[2] += (unsigned char)(color[2]);
+    // ave[0] += (unsigned char)(color[0]);
+    // ave[1] += (unsigned char)(color[1]);
+    // ave[2] += (unsigned char)(color[2]);
     ave[0] += (unsigned char)(color.r);
     ave[1] += (unsigned char)(color.g);
     ave[2] += (unsigned char)(color.b);
 
     adapt(i, j + step, (Flt)x, (Flt)y, color, step);
-//    ave[0] += (unsigned char)(color[0]);
-//    ave[1] += (unsigned char)(color[1]);
-//    ave[2] += (unsigned char)(color[2]);
+    // ave[0] += (unsigned char)(color[0]);
+    // ave[1] += (unsigned char)(color[1]);
+    // ave[2] += (unsigned char)(color[2]);
     ave[0] += (unsigned char)(color.r);
     ave[1] += (unsigned char)(color.g);
     ave[2] += (unsigned char)(color.b);
 
     adapt(i + step, j + step, (Flt)x, (Flt)y, color, step);
-//    ave[0] += (unsigned char)(color[0]);
-//    ave[1] += (unsigned char)(color[1]);
-//    ave[2] += (unsigned char)(color[2]);
+    // ave[0] += (unsigned char)(color[0]);
+    // ave[1] += (unsigned char)(color[1]);
+    // ave[2] += (unsigned char)(color[2]);
     ave[0] += (unsigned char)(color.r);
     ave[1] += (unsigned char)(color.g);
     ave[2] += (unsigned char)(color.b);
@@ -1009,11 +1015,10 @@ void Screen_3D::adapt(int i, int j, Flt x, Flt y, Color &color, int step) {
 } /* end of Adapt() */
 
 //typedef Vec ColorVec;
-
 //    Flt        x, y;        /* where on screen to shoot */
 //    Color        color;        /* color to return from shot */
 void Screen_3D::shoot(Flt x, Flt y, Color &color) {
-//    ColorVec sum_color; /* summed color for DOF effects */
+    //    ColorVec sum_color; /* summed color for DOF effects */
     Flt random;
     Ray ray2; /* ray tweeked for non-pinhole cameras */
     Vec dir;
@@ -1049,7 +1054,7 @@ void Screen_3D::shoot(Flt x, Flt y, Color &color) {
     if (camera.aperture > 0.0) {
         Color sum_color; /* summed color for DOF effects */
 
-//        MakeVector(0, 0, 0, sum_color);
+        // MakeVector(0, 0, 0, sum_color);
         for (sample = 0; sample < camera.samples; sample++) {
             dir[0] = ray.P[0] + ray.D[0] * camera.focal_length;
             dir[1] = ray.P[1] + ray.D[1] * camera.focal_length;
@@ -1067,24 +1072,21 @@ void Screen_3D::shoot(Flt x, Flt y, Color &color) {
             VecNormalize(ray2.D);
 
             Trace(0, 1.0, &ray2, color, 1.0, NULL);
-//            if (color[0] > 1.0)
-//                color[0] = 1.0;
-//            if (color[1] > 1.0)
-//                color[1] = 1.0;
-//            if (color[2] > 1.0)
-//                color[2] = 1.0;
+            // if (color[0] > 1.0) color[0] = 1.0;
+            // if (color[1] > 1.0) color[1] = 1.0;
+            // if (color[2] > 1.0) color[2] = 1.0;
             if (color.r > 1.0) color.r = 1.0;
             if (color.g > 1.0) color.g = 1.0;
             if (color.b > 1.0) color.b = 1.0;
 
-//            VecAdd(color, sum_color, sum_color);
+            // VecAdd(color, sum_color, sum_color);
             sum_color += color;
             // sum_color[0] += color.r;
             // sum_color[1] += color.g;
             // sum_color[2] += color.b;
         }
-//        VecS((1.0 / (Flt)camera.samples), sum_color, color);
-//        color.r = (1.0 / (Flt)camera.samples) * sum_color[0];//?
+        // VecS((1.0 / (Flt)camera.samples), sum_color, color);
+        // color.r = (1.0 / (Flt)camera.samples) * sum_color[0];//?
         Flt cs = (1.0 / (Flt)camera.samples);
         color = sum_color * cs;
         // color.r = cs * sum_color[0];
@@ -1092,12 +1094,9 @@ void Screen_3D::shoot(Flt x, Flt y, Color &color) {
         // color.b = cs * sum_color[2];
     } else {
         Trace(0, 1.0, &ray, color, 1.0, NULL);
-//            if (color[0] > 1.0)
-//                color[0] = 1.0;
-//            if (color[1] > 1.0)
-//                color[1] = 1.0;
-//            if (color[2] > 1.0)
-//                color[2] = 1.0;
+            // if (color[0] > 1.0) color[0] = 1.0;
+            // if (color[1] > 1.0) color[1] = 1.0;
+            // if (color[2] > 1.0) color[2] = 1.0;
             if (color.r > 1.0) color.r = 1.0;
             if (color.g > 1.0) color.g = 1.0;
             if (color.b > 1.0) color.b = 1.0;

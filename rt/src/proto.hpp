@@ -120,8 +120,8 @@ extern void reflect (Vec I , Vec N , Vec R, Flt dot);
 extern int  refract (Flt eta, Vec I, Vec N, Vec T, Flt dot);
 
 /* shadow.c */
-extern int Shadow (Ray *ray , Isect *hit , Flt tmax , Color &color , int level , Light *lptr, int inside);
-extern int sShadow (Ray *ray , Isect *hit , Flt tmax , Color &color , int level , Light *lptr, int inside);
+extern int Shadow (Ray *ray , Isect &hit , Flt tmax , Color &color , int level , Light &lptr, int inside);
+extern int sShadow (Ray *ray , Isect &hit , Flt tmax , Color &color , int level , Light &lptr, int inside);
 
 /* sphere.c */
 //extern int     SphereIntersect (Object *obj , Ray *ray , Isect *hit);

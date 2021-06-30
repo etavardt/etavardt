@@ -52,7 +52,7 @@ Sphere_3D::~Sphere_3D() {
     }
 }
 
-int Sphere_3D::intersect(Object_3D *obj, Ray *ray, Isect *hit) {
+int Sphere_3D::intersect(Object_3D *obj, Ray *ray, Isect &hit) {
     Flt b, disc, t, t0, t1, dot_vv;
     Point V, P;
     SphereData *sp;
@@ -112,16 +112,16 @@ int Sphere_3D::intersect(Object_3D *obj, Ray *ray, Isect *hit) {
         return 0;
     }
 
-    hit->isect_t = t;
-    hit->isect_enter = dot_vv > sp->sph_radius2 + rayeps ? 1 : 0;
-    hit->isect_self = hit->isect_enter ? NULL : obj;
-    hit->isect_prim = obj;
-    hit->isect_surf = obj->o_surf;
+    hit.isect_t = t;
+    hit.isect_enter = dot_vv > sp->sph_radius2 + rayeps ? 1 : 0;
+    hit.isect_self = hit.isect_enter ? NULL : obj;
+    hit.isect_prim = obj;
+    hit.isect_surf = obj->o_surf;
 
     return 1;
 }
 
-void Sphere_3D::normal(Object_3D *obj, Isect *hit, Point P, Point N) {
+void Sphere_3D::normal(Object_3D *obj, Isect &hit, Point P, Point N) {
     SphereData *sp;
 
     sp = (SphereData *)obj->o_data;

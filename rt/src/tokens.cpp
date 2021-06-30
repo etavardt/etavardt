@@ -103,7 +103,7 @@ int get_token() {
     i = 0;
 
     /* get rid of any whitespace */
-    while (isspace(c = fgetc(yyin)) || c == '(' || c == ')') {
+    while (isspace(c = fgetc(yyin)) || c == '(' || c == ')' || c == '\n') {
         if (c == '\n') {
             yylinecount++;
         }
@@ -156,13 +156,29 @@ int get_token() {
         cur_value = atof(cur_text.c_str());
         cur_token = NUMBER;
         return cur_token;
-    }
+    } else if (c == '/') { // a comment, read through it
+        c = fgetc(yyin);
+        if (c == '*') {
+            do {
+                c = fgetc(yyin);
+                if (c == '*') {
+                    c = fgetc(yyin);
+                } else if (c == '\n') {
+                    yylinecount++;
+                }
+            } while (c != EOF && c != '/');
+            if (c != EOF) {
+                cur_token = COMMENT;
+                return cur_token;
+            }
+        }
+    } //TODO: TCE add more processing for #include, single line comment, "//", etc.. in the mean time preprocess
 
     /* if we get down here something is really wrong */
 
-    fprintf(stderr, "\nError parsing.  Found the character '%c' aka 0x%02x and\n", c, c);
-    fprintf(stderr, "I don't know what to do with it.\n");
-    Bob::getApp().parser.yyerror("");
+    cerr << "\nError parsing.  Found the character '" << char(c) << "' aka 0x" << std::hex << (0xFF & c) << " and" << endl;
+    cerr << "I don't know what to do with it." << endl;
+    Bob::getApp().parser.yyerror("In get_token near end.");
     return 0;
 } /* end of get_token() */
 

@@ -24,6 +24,7 @@
 #define NEWFILE         (1)
 #define POPFILE         (2)
 #define NUMBER          (3)
+#define COMMENT         (4)
 
 /* punctuation */
 

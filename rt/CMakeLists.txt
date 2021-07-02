@@ -2,8 +2,6 @@ include_directories(
     src/
 )
 
-make_directory(${PROJECT_SOURCE_DIR}/build)
-
 file(GLOB SOURCE_FILES LIST_DIRECTORIES false
     src/*.C
     src/*.cpp

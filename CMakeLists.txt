@@ -8,5 +8,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 project(BobRT LANGUAGES C CXX)
 
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
+
 add_subdirectory(rt)
 add_subdirectory(tools)

@@ -14,8 +14,6 @@ file(GLOB HEADER_FILES LIST_DIRECTORIES false
 
 add_executable(bob ${SOURCE_FILES} ${HEADER_FILES})
 
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
-
 foreach(dir IN ITEMS "bkgs" "cols" "maps" "objs" "scns" "srfs")
     add_custom_command(
         TARGET bob POST_BUILD

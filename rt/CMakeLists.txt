@@ -1,17 +1,8 @@
-cmake_minimum_required(VERSION 3.10)
-
-# set the project name
-project(Bob C CXX)
-
-# specify the C++ standard
-set(CMAKE_C_STANDARD 17)
-set(CMAKE_C_STANDARD_REQUIRED True)
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-
 include_directories(
     src/
 )
+
+make_directory(${PROJECT_SOURCE_DIR}/build)
 
 file(GLOB SOURCE_FILES LIST_DIRECTORIES false
     src/*.C
@@ -23,13 +14,55 @@ file(GLOB HEADER_FILES LIST_DIRECTORIES false
     src/*.hpp
 )
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -O0")
+file(GLOB SCNS LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/scns/*)
+file(GLOB OBJS LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/objs/*)
+file(GLOB MAPS LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/maps/*)
+file(GLOB BKGS LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/bkgs/*)
+file(GLOB COLS LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/cols/*)
+file(GLOB SRFS LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/srfs/*)
 
-# add the executable
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES})
+add_executable(bob ${SOURCE_FILES} ${HEADER_FILES})
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy bob.exe ..)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E chdir .. CMakeTest.bat)
+add_custom_command(
+        TARGET bob POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/scns ${PROJECT_SOURCE_DIR}/build/scns
+        COMMENT "Copying scns" VERBATIM
+        DEPENDS {SCNS})
+
+add_custom_command(
+        TARGET bob POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/objs ${PROJECT_SOURCE_DIR}/build/objs
+        COMMENT "Copying objs" VERBATIM
+        DEPENDS {OBJS})
+
+add_custom_command(
+        TARGET bob POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/maps ${PROJECT_SOURCE_DIR}/build/maps
+        COMMENT "Copying maps" VERBATIM
+        DEPENDS {MAPS})
+
+add_custom_command(
+        TARGET bob POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/bkgs ${PROJECT_SOURCE_DIR}/build/bkgs
+        COMMENT "Copying bkgs" VERBATIM
+        DEPENDS {BKGS})
+
+add_custom_command(
+        TARGET bob POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/cols ${PROJECT_SOURCE_DIR}/build/cols
+        COMMENT "Copying cols" VERBATIM
+        DEPENDS {COLS})
+
+add_custom_command(
+        TARGET bob POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/srfs ${PROJECT_SOURCE_DIR}/build/srfs
+        COMMENT "Copying srfs" VERBATIM
+        DEPENDS {SRFS})

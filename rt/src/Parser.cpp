@@ -1594,7 +1594,7 @@ void Parser::ReadSceneFile(const String &real_name, String tmp_name) {
     InfileTop->what = iptr;
 
     iptr->file_name = Infilename;
-    ptrchk(iptr->file_name.data(), "input file name");
+    //ptrchk(iptr->file_name.data(), "input file name");
     iptr->line = 0;
 
     //    cout << "cout: In Parser::ReadSceneFile Post ptrchk of input file name Pre Parse the input file" << endl;

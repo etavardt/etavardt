@@ -61,7 +61,7 @@ static char *line, /* fully expanded line */
 static int cur;
 static FILE *fp[MAX_LEVEL], *outfp;
 
-int preproc(char *infile, const char *outfile) {
+int preproc(const String &infile, const String &outfile) {
     char str[MAX_LINE], newfile[MAX_LINE];
     char command[MAX_TOK];
     char *rest, *cptr;
@@ -75,7 +75,7 @@ int preproc(char *infile, const char *outfile) {
     mline = new char[MAX_EXPAND]();
     Bob::getApp().parser.ptrchk(mline, "preprocessor space");
 
-    outfp = fopen(outfile, "w");
+    outfp = fopen(outfile.c_str(), "w");
     if (!outfp) {
         cerr << "Preprocessor error opening temp file " << outfile << " for output." << endl;
         throw Exception("thrown from preproc");

@@ -28,7 +28,7 @@ int Bob::runApp() {
     stop_line = (-1); /* helps to catch no studio error */
                       //    cout << "cout: In Bob::runApp preprocess=" << preprocess << endl;
     if (preprocess) {
-        preproc(infilename.data(), "yyz.b");
+        preproc(infilename, "yyz.b");
         parser.ReadSceneFile(infilename, String("yyz.b"));
         /* remove("yyz.b"); */
     } else {

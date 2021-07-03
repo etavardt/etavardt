@@ -26,6 +26,7 @@
     transparent objects.
 */
 #include "Object_3D.hpp"
+#include "Isect_3D.hpp"
 #include "Color.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
@@ -36,6 +37,7 @@
 extern int  Intersect (Ray *ray , Isect &hit , Flt maxdist , Object *self);
 extern void Shade (int level , Flt weight , Vec P , Vec N , Vec I , Isect &hit , Color &col , Flt ior);
 
+//TODO: TCE:Should fall under Ray?
 void bkg(Vec dir, Color &col) {
     Flt dot, index;
     int indx;
@@ -57,6 +59,7 @@ void bkg(Vec dir, Color &col) {
     }
 } /* end of bkg */
 
+//TODO: TCE:Should fall under Ray
 //    Flt    ior;        /* current material ior */
 Flt Trace(int level, Flt weight, Ray *ray, Color &color, Flt ior, Object *obj) {
     Object *prim;

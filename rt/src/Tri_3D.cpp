@@ -32,9 +32,11 @@
     interpolation...
 */
 
-#include "Bob.hpp"
-#include "Stats.hpp"
 #include "Tri_3D.hpp"
+#include "Bob.hpp"
+//#include "Object_3D.hpp"
+#include "Isect_3D.hpp"
+#include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"

@@ -18,8 +18,9 @@
 �������������������������������������������
 */
 
-#include "Bob.hpp"
 #include "Sphere_3D.hpp"
+#include "Bob.hpp"
+#include "Isect_3D.hpp"
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"

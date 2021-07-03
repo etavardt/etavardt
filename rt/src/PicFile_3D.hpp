@@ -16,21 +16,21 @@
 �                                                                         �
 �������������������������������������������
 */
-#ifndef PIC_ALREADY
 
-#define PIC_ALREADY
-
+#include <fstream>
 #include "String.hpp"
 #include "struct_defs.hpp"
 
-typedef struct Pic {
-//    char    *filename;
+class PicFile_3D {
+    public:
     String filename;
-    FILE    *filep;
+    std::fstream fs;
     int    x, y;
-} Pic;
-extern Pic    *PicOpen(String &filename, int x, int y);
-extern void  PicWriteLine (Pic &pic , const Pixel buf[]);
-extern void  PicClose (Pic &pic);
 
-#endif
+    PicFile_3D(){}
+    ~PicFile_3D(){}
+
+    bool open(String &_filename, int _x, int _y);
+    void writeLine (const Pixel buf[]);
+    void close ();
+};

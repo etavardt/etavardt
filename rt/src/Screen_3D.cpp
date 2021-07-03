@@ -25,13 +25,23 @@
 
 #include "Screen_3D.hpp"
 #include "Bob.hpp"
+#include "PicFile_3D.hpp"
 #include "Color.hpp"
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-//#include "pic.hpp"
 #include "proto.hpp"
 #include <cmath> //TCE: There appears to be now pure C++ for this
+
+Screen_3D::Screen_3D() {
+    picFile = new PicFile_3D();
+}
+Screen_3D::~Screen_3D() {
+    if (picFile != nullptr) {
+        picFile->close();
+        delete picFile;
+    }
+}
 
 void Screen_3D::screen(Viewpoint *view, String &picfile, int xres, int yres) {
     scrInit(view, xres, yres, picfile);
@@ -50,12 +60,12 @@ void Screen_3D::screen(Viewpoint *view, String &picfile, int xres, int yres) {
         scan3();
         break;
     }
-    PicClose(*pic);
+    picFile->close();
 }
 
-void Screen_3D::scrInit(Viewpoint *view, int xres, int yres, String &picfile) {
+void Screen_3D::scrInit(Viewpoint *view, int xres, int yres, String &picFileName) {
     // open the picture file...
-    pic = PicOpen(picfile, xres, yres);
+    picFile->open(picFileName, xres, yres);
 
     // determine the viewing frustrum
     x_res = xres;
@@ -142,7 +152,7 @@ void Screen_3D::scan0(void) {
             buf[i].g = (unsigned char)(255.0 * color.g);
             buf[i].b = (unsigned char)(255.0 * color.b);
         }
-        PicWriteLine(*pic, buf);
+        picFile->writeLine(buf);
         if (tickflag)
             Stats::statistics(j);
     }
@@ -201,7 +211,7 @@ void Screen_3D::scan1(void) {
                 buf[i].g = (unsigned char)(green / 4);
                 buf[i].b = (unsigned char)(blue / 4);
             }
-            PicWriteLine(*pic, buf);
+            picFile->writeLine(buf);
             tmp = oldbuf;
             oldbuf = curbuf;
             curbuf = tmp;
@@ -249,7 +259,7 @@ void Screen_3D::scan2(void) {
                 pixelBuf[i].g = (unsigned char)(255.0 * color.g);
                 pixelBuf[i].b = (unsigned char)(255.0 * color.b);
             }
-            PicWriteLine(*pic, pixelBuf);
+            picFile->writeLine(pixelBuf);
             if (tickflag)
                 Stats::statistics(j);
         }
@@ -719,7 +729,7 @@ void Screen_3D::scan2(void) {
 
         /* output scans */
         for (j = 0; j < 6; j++) {
-            PicWriteLine(*pic, buf[j]);
+            picFile->writeLine(buf[j]);
         }
         if (tickflag)
             Stats::statistics(y + 6);
@@ -813,7 +823,7 @@ void Screen_3D::scan3(void) {
                 }
             }
         }
-        PicWriteLine(*pic, pixelBuf);
+        picFile->writeLine(pixelBuf);
         if (tickflag)
             Stats::statistics(y);
     }
@@ -832,10 +842,11 @@ void Screen_3D::scan3(void) {
 
 #define ARAND() (((rand() / (Flt)RAND_MAX) / 4.0) - 0.125)
 
+// TODO: TCE any way we can do this iterativly instead of recursivly?
 // used in scan3
 //    int    i, j;        /* where in win to put results */
 //    Flt    x, y;        /* upper left hand of pixel */
-//    Color  color;       /* return pixel color here in 0..255 range */
+//    Color  color;       /* return pixel color here in 0..255 range */ //TODO: TCE should this be Pixel and not color as color should remain 0.0 to 1.0 values
 //    int    step;        /* what level we're at with values (4, 2, 1)*/
 void Screen_3D::adapt(int i, int j, Flt x, Flt y, Color &color, int step) {
     int k, fuzzed;

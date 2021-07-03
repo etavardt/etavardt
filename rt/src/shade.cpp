@@ -20,6 +20,12 @@
 �������������������������������������������
 */
 
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <memory.h>
+
+#include "Isect_3D.hpp"
 #include "Bump_3D.hpp"
 #include "Color.hpp"
 #include "Light_3D.hpp"
@@ -28,15 +34,11 @@
 #include "extern.hpp"
 #include "proto.hpp"
 
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <memory.h>
-
 #define DEFAULT_IOR (1.0)
 
 #define SIGN(a) ((a) > 0 ? 1 : ((a) < 0 ? (-1) : 0))
 
+//TODO: TCE:Should fall under Ray?
 /*
     Shade(level, weight, P, N, I, hit, col, ior)
 
@@ -49,7 +51,6 @@
     col    color to return
     ior    current ior
 */
-
 void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col, Flt ior) {
     /* the following locals have been declared static to help */
     /* shrink the amount of stack spaced needed for recursive */
@@ -362,7 +363,7 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col,
                         } else {
                             tcol[i] *= surf->trans[i];
                         }
-                    } // TCE: should there be an else here?
+                    } // tcol[i] will remain the value returned by the call to Trace
                 } else {
                     tcol[i] = 0.0;  /* opaque * /
                 }
@@ -376,7 +377,7 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col,
                 if (surf->trans.r < 1.0) {
                     Flt etst = (exp_trans ? pow(surf->trans.r, t) : surf->trans.r);
                     tcol.r *= etst;
-                } // TCE: should there be an else here? what is tcol.r
+                } // tcol.r will remain the value returned by the call to Trace
             } else {
                 tcol.r = 0.0; /* opaque */
             }
@@ -384,7 +385,7 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col,
                 if (surf->trans.g < 1.0) {
                     Flt etst = (exp_trans ? pow(surf->trans.g, t) : surf->trans.g);
                     tcol.g *= etst;
-                } // TCE: should there be an else here? what is tcol.g
+                } // tcol.g will remain the value returned by the call to Trace
             } else {
                 tcol.g = 0.0; /* opaque */
             }
@@ -392,7 +393,7 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col,
                 if (surf->trans.b < 1.0) {
                     Flt etst = (exp_trans ? pow(surf->trans.b, t) : surf->trans.b);
                     tcol.b *= etst;
-                } // TCE: should there be an else here? what is tcol.b
+                } // tcol.b will remain the value returned by the call to Trace
             } else {
                 tcol.b = 0.0; /* opaque */
             }
@@ -416,10 +417,9 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col,
     reflect -- given an incident vector I, and the normal N,
         calculate the direction of the reflected ray R.
 */
-
+// Vec I, N, R;
+// Flt dot;        /* -VecDot(I,N) */
 void reflect(Vec I, Vec N, Vec R, Flt dot)
-//    Vec    I, N, R;
-//    Flt    dot;        /* -VecDot(I,N) */
 {
     Flt len;
 
@@ -432,13 +432,12 @@ void reflect(Vec I, Vec N, Vec R, Flt dot)
         angle, T.  Returns 0 if total internal reflection occurs,
         1 otherwise.
 */
-
+// Flt eta;    /* ratio of old/new iors */
+// Vec I,      /* incident vector */
+//     N,      /* surface normal */
+//     T;      /* transmitted vector (calculated) */
+// Flt dot;    /* -VecDot(I, N) */
 int refract(Flt eta, Vec I, Vec N, Vec T, Flt dot)
-//    Flt     eta;    /* ratio of old/new iors */
-//    Vec     I,      /* incident vector */
-//        N,      /* surface normal */
-//        T;      /* transmitted vector (calculated) */
-//    Flt     dot;    /* -VecDot(I, N) */
 {
     Flt n1, n2, c1, cs2;
 

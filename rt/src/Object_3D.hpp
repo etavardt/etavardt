@@ -3,13 +3,14 @@
 //#define Object_3D_HPP
 
 #include "defs.hpp"
-#include "Surface_3D.hpp"
+//#include "Surface_3D.hpp"
 #include "Clip_3D.hpp"
 #include "Ray_3D.hpp"
-#include "Isect_3D.hpp"
+//#include "Isect_3D.hpp"
 //#include "struct_defs.hpp"
 //#include "extern.hpp"
-
+class Surface_3D;
+class Isect;
 class Object_3D {
     public:
     Object_3D() {} //default Constructor
@@ -25,24 +26,19 @@ class Object_3D {
     Clip       *clips;
 
     Object_3D *next;          /* next object in original list, sibling */
-/*
-    struct t_objectprocs {
-        int     (*intersect) (t_object*, Ray*, Isect*);
-        void    (*normal) (t_object*, Isect*, Flt*, Flt*);
-    } * o_procs;
-*/
-    class Isect {
-        public:
-        Flt         isect_t;       /* distance to intersection */
-        int         isect_enter;   /* entering? ie hit front? */
-        Object_3D  *isect_prim;    /* object we hit */
-        Surface_3D *isect_surf;    /* surface def of hit object */
-        Object_3D  *isect_self;    /* pointer to self for queue elimination */
 
-        Isect &operator=(const Isect isect);
-    };
-    virtual int  intersect(Object_3D *a, Ray *b, Object_3D::Isect &c);
-    virtual void normal(Object_3D *a, Object_3D::Isect &b, Flt *c, Flt *d);
+    // class Isect {
+    //     public:
+    //     Flt         isect_t;       /* distance to intersection */
+    //     int         isect_enter;   /* entering? ie hit front? */
+    //     Object_3D  *isect_prim;    /* object we hit */
+    //     Surface_3D *isect_surf;    /* surface def of hit object */
+    //     Object_3D  *isect_self;    /* pointer to self for queue elimination */
+
+    //     Isect &operator=(const Isect isect);
+    // };
+    virtual int  intersect(Object_3D *a, Ray *b, Isect &c);
+    virtual void normal(Object_3D *a, Isect &b, Flt *c, Flt *d);
 
 };
 /*
@@ -74,7 +70,7 @@ typedef struct t_object {
 typedef Object_3D Object;
 
 //typedef struct Object::t_isect Isect;
-typedef struct Object_3D::Isect Isect;
+//typedef struct Object_3D::Isect Isect;
 
 /*
 typedef struct t_compositedata {

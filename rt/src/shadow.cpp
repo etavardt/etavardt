@@ -54,6 +54,7 @@
 #include <cstdio>
 #include <cmath>
 #include <memory.h>
+#include "Isect_3D.hpp"
 #include "Object_3D.hpp"
 #include "Surface_3D.hpp"
 #include "defs.hpp"
@@ -63,6 +64,7 @@
 
 extern int  Intersect (Ray *ray , Isect &hit , Flt maxdist , Object *self);
 
+//TODO: TCE:Should fall under Ray?
 //    Ray    *ray;
 //    Isect    *hit;
 //    Flt    tmax;        /* dist to light we are trying to hit */
@@ -220,6 +222,7 @@ int Shadow(Ray *ray, Isect &hit, Flt tmax, Color &color, int level, Light &cur_l
     surface of the light being sampled.
 */
 
+//TODO: TCE:Should fall under Ray?
 //    Ray    *ray;
 //    Isect    *hit;
 //    Flt    tmax;        /* dist to light we are trying to hit */

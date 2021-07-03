@@ -86,7 +86,7 @@ extern void PriorityQueueInsert (Flt key , Object *obj);
 extern void PriorityQueueDelete (Flt *key , Object **obj);
 
 /* preproc.c */
-extern int   preproc (char *infile , const char *outfile);
+extern int preproc(const String &infile, const String &outfile);
 extern void  expand (char *src);
 extern void  sub_macro (Macro *mptr , char *loc);
 extern void  add_macro (char *txt);

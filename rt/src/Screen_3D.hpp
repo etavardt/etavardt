@@ -3,7 +3,8 @@
 #include "struct_defs.hpp"
 #include "String.hpp"
 #include "Ray_3D.hpp"
-#include "pic.hpp"
+
+class PicFile_3D;
 
 #define SIDE (4)
 
@@ -17,11 +18,11 @@ class Screen_3D {
     Point viewvec, leftvec, looking_up, viewpoint;
     Ray ray; /* normal, untweeked ray */
     int x_res, y_res;
-    Pic *pic;
+    PicFile_3D *picFile = nullptr;
 
     unsigned char win[SIDE + 1][SIDE + 1][4]; /* r,g,b,flag */
 
-    void scrInit(Viewpoint *view, int xres, int yres, String &picfile);
+    void scrInit(Viewpoint *view, int xres, int yres, String &picFileName);
     void scan0(void);
     void scan1(void);
     void scan2(void);
@@ -32,8 +33,8 @@ class Screen_3D {
     int comp(unsigned int a, unsigned int b);
 
     public:
-    Screen_3D(){}
-    ~Screen_3D(){}
+    Screen_3D();
+    ~Screen_3D();
 
     void screen(Viewpoint *view, String &picfile, int xres, int yres);
 

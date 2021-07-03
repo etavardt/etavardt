@@ -23,19 +23,17 @@
 �������������������������������������������
 */
 
-#include <cstdio>
-#include <cstdlib>
-//#include <cstring>
 #include "Bob.hpp"
 #include "Exception.hpp"
 #include "String.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include "pic.hpp"
+#include "PicFile_3D.hpp"
 #include "proto.hpp"
 #include "struct_defs.hpp"
 #include <ctime>
 #include <iostream>
+#include <fstream>
 
 using std::cerr;
 using std::cout;
@@ -45,85 +43,78 @@ using std::endl;
 
 time_t old_time, new_time;
 
-Pic *PicOpen(String &filename, int x, int y) {
-    Pic *tmp;
+bool PicFile_3D::open(String &_filename, int _x, int _y) {
     int line; /* line to start on */
     int i, c;
 
+    filename = _filename;
     time(&old_time); /* get current time */
 
-    //    tmp = (Pic *)malloc(sizeof(Pic));
-    tmp = new Pic();
-    Bob::getApp().parser.ptrchk(tmp, "Pic structure");
-    // TODO: TCE Remove
-    //    tmp->filename = (char *)malloc(strlen(filename)+1);
-    //    strcpy(tmp->filename, filename);
-    tmp->filename = filename;
-
-    tmp->x = x;
-    tmp->y = y;
+    x = _x;
+    y = _y;
 
     if (resume) { /* finish a partial image */
         /* find line where interrupted */
         line = start_line;
-        if (((tmp->filep) = fopen(filename.c_str(), "rb")) == NULL) {
+        fs.open(filename, std::ios::in | std::ios::binary);
+        if (!fs.is_open()) {
             cerr << "Error.  Trying to resume generation of " << filename << "." << endl;
             cerr << "        Can't open " << filename << " for reading." << endl;
-            throw Exception("thrown from picOpen");
+            throw Exception("thrown from PicFile_3D::open");
         }
         /* skip header */
-        for (i = 0; i < 10; i++) {
-            fgetc(tmp->filep);
-        }
+        fs.seekg(10);
         i = 0;
-        while (1) {
-            c = fgetc(tmp->filep);
-            if (c == EOF) {
+        while (!fs.eof()) {
+            c = fs.get();
+            if (fs.eof()) {
                 break;
             }
-            fgetc(tmp->filep);
-            fgetc(tmp->filep);
-            fgetc(tmp->filep);
+
+            fs.get();
+            fs.get();
+            fs.get();
+
             i += c;
             if (i >= x) {
                 i = 0;
                 line++;
             }
         }
-        fclose(tmp->filep);
+        fs.close();
 
         /* re-open and set to end */
-        if (((tmp->filep) = fopen(filename.c_str(), "ab")) == NULL) {
+        fs.open(filename, std::ios::ate | std::ios::binary);
+        if (!fs.is_open()) {
             cerr << "Error.  Trying to resume generation of " << filename << endl;
             cerr << "        Can't open " << filename << " for appending." << endl;
             throw Exception("thrown from picOpen");
         }
-        fseek(tmp->filep, 0L, SEEK_END);
         start_line = line; /* fake start line */
     } else {               /* start a new image */
-        if (((tmp->filep) = fopen(filename.c_str(), "wb")) == NULL) {
+        fs.open(filename, std::ios::out | std::ios::binary);
+        if (!fs.is_open()) {
             perror(filename.c_str());
             exit(1);
         }
+        fs.put(x / 256); /* image size */
+        fs.put(x % 256);
+        fs.put(y / 256);
+        fs.put(y % 256);
 
-        fputc(x / 256, tmp->filep); /* image size */
-        fputc(x % 256, tmp->filep);
-        fputc(y / 256, tmp->filep);
-        fputc(y % 256, tmp->filep);
+        fs.put(start_line / 256); /* image range */
+        fs.put(start_line % 256);
+        fs.put(stop_line / 256);
+        fs.put(stop_line % 256);
 
-        fputc(start_line / 256, tmp->filep); /* image range */
-        fputc(start_line % 256, tmp->filep);
-        fputc(stop_line / 256, tmp->filep);
-        fputc(stop_line % 256, tmp->filep);
-
-        fputc(0, tmp->filep);
-        fputc(24, tmp->filep); /* # bitplanes */
+        fs.put(0);
+        fs.put(24);
     }
 
-    return (tmp);
+    return fs.is_open();
 }
 
-void PicWriteLine(Pic &pic, const Pixel buf[]) {
+void PicFile_3D::writeLine(const Pixel buf[]) {
     int i,          /* which pixel? */
         total,      /* how many left in scan? */
         count,      /* current run total */
@@ -132,7 +123,7 @@ void PicWriteLine(Pic &pic, const Pixel buf[]) {
     double seconds; /* another helping? */
 
     i = 0;
-    total = pic.x;
+    total = x;
     cr = buf[i].r;
     cg = buf[i].g;
     cb = buf[i].b;
@@ -151,34 +142,29 @@ void PicWriteLine(Pic &pic, const Pixel buf[]) {
             total--;
             count++;
         }
-        if (fputc(count, pic.filep) == EOF) {
+        fs.put(count);
+        if (fs.eof()) {
             cerr << "Error writing to disk.  Must be out of space." << endl;
-            throw Exception("thrown from picWriteLine");
+            throw Exception("thrown from PicFile_3D::writeLine");
         }
-        fputc(cb, pic.filep);
-        fputc(cg, pic.filep);
-        fputc(cr, pic.filep);
-
-        // fputc(cr, pic.filep);
-        // fputc(cg, pic.filep);
-        // fputc(cb, pic.filep);
+        fs.put(cb);
+        fs.put(cg);
+        fs.put(cr);
 
         cr = r;
         cg = g;
         cb = b;
 
         if (total == 1) { /* if at last pixel */
-            fputc(1, pic.filep);
-            // fputc(buf[pic.x - 1].b, pic.filep);
-            // fputc(buf[pic.x - 1].g, pic.filep);
-            // fputc(buf[pic.x - 1].r, pic.filep);
-            fputc(buf[pic.x - 1].r, pic.filep);
-            fputc(buf[pic.x - 1].g, pic.filep);
-            fputc(buf[pic.x - 1].b, pic.filep);
+            fs.put(1);
+            fs.put(buf[x - 1].b);
+            fs.put(buf[x - 1].g);
+            fs.put(buf[x - 1].r);
             total--;
         }
     } while (total > 0);
-    fflush(pic.filep);
+    // fflush(pic.ofs);
+    fs.flush();
 
     /* check time for paranoid mode */
     time(&new_time);
@@ -186,14 +172,16 @@ void PicWriteLine(Pic &pic, const Pixel buf[]) {
     if (seconds > TIME_OUT) {
         old_time = new_time;
         /* close, re-open, and set to end */
-        fclose(pic.filep);
-        if (((pic.filep) = fopen(pic.filename.c_str(), "ab")) == NULL) {
-            cerr << "Error opening " << pic.filename << " for appending." << endl;
-            throw Exception("thrown from picWriteLine");
+        fs.close();
+        fs.open(filename, std::ios::ate | std::ios::binary);
+        if (!fs.is_open()) {
+            cerr << "Error opening " << filename << " for appending." << endl;
+            throw Exception("thrown from PicFile_3D::writeLine");
         }
-        fseek(pic.filep, 0L, SEEK_END);
     }
 
 } /* end of PicWriteLine() */
 
-void PicClose(Pic &pic) { fclose(pic.filep); }
+void PicFile_3D::close() {
+    fs.close();
+}

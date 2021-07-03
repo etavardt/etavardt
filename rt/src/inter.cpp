@@ -23,6 +23,7 @@
 #include <cmath>
 #include <cassert>
 #include "Object_3D.hpp"
+#include "Isect_3D.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
@@ -36,6 +37,7 @@
 Flt    num[NSLABS];
 Flt    den[NSLABS];
 
+//TODO: TCE:Should fall under Ray since it is used during ray intersection?
 /***********************************************************************
  * CheckAndEnqueue(obj, maxdist)
  * Check the current ray (as paramaterized with the num and den 
@@ -45,7 +47,6 @@ Flt    den[NSLABS];
  *
  * Note: should be broken into two separate procedures...
  ***********************************************************************/
-
 void CheckAndEnqueue(Object *obj, Flt maxdist)
 {
     int i = 0;
@@ -90,6 +91,7 @@ void CheckAndEnqueue(Object *obj, Flt maxdist)
     nEnqueued++;
 }
 
+//TODO: TCE:Should fall under Ray?
 /***********************************************************************
  * Intersect(ray, hit, maxdist, lastObjHit)
  * 
@@ -102,7 +104,6 @@ void CheckAndEnqueue(Object *obj, Flt maxdist)
     eliminate doing an intersection test with the last object.
 
  ***********************************************************************/
-
 int Intersect(Ray *ray, Isect &hit, Flt maxdist, Object *lastObjHit)
 {
     Isect          nhit;
@@ -117,7 +118,7 @@ int Intersect(Ray *ray, Isect &hit, Flt maxdist, Object *lastObjHit)
 
     if(Root->o_type != T_COMPOSITE)
         return Root->intersect(Root, ray, hit);
-//        return (Root->o_procs->intersect) (Root, ray, hit);
+        //        return (Root->o_procs->intersect) (Root, ray, hit);
 
     for(i=0; i<3; i++) {
         num[i] = ray->P[i];

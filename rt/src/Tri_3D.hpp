@@ -1,5 +1,11 @@
 #pragma once
 #include "Object_3D.hpp"
+#include "defs.hpp"
+#include "Ray_3D.hpp"
+
+//class Object_3D;
+class Isect;
+//class Ray;
 
 class Tri_3D: public Object_3D {
     public:

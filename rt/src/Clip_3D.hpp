@@ -9,10 +9,10 @@ typedef struct t_clip {
         radius2,
         length;
     int type;
-    struct t_clip *next;
+    t_clip *next;
 } Clip;
 
 typedef struct t_global_clip {
     Clip                    *clip;
-    struct t_global_clip    *next;
+    t_global_clip    *next;
 } GlobalClip;

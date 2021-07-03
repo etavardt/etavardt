@@ -34,7 +34,7 @@ class Bob:public App {
     String infilename  = "";
     String outfilename = "";
 
-    int preprocess = 1;
+    bool preprocess = true;
 
     Parser parser;
 };

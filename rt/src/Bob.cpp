@@ -180,7 +180,7 @@ int Bob::processCmdLine(int argCnt, char **argList) {
                 tickflag = 0;
                 break;
             case 'p':
-                preprocess = 0;
+                preprocess = false;
                 break;
             case '?':
                 usage(); /* no return */
@@ -254,5 +254,5 @@ void Bob::usage() {
     cout << "       -b set bunching factor." << endl;
     cout << "Assumes file.b for input file and file.img for output file." << endl;
 
-    exit(0);
+    throw Exception("");
 }

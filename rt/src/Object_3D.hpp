@@ -38,9 +38,11 @@ class Object_3D {
         Object_3D  *isect_prim;    /* object we hit */
         Surface_3D *isect_surf;    /* surface def of hit object */
         Object_3D  *isect_self;    /* pointer to self for queue elimination */
+
+        Isect &operator=(const Isect isect);
     };
-    virtual int  intersect(Object_3D *a, Ray *b, Object_3D::Isect *c);
-    virtual void normal(Object_3D *a, Object_3D::Isect *b, Flt *c, Flt *d);
+    virtual int  intersect(Object_3D *a, Ray *b, Object_3D::Isect &c);
+    virtual void normal(Object_3D *a, Object_3D::Isect &b, Flt *c, Flt *d);
 
 };
 /*

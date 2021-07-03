@@ -103,7 +103,7 @@ void CheckAndEnqueue(Object *obj, Flt maxdist)
 
  ***********************************************************************/
 
-int Intersect(Ray *ray, Isect *hit, Flt maxdist, Object *lastObjHit)
+int Intersect(Ray *ray, Isect &hit, Flt maxdist, Object *lastObjHit)
 {
     Isect          nhit;
     int            i;
@@ -173,10 +173,10 @@ int Intersect(Ray *ray, Isect *hit, Flt maxdist, Object *lastObjHit)
              */
             
 //            if((cobj->o_procs->intersect) (cobj, ray, &nhit)) {
-            if(cobj->intersect(cobj, ray, &nhit)) {
+            if(cobj->intersect(cobj, ray, nhit)) {
                 if(nhit.isect_t < min_dist) {
                     pobj = cobj;
-                    *hit = nhit;
+                    hit = nhit;
                     min_dist = nhit.isect_t;
                 }
             }

@@ -33,8 +33,8 @@
 #include <cmath>
 #include <cstdio>
 //class Isect;
-extern int  Intersect (Ray *ray , Isect *hit , Flt maxdist , Object *self);
-extern void Shade (int level , Flt weight , Vec P , Vec N , Vec I , Isect *hit , Color &col , Flt ior);
+extern int  Intersect (Ray *ray , Isect &hit , Flt maxdist , Object *self);
+extern void Shade (int level , Flt weight , Vec P , Vec N , Vec I , Isect &hit , Color &col , Flt ior);
 
 void bkg(Vec dir, Color &col) {
     Flt dot, index;
@@ -73,7 +73,7 @@ Flt Trace(int level, Flt weight, Ray *ray, Color &color, Flt ior, Object *obj) {
 
     nRays++;
 
-    if (Intersect(ray, &hit, HUGE, obj)) {
+    if (Intersect(ray, hit, HUGE, obj)) {
 
         /* end of warning */
 
@@ -81,9 +81,9 @@ Flt Trace(int level, Flt weight, Ray *ray, Color &color, Flt ior, Object *obj) {
         RayPoint(ray, hit.isect_t, P);
         /* get normal vector of intersection */
 //        (*prim->o_procs->normal)(prim, &hit, P, N);
-        prim->normal(prim, &hit, P, N);
+        prim->normal(prim, hit, P, N);
 
-        Shade(level, weight, P, N, ray->D, &hit, color, ior);
+        Shade(level, weight, P, N, ray->D, hit, color, ior);
         return hit.isect_t;
     } else {
         bkg(ray->D, color);

@@ -51,7 +51,7 @@ Poly_3D::~Poly_3D() {
     }
 }
 
-int Poly_3D::intersect(Object *obj, Ray *ray, Isect *hit) {
+int Poly_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
     Flt n, d, t, m, b;
     Point V;
     int i, j, l;
@@ -132,15 +132,15 @@ int Poly_3D::intersect(Object *obj, Ray *ray, Isect *hit) {
     if ((l % 2) == 0)
         return 0;
 
-    hit->isect_t = t;
-    hit->isect_surf = obj->o_surf;
-    hit->isect_prim = obj;
-    hit->isect_self = obj; /* polys are not self intersecting */
+    hit.isect_t = t;
+    hit.isect_surf = obj->o_surf;
+    hit.isect_prim = obj;
+    hit.isect_self = obj; /* polys are not self intersecting */
 
     return 1;
 }
 
-void Poly_3D::normal(Object_3D *obj, Isect *hit, Point P, Point N) {
+void Poly_3D::normal(Object_3D *obj, Isect &hit, Point P, Point N) {
     PolyData *pd;
     pd = (PolyData *)obj->o_data;
     VecCopy(pd->poly_normal, N);

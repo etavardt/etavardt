@@ -19,19 +19,19 @@
 */
 
 #include "Parser.hpp"
+#include "Cone_3D.hpp"
 #include "Exception.hpp"
-#include "Stats.hpp"
-#include "String.hpp"
+#include "Light_3D.hpp"
+#include "Poly_3D.hpp"
 #include "Ring_3D.hpp"
 #include "Sphere_3D.hpp"
+#include "Stats.hpp"
+#include "String.hpp"
 #include "Tri_3D.hpp"
-#include "Cone_3D.hpp"
-#include "Poly_3D.hpp"
-#include "Light_3D.hpp"
 #include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <ctype.h>
+//#include <cstdio>
+//#include <cstdlib>
+//#include <ctype.h>
 #include <iostream>
 //#include <array>
 
@@ -120,9 +120,9 @@ void Parser::yy_background() {
                 for (i = 0; i < 256; i++) {
                     fgets(str, 256, fp);
                     sscanf(str, "%d %d %d", &r, &g, &b);
-//                    background.pal[i][0] = r;
-//                    background.pal[i][1] = g;
-//                    background.pal[i][2] = b;
+                    //                    background.pal[i][0] = r;
+                    //                    background.pal[i][1] = g;
+                    //                    background.pal[i][2] = b;
                     background.pal[i].r = r;
                     background.pal[i].g = g;
                     background.pal[i].b = b;
@@ -462,24 +462,24 @@ Surface_3D *Parser::yy_surface() {
 
     // MakeVector(0, 0, 0, surf->diff);
     // MakeVector(0, 0, 0, surf->spec);
-    //surf->diff = 0;
-    //surf->spec = 0;
-    //surf->shine = 0.0;
+    // surf->diff = 0;
+    // surf->spec = 0;
+    // surf->shine = 0.0;
     // MakeVector(0, 0, 0, surf->cshine);
     // MakeVector(0, 0, 0, surf->trans);
-    //surf->cshine = 0;
-    //surf->trans = 0;
-    //surf->ior = 1.0;
+    // surf->cshine = 0;
+    // surf->trans = 0;
+    // surf->ior = 1.0;
     // MakeVector(0, 0, 0, surf->amb);
-    //surf->amb = 0;
-    //surf->fuzz = 0.0;
-    //surf->flags = S_CACHE;
-    //surf->tex = NULL;
-    //surf->bump = NULL;
-    //surf->tm_diff = NULL;
-    //surf->tm_spec = NULL;
-    //surf->tm_trans = NULL;
-    //surf->tm_amb = NULL;
+    // surf->amb = 0;
+    // surf->fuzz = 0.0;
+    // surf->flags = S_CACHE;
+    // surf->tex = NULL;
+    // surf->bump = NULL;
+    // surf->tm_diff = NULL;
+    // surf->tm_spec = NULL;
+    // surf->tm_trans = NULL;
+    // surf->tm_amb = NULL;
 
     /* if a transformation exists, set matrix to inverse
        of current matrix at TransTop */
@@ -1542,6 +1542,9 @@ int Parser::yyparse() {
             break;
         case PATCH:
             yy_patch();
+            break;
+        case COMMENT:
+            // ignore comments
             break;
         default:
             cerr << "\nError parsing, yyparse() found token " << cur_token << " '" << cur_text << "'" << endl;

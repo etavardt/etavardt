@@ -65,7 +65,7 @@ Tri_3D::~Tri_3D() {
         delete (TriData *)o_data;
     }
 }
-int Tri_3D::intersect(Object *obj, Ray *ray, Isect *hit) {
+int Tri_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
     TriData *td;
     Flt n, d, dist;
     Flt r, s, t;
@@ -139,10 +139,10 @@ int Tri_3D::intersect(Object *obj, Ray *ray, Isect *hit) {
     s = a;
     t = b;
 
-    hit->isect_t = dist;
-    hit->isect_prim = obj;
-    hit->isect_self = obj;
-    hit->isect_surf = obj->o_surf;
+    hit.isect_t = dist;
+    hit.isect_prim = obj;
+    hit.isect_self = obj;
+    hit.isect_surf = obj->o_surf;
 
     /* sum baricentric components to get real normal */
 
@@ -154,7 +154,7 @@ int Tri_3D::intersect(Object *obj, Ray *ray, Isect *hit) {
     return 1;
 }
 
-void Tri_3D::normal(Object *obj, Isect *hit, Point P, Point N) {
+void Tri_3D::normal(Object *obj, Isect &hit, Point P, Point N) {
     TriData *td;
 
     td = (TriData *)obj->o_data;

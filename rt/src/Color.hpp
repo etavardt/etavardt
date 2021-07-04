@@ -1,6 +1,12 @@
 #pragma once
 #include "defs.hpp"
 
+struct t_pixel {
+    unsigned char r, g, b, q;
+};
+
+typedef t_pixel Pixel;
+
 /*
     Color Normalized 0.0-1.0
     r - Red   component 0.0-1.0
@@ -16,6 +22,8 @@ public:
     Color():r(0.0),g(0.0),b(0.0){};
     ~Color(){};
     
+    Pixel getPixelColor();
+
     Color &operator=(const double &c);
     Color &operator=(const int &c);
     Color &operator=(const Vec &c);

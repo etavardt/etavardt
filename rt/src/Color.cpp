@@ -1,5 +1,14 @@
 #include "Color.hpp"
 
+Pixel Color::getPixelColor() {
+    Pixel pixel;
+    pixel.r = (unsigned char)(255.0 * r);
+    pixel.g = (unsigned char)(255.0 * g);
+    pixel.b = (unsigned char)(255.0 * b);
+    pixel.q = 0;
+    return pixel;
+}
+
 Color &Color::operator=(const double &c) {
     r = c;
     g = c;

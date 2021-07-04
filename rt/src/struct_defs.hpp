@@ -24,9 +24,10 @@
 #include "String.hpp"
 #include "Color.hpp"
 #include "defs.hpp"
-#include <stdio.h>
+#include <cstdio>
 
 class Object_3D;
+//class Color;
 /*
     typedefs for the world
 */
@@ -80,9 +81,9 @@ typedef struct t_camera {
     short samples;    /* num samples for non-pinhole camera */
 } Camera;
 
-typedef struct t_pixel {
-    unsigned char r, g, b, q;
-} Pixel;
+// typedef struct t_pixel {
+//     unsigned char r, g, b, q;
+// } Pixel;
 
 typedef struct t_transform {
     Matrix mat;

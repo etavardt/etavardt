@@ -693,8 +693,7 @@ void Screen_3D::scan3(void) {
     Bob::getApp().parser.ptrchk(pixelBuf, "output buffer.");
 
     for (x = 0; x < 4; x++) {
-        // buff[x] = new unsigned char[SIDE * x_res + 1](); // Why SIDE*x_res+1
-        buff[x] = new unsigned char[x_res * (SIDE + 1)](); // TCE: Is this the proper change for buff overflow issue below?
+        buff[x] = new unsigned char[SIDE * x_res + 1](); // Why SIDE*x_res+1
         Bob::getApp().parser.ptrchk(buff[x], "antialiasing buffer.");
     }
 
@@ -703,8 +702,7 @@ void Screen_3D::scan3(void) {
             win[i][j][3] = RAW;
         }
     }
-//    for (i = 0; i < SIDE * x_res + 1; i++) { // clear buff flags
-    for (i = 0; i < x_res * (SIDE + 1); i++) { // clear buff flags // TCE: change for buff overflow issue?
+    for (i = 0; i < SIDE * x_res + 1; i++) { // clear buff flags
         buff[3][i] = RAW;
     }
 
@@ -718,16 +716,11 @@ void Screen_3D::scan3(void) {
         for (x = 0; x < x_res; x++) {
 
             for (i = 1; i < SIDE + 1; i++)                  // buff to top row of win
-                if (win[i][0][3] = buff[3][x * i]) { // if cooked :TCE says ?Huh? flag portion? and an assignment during if?
-                    win[i][0][0] = buff[0][x * i];   // TCE: x*SIDE+i looks like a buff overrun scenario
-                    win[i][0][1] = buff[1][x * i];   // buff was created with [4][SIDE * x_res + 1]
-                    win[i][0][2] = buff[2][x * i];   // With operator precedence and all i should have a max value of 1
+                if (win[i][0][3] = buff[3][x * SIDE + i]) { // if cooked :TCE says ?Huh? flag portion? and an assignment during if?
+                    win[i][0][0] = buff[0][x * SIDE + i];   // TCE: x*SIDE+i looks like a buff overrun scenario
+                    win[i][0][1] = buff[1][x * SIDE + i];   // buff was created with [4][SIDE * x_res + 1]
+                    win[i][0][2] = buff[2][x * SIDE + i];   // With operator precedence and all i should have a max value of 1
                 }
-                // if (win[i][0][3] = buff[3][x * SIDE + i]) { // if cooked :TCE says ?Huh? flag portion? and an assignment during if?
-                //     win[i][0][0] = buff[0][x * SIDE + i];   // TCE: x*SIDE+i looks like a buff overrun scenario
-                //     win[i][0][1] = buff[1][x * SIDE + i];   // buff was created with [4][SIDE * x_res + 1]
-                //     win[i][0][2] = buff[2][x * SIDE + i];   // With operator precedence and all i should have a max value of 1
-                // }
 
             for (i = 1; i < SIDE + 1; i++) // clear rest of win
                 for (j = 1; j < SIDE + 1; j++)
@@ -740,16 +733,11 @@ void Screen_3D::scan3(void) {
             pixelBuf[x].b = color.b;
 
             for (i = 0; i < SIDE + 1; i++)                     /* bottom row of win to buff */
-                if (buff[3][x * i] = win[i][SIDE][3]) { /* if cooked */
-                    buff[0][x * i] = win[i][SIDE][0];
-                    buff[1][x * i] = win[i][SIDE][1];
-                    buff[2][x * i] = win[i][SIDE][2];
+                if (buff[3][x * SIDE + i] = win[i][SIDE][3]) { /* if cooked */
+                    buff[0][x * SIDE + i] = win[i][SIDE][0];
+                    buff[1][x * SIDE + i] = win[i][SIDE][1];
+                    buff[2][x * SIDE + i] = win[i][SIDE][2];
                 }
-                // if (buff[3][x * SIDE + i] = win[i][SIDE][3]) { /* if cooked */
-                //     buff[0][x * SIDE + i] = win[i][SIDE][0];
-                //     buff[1][x * SIDE + i] = win[i][SIDE][1];
-                //     buff[2][x * SIDE + i] = win[i][SIDE][2];
-                // }
 
             for (j = 0; j < SIDE + 1; j++) {          /* right edge of win to left */
                 if (win[0][j][3] = win[SIDE][j][3]) { /* if cooked */

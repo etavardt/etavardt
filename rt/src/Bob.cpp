@@ -34,6 +34,10 @@ int Bob::runApp() {
     } else {
         parser.ReadSceneFile(infilename, infilename);
     }
+    if (Eye.view_aspect != -1.0) {
+        Eye.view_angle_y = Eye.view_angle_x / Eye.view_aspect;
+    }
+
     //    cout << "cout: In Bob::runApp Pre BuildBoundingSlabs" << endl;
     BuildBoundingSlabs();
     //    cout << "cout: In Bob::runApp Post BuildBoundingSlabs Pre init_noise" << endl;
@@ -213,9 +217,6 @@ int Bob::processCmdLine(int argCnt, char **argList) {
         cout << _Program << "    " << _Version << endl << _Copyright << endl;
     }
 
-    if (Eye.view_aspect != -1.0) {
-        Eye.view_angle_y = Eye.view_angle_x / Eye.view_aspect;
-    }
     if (xres > 0) { /* if command line override */
         Xresolution = xres;
         if (stop_line == Yresolution) /* only change if not default */

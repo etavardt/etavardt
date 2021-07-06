@@ -14,8 +14,8 @@ class Isect;
 class Object_3D {
     public:
     Object_3D() {} //default Constructor
-    ~Object_3D();
-    
+    ~Object_3D() = default;
+
     unsigned short o_type;
 
     Flt o_dmin[NSLABS];

@@ -14,7 +14,7 @@ class Isect;
 class Object_3D {
     public:
     Object_3D() {} //default Constructor
-    ~Object_3D() = default;
+    ~Object_3D();
 
     unsigned short o_type;
 

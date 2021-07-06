@@ -2,7 +2,7 @@
 #include "Exception.hpp"
 #include <iostream>
 
-// Object_3D::~Object_3D() {}
+Object_3D::~Object_3D() {}
 
 int Object_3D::intersect(Object_3D *a, Ray *b, Isect &c) {
     std::cerr << "Called non-existant intersect routine for bounding box, dying..." << std::endl;

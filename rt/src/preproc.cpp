@@ -91,7 +91,7 @@ int preproc(const String &infile, const String &outfile) {
         throw Exception("thrown from preproc");
     }
 
-    fprintf(outfp, "bb_newfile \"%s\"\n", infile);
+    fprintf(outfp, "bb_newfile \"%s\"\n", infile.c_str());
     do {
         if (vfgets(str, MAX_LINE, fp[cur]) == 0) {
             fclose(fp[cur]);

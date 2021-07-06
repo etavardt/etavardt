@@ -47,7 +47,7 @@ Sphere_3D::Sphere_3D() : Object_3D() {
     o_surf = CurrentSurface;
 }
 Sphere_3D::~Sphere_3D() {
-    Object_3D::~Object_3D();
+    //Object_3D::~Object_3D();
     if (o_data != NULL) {
         delete (SphereData*)o_data;
     }

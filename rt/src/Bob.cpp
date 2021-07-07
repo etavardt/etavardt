@@ -200,9 +200,9 @@ int Bob::processCmdLine(int argCnt, char **argList) {
     }
     if (infilename.empty()) { /* no file name given */
         infilename = "venus3";
-        amode = A_QUICK;
-        xres = 80;
-        yres = 50;
+//        amode = A_QUICK;
+//        xres = 80;
+//        yres = 50;
         //usage();            /* no return */
     }
     outfilename = infilename;

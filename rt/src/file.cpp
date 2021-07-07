@@ -21,12 +21,14 @@
 //#include <cstdio>
 #include "Bob.hpp"
 #include "String.hpp"
+#include <algorithm>
 #include <cstdlib>
 #include <cstring>
 
 using std::cerr;
 using std::cout;
 using std::endl;
+using std::replace;
 
 /*
     qstrcat() -- just like strcat() except ignores quotes
@@ -57,6 +59,7 @@ void qstrcat(char *d, char *s) {
 FILE *env_fopen(String name, const String mode) {
     FILE *fp;
     int i;
+
 //    cout << "In env_fopen Bob::paths.size(): " << Bob::paths.size() << endl;
     for (i = 0; i < Bob::paths.size(); i++) {
         String full_path;
@@ -68,6 +71,10 @@ FILE *env_fopen(String name, const String mode) {
         }
 //        cout << "In env_fopen full_path: " << full_path << endl;
         full_path += name;
+#ifndef WINDOWS
+        // it is not Windows so use the other slash
+        replace(full_path.begin(), full_path.end(), '\\', '/');
+#endif
 //        cout << "In env_fopen full_path: " << full_path << endl;
         fp = fopen(full_path.c_str(), mode.c_str());
 //        cout << "In env_fopen fp: " << fp << endl;

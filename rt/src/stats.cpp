@@ -51,7 +51,9 @@ void Stats::statistics(int line)
         first_call = 0;
     }
 
+#ifdef WINDOWS
     system("CLS");
+#endif
 //    printf("%c[1;1f", ESC);         /* home cursor */
 
     cout << "\t\t\t\t" << Bob::_Program <<"\t\t" << Bob::_Version << "\n\t" << Bob::_Copyright << endl;
@@ -81,7 +83,7 @@ void Stats::statistics(int line)
 
     cout << "\nmax recursion depth       " << deepest+1 << "/" << maxlevel << "  " << endl;
     cout << endl;
- 
+
 /*
     printf("\n\t\t%s\t\t       %s\n\t\t%s\n", Bob::_Program, Bob::_Version, Bob::_Copyright);
 
@@ -119,7 +121,9 @@ void Stats::yystats(void) {
     static int toc = 0;
 //    cout << "In Stats::yystats tickflag = " << tickflag << " toc = " << toc << " toc&0x0f = " << (toc & 0x0f) << endl;
     if (tickflag && ((toc & 0x0f) == 0)) {
+#ifdef WINDOWS
         system("CLS");
+#endif
         cout << "\tlights " << nLights << " prims " << nPrims << " memory " << memAllocated << endl;
     }
     toc++;

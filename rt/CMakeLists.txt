@@ -3,12 +3,10 @@ include_directories(
 )
 
 file(GLOB SOURCE_FILES LIST_DIRECTORIES false
-    src/*.C
     src/*.cpp
 )
 
 file(GLOB HEADER_FILES LIST_DIRECTORIES false
-    src/*.H
     src/*.hpp
 )
 

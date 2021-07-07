@@ -1,5 +1,6 @@
 rt/yyz.b
 rt/*.img
+!rt/*_tst.img
 rt/build/**
 rt/*.log
 

@@ -17,28 +17,27 @@
 �                                                                         �
 �������������������������������������������
 */
-
+#include "Bound_3D.hpp"
 #include "Bob.hpp"
 #include "Stats.hpp"
 #include "Exception.hpp"
-#include "Object_3D.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include "proto.hpp"
 #include "struct_defs.hpp"
-#include <cstdio>
-#include <cstdlib>
+
 #include <iostream>
 
 using std::cerr;
 using std::cout;
 using std::endl;
 
-static long total; /* # objects in main list */
-static Flt Median; /* 2*median value along axis */
-static int Axis;   /* axis to split along */
+long Bound_3D::total = 0; /* # objects in main list */
+Flt Bound_3D::Median = 0; /* 2*median value along axis */
+int Bound_3D::Axis   = 0; /* axis to split along */
 
-void FindAxis(Object *top, long count) {
+long Bound_3D::nPrims = 0;
+
+void Bound_3D::FindAxis(Object *top, long count) {
     Flt mins[NSLABS];
     Flt maxs[NSLABS];
     int i, j, which;
@@ -92,7 +91,7 @@ void FindAxis(Object *top, long count) {
     }
 } /* end of FindAxis() */
 
-int SortAndSplit(Object **top_handle, long count) {
+int Bound_3D::SortAndSplit(Object **top_handle, long count) {
     Object *top, *hi, *lo, *cur, *tmp, *hi_end, *lo_end;
     long lo_cnt, hi_cnt, i, j;
     Flt dmin, dmax;
@@ -231,7 +230,7 @@ int SortAndSplit(Object **top_handle, long count) {
  * code...
  */
 extern Object *Root;
-void BuildBoundingSlabs(void) {
+void Bound_3D::BuildBoundingSlabs(void) {
     total = nPrims;
     while (SortAndSplit(&Root, total))
         ; /* this line intentionally left blank */

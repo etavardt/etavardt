@@ -17,20 +17,20 @@
 �������������������������������������������
 */
 
-#include <fstream>
 #include "String.hpp"
 #include "struct_defs.hpp"
+#include <fstream>
 
 class PicFile_3D {
-    public:
+  public:
     String filename;
     std::fstream fs;
-    int    x, y;
+    int x, y;
 
-    PicFile_3D(){}
-    ~PicFile_3D(){}
+    PicFile_3D() {}
+    ~PicFile_3D() {}
 
     bool open(String &_filename, int _x, int _y);
-    void writeLine (const Pixel buf[]);
-    void close ();
+    void writeLine(const Pixel buf[]);
+    void close();
 };

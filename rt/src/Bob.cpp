@@ -1,4 +1,5 @@
 #include "Bob.hpp"
+#include "Bound_3D.hpp"
 #include "Exception.hpp"
 #include "Stats.hpp"
 #include "defs.hpp"
@@ -39,7 +40,7 @@ int Bob::runApp() {
     }
 
     //    cout << "cout: In Bob::runApp Pre BuildBoundingSlabs" << endl;
-    BuildBoundingSlabs();
+    Bound_3D::BuildBoundingSlabs();
     //    cout << "cout: In Bob::runApp Post BuildBoundingSlabs Pre init_noise" << endl;
     init_noise();
     //    cout << "cout: In Bob::runApp Post init_noise Pre Screen" << endl;
@@ -199,7 +200,7 @@ int Bob::processCmdLine(int argCnt, char **argList) {
         }
     }
     if (infilename.empty()) { /* no file name given */
-        infilename = "venus3";
+        infilename = "crypt1";//"venus3";
 //        amode = A_QUICK;
 //        xres = 80;
 //        yres = 50;

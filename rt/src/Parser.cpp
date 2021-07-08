@@ -28,6 +28,7 @@
 #include "Stats.hpp"
 #include "String.hpp"
 #include "Tri_3D.hpp"
+#include "Bound_3D.hpp"
 #include <cmath>
 //#include <cstdio>
 //#include <cstdlib>
@@ -1251,7 +1252,7 @@ void Parser::yy_sphere() {
     new_obj->next = Root;
     Root = new_obj;
 
-    ++nPrims;
+    ++Bound_3D::nPrims;
     Stats::yystats();
 } /* end of yy_sphere() */
 
@@ -1312,7 +1313,7 @@ void Parser::yy_cone() {
     new_obj->next = Root;
     Root = new_obj;
 
-    ++nPrims;
+    ++Bound_3D::nPrims;
     Stats::yystats();
 } /* end of yy_cone() */
 
@@ -1371,7 +1372,7 @@ void Parser::yy_ring() {
     new_obj->next = Root;
     Root = new_obj;
 
-    ++nPrims;
+    ++Bound_3D::nPrims;
     Stats::yystats();
 } /* end of yy_ring() */
 
@@ -1430,7 +1431,7 @@ void Parser::yy_polygon() {
     new_obj->next = Root;
     Root = new_obj;
 
-    ++nPrims;
+    ++Bound_3D::nPrims;
     Stats::yystats();
 } /* end of yy_polygon() */
 
@@ -1487,7 +1488,7 @@ void Parser::yy_patch() {
     new_obj->next = Root;
     Root = new_obj;
 
-    ++nPrims;
+    ++Bound_3D::nPrims;
     Stats::yystats();
 } /* end of yy_patch() */
 
@@ -1617,7 +1618,7 @@ void Parser::ReadSceneFile(const String &real_name, String tmp_name) {
 
     if (tickflag) {
         cout << "\tinputfile = \"" << Infilename << "\"" << endl;
-        cout << "\tlights " << nLights << " prims " << nPrims << "\n" << endl;
+        cout << "\tlights " << nLights << " prims " << Bound_3D::nPrims << "\n" << endl;
         cout << "\tresolution " << Xresolution << " " << Yresolution << endl;
         for (int i = 0; i < 30; i++)
             cout << endl;

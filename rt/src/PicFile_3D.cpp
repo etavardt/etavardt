@@ -39,7 +39,7 @@ using std::cerr;
 using std::cout;
 using std::endl;
 
-#define TIME_OUT (60) /* # seconds to trigger paranoid mode */
+#define TIME_OUT (120) //(120) //(60) /* # seconds to trigger paranoid mode */
 
 time_t old_time, new_time;
 
@@ -82,6 +82,7 @@ bool PicFile_3D::open(String &_filename, int _x, int _y) {
             }
         }
         fs.close();
+        fs.clear();
 
         /* re-open and set to end */
         fs.open(filename, std::ios::ate | std::ios::binary);
@@ -166,19 +167,24 @@ void PicFile_3D::writeLine(const Pixel buf[]) {
     // fflush(pic.ofs);
     fs.flush();
 
-    /* check time for paranoid mode */
     time(&new_time);
+    /* check time for paranoid mode */
     seconds = difftime(new_time, old_time);
     if (seconds > TIME_OUT) {
-        old_time = new_time;
-        /* close, re-open, and set to end */
-        fs.close();
-        fs.open(filename, std::ios::ate | std::ios::binary);
-        if (!fs.is_open()) {
-            cerr << "Error opening " << filename << " for appending." << endl;
-            throw Exception("thrown from PicFile_3D::writeLine");
+        if (!fs.good() || !fs.is_open()) {
+            /* close, re-open, and set to end */
+            fs.close();
+            fs.clear();
+            fs.open(filename, std::ios::ate | std::ios::binary);
+            if (!fs.is_open()) {
+                cerr << "Error opening " << filename << " for appending." << endl;
+                throw Exception("thrown from PicFile_3D::writeLine");
+            } else {
+                cerr << "Opening " << filename << " for appending." << endl;
+            }
         }
     }
+    old_time = new_time;
 
 } /* end of PicWriteLine() */
 

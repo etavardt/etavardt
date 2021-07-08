@@ -60,7 +60,7 @@ extern Stack      *InfileTop;
 extern Transform  *TransTop;
 extern Clip       *ClipTop;
 extern GlobalClip *GlobalClipTop;
-extern long        nPrims;
+//extern long        nPrims;
 extern Flt         rayeps;
 //extern char       *Progname;
 //extern char        Infilename[];

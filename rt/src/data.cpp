@@ -53,7 +53,7 @@ Stack      *SurfTop        = NULL; /* points to top of surface stack */
 Transform  *TransTop       = NULL; /* top of transformation stack */
 Clip       *ClipTop        = NULL; /* current clipping list */
 GlobalClip *GlobalClipTop  = NULL; /* current global clip list */
-long        nPrims = 0;
+//long        nPrims = 0; //moved to Bound_3D
 Flt         rayeps = 1e-6;
 //char       *Progname;
 //char        Infilename[256];

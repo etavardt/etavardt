@@ -23,12 +23,14 @@
 #include <cstdlib>
 #include <cstring>
 #include <time.h>
+//#include <conio.h>
 #include "Bob.hpp"
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "struct_defs.hpp"
 #include "extern.hpp"
 #include "Object_3D.hpp"
+#include "Bound_3D.hpp"
 
 //#define ESC     27
 unsigned long Stats::memAllocated = 0;
@@ -51,11 +53,17 @@ void Stats::statistics(int line)
         first_call = 0;
     }
 
-#ifdef WINDOWS
-    system("CLS");
+// #ifdef WINDOWS
+//     system("CLS");
+// #endif
+#ifdef __APPLE__
+    system("clear");
+#else
+    // printf("%c[1;1f", ESC);         /* home cursor */
+    // This is reported to work in Windows and Linix
+    cout << "\033[2J\033[1;1H";
+    cout.flush();
 #endif
-//    printf("%c[1;1f", ESC);         /* home cursor */
-
     cout << "\t\t\t\t" << Bob::_Program <<"\t\t" << Bob::_Version << "\n\t" << Bob::_Copyright << endl;
     cout << "\ninput file \"" << Bob::getApp().infilename << "\"  memory " << memAllocated << "  resolution " << Xresolution << "x" << Yresolution << "  ";
     cout << "line " << line << endl;
@@ -124,7 +132,7 @@ void Stats::yystats(void) {
 #ifdef WINDOWS
         system("CLS");
 #endif
-        cout << "\tlights " << nLights << " prims " << nPrims << " memory " << memAllocated << endl;
+        cout << "\tlights " << nLights << " prims " << Bound_3D::nPrims << " memory " << memAllocated << endl;
     }
     toc++;
 }

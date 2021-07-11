@@ -117,8 +117,6 @@ int Bob::processCmdLine(int argCnt, char **argList) {
         Progname = arg0.substr(0, pos + 1);
     }
 
-    // TODO: TCE implement To Lowercase?    strlwr(Progname);
-
     /* init global clips before parser is called */
     GlobalClipTop = new GlobalClip();
     Stats::trackMemoryUsage(sizeof(GlobalClip));
@@ -126,7 +124,6 @@ int Bob::processCmdLine(int argCnt, char **argList) {
     GlobalClipTop->next = NULL;
     GlobalClipTop->clip = NULL;
 
-    //    infilename[0] = 0; /* to be safe */
     infilename = ""; /* to be safe */
 
     tickflag = 1; /* default to full stats */
@@ -200,10 +197,7 @@ int Bob::processCmdLine(int argCnt, char **argList) {
         }
     }
     if (infilename.empty()) { /* no file name given */
-        infilename = "crypt1";//"venus3";
-//        amode = A_QUICK;
-//        xres = 80;
-//        yres = 50;
+        infilename = "venus3"; //"crypt1";//"venus3";
         //usage();            /* no return */
     }
     outfilename = infilename;
@@ -257,4 +251,14 @@ void Bob::usage() {
     cout << "Assumes file.b for input file and file.img for output file." << endl;
 
     throw Exception("");
+}
+
+void Bob::clearScreen() {
+#ifdef __APPLE__
+    system("clear");
+#else
+    // This is reported to work in Windows and Linix
+    cout << "\033[2J\033[1;1H";
+    cout.flush();
+#endif
 }

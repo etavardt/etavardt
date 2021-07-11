@@ -21,6 +21,7 @@ class Bob:public App {
 
     public:
     static Bob &getApp();
+    static void clearScreen();
     int runApp();
     int processCmdLine(int argCnt, char **argList);
 

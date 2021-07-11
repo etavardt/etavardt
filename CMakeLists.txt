@@ -10,5 +10,14 @@ project(BobRT LANGUAGES C CXX)
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
 
+include(CTest)
+enable_testing()
+
 add_subdirectory(rt)
 add_subdirectory(tools)
+
+add_test(
+    NAME test_bob_bat
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/build
+    COMMAND test_bob.bat
+)

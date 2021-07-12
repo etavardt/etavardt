@@ -1,4 +1,4 @@
-/*
+/***************************************************************************
 �������������������������������������������
 �                                                                         �
 �                              Bob Ray Tracer                             �
@@ -31,13 +31,13 @@ using std::endl;
 
 int main(int ac, char **av) {
     try {
-//        cout << "cout: In main: Pre getApp : " << App::app << endl;
+        // cout << "cout: In main: Pre getApp : " << App::app << endl;
         Bob &bobApp = Bob::getApp();
-//        cout << "cout: In main: Post getApp Pre processCmdLine : " << &bobApp << ":" << App::app << endl;
+        // cout << "cout: In main: Post getApp Pre processCmdLine : " << &bobApp << ":" << App::app << endl;
         bobApp.processCmdLine(ac, av);
-//        cout << "cout: In main: Post processCmdLine Pre runApp" << endl;
+        // cout << "cout: In main: Post processCmdLine Pre runApp" << endl;
         bobApp.runApp();
-//        cout << "cout: In main: Post runApp" << endl;
+        // cout << "cout: In main: Post runApp" << endl;
     } catch (Exception e) {
         cerr << "cerr: Exception caught in main: " << e.what() << endl;
         exit(1);
@@ -49,4 +49,4 @@ int main(int ac, char **av) {
         exit(1);
     }
     exit(0);
-}       /* end of main() */
+} /* end of main() */

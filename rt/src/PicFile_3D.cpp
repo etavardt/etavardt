@@ -148,9 +148,13 @@ void PicFile_3D::writeLine(const Pixel buf[]) {
             cerr << "Error writing to disk.  Must be out of space." << endl;
             throw Exception("thrown from PicFile_3D::writeLine");
         }
+        // TODO: TCE: was RGB process backwards i.e. r is really b anb b is r?
         fs.put(cb);
         fs.put(cg);
         fs.put(cr);
+        // fs.put(cr);
+        // fs.put(cg);
+        // fs.put(cb);
 
         cr = r;
         cg = g;
@@ -161,6 +165,9 @@ void PicFile_3D::writeLine(const Pixel buf[]) {
             fs.put(buf[x - 1].b);
             fs.put(buf[x - 1].g);
             fs.put(buf[x - 1].r);
+            // fs.put(buf[x - 1].r);
+            // fs.put(buf[x - 1].g);
+            // fs.put(buf[x - 1].b);
             total--;
         }
     } while (total > 0);

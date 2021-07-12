@@ -1,25 +1,27 @@
 #pragma once
 
 #include "App.hpp"
-#include "String.hpp"
 #include "Parser.hpp"
+#include "String.hpp"
 
-#define BOB_ENV         "BOB"
-#define PATH_DELIM      ';'
+#define BOB_ENV "BOB"
+#define PATH_DELIM ';'
 //#define DELIMS          ";"
-#define MAX_PATHS       (32)
+#define MAX_PATHS (32)
 
 class App;
 
-class Bob:public App {
+class Bob : public App {
+  private:
+    int xres = (-1), yres = (-1), depth = (-1), amode = (-1), start = (-1), stop = (-1), bunch = (-1);
 
-    protected:
-    Bob():App() {}
-    ~Bob() { if (App::app != nullptr) { delete App::app; } }
+  protected:
+    Bob() : App() {}
+    ~Bob() { App::app = nullptr; }
 
     void init_env();
 
-    public:
+  public:
     static Bob &getApp();
     static void clearScreen();
     int runApp();
@@ -32,7 +34,7 @@ class Bob:public App {
 
     static ArrayOfStrings paths;
 
-    String infilename  = "";
+    String infilename = "";
     String outfilename = "";
 
     bool preprocess = true;

@@ -38,6 +38,12 @@ int Bob::runApp() {
     if (Eye.view_aspect != -1.0) {
         Eye.view_angle_y = Eye.view_angle_x / Eye.view_aspect;
     }
+    if (xres > 0) { /* if command line override */
+        Xresolution = xres;
+        if (stop_line == Yresolution) /* only change if not default */
+            stop_line = yres;
+        Yresolution = yres;
+    }
 
     //    cout << "cout: In Bob::runApp Pre BuildBoundingSlabs" << endl;
     Bound_3D::BuildBoundingSlabs();
@@ -102,7 +108,6 @@ int Bob::processCmdLine(int argCnt, char **argList) {
     // cout << "cout: " << "In Bob::processCmdLine : Post App::processCmdLine" << endl;
 
     int i;
-    int xres = (-1), yres = (-1), depth = (-1), amode = (-1), start = (-1), stop = (-1), bunch = (-1);
 
     // cout << "cout: " << "In Bob::processCmdLine : Pre init_env" << endl;
     init_env(); /* init environment paths */

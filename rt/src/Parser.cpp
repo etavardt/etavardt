@@ -17,8 +17,12 @@
 �                                                                         �
 �������������������������������������������
 */
-
 #include "Parser.hpp"
+
+#include <cmath>
+#include <iostream>
+
+//#include "Bob.hpp"
 #include "Cone_3D.hpp"
 #include "Exception.hpp"
 #include "Light_3D.hpp"
@@ -29,12 +33,6 @@
 #include "String.hpp"
 #include "Tri_3D.hpp"
 #include "Bound_3D.hpp"
-#include <cmath>
-//#include <cstdio>
-//#include <cstdlib>
-//#include <ctype.h>
-#include <iostream>
-//#include <array>
 
 #include "defs.hpp"
 #include "extern.hpp"

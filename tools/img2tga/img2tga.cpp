@@ -103,9 +103,9 @@ int main(int ac, char **av) {
 		while(total>0) {   /* TCE: Weird it looks like the img file is bigger than the tga even though it appears to be run length encoded. */
 			count = ifs.get();  /* TCE: img count starts at 10(0A) */
 			total -= count;
-			red = ifs.get();  /* TCE: img color starts at 11(0B) */
+			blu = ifs.get();  /* TCE: img color starts at 11(0B) */
 			grn = ifs.get();
-			blu = ifs.get();
+			red = ifs.get();
 
 			//cout << "\n" << (xres - (total+count)) << ": RGB(" << red << ", " << grn << ", " << blu << ") : Run Count(" << count << ") : Total(" << total << ")";
 			if (!ifs.good()) {
@@ -115,9 +115,9 @@ int main(int ac, char **av) {
 				exit(1);
 			}
 			for(i=0; i<count; i++) {
-				ofs.put(red); /* TCE: tga color starts at 19 */
+				ofs.put(blu); /* TCE: tga color starts at 19 */
 				ofs.put(grn);
-				ofs.put(blu);
+				ofs.put(red);
 			}
 		}
 	}

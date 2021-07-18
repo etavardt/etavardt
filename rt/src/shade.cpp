@@ -38,6 +38,49 @@
 
 #define SIGN(a) ((a) > 0 ? 1 : ((a) < 0 ? (-1) : 0))
 
+/*
+    reflect -- given an incident vector I, and the normal N,
+        calculate the direction of the reflected ray R.
+*/
+// Vec I, N, R;
+// double dot;        /* -VecDot(I,N) */
+void reflect(const Vec &I, const Vec &N, Vec &R, double dot) {
+    double len;
+
+    len = 2.0 * dot;
+    VecAddS(len, N, I, R);
+}
+
+/*
+    refract(ior_ratio, I, N, T) calculates direction of refracted
+        angle, T.  Returns 0 if total internal reflection occurs,
+        1 otherwise.
+*/
+// double eta;    /* ratio of old/new iors */
+// Vec I,      /* incident vector */
+//     N,      /* surface normal */
+//     T;      /* transmitted vector (calculated) */
+// double dot;    /* -VecDot(I, N) */
+int refract(double eta, const Vec &I, const Vec &N, Vec &T, double dot) {
+    double n1, n2, c1, cs2;
+
+    if (eta == 1.0) { /* bail out early */
+        VecCopy(I, T);
+        return 1;
+    }
+
+    c1 = dot;
+    cs2 = 1.0 - eta * eta * (1.0 - c1 * c1);
+    if (cs2 < 0.0) {
+        reflect(I, N, T, dot);
+        return 0; /* total internal reflection */
+    }
+    cs2 = eta * c1 - sqrt(cs2);
+    VecComb(eta, I, cs2, N, T);
+
+    return 1;
+}
+
 // TODO: TCE:Should fall under Ray?
 /*
     Shade(level, weight, P, N, I, hit, col, ior)
@@ -51,7 +94,7 @@
     col    color to return
     ior    current ior
 */
-void Shade(int level, double weight, Point P, Vec N, Vec I, Isect &hit, Color &col, double ior) {
+void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color &col, double ior) {
     /* the following locals have been declared static to help */
     /* shrink the amount of stack spaced needed for recursive */
     /* calls to shade() */
@@ -413,46 +456,3 @@ void Shade(int level, double weight, Point P, Vec N, Vec I, Isect &hit, Color &c
     }
 
 } /* end of shade() */
-
-/*
-    reflect -- given an incident vector I, and the normal N,
-        calculate the direction of the reflected ray R.
-*/
-// Vec I, N, R;
-// double dot;        /* -VecDot(I,N) */
-void reflect(Vec I, Vec N, Vec R, double dot) {
-    double len;
-
-    len = 2.0 * dot;
-    VecAddS(len, N, I, R);
-}
-
-/*
-    refract(ior_ratio, I, N, T) calculates direction of refracted
-        angle, T.  Returns 0 if total internal reflection occurs,
-        1 otherwise.
-*/
-// double eta;    /* ratio of old/new iors */
-// Vec I,      /* incident vector */
-//     N,      /* surface normal */
-//     T;      /* transmitted vector (calculated) */
-// double dot;    /* -VecDot(I, N) */
-int refract(double eta, Vec I, Vec N, Vec T, double dot) {
-    double n1, n2, c1, cs2;
-
-    if (eta == 1.0) { /* bail out early */
-        VecCopy(I, T);
-        return 1;
-    }
-
-    c1 = dot;
-    cs2 = 1.0 - eta * eta * (1.0 - c1 * c1);
-    if (cs2 < 0.0) {
-        reflect(I, N, T, dot);
-        return 0; /* total internal reflection */
-    }
-    cs2 = eta * c1 - sqrt(cs2);
-    VecComb(eta, I, cs2, N, T);
-
-    return 1;
-}

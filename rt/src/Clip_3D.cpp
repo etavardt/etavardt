@@ -44,8 +44,8 @@ int clip_check(Clip *head, Vec P)
             if(VecDot(V, head->normal) < 0.0)
                 return 0;
         } else if(head->type & C_SPHERE) {
-            // dist = V[0]*V[0] + V[1]*V[1] + V[2]*V[2];
-            dist = VecDot(V, V); // TODO: TCE: Shouldn't this be VecLen?
+            dist = V[0]*V[0] + V[1]*V[1] + V[2]*V[2];
+            // dist = VecDot(V, V); // TODO: TCE: Shouldn't this be VecLen?
             if(head->type & C_INSIDE) {
                 if(dist > head->radius1) {
                     return 0;
@@ -68,10 +68,10 @@ int clip_check(Clip *head, Vec P)
                 radius = percent*head->radius2 + (1.0-percent)*head->radius1;
                 radius = radius * radius;
                 VecAddS(ap_dot, head->normal, head->apex, ap);
-                dist = ((ap-P)*(ap-P)).sum(); // TODO: TCE: sum of squares of differences? Hmm?
-                // dist = (ap[0]-P[0]) * (ap[0]-P[0]) +
-                //        (ap[1]-P[1]) * (ap[1]-P[1]) +
-                //        (ap[2]-P[2]) * (ap[2]-P[2]); // TODO: TCE: sum of squares of differences? Hmm?
+//                dist = ((ap-P)*(ap-P)).sum(); // TODO: TCE: sum of squares of differences? Hmm?
+                dist = (ap[0]-P[0]) * (ap[0]-P[0]) +
+                       (ap[1]-P[1]) * (ap[1]-P[1]) +
+                       (ap[2]-P[2]) * (ap[2]-P[2]); // TODO: TCE: sum of squares of differences? Hmm?
                 if(head->type & C_INSIDE) {
                     if(dist>radius) {
                         return 0;

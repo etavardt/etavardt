@@ -116,8 +116,8 @@ extern void Shoot (double x , double y , Color &color);
 */
 /* shade.c */
 //extern void Shade (int level , double weight , Vec P , Vec N , Vec I , Isect *hit , Color &col , double ior);
-extern void reflect (Vec I , Vec N , Vec R, double dot);
-extern int  refract (double eta, Vec I, Vec N, Vec T, double dot);
+//extern void reflect (Vec I , Vec N , Vec R, double dot);
+//extern int  refract (double eta, Vec I, Vec N, Vec T, double dot);
 
 /* shadow.c */
 extern int Shadow (Ray *ray , Isect &hit , double tmax , Color &color , int level , Light &lptr, int inside);

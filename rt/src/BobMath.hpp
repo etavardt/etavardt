@@ -21,7 +21,7 @@ inline double degtorad(T x) { return (((double)(x)) * PI / 180.0); }
 
 //#define abs(a) (((a) < 0) ? (-(a)) : (a))
 template <typename T>
-inline T abs(T a) { return (((a) < 0) ? (-(a)) : (a)); }
+inline T abs(T a) { return (((a) < (T)0) ? (-(a)) : (a)); }
 
 //#define FLOOR(a) ((a) > 0 ? (int)(a) : -(int)(a))
 //template <typename T>

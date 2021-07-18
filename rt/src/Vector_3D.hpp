@@ -22,6 +22,7 @@ class Vector_3D {
     //  double v[4];//, &x=v[0], &y=v[1], &z=v[2], &t=v[3];
 
     Vector_3D() { v[0] = 0.0; v[1] = 0.0; v[2] = 0.0; }
+    Vector_3D(const Vector_3D &vec) { v[0] = vec.v[0]; v[1] = vec.v[1]; v[2] = vec.v[2]; }
 //    Vector_3D(const Array_3 &a) { v = a; }
     Vector_3D(const double a, const double b, const double c) { v[0] = a; v[1] = b; v[2] = c; }
     // Vector_3D() { v = { 0.0, 0.0, 0.0, 0.0 }; }
@@ -151,7 +152,7 @@ inline void VecZero(Vector_3D &a) { a = 0; }
 inline void VecS(double a, const Vector_3D &b, Vector_3D &c) { c = a * b; }
 inline void VecAdd(const Vector_3D &a, const Vector_3D &b, Vector_3D &c) { c = a + b; }
 inline void VecNegate(Vector_3D &a) { a.negate(); }
-inline void VecComb(double A, const Vector_3D &a, double B, const Vector_3D &b, Vector_3D &c) { c = A * a + B * b; }
+inline void VecComb(double A, const Vector_3D &a, double B, const Vector_3D &b, Vector_3D &c) { c = (A * a) + (B * b); }
 inline double VecNormalize (Vector_3D &vec) { return vec.normalize(); }
 
 /*

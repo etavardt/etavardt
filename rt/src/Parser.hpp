@@ -20,7 +20,7 @@ class Parser {
     void yy_studio();
     void yy_light();
     Surface_3D *yy_surface();
-    Texture *yy_texture();
+    Texture_3D *yy_texture();
     Bump *yy_bump();
     Texmap *yy_texmap();
     Turbulence *yy_turbulence();

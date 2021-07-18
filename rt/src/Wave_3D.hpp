@@ -1,5 +1,6 @@
 #pragma once
 #include "defs.hpp"
+#include "Vector_3D.hpp"
 
 class Wave_3D {
     public:
@@ -8,7 +9,7 @@ class Wave_3D {
     ~Wave_3D(){}
 
     Vec center;
-    Flt wavelength, amp, /* should be about 0 to .6 */
+    double wavelength, amp, /* should be about 0 to .6 */
         damp,            /* damping per wavelength */
         phase;           /* wavelength offset */
     Wave_3D *next;          /* next wave in line */
@@ -17,14 +18,3 @@ class Wave_3D {
 };
 
 typedef Wave_3D Wave;
-
-/*
-typedef struct t_wave {
-    Vec    center;
-    Flt    wavelength,
-        amp,        //* should be about 0 to .6 * /
-        damp,        //* damping per wavelength * /
-        phase;        //* wavelength offset * /
-    struct t_wave    *next;    //* next wave in line * /
-} Wave;
-*/

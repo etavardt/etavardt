@@ -1,4 +1,5 @@
 #include "Color.hpp"
+#include "Vector_3D.hpp"
 
 Pixel Color::getPixelColor() {
     Pixel pixel;

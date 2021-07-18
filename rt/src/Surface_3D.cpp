@@ -13,7 +13,7 @@ Surface_3D &Surface_3D::operator=(const Surface_3D &s) {
     amb = s.amb;
     // Texmap *tm_amb;
     tm_amb = s.tm_amb;
-    // Flt shine;    /* specular spot exponent */
+    // double shine;    /* specular spot exponent */
     shine = s.shine;
     // Color cshine; /* spec spot color */
     cshine = s.cshine;
@@ -21,9 +21,9 @@ Surface_3D &Surface_3D::operator=(const Surface_3D &s) {
     trans = s.trans;
     // Texmap *tm_trans;
     tm_trans = s.tm_trans;
-    // Flt ior;               /* index of refraction */
+    // double ior;               /* index of refraction */
     ior = s.ior;
-    // Flt fuzz;              /* surface_3D fuzz */
+    // double fuzz;              /* surface_3D fuzz */
     fuzz = s.fuzz;
     // int flags;             /* is this surface_3D valid for shadow caching */
     flags = s.flags;

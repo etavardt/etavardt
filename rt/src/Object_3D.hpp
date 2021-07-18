@@ -1,25 +1,23 @@
 #pragma once
-//#ifndef Object_3D_HPP
-//#define Object_3D_HPP
 
 #include "defs.hpp"
-//#include "Surface_3D.hpp"
+#include "Surface_3D.hpp"
 #include "Clip_3D.hpp"
 #include "Ray_3D.hpp"
-//#include "Isect_3D.hpp"
+#include "Isect_3D.hpp"
 //#include "struct_defs.hpp"
 //#include "extern.hpp"
-class Surface_3D;
-class Isect;
+//class Surface_3D;
+//class Isect;
 class Object_3D {
     public:
     Object_3D() {} //default Constructor
     ~Object_3D();
-    
+
     unsigned short o_type;
 
-    Flt o_dmin[NSLABS];
-    Flt o_dmax[NSLABS];
+    double o_dmin[NSLABS];
+    double o_dmax[NSLABS];
 
     Surface_3D *o_surf;
     void       *o_data;
@@ -29,7 +27,7 @@ class Object_3D {
 
     // class Isect {
     //     public:
-    //     Flt         isect_t;       /* distance to intersection */
+    //     double         isect_t;       /* distance to intersection */
     //     int         isect_enter;   /* entering? ie hit front? */
     //     Object_3D  *isect_prim;    /* object we hit */
     //     Surface_3D *isect_surf;    /* surface def of hit object */
@@ -38,18 +36,18 @@ class Object_3D {
     //     Isect &operator=(const Isect isect);
     // };
     virtual int  intersect(Object_3D *a, Ray *b, Isect &c);
-    virtual void normal(Object_3D *a, Isect &b, Flt *c, Flt *d);
+    virtual void normal(Object_3D *obj, Isect &hit, Point &P, Vec &N);
 
 };
 /*
 typedef struct t_object {
     unsigned short o_type;
 
-    Flt o_dmin[NSLABS];
-    Flt o_dmax[NSLABS];
+    double o_dmin[NSLABS];
+    double o_dmax[NSLABS];
 
     struct t_isect {
-        Flt      isect_t;       //* distance to intersection * /
+        double      isect_t;       //* distance to intersection * /
         int      isect_enter;   //* entering? ie hit front? * /
         t_object *isect_prim;    //* object we hit * /
         Surface  *isect_surf;    //* surface def of hit object * /
@@ -57,7 +55,7 @@ typedef struct t_object {
     };
     struct t_objectprocs {
         int     (*intersect) (t_object*, Ray*, t_isect*);
-        void    (*normal) (t_object*, t_isect*, Flt*, Flt*);
+        void    (*normal) (t_object*, t_isect*, double*, double*);
     } * o_procs;
 
     Surface *o_surf;
@@ -82,4 +80,3 @@ typedef struct t_compositedata {
 //typedef struct t_object::t_objectprocs ObjectProcs;
 
 //#endif //Object_3D_HPP
-

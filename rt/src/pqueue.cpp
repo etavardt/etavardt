@@ -25,7 +25,7 @@
 #include "extern.hpp"
 
 typedef struct t_qelem {
-    Flt    q_key;
+    double    q_key;
     Object    *q_obj;
 } Qelem;
 
@@ -44,7 +44,7 @@ int     PriorityQueueEmpty(void)
 }
 
 void    PriorityQueueInsert(
-        Flt key,
+        double key,
         Object *obj)
 {
     int    i = 0;
@@ -71,7 +71,7 @@ void    PriorityQueueInsert(
 }
 
 void    PriorityQueueDelete(
-        Flt *key,
+        double *key,
         Object **obj)
 {
     Qelem    tmp;

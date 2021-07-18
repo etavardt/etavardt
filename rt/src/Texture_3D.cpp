@@ -25,28 +25,27 @@
     the relative weights of the composite surface.
 */
 
+#include "Texture_3D.hpp"
+
+#include <cmath>
+
 #include "Bob.hpp"
 #include "Exception.hpp"
-#include "Stats.hpp"
-#include "Texture_3D.hpp"
 #include "Surface_3D.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
+
 /*
     Check -- create a checkerboard, strange
 */
-
-Flt tex_checker(const Point P, const Texture &tex) {
+double Texture_3D::tex_checker(const Point &P, const Texture_3D &tex) {
     int i = 0;
     int p[3];
     Vec point;
-    Flt blur;
+    double blur;
 
-    blur = HUGE;
+    blur = HUGE_NUM;
 
     for (i = 0; i < 3; i++) {
         if (tex.scale[i] == 0) {
@@ -57,7 +56,7 @@ Flt tex_checker(const Point P, const Texture &tex) {
             point[i] -= p[i];
             if (point[i] > .5)
                 point[i] = 1.0 - point[i];
-            blur = MIN(point[i], blur);
+            blur = bMath::min(point[i], blur);
         }
     }
 
@@ -78,9 +77,9 @@ Flt tex_checker(const Point P, const Texture &tex) {
     spherical
 */
 
-Flt tex_spherical(const Point P, const Texture &tex) {
+double Texture_3D::tex_spherical(const Point &P, const Texture_3D &tex) {
     int i;
-    Flt r, dist;
+    double r, dist;
     Vec p;
 
     r = tex.r1 + tex.r2;
@@ -93,7 +92,7 @@ Flt tex_spherical(const Point P, const Texture &tex) {
         }
         dist += p[i] * p[i];
     }
-    dist = sqrt(dist);   /* whata bummer! */
+    dist = sqrt(dist);  /* whata bummer! */
     dist += tex.r1 / 2; /* center first color */
     dist = fmod(dist, r);
 
@@ -125,9 +124,9 @@ Flt tex_spherical(const Point P, const Texture &tex) {
     noise - BANG, SPLAT, POW!!!
 */
 
-Flt tex_noise(const Point P, const Texture &tex) {
+double Texture_3D::tex_noise(const Point &P, const Texture_3D &tex) {
     int i;
-    Flt result;
+    double result;
     Vec p;
 
     for (i = 0; i < 3; i++) {
@@ -149,9 +148,9 @@ Flt tex_noise(const Point P, const Texture &tex) {
         into the map this function fills in the color at that
         point.  Note that indices are actually backwards.
 */
-
-void get_map_entry(Texmap &tm, Flt x, Flt y, Color &color) {
-    Flt r, g, b;
+//TODO: TCE: Belongs in Surface_3D, move it there once color is fixed again the output files
+void Texture_3D::get_map_entry(Texmap &tm, double x, double y, Color &color) {
+    double r, g, b;
     int i, j, map_index;
 
     /* get integer indices */
@@ -169,12 +168,12 @@ void get_map_entry(Texmap &tm, Flt x, Flt y, Color &color) {
         project the point P onto the image plane and return
         the indices for the image
 */
-
-void tex_project(const Texmap &tm, Point P, Flt *x, Flt *y) {
+//TODO: TCE: Belongs in Surface_3D or Texmap_3D, move it there once color is fixed again the output files
+void Texture_3D::tex_project(Texmap &tm, Point P, double *x, double *y) {
     Point PP, /* point projected onto plane of image */
         V;
-    Flt dot;
-
+    double dot;
+//    Texmap tm(_tm);// = _tm;
     /* project intersection point onto image plane */
     VecSub(P, tm.position, V);
     dot = VecDot(tm.normal, V);
@@ -194,8 +193,7 @@ void tex_project(const Texmap &tm, Point P, Flt *x, Flt *y) {
     tile() -- Take the raw indices and based on the tile pattern return
         the indices that are within the image bounds.
 */
-
-void tile(const Texmap &tm, Flt *x, Flt *y) {
+void Texture_3D::tile(const Texmap &tm, double *x, double *y) {
     *x = fmod(*x, 1.0);
     if (*x < 0.0) {
         *x += 1.0;
@@ -210,9 +208,10 @@ void tile(const Texmap &tm, Flt *x, Flt *y) {
     map_fix() -- fill in the surface structure element(s) based
         on the point of intersection and the texture map.
 */
-
-void map_fix(Surface_3D &surf, Point P) {
-    Flt x, y; /* image intersection */
+//TODO: TCE: Belongs in Surface_3D, move it there once color is fixed again the output files
+//           along with tile seeing as this is the only place that calls it
+void Texture_3D::map_fix(Surface_3D &surf, const Point &P) {
+    double x, y; /* image intersection */
 
     if (surf.flags & S_TM_DIFF) { /* we've got a diffuse map */
         tex_project(*surf.tm_diff, P, &x, &y);
@@ -237,102 +236,16 @@ void map_fix(Surface_3D &surf, Point P) {
 } /* end of map_fix() */
 
 /*
-    tex_read_img() -- Read a .img file into a texture map structure
-*/
-
-void tex_read_img(const String &filename, Texmap &tm) {
-    FILE *fp;
-    int w, h, /* width and height */
-        i, j, cnt, red, grn, blu;
-
-    fp = env_fopen(filename, "rb");
-    if (!fp) {
-        cerr << "Error opening file " << filename << " for texture mapping." << endl;
-        throw Exception("Thrown from tex_read_img");
-    }
-
-    /* get width and height from header */
-    w = fgetc(fp) << 8;
-    w += fgetc(fp);
-    h = fgetc(fp) << 8;
-    h += fgetc(fp);
-
-    /* waste other stuff */
-    fgetc(fp);
-    fgetc(fp);
-    fgetc(fp);
-    fgetc(fp);
-    fgetc(fp);
-    fgetc(fp);
-
-    /* allocate memory for image in RAM */
-    typedef unsigned char *Lines;
-    typedef unsigned char rows;
-
-    tm.red = new Lines[h]();
-    Stats::trackMemoryUsage(sizeof(Lines[h]));
-    //    tm->red = (unsigned char **)vmalloc(sizeof(unsigned char *) * h);
-    Bob::getApp().parser.ptrchk(tm.red, "image texture map");
-    tm.grn = new Lines[h]();
-    Stats::trackMemoryUsage(sizeof(Lines[h]));
-    //    tm->grn = (unsigned char **)vmalloc(sizeof(unsigned char *) * h);
-    Bob::getApp().parser.ptrchk(tm.grn, "image texture map");
-    tm.blu = new Lines[h]();
-    Stats::trackMemoryUsage(sizeof(Lines[h]));
-    //    tm->blu = (unsigned char **)vmalloc(sizeof(unsigned char *) * h);
-    Bob::getApp().parser.ptrchk(tm.blu, "image texture map");
-    for (j = 0; j < h; j++) {
-        tm.red[j] = new rows[w]();
-        Stats::trackMemoryUsage(sizeof(rows[w]));
-        //        tm->red[j] = (unsigned char *)vmalloc(sizeof(unsigned char) * w);
-        Bob::getApp().parser.ptrchk(tm.red[j], "image texture map");
-
-        tm.grn[j] = new rows[w]();
-        Stats::trackMemoryUsage(sizeof(rows[w]));
-        //        tm->grn[j] = (unsigned char *)vmalloc(sizeof(unsigned char) * w);
-        Bob::getApp().parser.ptrchk(tm.grn[j], "image texture map");
-
-        tm.blu[j] = new rows[w]();
-        Stats::trackMemoryUsage(sizeof(rows[w]));
-        //        tm->blu[j] = (unsigned char *)vmalloc(sizeof(unsigned char) * w);
-        Bob::getApp().parser.ptrchk(tm.blu[j], "image texture map");
-    }
-
-    /* read in the image */
-    for (j = 0; j < h; j++) {
-        i = 0;
-        while (i < w) {
-            cnt = fgetc(fp) & 0xff;
-            blu = fgetc(fp) & 0xff;
-            grn = fgetc(fp) & 0xff;
-            red = fgetc(fp) & 0xff;
-            while (cnt) {
-                tm.red[j][i] = red;
-                tm.grn[j][i] = grn;
-                tm.blu[j][i] = blu;
-                i++;
-                cnt--;
-            }
-        }
-    } /* end of loop for each scan line */
-
-    fclose(fp);
-
-    tm.xres = w;
-    tm.yres = h;
-} /* end of tex_read_img() */
-
-/*
     tex_fix() -- figure out which surface to use as point P
 */
-
+//TODO: TCE: Belongs in Surface_3D, move it there once color is fixed again the output files
 //    Surface *surf;
 //    Point   P, OP;  /* translated and original point */
-void tex_fix(Surface_3D &surf, Point P, Point OP) {
+void Texture_3D::tex_fix(Surface_3D &surf, Point &P, Point &OP) {
     int i = 0;
-    Flt w0, w1;
+    double w0, w1;
     Surface_3D *surf0, *surf1;
-    Texture *texture;
+    Texture_3D *texture;
     Point tmp, p_in, p_out;
 
     texture = surf.tex;
@@ -340,19 +253,19 @@ void tex_fix(Surface_3D &surf, Point P, Point OP) {
     surf1 = texture->surf[1];
 
     if (texture == NULL) {
-        return; //TCE: the following lines will not be hit due to this return (Note: the original code had this.)
-//        cerr << "Fooey, null pointer for texture structure." << endl;
-//        throw Exception("Thrown from tex_fix");
+        return; // TCE: the following lines will not be hit due to this return (Note: the original code had this.)
+        //        cerr << "Fooey, null pointer for texture structure." << endl;
+        //        throw Exception("Thrown from tex_fix");
     }
     if (surf0 == NULL) {
         return;
-//        cerr << "Fooey, null pointer for surf0 structure.\n");
-//        throw Exception("Thrown from tex_fix");
+        //        cerr << "Fooey, null pointer for surf0 structure.\n");
+        //        throw Exception("Thrown from tex_fix");
     }
     if (surf1 == NULL) {
         return;
-//        cerr << "Fooey, null pointer for surf1 structure.\n");
-//        throw Exception("Thrown from tex_fix");
+        //        cerr << "Fooey, null pointer for surf1 structure.\n");
+        //        throw Exception("Thrown from tex_fix");
     }
 
     VecCopy(P, tmp); /* save point */
@@ -371,8 +284,9 @@ void tex_fix(Surface_3D &surf, Point P, Point OP) {
     if (surf1->tex) /* recurse down right branch */
         tex_fix(*surf1, P, OP);
 
-    w0 = (texture->func)(P, *texture);
-    w0 = ABS(w0);
+    //    w0 = (texture->func)(P, *texture);
+    w0 = apply_pattern(P, *texture);
+    w0 = bMath::abs(w0);
     if (w0 < 0.0) {
         w0 = 0.0;
     } else if (w0 > 1.0) {
@@ -387,24 +301,14 @@ void tex_fix(Surface_3D &surf, Point P, Point OP) {
     if (surf1->flags & S_TM_MAPPING) {
         map_fix(*surf1, OP);
     }
-    /*
-        for(i=0; i<3; i++) {
-            surf.diff[i]   = w0 * surf0->diff[i]   + w1 * surf1->diff[i];
-            surf.spec[i]   = w0 * surf0->spec[i]   + w1 * surf1->spec[i];
-            surf.trans[i]  = w0 * surf0->trans[i]  + w1 * surf1->trans[i];
-            surf.amb[i]    = w0 * surf0->amb[i]    + w1 * surf1->amb[i];
-            surf.cshine[i] = w0 * surf0->cshine[i] + w1 * surf1->cshine[i];
-        }
-        */
-    // surf.diff.r = w0 * surf0-diff.r + w1 * surf1->diff.r;
-    surf.diff   = (surf0->diff   * w0) + (surf1->diff   * w1);
-    surf.spec   = (surf0->spec   * w0) + (surf1->spec   * w1);
-    surf.trans  = (surf0->trans  * w0) + (surf1->trans  * w1);
-    surf.amb    = (surf0->amb    * w0) + (surf1->amb    * w1);
+    surf.diff = (surf0->diff * w0) + (surf1->diff * w1);
+    surf.spec = (surf0->spec * w0) + (surf1->spec * w1);
+    surf.trans = (surf0->trans * w0) + (surf1->trans * w1);
+    surf.amb = (surf0->amb * w0) + (surf1->amb * w1);
     surf.cshine = (surf0->cshine * w0) + (surf1->cshine * w1);
 
-    surf.ior   = w0 * surf0->ior   + w1 * surf1->ior;
-    surf.fuzz  = w0 * surf0->fuzz  + w1 * surf1->fuzz;
+    surf.ior = w0 * surf0->ior + w1 * surf1->ior;
+    surf.fuzz = w0 * surf0->fuzz + w1 * surf1->fuzz;
     surf.shine = w0 * surf0->shine + w1 * surf1->shine;
 
     /* both cache and no_antialias flags must be set for
@@ -424,3 +328,26 @@ void tex_fix(Surface_3D &surf, Point P, Point OP) {
     VecCopy(tmp, P); /* restore point */
 
 } /* end of tex_fix() */
+
+double Texture_3D::apply_pattern(const Point &p, const Texture_3D &t) {
+    double ret_val = 0;
+    switch (pat_type) {
+
+    case CHECKER_PAT:
+        ret_val = tex_checker(p, t);
+        break;
+    case SPHERICAL_PAT:
+        ret_val = tex_spherical(p, t);
+        break;
+    case NOISE_PAT:
+        ret_val = tex_noise(p, t);
+        break;
+    case UNKNOWN_PAT:
+        /* code */
+        break;
+
+    default:
+        break;
+    }
+    return ret_val;
+}

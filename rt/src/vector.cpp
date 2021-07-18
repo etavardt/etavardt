@@ -19,32 +19,11 @@
 */
 
 #define SIZE    (4)
-
+#include <Vector_3D.hpp>
 #include <cstdio>
 #include <cmath>
 #include "defs.hpp"
 #include "extern.hpp"
-
-Flt    VecNormalize(Vec vec)
-{
-    Flt    len;
-    /* len = (Flt)VecLen(vec); */
-
-    len = VecDot(vec, vec);
-    if(ABS(len)>rayeps) {
-        len = sqrt(len);
-        vec[0] /= len;
-        vec[1] /= len;
-        vec[2] /= len;
-    } else {
-        /* printf("%.4f %.4f %.4f == %.4f bummer\n", vec[0], vec[1], vec[2], len); */
-        len = 1.0;
-        vec[0] = 1.0;
-        vec[1] = 0.0;
-        vec[2] = 0.0;
-    }
-    return(len);
-}
 
 void    identity(Matrix mat)
 {
@@ -81,7 +60,7 @@ void    matrix_cat(Matrix m1, Matrix m2, Matrix dest)
 
 void    trans_vector(Matrix mat, Vec in, Vec out)
 {
-    Flt     in4[4], out4[4];
+    double     in4[4], out4[4];
     int     i, j;
 
     in4[0] = in[0];
@@ -104,7 +83,7 @@ void    trans_normal(Matrix mat, Vec in, Vec out)
 {
     Vec     t1, t2;         /* tangent vectors */
     Vec     orig;           /* imaginary center */
-    Flt     dot;
+    double     dot;
 
     VecNormalize(in);
 
@@ -113,7 +92,7 @@ void    trans_normal(Matrix mat, Vec in, Vec out)
     /* create a vector not aligned with in */
     MakeVector(1.0, 0.0, 0.0, t1);
     dot = VecDot(t1, in);
-    if(ABS(dot) > 0.8) {
+    if(bMath::abs(dot) > 0.8) {
         MakeVector(0.0, 1.0, 0.0, t1);
     }
 
@@ -137,14 +116,13 @@ void    trans_normal(Matrix mat, Vec in, Vec out)
 *
 * backward substitution
 *****************************************************************/
-
-void lubksb(Matrix a, int *indx, Flt b[])
 //    Matrix  a;              /* input matrix */
 //    int     *indx;          /* row permutation record */
-//    Flt     b[];            /* right hand vector (?) */
+//    double     b[];            /* right hand vector (?) */
+void lubksb(Matrix a, int *indx, double b[])
 {
     int     i, j, ii=-1, ip;
-    Flt     sum;
+    double     sum;
 
     for (i = 0;i < SIZE;i++) {
         ip = indx[i];
@@ -174,21 +152,20 @@ void lubksb(Matrix a, int *indx, Flt b[])
 *
 * LU decomposition.
 *****************************************************************/
-
-void ludcmp(Matrix a, int *indx, Flt *d)
 //    Matrix  a;                      /* input matrix. gets thrashed */
 //    int     *indx;                  /* row permutation record */
-//    Flt     *d;                     /* +/- 1.0 (even or odd # of row interchanges */
+//    double     *d;                     /* +/- 1.0 (even or odd # of row interchanges */
+void ludcmp(Matrix a, int *indx, double *d)
 {
-    Flt     vv[SIZE];               /* implicit scale for each row */
-    Flt     big, dum, sum, tmp;
+    double     vv[SIZE];               /* implicit scale for each row */
+    double     big, dum, sum, tmp;
     int     i, imax, j, k;
 
     *d = 1.0;
     for (i = 0;i < SIZE;i++) {
         big = 0.0;
         for (j = 0;j < SIZE;j++) {
-            if ((tmp = fabs(a[i][j])) > big) {
+            if ((tmp = bMath::abs(a[i][j])) > big) {
                 big = tmp;
             }
         }
@@ -213,7 +190,7 @@ void ludcmp(Matrix a, int *indx, Flt *d)
                 sum -= a[i][k]*a[k][j];
             }
             a[i][j] = sum;
-            if ((dum = vv[i] * fabs(sum)) >= big) {
+            if ((dum = vv[i] * bMath::abs(sum)) >= big) {
                 big = dum;
                 imax = i;
             }
@@ -240,9 +217,9 @@ void ludcmp(Matrix a, int *indx, Flt *d)
     }
 }
 
-void matrix_copy(Matrix m1, Matrix m2)
 //    Matrix  m1,                     /* source matrix */
 //        m2;                     /* destination matrix */
+void matrix_copy(Matrix m1, Matrix m2)
 {
     int     i,j;
 
@@ -256,7 +233,6 @@ void matrix_copy(Matrix m1, Matrix m2)
 /*
     matrix_inverse() -- creates the inverse of a 4x4 matrix.
 */
-
 void    matrix_inverse(Matrix m, Matrix n)
 {
     Matrix  y;
@@ -278,88 +254,3 @@ void    matrix_inverse(Matrix m, Matrix n)
     }
     matrix_copy(y, n);
 }
-
-#ifdef DUMB_CPP
-/*
- * Some machines can't handle all the vector operations, so if we define
- * DUMB_CPP, we replace them with equivalent function calls...
- */
-
-MakeVector(x, y, z, v)
-    Flt    x, y, z;
-    Vec    v;
-{
-    v[0] = x; v[1] = y; v[2] = z;
-}
-
-VecNegate(v)
-    Vec    v;
-{
-    v[0] = -v[0];
-    v[1] = -v[1];
-    v[2] = -v[2];
-}
-
-Flt    VecDot(a, b)
-    Vec a, b;
-{
-    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-}
-
-Flt    VecLen(a)
-    Vec    a;
-{
-    return sqrt(VecDot(a, a));
-}
-
-VecCopy(a, b) 
-    Vec    a, b;
-{
-    b[0] = a[0];
-    b[1] = a[1];
-    b[2] = a[2];
-}
-
-VecAdd(a, b, c)
-    Vec    a, b, c;
-{
-    c[0] = a[0] + b[0];
-    c[1] = a[1] + b[1];
-    c[2] = a[2] + b[2];
-}
-
-VecSub(a, b, c)
-    Vec    a, b, c;
-{
-    c[0] = a[0] - b[0];
-    c[1] = a[1] - b[1];
-    c[2] = a[2] - b[2];
-}
-
-VecComb(A, a, B, b, c)
-    Flt    A, B;
-    Vec    a, b, c;
-{
-    c[0] = A * a[0] + B * b[0];    
-    c[1] = A * a[1] + B * b[1];    
-    c[2] = A * a[2] + B * b[2];    
-}
-
-VecAddS(A, a, b, c)
-    Flt    A;
-    Vec    a, b, c;
-{
-    c[0] = A * a[0] + b[0];    
-    c[1] = A * a[1] + b[1];    
-    c[2] = A * a[2] + b[2];    
-}
-
-VecCross(a, b, c)
-    Vec    a, b, c;
-{
-    c[0] = a[1] * b[2] - a[2] * b[1];
-    c[1] = a[2] * b[0] - a[0] * b[2];
-    c[2] = a[0] * b[1] - a[1] * b[0];
-}
-
-#endif /* DUMB_CPP */

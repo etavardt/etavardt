@@ -34,12 +34,12 @@
 #include <cmath>
 #include <cstdio>
 //class Isect;
-extern int  Intersect (Ray *ray , Isect &hit , Flt maxdist , Object *self);
-extern void Shade (int level , Flt weight , Vec P , Vec N , Vec I , Isect &hit , Color &col , Flt ior);
+extern int  Intersect (Ray *ray , Isect &hit , double maxdist , Object *self);
+extern void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color &col, double ior);
 
 //TODO: TCE:Should fall under Ray?
 void bkg(Vec dir, Color &col) {
-    Flt dot, index;
+    double dot, index;
     int indx;
 
     if (background.color.r < 0.0) { // Using a color from a Pallet not a single color. Works how?
@@ -60,10 +60,11 @@ void bkg(Vec dir, Color &col) {
 } /* end of bkg */
 
 //TODO: TCE:Should fall under Ray
-//    Flt    ior;        /* current material ior */
-Flt Trace(int level, Flt weight, Ray *ray, Color &color, Flt ior, Object *obj) {
+//    double    ior;        /* current material ior */
+double Trace(int level, double weight, Ray *ray, Color &color, double ior, Object *obj) {
     Object *prim;
-    Vec P, N;
+    Point P;
+    Vec N;
     Isect hit;
 
     if (level >= maxlevel) {
@@ -76,7 +77,7 @@ Flt Trace(int level, Flt weight, Ray *ray, Color &color, Flt ior, Object *obj) {
 
     nRays++;
 
-    if (Intersect(ray, hit, HUGE, obj)) {
+    if (Intersect(ray, hit, HUGE_NUM, obj)) {
 
         /* end of warning */
 
@@ -91,6 +92,6 @@ Flt Trace(int level, Flt weight, Ray *ray, Color &color, Flt ior, Object *obj) {
     } else {
         bkg(ray->D, color);
 
-        return HUGE;
+        return HUGE_NUM;
     }
 }

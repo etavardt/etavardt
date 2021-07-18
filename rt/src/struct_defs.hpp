@@ -22,6 +22,7 @@
 #define STRUCT_DEFS_HPP
 
 #include "String.hpp"
+#include "BobMath.hpp"
 #include "Color.hpp"
 #include "defs.hpp"
 #include <cstdio>
@@ -52,8 +53,8 @@ typedef struct t_stack {
 //     Vec position;
 //     Vec dir;
 //     Color color;
-//     Flt radius;    /* radius/spherical, max_angle/spotlight */
-//     Flt min_angle, /* angles for spot lights */
+//     double radius;    /* radius/spherical, max_angle/spotlight */
+//     double min_angle, /* angles for spot lights */
 //         max_angle;
 //     short type;    /* what type is this? */
 //     short illum;   /* how does the light fall off? */
@@ -67,16 +68,16 @@ typedef struct t_viewpoint {
     Vec view_from;
     Vec view_at;
     Vec view_up;
-    Flt view_angle_x;
-    Flt view_angle_y;
-    Flt view_aspect;
+    double view_angle_x;
+    double view_angle_y;
+    double view_aspect;
 } Viewpoint;
 
 typedef struct t_camera {
     short projection;
     Vec lens_i, /* vectors across lens */
         lens_j;
-    Flt aperture,     /* radius of lens */
+    double aperture,     /* radius of lens */
         focal_length; /* how far away are we focussed */
     short samples;    /* num samples for non-pinhole camera */
 } Camera;

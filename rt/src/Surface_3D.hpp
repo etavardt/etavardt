@@ -4,7 +4,7 @@
 #include "Texmap_3D.hpp"
 #include "defs.hpp"
 
-//class Texture;
+//class Texture_3D;
 class Bump;
 
 class Surface_3D {
@@ -18,14 +18,14 @@ class Surface_3D {
     Texmap *tm_spec;
     Color amb; /* ambient */
     Texmap *tm_amb;
-    Flt shine;    /* specular spot exponent */
+    double shine;    /* specular spot exponent */
     Color cshine; /* spec spot color */
     Color trans;  /* transparency */
     Texmap *tm_trans;
-    Flt ior;       /* index of refraction */
-    Flt fuzz;      /* surface fuzz */
+    double ior;       /* index of refraction */
+    double fuzz;      /* surface fuzz */
     int flags;     /* is this surface valid for shadow caching */
-    Texture *tex;  /* ptr for color texture */
+    Texture_3D *tex;  /* ptr for color texture */
     Bump *bump;    /* ptr for surface normal texture */
     Matrix matrix; /* transformation matrix */
 

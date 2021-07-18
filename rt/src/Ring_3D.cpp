@@ -19,27 +19,25 @@
 */
 
 #include "Ring_3D.hpp"
+
+#include <cmath>
+#include <cstdio>
+
 #include "Bob.hpp"
+#include "BobMath.hpp"
+#include "Vector_3D.hpp"
 #include "Isect_3D.hpp"
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
-#include <cmath>
-#include <cstdio>
 
 typedef struct t_ringdata {
     Vec ring_center;
     Vec ring_normal;
-    Flt D;
-    Flt min_radius, max_radius; /* actually store squared values */
+    double D;
+    double min_radius, max_radius; /* actually store squared values */
 } RingData;
-/*
-ObjectProcs RingProcs = {
-    RingIntersect,
-    RingNormal,
-};
-*/
 
 Ring_3D::Ring_3D(): Object_3D() {
     Object_3D::o_type = T_RING;
@@ -54,7 +52,7 @@ Ring_3D::~Ring_3D() {
 
 int Ring_3D::intersect(Object_3D *obj, Ray *ray, Isect &hit) {
     RingData *rp;
-    Flt Vprd, Vpro, t, rad;
+    double Vprd, Vpro, t, rad;
     Point point;
 
     rp = (RingData *)obj->o_data; /* point to ring data */
@@ -96,17 +94,17 @@ int Ring_3D::intersect(Object_3D *obj, Ray *ray, Isect &hit) {
     return 1;
 }
 
-void Ring_3D::normal(Object_3D *obj, Isect &hit, Point P, Point N) {
+void Ring_3D::normal(Object_3D *obj, Isect &hit, Point &P, Vec &N) {
     RingData *rp;
     rp = (RingData *)obj->o_data;
 
     VecCopy(rp->ring_normal, N); /* already normalized */
 }
 
-Ring_3D *Ring_3D::makeRing(Vec pos, Vec norm, Flt min_rad, Flt max_rad) {
+Ring_3D *Ring_3D::makeRing(Vec pos, Vec norm, double min_rad, double max_rad) {
     Ring_3D *tmp;
     RingData *rp;
-    Flt size;
+    double size;
 
     tmp = new Ring_3D();
     Stats::trackMemoryUsage(sizeof(Ring_3D));
@@ -135,7 +133,7 @@ Ring_3D *Ring_3D::makeRing(Vec pos, Vec norm, Flt min_rad, Flt max_rad) {
      * each of the slabs...
      */
 
-    max_rad = ABS(max_rad); /* just to be sure... */
+    max_rad = bMath::abs(max_rad); /* just to be sure... */
     for (int i = 0; i < NSLABS; i++) {
         size = VecDot(Slab[i], rp->ring_normal);
         size = max_rad * sqrt(1.0 - size * size);

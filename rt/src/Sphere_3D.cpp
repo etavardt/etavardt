@@ -26,6 +26,8 @@
 //#include <random>
 
 #include "Bob.hpp"
+#include "BobMath.hpp"
+#include "Vector_3D.hpp"
 #include "Isect_3D.hpp"
 #include "Stats.hpp"
 #include "defs.hpp"
@@ -34,16 +36,10 @@
 
 typedef struct t_spheredata {
     Vec sph_center;
-    Flt sph_radius;  /* actually store 1/radius */
-    Flt sph_fuzzy;   /* RAND_MAX/fuzzy part of radius */
-    Flt sph_radius2; /* radius squared */
+    double sph_radius;  /* actually store 1/radius */
+    double sph_fuzzy;   /* RAND_MAX/fuzzy part of radius */
+    double sph_radius2; /* radius squared */
 } SphereData;
-/*
-ObjectProcs SphereProcs = {
-    SphereIntersect,
-    SphereNormal,
-};
-*/
 
 Sphere_3D::Sphere_3D() : Object_3D() {
     o_type = T_SPHERE;
@@ -57,16 +53,16 @@ Sphere_3D::~Sphere_3D() {
 }
 
 int Sphere_3D::intersect(Object_3D *obj, Ray *ray, Isect &hit) {
-    Flt b, disc, t, t0, t1, dot_vv;
+    double b, disc, t, t0, t1, dot_vv;
     Point V, P;
     SphereData *sp;
 
     sp = (SphereData *)obj->o_data;
 
     if (obj->o_type == T_FUZZY) { /* its a fuzz ball */
-        Flt tmp;
+        double tmp;
 
-        tmp = 1.0 / sp->sph_radius + (Flt)rand() / sp->sph_fuzzy;
+        tmp = 1.0 / sp->sph_radius + (double)rand() / sp->sph_fuzzy;
         sp->sph_radius2 = tmp * tmp;
     }
 
@@ -125,7 +121,7 @@ int Sphere_3D::intersect(Object_3D *obj, Ray *ray, Isect &hit) {
     return 1;
 }
 
-void Sphere_3D::normal(Object_3D *obj, Isect &hit, Point P, Point N) {
+void Sphere_3D::normal(Object_3D *obj, Isect &hit, Point &P, Vec &N) {
     SphereData *sp;
 
     sp = (SphereData *)obj->o_data;
@@ -134,7 +130,7 @@ void Sphere_3D::normal(Object_3D *obj, Isect &hit, Point P, Point N) {
     VecNormalize(N);
 }
 
-Sphere_3D *Sphere_3D::makeSphere(Vec pos, Flt radius, Flt fuzzy) {
+Sphere_3D *Sphere_3D::makeSphere(Vec pos, double radius, double fuzzy) {
     Sphere_3D *tmp;
     int i;
     SphereData *sp;
@@ -147,8 +143,6 @@ Sphere_3D *Sphere_3D::makeSphere(Vec pos, Flt radius, Flt fuzzy) {
     } else {
         tmp->o_type = T_SPHERE;
     }
-    //    tmp->o_procs = &SphereProcs;
-    //    tmp->o_surf = CurrentSurface;
 
     if (ClipTop) {
         tmp->clips = ClipTop;
@@ -161,13 +155,13 @@ Sphere_3D *Sphere_3D::makeSphere(Vec pos, Flt radius, Flt fuzzy) {
     Stats::trackMemoryUsage(sizeof(SphereData));
     Bob::getApp().parser.ptrchk(tmp, "sphere data");
     VecCopy(pos, sp->sph_center);
-    radius = ABS(radius);
+    radius = bMath::abs(radius);
     if (radius < rayeps)
         radius = rayeps;
     sp->sph_radius = 1.0 / radius;
     sp->sph_radius2 = radius * radius;
     if (tmp->o_type == T_FUZZY) {
-        sp->sph_fuzzy = (Flt)RAND_MAX / fuzzy;
+        sp->sph_fuzzy = (double)RAND_MAX / fuzzy;
         radius += fuzzy; /* for calcing bounding slabs */
     }
     tmp->o_data = (void *)sp;
@@ -178,8 +172,8 @@ Sphere_3D *Sphere_3D::makeSphere(Vec pos, Flt radius, Flt fuzzy) {
      */
 
     for (i = 0; i < NSLABS; i++) {
-        tmp->o_dmin[i] = VecDot(sp->sph_center, Slab[i]) - ABS(radius);
-        tmp->o_dmax[i] = VecDot(sp->sph_center, Slab[i]) + ABS(radius);
+        tmp->o_dmin[i] = VecDot(sp->sph_center, Slab[i]) - bMath::abs(radius);
+        tmp->o_dmax[i] = VecDot(sp->sph_center, Slab[i]) + bMath::abs(radius);
     }
 
     if (tmp->clips) {

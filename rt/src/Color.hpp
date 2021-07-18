@@ -1,5 +1,6 @@
 #pragma once
-#include "defs.hpp"
+#include "Vector_3D.hpp"
+// #include "defs.hpp"
 
 struct t_pixel {
     unsigned char r, g, b, q;
@@ -14,14 +15,19 @@ typedef t_pixel Pixel;
     b - Blue  component 0.0-1.0
 */
 class Color {
-public:
+// class Color : public Vector_3D {
+  public:
     double r;
     double g;
     double b;
 
-    Color():r(0.0),g(0.0),b(0.0){};
+    // double &r = v[0];
+    // double &g = v[1];
+    // double &b = v[2];
+
+    Color() { r = g = b = 0.0; }
     ~Color(){};
-    
+
     Pixel getPixelColor();
 
     Color &operator=(const double &c);

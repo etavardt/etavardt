@@ -18,9 +18,13 @@
 �������������������������������������������
 */
 
+#include "Clip_3D.hpp"
+
 #include <cstdio>
 #include <cmath>
-#include "Clip_3D.hpp"
+
+#include "BobMath.hpp"
+#include "Vector_3D.hpp"
 #include "extern.hpp"
 
 /*
@@ -31,15 +35,17 @@
 int clip_check(Clip *head, Vec P)
 {
     Vec     V;
-    Flt     dist;
+    double     dist;
 
     while(head) {
+        // V = P - head->center;
         VecSub(P, head->center, V);
         if(head->type & C_PLANE) {
             if(VecDot(V, head->normal) < 0.0)
                 return 0;
         } else if(head->type & C_SPHERE) {
-            dist = V[0]*V[0] + V[1]*V[1] + V[2]*V[2];
+            // dist = V[0]*V[0] + V[1]*V[1] + V[2]*V[2];
+            dist = VecDot(V, V); // TODO: TCE: Shouldn't this be VecLen?
             if(head->type & C_INSIDE) {
                 if(dist > head->radius1) {
                     return 0;
@@ -49,7 +55,7 @@ int clip_check(Clip *head, Vec P)
             }
         } else if(head->type & C_CONE) {
             Vec     ap;
-            Flt     ap_dot, percent, radius, dist;
+            double     ap_dot, percent, radius, dist;
 
             VecSub(P, head->apex, ap);
             ap_dot = VecDot(ap, head->normal);
@@ -62,9 +68,10 @@ int clip_check(Clip *head, Vec P)
                 radius = percent*head->radius2 + (1.0-percent)*head->radius1;
                 radius = radius * radius;
                 VecAddS(ap_dot, head->normal, head->apex, ap);
-                dist = (ap[0]-P[0]) * (ap[0]-P[0]) +
-                       (ap[1]-P[1]) * (ap[1]-P[1]) +
-                       (ap[2]-P[2]) * (ap[2]-P[2]);
+                dist = ((ap-P)*(ap-P)).sum(); // TODO: TCE: sum of squares of differences? Hmm?
+                // dist = (ap[0]-P[0]) * (ap[0]-P[0]) +
+                //        (ap[1]-P[1]) * (ap[1]-P[1]) +
+                //        (ap[2]-P[2]) * (ap[2]-P[2]); // TODO: TCE: sum of squares of differences? Hmm?
                 if(head->type & C_INSIDE) {
                     if(dist>radius) {
                         return 0;
@@ -98,7 +105,7 @@ void bound_opt(Object *obj)
 {
     Clip            *cl;
     int             i, i1, i2;
-    Flt             intersect,
+    double             intersect,
             b1, b2,         /* values of box corner */
             c1, c2,         /* values of clip center for "other" axes */
             d1, d2;         /* values of clip normal for "other" axes */
@@ -106,7 +113,7 @@ void bound_opt(Object *obj)
     cl = obj->clips;
     while(cl) {
         if((cl->type&C_SPHERE) && (cl->type&C_INSIDE)) {
-            Flt     radius;
+            double     radius;
 
             radius = sqrt(cl->radius1);
             for(i=0; i<3; i++) {    /* for each axis */

@@ -47,21 +47,21 @@ int         fuzzy_ray;
 Background  background;            /* background color structure */
 Color       Ambient;               /* global ambient light */
 Color       HazeColor;             /* color of haze */
-Flt         HazeDensity;           /* exponential factor */
+double         HazeDensity;           /* exponential factor */
 Surface_3D *CurrentSurface = NULL; /* surface at current top of stack */
 Stack      *SurfTop        = NULL; /* points to top of surface stack */
 Transform  *TransTop       = NULL; /* top of transformation stack */
 Clip       *ClipTop        = NULL; /* current clipping list */
 GlobalClip *GlobalClipTop  = NULL; /* current global clip list */
 //long        nPrims = 0; //moved to Bound_3D
-Flt         rayeps = 1e-6;
+double         rayeps = 1e-6;
 //char       *Progname;
 //char        Infilename[256];
 String      Infilename;
 Stack      *InfileTop = NULL;      /* points to top of input file stack */
 Object     *Root = NULL;
 
-Flt         minweight = MINWEIGHT;
+double         minweight = MINWEIGHT;
 int         maxlevel = MAXLEVEL;
 int         deepest = 0;           /* deepest level reached */
 
@@ -84,7 +84,7 @@ FILE *yyin;          /* pointer to input file */
 int   cur_token;     /* parser token stuff */
 //char  cur_text[256];
 String cur_text;
-Flt   cur_value;
+double   cur_value;
 
 Vec   Slab[] = {
     {1.0, 0.0, 0.0},
@@ -94,4 +94,3 @@ Vec   Slab[] = {
     {1.0, 0.0, 1.0},
     {0.0, 1.0, 1.0}
 };
-

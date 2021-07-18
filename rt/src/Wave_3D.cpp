@@ -20,19 +20,23 @@
 */
 
 #include "Wave_3D.hpp"
+
+#include <cmath>
+#include <cstdio>
+
+#include "BobMath.hpp"
+#include "Vector_3D.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
-#include <cmath>
-#include <cstdio>
 
 //    Vec   P,     /* the point in question */
 //          R;     /* where to put the result */
 //    Wave *waves; /* top of the linked list */
 void Wave_3D::make_waves(Vec &P, Vec &R, Wave *waves) {
     Vec diff; /* diff between point and source */
-    Flt dist; /* dist form point to source of wave */
-    Flt amp;  /* current height of wave */
+    double dist; /* dist form point to source of wave */
+    double amp;  /* current height of wave */
 
     MakeVector(0, 0, 0, R); /* just to be sure */
     while (waves) {

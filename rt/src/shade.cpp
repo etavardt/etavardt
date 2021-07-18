@@ -25,9 +25,9 @@
 #include <cstdlib>
 #include <memory.h>
 
-#include "Isect_3D.hpp"
 #include "Bump_3D.hpp"
 #include "Color.hpp"
+#include "Isect_3D.hpp"
 #include "Light_3D.hpp"
 #include "config.hpp"
 #include "defs.hpp"
@@ -38,7 +38,7 @@
 
 #define SIGN(a) ((a) > 0 ? 1 : ((a) < 0 ? (-1) : 0))
 
-//TODO: TCE:Should fall under Ray?
+// TODO: TCE:Should fall under Ray?
 /*
     Shade(level, weight, P, N, I, hit, col, ior)
 
@@ -51,23 +51,23 @@
     col    color to return
     ior    current ior
 */
-void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col, Flt ior) {
+void Shade(int level, double weight, Point P, Vec N, Vec I, Isect &hit, Color &col, double ior) {
     /* the following locals have been declared static to help */
     /* shrink the amount of stack spaced needed for recursive */
     /* calls to shade() */
 
     static int inside;   /* new inside/outside determination */
-    Vec tex_P,           /* transformed point for textures */
+    Point tex_P,         /* transformed point for textures */
         L, R, tmpV;      /* direction to light vector */
     Vec fuzz_N;          /* fuzzed, bumped and waved surface normal */
-    static Flt haze;     /* % haze to add */
+    static double haze;     /* % haze to add */
     static Color c_diff, /* diffuse color */
         c_dist,          /* light color scaled by distance */
         c_shadow;        /* shadow color */
-    static Flt spec;
+    static double spec;
     int i, dot_sign, R_calced, /* Has R already be calculated? */
         transmit;
-    Flt light_spot, /* spot light brightness */
+    double light_spot, /* spot light brightness */
         dot,        /* cos of incident angle */
         ldot,       /* normal to light angle */
         max_weight;
@@ -76,8 +76,8 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col,
     Isect nhit;
     Ray tray;
     Color tcol;
-    Flt t;
-    Flt new_ior; /* ior of material for transmitted ray */
+    double t;
+    double new_ior; /* ior of material for transmitted ray */
     Surface_3D *surf;
     int still_inside; /* local to save inside status */
 
@@ -107,15 +107,15 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col,
             if (rnd() > 0.5)
                 R[2] = -R[2];
             VecAddS(surf->tex->fuzz, R, tex_P, R);
-            tex_fix(*surf, R, P);
+            surf->tex->tex_fix(*surf, R, P);
         } else {
-            tex_fix(*surf, tex_P, P);
+            surf->tex->tex_fix(*surf, tex_P, P);
         }
     }
 
     /* fix up any texture maps at the top level surface */
     if (surf->flags & S_TM_MAPPING) {
-        map_fix(*surf, P); /* note that this get untranslated point */
+        surf->tex->map_fix(*surf, P); /* note that this get untranslated point */
     }
 
     //    VecMul(surf->diff, Ambient, col);    /* start with global ambient */
@@ -159,9 +159,10 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col,
     /* fuzz surface normal */
 
     if (surf->fuzz > 0.0) {
-        Flt fuzziness;
+        double fuzziness;
 
         fuzziness = surf->fuzz;
+
         fuzz_N[0] += (rnd() - rnd()) * fuzziness;
         fuzz_N[1] += (rnd() - rnd()) * fuzziness;
         fuzz_N[2] += (rnd() - rnd()) * fuzziness;
@@ -230,13 +231,13 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col,
             if (VecDot(N, L) > 0.0 && VecDot(fuzz_N, L) > 0.0) { /* if not backfaced */
                 t = VecNormalize(L);
                 if (cur_light->type == L_DIRECTIONAL) {
-                    t = HUGE;
+                    t = HUGE_NUM;
                 }
                 VecCopy(P, tray.P);
                 VecCopy(L, tray.D);
                 // MakeVector(1.0, 1.0, 1.0, c_shadow);    /* needed to make no_shadow lights work */
                 c_shadow = 1.0; /* needed to make no_shadow lights work */
-                //memcpy((char *)(&nhit), (char *)hit, sizeof(Isect));
+                // memcpy((char *)(&nhit), (char *)hit, sizeof(Isect));
                 nhit = hit;
                 if (no_shadows
                 || (cur_light->flag & L_NOSHADOWS)
@@ -304,7 +305,7 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col,
 
         VecCopy(P, tray.P);
 
-        max_weight = weight * MAX(MAX(surf->spec.r, surf->spec.g), surf->spec.b);
+        max_weight = weight * bMath::max(bMath::max(surf->spec.r, surf->spec.g), surf->spec.b);
         if ((level < maxlevel - 1) && (max_weight > minweight)) {
             nReflected++;
             if (R_calced) {
@@ -349,7 +350,7 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col,
         still_inside = inside;
         t = Trace(level + 1, weight, &tray, tcol, new_ior, hit.isect_self);
         inside = still_inside;
-        if (t < HUGE && inside) {
+        if (t < HUGE_NUM && inside) {
             /*
             for(i=0; i<3; i++) {
                 if(surf->trans[i] > rayeps) {
@@ -375,7 +376,7 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col,
                 printf("level %d   inside %d   trans %.3f   t %.3f\n", level, inside, surf->trans.r, t); */
             if (surf->trans.r > rayeps) {
                 if (surf->trans.r < 1.0) {
-                    Flt etst = (exp_trans ? pow(surf->trans.r, t) : surf->trans.r);
+                    double etst = (exp_trans ? pow(surf->trans.r, t) : surf->trans.r);
                     tcol.r *= etst;
                 } // tcol.r will remain the value returned by the call to Trace
             } else {
@@ -383,7 +384,7 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col,
             }
             if (surf->trans.g > rayeps) {
                 if (surf->trans.g < 1.0) {
-                    Flt etst = (exp_trans ? pow(surf->trans.g, t) : surf->trans.g);
+                    double etst = (exp_trans ? pow(surf->trans.g, t) : surf->trans.g);
                     tcol.g *= etst;
                 } // tcol.g will remain the value returned by the call to Trace
             } else {
@@ -391,7 +392,7 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col,
             }
             if (surf->trans.b > rayeps) {
                 if (surf->trans.b < 1.0) {
-                    Flt etst = (exp_trans ? pow(surf->trans.b, t) : surf->trans.b);
+                    double etst = (exp_trans ? pow(surf->trans.b, t) : surf->trans.b);
                     tcol.b *= etst;
                 } // tcol.b will remain the value returned by the call to Trace
             } else {
@@ -418,10 +419,9 @@ void Shade(int level, Flt weight, Point P, Vec N, Vec I, Isect &hit, Color &col,
         calculate the direction of the reflected ray R.
 */
 // Vec I, N, R;
-// Flt dot;        /* -VecDot(I,N) */
-void reflect(Vec I, Vec N, Vec R, Flt dot)
-{
-    Flt len;
+// double dot;        /* -VecDot(I,N) */
+void reflect(Vec I, Vec N, Vec R, double dot) {
+    double len;
 
     len = 2.0 * dot;
     VecAddS(len, N, I, R);
@@ -432,14 +432,13 @@ void reflect(Vec I, Vec N, Vec R, Flt dot)
         angle, T.  Returns 0 if total internal reflection occurs,
         1 otherwise.
 */
-// Flt eta;    /* ratio of old/new iors */
+// double eta;    /* ratio of old/new iors */
 // Vec I,      /* incident vector */
 //     N,      /* surface normal */
 //     T;      /* transmitted vector (calculated) */
-// Flt dot;    /* -VecDot(I, N) */
-int refract(Flt eta, Vec I, Vec N, Vec T, Flt dot)
-{
-    Flt n1, n2, c1, cs2;
+// double dot;    /* -VecDot(I, N) */
+int refract(double eta, Vec I, Vec N, Vec T, double dot) {
+    double n1, n2, c1, cs2;
 
     if (eta == 1.0) { /* bail out early */
         VecCopy(I, T);

@@ -43,13 +43,6 @@
 #include <cstdio>
 #include <math.h>
 
-/*
-ObjectProcs TriProcs = {
-    TriIntersect,
-    TriNormal,
-};
-*/
-
 typedef struct t_patchdata {
     Vec tri_P[3];
     Vec tri_N[3];
@@ -69,9 +62,9 @@ Tri_3D::~Tri_3D() {
 }
 int Tri_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
     TriData *td;
-    Flt n, d, dist;
-    Flt r, s, t;
-    Flt a, b;
+    double n, d, dist;
+    double r, s, t;
+    double a, b;
     Vec Q;
 
     td = (TriData *)obj->o_data;
@@ -94,7 +87,7 @@ int Tri_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
      */
 
     d = VecDot(ray->D, td->tri_bb[2]);
-    if (ABS(d) < rayeps)
+    if (bMath::abs(d) < rayeps)
         return 0;
 
     /*
@@ -156,7 +149,7 @@ int Tri_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
     return 1;
 }
 
-void Tri_3D::normal(Object *obj, Isect &hit, Point P, Point N) {
+void Tri_3D::normal(Object *obj, Isect &hit, Point &P, Vec &N) {
     TriData *td;
 
     td = (TriData *)obj->o_data;
@@ -169,7 +162,7 @@ Tri_3D *Tri_3D::makeTri(Vec *point) {
     Tri_3D *o;
     TriData *td;
     int i, j;
-    Flt dmin, dmax, d;
+    double dmin, dmax, d;
     Vec B[3];
 
     checkTri(point);
@@ -177,9 +170,6 @@ Tri_3D *Tri_3D::makeTri(Vec *point) {
     o = new Tri_3D();
     Stats::trackMemoryUsage(sizeof(Tri_3D));
     Bob::getApp().parser.ptrchk(o, "patch object");
-//    o->o_type = T_TRI;
-//    o->o_procs = &TriProcs;
-//    o->o_surf = CurrentSurface;
 
     td = new TriData();
     Stats::trackMemoryUsage(sizeof(TriData));
@@ -225,8 +215,8 @@ Tri_3D *Tri_3D::makeTri(Vec *point) {
     invertMatrix(B, td->tri_bb);
 
     for (i = 0; i < NSLABS; i++) {
-        dmin = HUGE;
-        dmax = -HUGE;
+        dmin = HUGE_NUM;
+        dmax = -HUGE_NUM;
 
         for (j = 0; j < 3; j++) {
             d = VecDot(Slab[i], td->tri_P[j]);
@@ -244,9 +234,9 @@ Tri_3D *Tri_3D::makeTri(Vec *point) {
     return o;
 }
 
-void Tri_3D::invertMatrix(Vec in[3], Vec out[3]) {
+void Tri_3D::invertMatrix(const Vec in[3], Vec out[3]) {
     int i, j;
-    Flt det;
+    double det;
 
     out[0][0] = (in[1][1] * in[2][2] - in[1][2] * in[2][1]);
     out[1][0] = -(in[0][1] * in[2][2] - in[0][2] * in[2][1]);
@@ -260,7 +250,12 @@ void Tri_3D::invertMatrix(Vec in[3], Vec out[3]) {
     out[1][2] = -(in[0][0] * in[2][1] - in[0][1] * in[2][0]);
     out[2][2] = (in[0][0] * in[1][1] - in[0][1] * in[1][0]);
 
-    det = in[0][0] * in[1][1] * in[2][2] + in[0][1] * in[1][2] * in[2][0] + in[0][2] * in[1][0] * in[2][1] - in[0][2] * in[1][1] * in[2][0] - in[0][0] * in[1][2] * in[2][1] - in[0][1] * in[1][0] * in[2][2];
+    det = in[0][0] * in[1][1] * in[2][2]
+        + in[0][1] * in[1][2] * in[2][0]
+        + in[0][2] * in[1][0] * in[2][1]
+        - in[0][2] * in[1][1] * in[2][0]
+        - in[0][0] * in[1][2] * in[2][1]
+        - in[0][1] * in[1][0] * in[2][2];
 
     det = 1 / det;
 
@@ -279,7 +274,7 @@ void Tri_3D::invertMatrix(Vec in[3], Vec out[3]) {
 void Tri_3D::checkTri(Vec *point) {
     Vec N, A, B;
     int i;
-    Flt dot;
+    double dot;
 
     /* calc surface normal as cross of edge vectors */
 

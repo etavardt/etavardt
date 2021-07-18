@@ -10,8 +10,8 @@ int Object_3D::intersect(Object_3D *a, Ray *b, Isect &c) {
     return 1; /* keep lint/compilers quiet */
 }
 
-void Object_3D::normal(Object_3D *a, Isect &b, Flt *c, Flt *d) {
-    std::cerr << "Called non-existant intersect routine for bounding box, dying..." << std::endl;
+void Object_3D::normal(Object_3D *a, Isect &b, Point &c, Vec &d) {
+    std::cerr << "Called non-existant normal routine for bounding box, dying..." << std::endl;
     throw Exception("Thrown from Object_3D::normal");
 }
 

@@ -31,7 +31,7 @@ extern void BuildBoundingSlabs (void);
 /* cone.c */
 //extern int     ConeIntersect (Object *obj , Ray *ray , Isect *hit);
 //extern void    ConeNormal (Object *obj , Isect *hit , Point P , Point N);
-//extern Object *MakeCone (Vec basepoint , Flt baseradius , Vec apexpoint , Flt apexradius);
+//extern Object *MakeCone (Vec basepoint , double baseradius , Vec apexpoint , double apexradius);
 
 /* clip.c */
 extern void bound_opt(Object *obj);
@@ -49,21 +49,21 @@ extern FILE *env_fopen(String name, const String mode);
 //extern FILE *env_fopen(char *name, const char *mode);
 
 /* inter.c */
-extern void CheckAndEnqueue (Object *obj , Flt maxdist);
-//extern int  Intersect (Ray *ray , Isect *hit , Flt maxdist , Object *self);
+extern void CheckAndEnqueue (Object *obj , double maxdist);
+//extern int  Intersect (Ray *ray , Isect *hit , double maxdist , Object *self);
 
 /* main.c */
-extern int main (int argc , char **argv);
+//extern int main (int argc , char **argv);
 
 /* memory.c */
 //extern void *vmalloc(int size);
 
 /* noise.c */
 extern void init_noise (void);
-extern Flt  noise1 (Vec p);
-extern void noise3 (Vec p , Flt *v);
-extern Flt  turb1 (Vec p , int lvl);
-extern void turb3 (Vec p , Vec v , int lvl);
+extern double  noise1 (Vec p);
+extern void noise3 (Vec p , double *v);
+extern double  turb1 (Vec p , int lvl);
+extern void turb3 (Vec &p , Vec &v , int lvl);
 
 /* parse.c */
 extern int yyparse (void);
@@ -82,8 +82,8 @@ extern int yyparse (void);
 /* pqueue.c */
 extern void PriorityQueueNull (void);
 extern int  PriorityQueueEmpty (void);
-extern void PriorityQueueInsert (Flt key , Object *obj);
-extern void PriorityQueueDelete (Flt *key , Object **obj);
+extern void PriorityQueueInsert (double key , Object *obj);
+extern void PriorityQueueDelete (double *key , Object **obj);
 
 /* preproc.c */
 extern int preproc(const String &infile, const String &outfile);
@@ -101,7 +101,7 @@ extern int   is_tok (int c);
 /* ring.c */
 //extern int     RingIntersect (Object *obj , Ray *ray , Isect *hit);
 //extern void    RingNormal (Object *obj , Isect *hit , Point P , Point N);
-//extern Object *MakeRing (Vec pos , Vec norm , Flt min_rad , Flt max_rad);
+//extern Object *MakeRing (Vec pos , Vec norm , double min_rad , double max_rad);
 
 /* screen.c * /
 extern void Screen (Viewpoint *view , char *picfile , int xres , int yres);
@@ -111,22 +111,22 @@ extern void Scan1 (void);
 extern void Scan2 (void);
 extern void Scan3 (void);
 extern void Scan4 (void);
-extern void Adapt (int i , int j , Flt x , Flt y , Color &color , int step);
-extern void Shoot (Flt x , Flt y , Color &color);
+extern void Adapt (int i , int j , double x , double y , Color &color , int step);
+extern void Shoot (double x , double y , Color &color);
 */
 /* shade.c */
-//extern void Shade (int level , Flt weight , Vec P , Vec N , Vec I , Isect *hit , Color &col , Flt ior);
-extern void reflect (Vec I , Vec N , Vec R, Flt dot);
-extern int  refract (Flt eta, Vec I, Vec N, Vec T, Flt dot);
+//extern void Shade (int level , double weight , Vec P , Vec N , Vec I , Isect *hit , Color &col , double ior);
+extern void reflect (Vec I , Vec N , Vec R, double dot);
+extern int  refract (double eta, Vec I, Vec N, Vec T, double dot);
 
 /* shadow.c */
-extern int Shadow (Ray *ray , Isect &hit , Flt tmax , Color &color , int level , Light &lptr, int inside);
-extern int sShadow (Ray *ray , Isect &hit , Flt tmax , Color &color , int level , Light &lptr, int inside);
+extern int Shadow (Ray *ray , Isect &hit , double tmax , Color &color , int level , Light &lptr, int inside);
+extern int sShadow (Ray *ray , Isect &hit , double tmax , Color &color , int level , Light &lptr, int inside);
 
 /* sphere.c */
 //extern int     SphereIntersect (Object *obj , Ray *ray , Isect *hit);
 //extern void    SphereNormal (Object *obj , Isect *hit , Point P , Point N);
-//extern Object *MakeSphere (Vec pos , Flt radius , Flt fuzzy);
+//extern Object *MakeSphere (Vec pos , double radius , double fuzzy);
 
 /* stats.c */
 //extern void statistics (int line);
@@ -135,16 +135,16 @@ extern void init_tic(void);
 
 /* texture.c */
 /* TCE: sudo Overloaded in Parser on cur_tex->func */
-extern Flt tex_checker (const Point P , const Texture &tex);
-extern Flt tex_spherical (const Point P , const Texture &tex);
-extern Flt tex_noise (const Point P , const Texture &tex);
+// extern double tex_checker (const Point &P , const Texture_3D &tex);
+// extern double tex_spherical (const Point &P , const Texture_3D &tex);
+// extern double tex_noise (const Point &P , const Texture_3D &tex);
 
 
 extern void tex_fix (Surface_3D &surf , Point P, Point OP);
 extern void map_fix (Surface_3D &surf, Point P);
-//extern void tex_project (Texmap &tm, Point OP, Flt *i, Flt *j);
-//extern void tile (Texmap &tm, Flt *i, Flt *j);
-//extern void get_map_entry (Texmap *tm, Flt i, Flt j, Color &color);
+//extern void tex_project (Texmap &tm, Point OP, double *i, double *j);
+//extern void tile (Texmap &tm, double *i, double *j);
+//extern void get_map_entry (Texmap *tm, double i, double j, Color &color);
 extern void tex_read_img (const String &file, Texmap &tm);
 
 /* tokens.c */
@@ -152,7 +152,7 @@ extern int get_token();
 extern int push_token();
 
 /* trace.c */
-extern Flt  Trace (int level , Flt weight , Ray *ray , Color &color , Flt ior , Object *self);
+extern double  Trace (int level , double weight , Ray *ray , Color &color , double ior , Object *self);
 extern void bkg (Vec dir, Color &col);
 
 /* tri.c */
@@ -163,7 +163,7 @@ extern void bkg (Vec dir, Color &col);
 //extern void    CheckTri (Vec *point);
 
 /* vector.c */
-extern Flt  VecNormalize (Vec vec);
+//extern double  VecNormalize (Vec &vec);
 extern void identity (Matrix mat);
 extern void matrix_cat (Matrix m1 , Matrix m2 , Matrix dest);
 extern void trans_vector (Matrix mat , Vec in , Vec out);
@@ -187,4 +187,3 @@ extern void matrix_inverse (Matrix in , Matrix out);
 //extern void trans_pop(void);
 
 //#undef P
-

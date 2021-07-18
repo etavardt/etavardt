@@ -23,6 +23,8 @@
 #include <iostream>
 
 //#include "Bob.hpp"
+#include "BobMath.hpp"
+#include "Vector_3D.hpp"
 #include "Cone_3D.hpp"
 #include "Exception.hpp"
 #include "Light_3D.hpp"
@@ -43,7 +45,7 @@ Vec tmp_vec;
 
 Surface_3D *yy_surface();
 Wave *yy_wave();
-Texture *yy_texture();
+Texture_3D *yy_texture();
 Bump *yy_bump();
 Texmap *yy_texmap();
 Turbulence *yy_turbulence();
@@ -182,7 +184,7 @@ void Parser::yy_studio() {
             break;
         case ANGLE:
             get_num();
-            Eye.view_angle_x = degtorad(cur_value / 2.0);
+            Eye.view_angle_x = bMath::degtorad(cur_value / 2.0);
             break;
         case WIDTH:
             get_num();
@@ -416,11 +418,11 @@ void Parser::yy_light() {
             break;
         case MIN_ANGLE:
             get_num();
-            Light::light_head->min_angle = cos(degtorad(cur_value / 2.0));
+            Light::light_head->min_angle = cos(bMath::degtorad(cur_value / 2.0));
             break;
         case MAX_ANGLE:
             get_num();
-            Light::light_head->max_angle = cos(degtorad(cur_value / 2.0));
+            Light::light_head->max_angle = cos(bMath::degtorad(cur_value / 2.0));
             break;
         case SAMPLES:
             get_num();
@@ -597,13 +599,13 @@ Surface_3D *Parser::yy_surface() {
 /*
     yy_texture() -- Parse procedural texture definition.
 */
-Texture *Parser::yy_texture() {
-    Texture *cur_tex;
+Texture_3D *Parser::yy_texture() {
+    Texture_3D *cur_tex;
     Wave *tmp_wave;
 
     //    cout << "cout: In Parser::yy_texture Pre alloc" << endl;
-    cur_tex = new Texture();
-    Stats::trackMemoryUsage(sizeof(Texture));
+    cur_tex = new Texture_3D();
+    Stats::trackMemoryUsage(sizeof(Texture_3D));
     ptrchk(cur_tex, "procedural texture structure");
 
     /* assign defaults */
@@ -616,7 +618,7 @@ Texture *Parser::yy_texture() {
     cur_tex->fuzz = 0.0;
     cur_tex->r1 = (-1.0);
     cur_tex->r2 = (-1.0);
-    cur_tex->func = NULL;
+//    cur_tex->func = NULL;
     cur_tex->surf[0] = NULL;
     cur_tex->surf[1] = NULL;
 
@@ -641,13 +643,16 @@ Texture *Parser::yy_texture() {
             get_token();
             switch (cur_token) {
             case CHECKER:
-                cur_tex->func = tex_checker;
+                // cur_tex->func = tex_checker;
+                cur_tex->pat_type = CHECKER_PAT;
                 break;
             case SPHERICAL:
-                cur_tex->func = tex_spherical;
+                // cur_tex->func = tex_spherical;
+                cur_tex->pat_type = SPHERICAL_PAT;
                 break;
             case NOISE:
-                cur_tex->func = tex_noise;
+                // cur_tex->func = tex_noise;
+                cur_tex->pat_type = NOISE_PAT;
                 break;
             default:
                 yyerror(String("Unknown texture type."));
@@ -700,10 +705,12 @@ Texture *Parser::yy_texture() {
     }     /* end of loop looking for right brace */
 
     /* clean up loose ends */
-    if (cur_tex->func == NULL) {
+//    if (cur_tex->func == NULL) {
+    if (cur_tex->pat_type == UNKNOWN_PAT) {
         yyerror(String("No pattern declared for texture."));
     }
-    if (cur_tex->func == tex_spherical) {
+    // if (cur_tex->func == tex_spherical) {
+    if (cur_tex->pat_type == SPHERICAL_PAT) {
         if (cur_tex->r2 < 0) {
             cur_tex->r2 = cur_tex->r1;
         }
@@ -800,7 +807,7 @@ Texmap *Parser::yy_texmap() {
         switch (cur_token) {
         case IMAGE:
             get_token();
-            tex_read_img(cur_text, *cur_texmap);
+            cur_texmap->tex_read_img(cur_text, *cur_texmap);
             break;
         case CENTER:
             get_vec();
@@ -957,7 +964,7 @@ Wave *Parser::yy_wave() {
 void Parser::yy_transform() {
     Transform *cur_trans;
     Matrix m;
-    Flt theta, tmp;
+    double theta, tmp;
 
     //    cout << "cout: In Parser::yy_transform Pre allocs" << endl;
     cur_trans = new Transform();
@@ -980,7 +987,7 @@ void Parser::yy_transform() {
 
             /* do x axis rotation */
             identity(m);
-            theta = degtorad(tmp_vec[0]);
+            theta = bMath::degtorad(tmp_vec[0]);
             m[1][1] = cos(theta);
             m[2][1] = -sin(theta);
             m[1][2] = sin(theta);
@@ -989,7 +996,7 @@ void Parser::yy_transform() {
 
             /* do y axis rotation */
             identity(m);
-            theta = degtorad(tmp_vec[1]);
+            theta = bMath::degtorad(tmp_vec[1]);
             m[0][0] = cos(theta);
             m[2][0] = sin(theta);
             m[0][2] = -sin(theta);
@@ -998,7 +1005,7 @@ void Parser::yy_transform() {
 
             /* do z axis rotation */
             identity(m);
-            theta = degtorad(tmp_vec[2]);
+            theta = bMath::degtorad(tmp_vec[2]);
             m[0][0] = cos(theta);
             m[1][0] = -sin(theta);
             m[0][1] = sin(theta);
@@ -1206,7 +1213,7 @@ Clip *Parser::yy_clip() {
 */
 void Parser::yy_sphere() {
     Vec center;
-    Flt radius, fuzz;
+    double radius, fuzz;
     Object *new_obj;
 
     fuzz = 0.0;
@@ -1259,7 +1266,7 @@ void Parser::yy_sphere() {
 */
 void Parser::yy_cone() {
     Vec apex, base;
-    Flt arad, brad;
+    double arad, brad;
     Object *new_obj;
 
     //    cout << "cout: In Parser::yy_cone Pre get_token" << endl;
@@ -1320,7 +1327,7 @@ void Parser::yy_cone() {
 */
 void Parser::yy_ring() {
     Vec center, normal;
-    Flt min_rad, max_rad;
+    double min_rad, max_rad;
     Ring_3D *new_obj;
 
     min_rad = 0.0;

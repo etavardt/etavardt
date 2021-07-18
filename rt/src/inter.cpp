@@ -34,26 +34,26 @@
  * as suggested by Kajiya...
  */
 
-Flt    num[NSLABS];
-Flt    den[NSLABS];
+double    num[NSLABS];
+double    den[NSLABS];
 
 //TODO: TCE:Should fall under Ray since it is used during ray intersection?
 /***********************************************************************
  * CheckAndEnqueue(obj, maxdist)
- * Check the current ray (as paramaterized with the num and den 
+ * Check the current ray (as paramaterized with the num and den
  * arrays above) against the bounding volume of obj.
- * If we intersect the bounding volume, then insert it into the 
+ * If we intersect the bounding volume, then insert it into the
  * priority queue.
  *
  * Note: should be broken into two separate procedures...
  ***********************************************************************/
-void CheckAndEnqueue(Object *obj, Flt maxdist)
+void CheckAndEnqueue(Object *obj, double maxdist)
 {
     int i = 0;
 
-    Flt    tmin, tmax;
-    Flt    dmin = -HUGE;
-    Flt    dmax = maxdist;
+    double    tmin, tmax;
+    double    dmin = -HUGE_NUM;
+    double    dmax = maxdist;
 
     nChecked++;
 
@@ -94,8 +94,8 @@ void CheckAndEnqueue(Object *obj, Flt maxdist)
 //TODO: TCE:Should fall under Ray?
 /***********************************************************************
  * Intersect(ray, hit, maxdist, lastObjHit)
- * 
- * Returns true if we hit something in the root model closer than maxdist.  
+ *
+ * Returns true if we hit something in the root model closer than maxdist.
  * Returns the closest hit in the "hit" buffer.
 
     lastObjHit is a pointer to the last object hit.  If lastObjHit is NULL then
@@ -104,15 +104,15 @@ void CheckAndEnqueue(Object *obj, Flt maxdist)
     eliminate doing an intersection test with the last object.
 
  ***********************************************************************/
-int Intersect(Ray *ray, Isect &hit, Flt maxdist, Object *lastObjHit)
+int Intersect(Ray *ray, Isect &hit, double maxdist, Object *lastObjHit)
 {
     Isect          nhit;
     int            i;
-    Flt            min_dist = maxdist;
+    double            min_dist = maxdist;
     Object        *cobj, *child;
     Object        *pobj = NULL;
     CompositeData *cdp;
-    Flt            key;
+    double            key;
 
     /* If the object is simple, then return the hit that it gives you */
 
@@ -153,7 +153,7 @@ int Intersect(Ray *ray, Isect &hit, Flt maxdist, Object *lastObjHit)
              * if so, then push them into the priority
              * queue...
              */
-            
+
             cdp = (CompositeData *) cobj->o_data;
             child = cdp->children;
 
@@ -167,12 +167,12 @@ int Intersect(Ray *ray, Isect &hit, Flt maxdist, Object *lastObjHit)
         } else {
 
             /*
-             * we have a primitive 
+             * we have a primitive
              * intersect with the primitive, and possibly
              * update the nearest hit if it is indeed closer
              * than the one we currently have...
              */
-            
+
 //            if((cobj->o_procs->intersect) (cobj, ray, &nhit)) {
             if(cobj->intersect(cobj, ray, nhit)) {
                 if(nhit.isect_t < min_dist) {
@@ -189,4 +189,3 @@ int Intersect(Ray *ray, Isect &hit, Flt maxdist, Object *lastObjHit)
     else
         return 0;
 }
-

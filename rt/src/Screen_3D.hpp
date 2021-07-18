@@ -14,7 +14,7 @@ class PicFile_3D;
 
 class Screen_3D {
     private:
-    Flt frustrumwidth, frustrumheight;
+    double frustrumwidth, frustrumheight;
     Point viewvec, leftvec, looking_up, viewpoint;
     Ray ray; /* normal, untweeked ray */
     int x_res, y_res;
@@ -28,8 +28,8 @@ class Screen_3D {
     void scan2(void);
     void scan3(void);
 
-    void shoot(Flt x, Flt y, Color &color);
-    void adapt(int i, int j, Flt x, Flt y, Color &color, int step);
+    void shoot(double x, double y, Color &color);
+    void adapt(int i, int j, double x, double y, Color &color, int step);
     int comp(unsigned int a, unsigned int b);
 
     public:

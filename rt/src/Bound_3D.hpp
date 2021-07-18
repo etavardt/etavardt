@@ -5,7 +5,7 @@
 class Bound_3D {
   private:
     static long total; /* # objects in main list */
-    static Flt Median; /* 2*median value along axis */
+    static double Median; /* 2*median value along axis */
     static int Axis;   /* axis to split along */
     Bound_3D() {}
     ~Bound_3D() {}

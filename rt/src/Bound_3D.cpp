@@ -18,6 +18,8 @@
 �������������������������������������������
 */
 #include "Bound_3D.hpp"
+
+#include "BobMath.hpp"
 #include "Bob.hpp"
 #include "Stats.hpp"
 #include "Exception.hpp"
@@ -32,22 +34,22 @@ using std::cout;
 using std::endl;
 
 long Bound_3D::total = 0; /* # objects in main list */
-Flt Bound_3D::Median = 0; /* 2*median value along axis */
+double Bound_3D::Median = 0; /* 2*median value along axis */
 int Bound_3D::Axis   = 0; /* axis to split along */
 
 long Bound_3D::nPrims = 0;
 
 void Bound_3D::FindAxis(Object *top, long count) {
-    Flt mins[NSLABS];
-    Flt maxs[NSLABS];
+    double mins[NSLABS];
+    double maxs[NSLABS];
     int i, j, which;
-    Flt d = -HUGE, e, x, y, z;
+    double d = -HUGE_NUM, e, x, y, z;
     long cnt;
 
     cnt = count;
     for (i = 0; i < NSLABS; i++) { /* zero out min/max */
-        mins[i] = HUGE;
-        maxs[i] = -HUGE;
+        mins[i] = HUGE_NUM;
+        maxs[i] = -HUGE_NUM;
     }
     x = y = z = 0.0;
 
@@ -94,7 +96,7 @@ void Bound_3D::FindAxis(Object *top, long count) {
 int Bound_3D::SortAndSplit(Object **top_handle, long count) {
     Object *top, *hi, *lo, *cur, *tmp, *hi_end, *lo_end;
     long lo_cnt, hi_cnt, i, j;
-    Flt dmin, dmax;
+    double dmin, dmax;
 
     if (count <= 0)
         return 0;
@@ -202,8 +204,8 @@ int Bound_3D::SortAndSplit(Object **top_handle, long count) {
         /* calc bounding slabs for new composite object */
 
         for (i = 0; i < NSLABS; i++) { /* for each slab */
-            dmin = HUGE;
-            dmax = -HUGE;
+            dmin = HUGE_NUM;
+            dmax = -HUGE_NUM;
             top = cd->children; /* point to first child */
             for (j = 0; j < count; j++) {
                 if (top->o_dmin[i] < dmin)

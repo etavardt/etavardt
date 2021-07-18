@@ -23,36 +23,17 @@
 
 #include "config.hpp"
 
-#ifdef HUGE
-#undef HUGE
-#endif
-
-#define HUGE (1.0e8)
-
-/*
-    generic helpful macros
-*/
-
-#define ABS(a) (((a) < 0) ? (-(a)) : (a))
-#define FLOOR(a) ((a) > 0 ? (int)(a) : -(int)(a))
-#define CEILING(a)    ((a)==(int)(a)?(a):(a)>0?1+(int)(a):-(1+(int)(-a))
-#define ROUND(a) ((a) > 0 ? (int)((a) + 0.5) : -(int)(0.5 - a))
-
-#define MIN(a, b) (((a) < (b)) ? (a) : (b))
-#define MAX(a, b) (((a) > (b)) ? (a) : (b))
-
 /*
     typedefs for the world
 */
 
-typedef double Flt;
-typedef Flt Vec[3];
-typedef Vec Point;
-//typedef Vec Color;
-typedef Flt Matrix[4][4];
+//typedef double Flt;
+//typedef Flt Vec[3];
+//typedef Vec Point;
 
+typedef double Matrix[4][4];
 /*----------------------------------------------------------------------*/
-
+/*
 #ifndef DUMB_CPP
 
 #define MakeVector(x, y, z, v) (v)[0] = (x), (v)[1] = (y), (v)[2] = (z)
@@ -101,7 +82,8 @@ typedef Flt Matrix[4][4];
 #define VecPrint(msg, v) fprintf(stderr, "%s: %g %g %g\n", msg, \
                                  (v)[0], (v)[1], (v)[2])
 
-#endif /* not DUMB_CPP */
+#endif /* not DUMB_CPP * /
+ */
 
 /* surface flags */
 
@@ -141,12 +123,6 @@ typedef Flt Matrix[4][4];
 #define C_SPHERE (0x02)
 #define C_CONE (0x04)
 #define C_INSIDE (0x10)
-
-#ifndef PI
-#define PI (3.14159265358979323844)
-#endif /* PI */
-
-#define degtorad(x) (((Flt)(x)) * PI / 180.0)
 
 /* primitive types */
 

@@ -44,6 +44,19 @@ int Bob::runApp() {
             stop_line = yres;
         Yresolution = yres;
     }
+    if (start != -1) { /* if command line override */
+        start_line = start;
+        stop_line = stop;
+    }
+    if (depth > 0) { /* if command line override */
+        maxlevel = depth;
+    }
+    if (bunch > 0) { /* if command line override */
+        bunching = bunch;
+    }
+    if (amode >= 0) { /* if command line override */
+        antialias = amode;
+    }
 
     //    cout << "cout: In Bob::runApp Pre BuildBoundingSlabs" << endl;
     Bound_3D::BuildBoundingSlabs();
@@ -215,26 +228,6 @@ int Bob::processCmdLine(int argCnt, char **argList) {
 
     if (tickflag) {
         cout << _Program << "    " << _Version << endl << _Copyright << endl;
-    }
-
-    if (xres > 0) { /* if command line override */
-        Xresolution = xres;
-        if (stop_line == Yresolution) /* only change if not default */
-            stop_line = yres;
-        Yresolution = yres;
-    }
-    if (start != -1) { /* if command line override */
-        start_line = start;
-        stop_line = stop;
-    }
-    if (depth > 0) { /* if command line override */
-        maxlevel = depth;
-    }
-    if (bunch > 0) { /* if command line override */
-        bunching = bunch;
-    }
-    if (amode >= 0) { /* if command line override */
-        antialias = amode;
     }
 
     return 1;

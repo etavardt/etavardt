@@ -19,28 +19,29 @@
 */
 
 #include "Poly_3D.hpp"
+
+#include <cstdio>
+#include <math.h>
+
 #include "Bob.hpp"
+#include "BobMath.hpp"
+#include "Vector_3D.hpp"
+#include "Point_3D.hpp"
+
 #include "Isect_3D.hpp"
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
-#include <cstdio>
-#include <math.h>
 
 typedef struct t_polydata {
     int poly_npoints;
     Vec *poly_point;
     Vec poly_normal;
-    Flt poly_d;
-    Flt poly_p1, poly_p2;
+    double poly_d;
+    double poly_p1, poly_p2;
 } PolyData;
-/*
-ObjectProcs PolyProcs = {
-    PolyIntersect,
-    PolyNormal,
-};
-*/
+
 Poly_3D::Poly_3D() : Object_3D() {
     Object_3D::o_type = T_POLY;
     Object_3D::o_surf = CurrentSurface;
@@ -53,7 +54,7 @@ Poly_3D::~Poly_3D() {
 }
 
 int Poly_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
-    Flt n, d, t, m, b;
+    double n, d, t, m, b;
     Point V;
     int i, j, l;
     int qi, qj;
@@ -67,7 +68,7 @@ int Poly_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
 
     /* check for ray in plane of polygon */
 
-    if (ABS(d) < rayeps) {
+    if (bMath::abs(d) < rayeps) {
         return 0;
     }
 
@@ -141,7 +142,7 @@ int Poly_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
     return 1;
 }
 
-void Poly_3D::normal(Object_3D *obj, Isect &hit, Point P, Point N) {
+void Poly_3D::normal(Object_3D *obj, Isect &hit, Point &P, Vec &N) {
     PolyData *pd;
     pd = (PolyData *)obj->o_data;
     VecCopy(pd->poly_normal, N);
@@ -151,15 +152,12 @@ Poly_3D *Poly_3D::makePoly(int npoints, Vec *points) {
     Poly_3D *obj;
     PolyData *pd;
     Vec P1, P2;
-    Flt d, dmax, dmin;
+    double d, dmax, dmin;
     int i, j;
 
     obj = new Poly_3D();
     Stats::trackMemoryUsage(sizeof(Poly_3D));
     Bob::getApp().parser.ptrchk(obj, "polygon object");
-    //    obj->o_type = T_POLY;
-    //    obj->o_procs = & PolyProcs;
-    //    obj->o_surf = CurrentSurface;
 
     if (ClipTop) {
         obj->clips = ClipTop;
@@ -184,10 +182,10 @@ Poly_3D *Poly_3D::makePoly(int npoints, Vec *points) {
     VecCross(P1, P2, pd->poly_normal);
     VecNormalize(pd->poly_normal);
 
-    if (ABS(pd->poly_normal[0]) >= ABS(pd->poly_normal[1]) && ABS(pd->poly_normal[0]) >= ABS(pd->poly_normal[2])) {
+    if (bMath::abs(pd->poly_normal[0]) >= bMath::abs(pd->poly_normal[1]) && bMath::abs(pd->poly_normal[0]) >= bMath::abs(pd->poly_normal[2])) {
         pd->poly_p1 = 1;
         pd->poly_p2 = 2;
-    } else if (ABS(pd->poly_normal[1]) >= ABS(pd->poly_normal[0]) && ABS(pd->poly_normal[1]) >= ABS(pd->poly_normal[2])) {
+    } else if (bMath::abs(pd->poly_normal[1]) >= bMath::abs(pd->poly_normal[0]) && bMath::abs(pd->poly_normal[1]) >= bMath::abs(pd->poly_normal[2])) {
         pd->poly_p1 = 0;
         pd->poly_p2 = 2;
     } else {
@@ -205,8 +203,8 @@ Poly_3D *Poly_3D::makePoly(int npoints, Vec *points) {
      */
 
     for (i = 0; i < NSLABS; i++) {
-        dmin = HUGE;
-        dmax = -HUGE;
+        dmin = HUGE_NUM;
+        dmax = -HUGE_NUM;
 
         for (j = 0; j < pd->poly_npoints; j++) {
             d = VecDot(Slab[i], pd->poly_point[j]);

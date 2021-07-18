@@ -19,36 +19,35 @@
 */
 
 #include "Cone_3D.hpp"
+
+#include <cstdio>
+#include <math.h>
+
 #include "Bob.hpp"
+#include "BobMath.hpp"
+#include "Vector_3D.hpp"
+#include "Point_3D.hpp"
 #include "Isect_3D.hpp"
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include <cstdio>
-#include <math.h>
-
 #include "proto.hpp"
 
 typedef struct t_conedata {
     Vec cone_base;
-    Flt cone_base_radius;
-    Flt cone_base_d;
+    double cone_base_radius;
+    double cone_base_d;
     Vec cone_apex;
-    Flt cone_apex_radius;
+    double cone_apex_radius;
     Vec cone_u;
     Vec cone_v;
     Vec cone_w; /* vector along cone axis */
-    Flt cone_height;
-    Flt cone_slope;
-    Flt cone_min_d;
-    Flt cone_max_d;
+    double cone_height;
+    double cone_slope;
+    double cone_min_d;
+    double cone_max_d;
 } ConeData;
-/*
-ObjectProcs ConeProcs = {
-    ConeIntersect,
-    ConeNormal,
-};
-*/
+
 Cone_3D::Cone_3D() : Object_3D() {
     Object_3D::o_type = T_CONE;
     Object_3D::o_surf = CurrentSurface;
@@ -64,8 +63,8 @@ int Cone_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
     Ray tray;
     ConeData *cd;
     Vec V, P;
-    Flt a, b, c, d, disc;
-    Flt t1, t2, flt_tmp;
+    double a, b, c, d, disc;
+    double t1, t2, flt_tmp;
 
     cd = (ConeData *)(obj->o_data);
 
@@ -111,7 +110,7 @@ int Cone_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
             return 0;
         }
 
-        disc = (Flt)sqrt(disc);
+        disc = (double)sqrt(disc);
         t1 = (-b - disc) / (2.0 * a);
         t2 = (-b + disc) / (2.0 * a);
 
@@ -157,8 +156,8 @@ int Cone_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
     return 0;
 }
 
-void Cone_3D::normal(Object *obj, Isect &hit, Point P, Point N) {
-    Flt t;
+void Cone_3D::normal(Object *obj, Isect &hit, Point &_P, Vec &N) {
+    double t;
     Vec V;
     ConeData *cd;
 
@@ -170,7 +169,7 @@ void Cone_3D::normal(Object *obj, Isect &hit, Point P, Point N) {
      * a vector from the basepoint through this point, plus the slope
      * times the cone_w vector...
      */
-
+    Point P = _P;
     t = -(VecDot(P, cd->cone_w) + cd->cone_base_d);
     VecAddS(t, cd->cone_w, P, V);
     VecSub(V, cd->cone_base, N);
@@ -181,19 +180,16 @@ void Cone_3D::normal(Object *obj, Isect &hit, Point P, Point N) {
     hit.isect_self = NULL;
 }
 
-Cone_3D *Cone_3D::makeCone(Vec basepoint, Flt baseradius, Vec apexpoint, Flt apexradius) {
+Cone_3D *Cone_3D::makeCone(Vec basepoint, double baseradius, Vec apexpoint, double apexradius) {
     Cone_3D *obj;
     ConeData *cd;
-    Flt dmin, dmax, ftmp, size;
+    double dmin, dmax, ftmp, size;
     Vec tmp;
     int i;
 
     obj = new Cone_3D();
     Stats::trackMemoryUsage(sizeof(Cone_3D));
     Bob::getApp().parser.ptrchk(obj, "cone object");
-    //    obj->o_type = T_CONE;
-    //    obj->o_procs = &ConeProcs;
-    //    obj->o_surf = CurrentSurface;
 
     if (ClipTop) {
         obj->clips = ClipTop;
@@ -209,8 +205,8 @@ Cone_3D *Cone_3D::makeCone(Vec basepoint, Flt baseradius, Vec apexpoint, Flt ape
     VecCopy(basepoint, cd->cone_base);
     VecCopy(apexpoint, cd->cone_apex);
 
-    baseradius = ABS(baseradius);
-    apexradius = ABS(apexradius);
+    baseradius = bMath::abs(baseradius);
+    apexradius = bMath::abs(apexradius);
     cd->cone_base_radius = baseradius;
     cd->cone_apex_radius = apexradius;
 
@@ -221,8 +217,8 @@ Cone_3D *Cone_3D::makeCone(Vec basepoint, Flt baseradius, Vec apexpoint, Flt ape
 
     MakeVector(0.0, 0.0, 1.0, tmp);
     ftmp = VecDot(tmp, cd->cone_w);
-    ftmp = ABS(ftmp);
-    ftmp = ABS(ftmp - 1.0);
+    ftmp = bMath::abs(ftmp);
+    ftmp = bMath::abs(ftmp - 1.0);
     if (ftmp < rayeps) {
         MakeVector(0.0, 1.0, 0.0, tmp);
     }

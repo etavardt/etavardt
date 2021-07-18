@@ -49,13 +49,13 @@ void Stats::statistics(int line) {
     cout << "shadow rays\t\t" << nShadows << endl;
     cout << "cache hits\t\t" << nShadowCacheHits << endl;
     if (nShadows > 0) {
-        cout << "cache percent\t" << 100.0 * (Flt)nShadowCacheHits / (Flt)nShadows << endl << endl;
+        cout << "cache percent\t" << 100.0 * (double)nShadowCacheHits / (double)nShadows << endl << endl;
     } else {
         cout << "cache percent\n" << endl;
     }
 
-    cout << "avg rays/pixel\t" << (Flt)nRays / ((Flt)(line + 1 - start_line) * (Flt)Xresolution) << endl;
-    cout << "avg queues/ray\t" << (Flt)totalQueues / (Flt)totalQueueResets << endl << endl;
+    cout << "avg rays/pixel\t" << (double)nRays / ((double)(line + 1 - start_line) * (double)Xresolution) << endl;
+    cout << "avg queues/ray\t" << (double)totalQueues / (double)totalQueueResets << endl << endl;
 
     cout << "bounds checked\t\t" << nChecked << endl;
     cout << "queue inserts\t\t" << totalQueues << endl;

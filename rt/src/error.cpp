@@ -34,7 +34,7 @@ int     NullIntersect(Object *a, Ray *b, Isect *c)
     return 1;       //* keep lint/compilers quiet * /
 }
 
-void    NullNormal(Object *a, Isect *b, Flt *c, Flt *d)
+void    NullNormal(Object *a, Isect *b, double *c, double *d)
 {
     fprintf(stderr, "Called non-existant normal routine for bounding box, dying...\n");
     exit(1);

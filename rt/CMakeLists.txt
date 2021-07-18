@@ -23,15 +23,13 @@ foreach(dir IN ITEMS "bkgs" "cols" "maps" "objs" "scns" "srfs")
     )
 endforeach()
 
-add_custom_command(
-    TARGET bob POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-    ${CMAKE_CURRENT_SOURCE_DIR}/venus3_tst.img ${PROJECT_SOURCE_DIR}/build/
-    COMMENT "Copying venus3_tst.img" VERBATIM
-)
-add_custom_command(
-    TARGET bob POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-    ${CMAKE_CURRENT_SOURCE_DIR}/CMakeTest.bat ${PROJECT_SOURCE_DIR}/build/test_bob.bat
-    COMMENT "Copying CMakeTest.bat" VERBATIM
-)
+# TomC -- Unit Testing
+enable_testing()
+
+file(GLOB TEST_SOURCE_FILES LIST_DIRECTORIES false test/*.cpp)
+list(FILTER SOURCE_FILES EXCLUDE REGEX ".*main.cpp$")
+add_executable(toms_test ${TEST_SOURCE_FILES} ${SOURCE_FILES} ${HEADER_FILES})
+target_link_libraries(toms_test gtest_main)
+
+include(GoogleTest)
+gtest_discover_tests(toms_test)

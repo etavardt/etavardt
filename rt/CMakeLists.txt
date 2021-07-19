@@ -32,8 +32,8 @@ enable_testing()
 
 file(GLOB TEST_SOURCE_FILES LIST_DIRECTORIES false test/*.cpp)
 list(FILTER SOURCE_FILES EXCLUDE REGEX ".*main.cpp$")
-add_executable(toms_test ${TEST_SOURCE_FILES} ${SOURCE_FILES} ${HEADER_FILES})
-target_link_libraries(toms_test gtest_main)
+add_executable(bob_test ${TEST_SOURCE_FILES} ${SOURCE_FILES} ${HEADER_FILES})
+target_link_libraries(bob_test gtest_main)
 
 include(GoogleTest)
-gtest_discover_tests(toms_test)
+gtest_discover_tests(bob_test)

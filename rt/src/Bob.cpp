@@ -18,6 +18,8 @@ String Bob::_Version = "Version 1.0";
 String Bob::_Date = "August 3, 1992";
 String Bob::_Copyright = "Copyright 1989-1992 Christopher D. Watkins & Stephen B. Coy: Cpp upgrade by Thomas C. Etavard circa 2021";
 
+Bob &bobApp = Bob::getApp();
+
 Bob &Bob::getApp() {
     if (app == nullptr) {
         app = new Bob();

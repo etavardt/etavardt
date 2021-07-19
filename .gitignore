@@ -66,3 +66,6 @@ checks.json
 ### JetBrains
 # User-specific stuff
 .idea
+
+# developer keepsake stuff for project
+.dev_stash

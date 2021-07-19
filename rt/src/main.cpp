@@ -22,7 +22,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <iostream>
-#include "Bob.hpp"
+#include "App.hpp"
 #include "Exception.hpp"
 
 using std::cout;
@@ -32,11 +32,12 @@ using std::endl;
 int main(int ac, char **av) {
     try {
         // cout << "cout: In main: Pre getApp : " << App::app << endl;
-        Bob &bobApp = Bob::getApp();
+        if (App::app == nullptr) throw Exception("Your application object was not created!");
+        App &app = *App::app;
         // cout << "cout: In main: Post getApp Pre processCmdLine : " << &bobApp << ":" << App::app << endl;
-        bobApp.processCmdLine(ac, av);
+        app.processCmdLine(ac, av);
         // cout << "cout: In main: Post processCmdLine Pre runApp" << endl;
-        bobApp.runApp();
+        app.runApp();
         // cout << "cout: In main: Post runApp" << endl;
     } catch (Exception e) {
         cerr << "cerr: Exception caught in main: " << e.what() << endl;

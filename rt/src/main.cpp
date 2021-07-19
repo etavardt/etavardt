@@ -48,5 +48,7 @@ int main(int ac, char **av) {
         cerr << "cerr: Unknown Exception caught in main" << endl;
         exit(1);
     }
-    exit(0);
+    // exit(0);
+    cout << "Returning 0 from main()" << endl;
+    return 0;
 } /* end of main() */

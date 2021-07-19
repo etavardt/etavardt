@@ -11,10 +11,12 @@ file(GLOB HEADER_FILES LIST_DIRECTORIES false
 )
 
 add_executable(bob ${SOURCE_FILES} ${HEADER_FILES})
-target_compile_options(bob PUBLIC "SHELL:-O0 -pg -no-pie -fno-builtin")
-target_link_options(bob PUBLIC "SHELL:-O0 -pg -no-pie -fno-builtin" "LINKER:-static,-demangle,--disable-dynamicbase,--disable-reloc-section") #this works as well
-#target_link_options(bob PUBLIC "SHELL:-O0 -pg -no-pie -fno-builtin" "LINKER:-t,-static,-demangle,--disable-dynamicbase,--disable-reloc-section") #this works as well and -t is for trace or listing items used
-#target_link_options(bob PUBLIC -O0 -pg -no-pie -fno-builtin "LINKER:-t,-static,-demangle,--disable-dynamicbase,--disable-reloc-section") #this works as well
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_options(bob PUBLIC "SHELL:-O0 -pg -no-pie -fno-builtin")
+    target_link_options(bob PUBLIC "SHELL:-O0 -pg -no-pie -fno-builtin" "LINKER:-static,-demangle,--disable-dynamicbase,--disable-reloc-section") #this works as well
+    #target_link_options(bob PUBLIC "SHELL:-O0 -pg -no-pie -fno-builtin" "LINKER:-t,-static,-demangle,--disable-dynamicbase,--disable-reloc-section") #this works as well and -t is for trace or listing items used
+    #target_link_options(bob PUBLIC -O0 -pg -no-pie -fno-builtin "LINKER:-t,-static,-demangle,--disable-dynamicbase,--disable-reloc-section") #this works as well
+endif()
 
 foreach(dir IN ITEMS "bkgs" "cols" "maps" "objs" "scns" "srfs")
     add_custom_command(

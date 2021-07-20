@@ -130,7 +130,7 @@ void Sphere_3D::normal(Object_3D *obj, Isect &hit, Point &P, Vec &N) {
     VecNormalize(N);
 }
 
-Sphere_3D *Sphere_3D::makeSphere(Vec pos, double radius, double fuzzy) {
+Sphere_3D *Sphere_3D::makeSphere(Vec &pos, double radius, double fuzzy) {
     Sphere_3D *tmp;
     int i;
     SphereData *sp;

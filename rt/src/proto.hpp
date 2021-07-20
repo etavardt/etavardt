@@ -35,7 +35,7 @@ extern void BuildBoundingSlabs (void);
 
 /* clip.c */
 extern void bound_opt(Object *obj);
-extern int  clip_check(Clip *head, Vec P);
+extern int  clip_check(Clip *head, Vec &P);
 
 /* data.c */
 
@@ -59,11 +59,11 @@ extern void CheckAndEnqueue (Object *obj , double maxdist);
 //extern void *vmalloc(int size);
 
 /* noise.c */
-extern void init_noise (void);
-extern double  noise1 (Vec p);
-extern void noise3 (Vec p , double *v);
-extern double  turb1 (Vec p , int lvl);
-extern void turb3 (Vec &p , Vec &v , int lvl);
+// extern void init_noise (void);
+// extern double  noise1 (const Vec &p);
+// extern void noise3 (const Vec &p , double *v);
+// extern double  turb1 (Vec &p , int lvl);
+// extern void turb3 (Vec &p , Vec &v , int lvl);
 
 /* parse.c */
 extern int yyparse (void);
@@ -86,17 +86,17 @@ extern void PriorityQueueInsert (double key , Object *obj);
 extern void PriorityQueueDelete (double *key , Object **obj);
 
 /* preproc.c */
-extern int preproc(const String &infile, const String &outfile);
-extern void  expand (char *src);
-extern void  sub_macro (Macro *mptr , char *loc);
-extern void  add_macro (char *txt);
-extern void  remove_macro (char *str);
-extern char *brute (char *text , const char *pat , int tlen , int plen);
-extern void  clean_up (void);
-extern int   vfgets (char *dst , int max_count , FILE *fp);
-extern char *get_next_token (char *text);
-extern int   cpy_tok (char *dst , char *src);
-extern int   is_tok (int c);
+// extern int preproc(const String &infile, const String &outfile);
+// extern void  expand (char *src);
+// extern void  sub_macro (Macro *mptr , char *loc);
+// extern void  add_macro (char *txt);
+// extern void  remove_macro (char *str);
+// extern char *brute (char *text , const char *pat , int tlen , int plen);
+// extern void  clean_up (void);
+// extern int   vfgets (char *dst , int max_count , FILE *fp);
+// extern char *get_next_token (char *text);
+// extern int   cpy_tok (char *dst , char *src);
+// extern int   is_tok (int c);
 
 /* ring.c */
 //extern int     RingIntersect (Object *obj , Ray *ray , Isect *hit);
@@ -153,7 +153,7 @@ extern int push_token();
 
 /* trace.c */
 extern double  Trace (int level , double weight , Ray *ray , Color &color , double ior , Object *self);
-extern void bkg (Vec dir, Color &col);
+extern void bkg (Vec &dir, Color &col);
 
 /* tri.c */
 //extern int     TriIntersect (Object *obj , Ray *ray , Isect *hit);
@@ -164,11 +164,11 @@ extern void bkg (Vec dir, Color &col);
 
 /* vector.c */
 //extern double  VecNormalize (Vec &vec);
-extern void identity (Matrix mat);
-extern void matrix_cat (Matrix m1 , Matrix m2 , Matrix dest);
-extern void trans_vector (Matrix mat , Vec in , Vec out);
-extern void trans_normal (Matrix mat , Vec in , Vec out);
-extern void matrix_inverse (Matrix in , Matrix out);
+// extern void identity (Matrix mat);
+// extern void matrix_cat (Matrix m1 , Matrix m2 , Matrix dest);
+// extern void trans_vector (Matrix mat , Vec in , Vec out);
+// extern void trans_normal (Matrix mat , Vec in , Vec out);
+// extern void matrix_inverse (Matrix in , Matrix out);
 
 /* wave.c */
 //extern void make_waves (Vec in, Vec out, Wave *head);

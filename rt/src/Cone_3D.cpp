@@ -180,7 +180,7 @@ void Cone_3D::normal(Object *obj, Isect &hit, Point &_P, Vec &N) {
     hit.isect_self = NULL;
 }
 
-Cone_3D *Cone_3D::makeCone(Vec basepoint, double baseradius, Vec apexpoint, double apexradius) {
+Cone_3D *Cone_3D::makeCone(Vec &basepoint, double baseradius, Vec &apexpoint, double apexradius) {
     Cone_3D *obj;
     ConeData *cd;
     double dmin, dmax, ftmp, size;

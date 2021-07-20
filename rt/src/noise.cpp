@@ -160,7 +160,7 @@ void DNoise(const Vec &p, Vec &v) {
 
 /* input point, gets thrashed */
 /* max number of levels */
-double turb1(Vec p, int lvl) {
+double turb1(Vec &p, int lvl) {
     double result = 0.0;
     int i;
 

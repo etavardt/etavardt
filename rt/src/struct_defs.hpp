@@ -86,10 +86,10 @@ typedef struct t_camera {
 //     unsigned char r, g, b, q;
 // } Pixel;
 
-typedef struct t_transform {
-    Matrix mat;
-    struct t_transform *next;
-} Transform;
+// typedef struct t_transform {
+//     Matrix mat;
+//     struct t_transform *next;
+// } Transform;
 
 typedef Color Palette[256];
 
@@ -99,14 +99,14 @@ typedef struct t_background {
     Palette pal;
 } Background;
 
-/* preprocessor macro structure */
-typedef struct t_macro {
-    char *macro,          /* define'd word */
-        *text;            /* text to replace macro with */
-    int mlen,             /* length of macro */
-        tlen;             /* length of text */
-    struct t_macro *next; /* stack link */
-} Macro;
+// /* preprocessor macro structure */
+// typedef struct t_macro {
+//     char *macro,          /* define'd word */
+//         *text;            /* text to replace macro with */
+//     int mlen,             /* length of macro */
+//         tlen;             /* length of text */
+//     struct t_macro *next; /* stack link */
+// } Macro;
 
 //TODO: TCE:maybe move to bound.hpp
 typedef struct t_compositedata {

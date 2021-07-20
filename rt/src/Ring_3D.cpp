@@ -101,7 +101,7 @@ void Ring_3D::normal(Object_3D *obj, Isect &hit, Point &P, Vec &N) {
     VecCopy(rp->ring_normal, N); /* already normalized */
 }
 
-Ring_3D *Ring_3D::makeRing(Vec pos, Vec norm, double min_rad, double max_rad) {
+Ring_3D *Ring_3D::makeRing(Vec &pos, Vec &norm, double min_rad, double max_rad) {
     Ring_3D *tmp;
     RingData *rp;
     double size;

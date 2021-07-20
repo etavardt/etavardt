@@ -2,6 +2,7 @@
 #include "Object_3D.hpp"
 #include "defs.hpp"
 #include "Ray_3D.hpp"
+#include "Point_3D.hpp"
 
 //class Object_3D;
 class Isect;
@@ -15,8 +16,8 @@ class Tri_3D: public Object_3D {
     int intersect(Object_3D *obj, Ray *ray, Isect &hit);
     void normal(Object_3D *obj, Isect &hit, Point &P, Vec &N);
 
-    static Tri_3D *makeTri(Vec *point);
+    static Tri_3D *makeTri(Vec *point);//Vec array
 
     static void invertMatrix(const Vec in[3], Vec out[3]);
-    static void checkTri(Vec *point);
+    static void checkTri(Vec *point);//Vec array
 };

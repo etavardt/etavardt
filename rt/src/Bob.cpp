@@ -18,6 +18,9 @@ String Bob::_Version = "Version 1.0";
 String Bob::_Date = "August 3, 1992";
 String Bob::_Copyright = "Copyright 1989-1992 Christopher D. Watkins & Stephen B. Coy: Cpp upgrade by Thomas C. Etavard circa 2021";
 
+//TODO: TCE: remove this extern and replace with include of a PreProc header file
+extern int preproc(const String &infile, const String &outfile);
+
 Bob &bobApp = Bob::getApp();
 
 Bob &Bob::getApp() {

@@ -38,7 +38,7 @@ extern int  Intersect (Ray *ray , Isect &hit , double maxdist , Object *self);
 extern void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color &col, double ior);
 
 //TODO: TCE:Should fall under Ray?
-void bkg(Vec dir, Color &col) {
+void bkg(Vec &dir, Color &col) {
     double dot, index;
     int indx;
 

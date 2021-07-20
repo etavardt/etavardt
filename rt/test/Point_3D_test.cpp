@@ -2,7 +2,6 @@
 
 #include "Point_3D.hpp"
 
-namespace {
 TEST(PointTest, BasicEqualityCheck) {
     Point_3D a(1.0, 2.0, 3.0);
     Point_3D b = Point_3D{1.0, 2.0, 3.0};
@@ -49,5 +48,4 @@ TEST(PointTest, BasicNotEqualityCheck) {
     EXPECT_NE(b[2], -993.0);
     EXPECT_NE(a[1], 55);
     EXPECT_EQ(a[1], 2.0);
-}
 }

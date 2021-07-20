@@ -5,7 +5,7 @@ class Surface_3D;
 
 class Isect {
     public:
-    double         isect_t;       /* distance to intersection */
+    double      isect_t;       /* distance to intersection */
     int         isect_enter;   /* entering? ie hit front? */
     Object_3D  *isect_prim;    /* object we hit */
     Surface_3D *isect_surf;    /* surface def of hit object */

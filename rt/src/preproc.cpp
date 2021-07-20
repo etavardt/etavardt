@@ -42,10 +42,31 @@ using std::cerr;
 using std::cout;
 using std::endl;
 
+/* preprocessor macro structure */
+typedef struct t_macro {
+    char *macro,          /* define'd word */
+        *text;            /* text to replace macro with */
+    int mlen,             /* length of macro */
+        tlen;             /* length of text */
+    struct t_macro *next; /* stack link */
+} Macro;
+
+extern int preproc(const String &infile, const String &outfile);
+extern void  expand (char *src);
+extern void  sub_macro (Macro *mptr , char *loc);
+extern void  add_macro (char *txt);
+extern void  remove_macro (char *str);
+extern char *brute (char *text , const char *pat , int tlen , int plen);
+extern void  clean_up (void);
+extern int   vfgets (char *dst , int max_count , FILE *fp);
+extern char *get_next_token (char *text);
+extern int   cpy_tok (char *dst , char *src);
+extern int   is_tok (int c);
 extern char *brute(char *text, char *pattern, int tlen, int plen);
 extern char *get_next_token(char *text);
 extern int cpy_tok(char *dst, char *src);
 extern int is_tok(int c);
+
 
 #define BLANK ' '
 

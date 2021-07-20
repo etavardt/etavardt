@@ -35,6 +35,7 @@
 #include "String.hpp"
 #include "Tri_3D.hpp"
 #include "Bound_3D.hpp"
+#include "TransformMatrix_3D.hpp"
 
 #include "defs.hpp"
 #include "extern.hpp"
@@ -386,8 +387,8 @@ void Parser::yy_light() {
             break;
         case CENTER:
             get_vec();
-            if (TransTop) {
-                trans_vector(TransTop->mat, tmp_vec, tmp_vec);
+            if (TransformMatrix_3D::transTop) {
+                Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, tmp_vec, tmp_vec);
             }
             VecCopy(tmp_vec, Light::light_head->position);
             break;
@@ -405,8 +406,8 @@ void Parser::yy_light() {
             break;
         case DIRECTION:
             get_vec();
-            if (TransTop) {
-                trans_normal(TransTop->mat, tmp_vec, tmp_vec);
+            if (TransformMatrix_3D::transTop) {
+                Matrix_3D::trans_normal(TransformMatrix_3D::transTop->mat, tmp_vec, tmp_vec);
             }
             VecCopy(tmp_vec, Light::light_head->dir);
             VecS((-1.0), Light::light_head->dir, Light::light_head->dir);
@@ -430,8 +431,8 @@ void Parser::yy_light() {
             break;
         case AT:
             get_vec();
-            if (TransTop) {
-                trans_vector(TransTop->mat, tmp_vec, tmp_vec);
+            if (TransformMatrix_3D::transTop) {
+                Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, tmp_vec, tmp_vec);
             }
             VecCopy(tmp_vec, Light::light_head->dir);
             VecSub(Light::light_head->position, Light::light_head->dir, Light::light_head->dir);
@@ -483,11 +484,11 @@ Surface_3D *Parser::yy_surface() {
     // surf->tm_amb = NULL;
 
     /* if a transformation exists, set matrix to inverse
-       of current matrix at TransTop */
+       of current matrix at TransformMatrix_3D::transTop */
 
-    if (TransTop) {
+    if (TransformMatrix_3D::transTop) {
         surf->flags |= S_TRANSFORM;
-        matrix_inverse(TransTop->mat, surf->matrix);
+        Matrix_3D::matrix_inverse(TransformMatrix_3D::transTop->mat, surf->matrix);
     }
 
     //    cout << "cout: In Parser::yy_surface Pre get_token" << endl;
@@ -788,8 +789,8 @@ Texmap *Parser::yy_texmap() {
     MakeVector(0.0, 0.0, 1.0, cur_texmap->normal);
     MakeVector(1.0, 0.0, 0.0, cur_texmap->across);
     MakeVector(0.0, -1.0, 0.0, cur_texmap->down);
-    if (TransTop) {
-        cur_texmap->scale = 1.0 / TransTop->mat[3][3];
+    if (TransformMatrix_3D::transTop) {
+        cur_texmap->scale = 1.0 / TransformMatrix_3D::transTop->mat[3][3];
     } else {
         cur_texmap->scale = 1.0;
     }
@@ -812,22 +813,22 @@ Texmap *Parser::yy_texmap() {
         case CENTER:
             get_vec();
             VecCopy(tmp_vec, cur_texmap->position);
-            if (TransTop) {
-                trans_vector(TransTop->mat, cur_texmap->position, cur_texmap->position);
+            if (TransformMatrix_3D::transTop) {
+                Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, cur_texmap->position, cur_texmap->position);
             }
             break;
         case NORMAL:
             get_vec();
             VecCopy(tmp_vec, cur_texmap->normal);
-            if (TransTop) {
-                trans_normal(TransTop->mat, cur_texmap->normal, cur_texmap->normal);
+            if (TransformMatrix_3D::transTop) {
+                Matrix_3D::trans_normal(TransformMatrix_3D::transTop->mat, cur_texmap->normal, cur_texmap->normal);
             }
             break;
         case ACROSS:
             get_vec();
             VecCopy(tmp_vec, cur_texmap->across);
-            if (TransTop) {
-                trans_normal(TransTop->mat, cur_texmap->across, cur_texmap->across);
+            if (TransformMatrix_3D::transTop) {
+                Matrix_3D::trans_normal(TransformMatrix_3D::transTop->mat, cur_texmap->across, cur_texmap->across);
             }
             break;
         case SCALE:
@@ -970,9 +971,9 @@ void Parser::yy_transform() {
     cur_trans = new Transform();
     Stats::trackMemoryUsage(sizeof(Transform));
     ptrchk(cur_trans, "transform structure");
-    cur_trans->next = TransTop;
-    TransTop = cur_trans;
-    identity(cur_trans->mat);
+    cur_trans->next = TransformMatrix_3D::transTop;
+    TransformMatrix_3D::transTop = cur_trans;
+    Matrix_3D::identity(cur_trans->mat);
 
     //    cout << "cout: In Parser::yy_transform Pre get_token" << endl;
     /* grab and toss left brace */
@@ -986,41 +987,41 @@ void Parser::yy_transform() {
             get_vec();
 
             /* do x axis rotation */
-            identity(m);
+            Matrix_3D::identity(m);
             theta = bMath::degtorad(tmp_vec[0]);
             m[1][1] = cos(theta);
             m[2][1] = -sin(theta);
             m[1][2] = sin(theta);
             m[2][2] = cos(theta);
-            matrix_cat(TransTop->mat, m, TransTop->mat);
+            Matrix_3D::matrix_cat(TransformMatrix_3D::transTop->mat, m, TransformMatrix_3D::transTop->mat);
 
             /* do y axis rotation */
-            identity(m);
+            Matrix_3D::identity(m);
             theta = bMath::degtorad(tmp_vec[1]);
             m[0][0] = cos(theta);
             m[2][0] = sin(theta);
             m[0][2] = -sin(theta);
             m[2][2] = cos(theta);
-            matrix_cat(TransTop->mat, m, TransTop->mat);
+            Matrix_3D::matrix_cat(TransformMatrix_3D::transTop->mat, m, TransformMatrix_3D::transTop->mat);
 
             /* do z axis rotation */
-            identity(m);
+            Matrix_3D::identity(m);
             theta = bMath::degtorad(tmp_vec[2]);
             m[0][0] = cos(theta);
             m[1][0] = -sin(theta);
             m[0][1] = sin(theta);
             m[1][1] = cos(theta);
-            matrix_cat(TransTop->mat, m, TransTop->mat);
+            Matrix_3D::matrix_cat(TransformMatrix_3D::transTop->mat, m, TransformMatrix_3D::transTop->mat);
 
             break;
         case TRANSLATE:
             get_vec();
-            identity(m); /* make identity matrix */
+            Matrix_3D::identity(m); /* make identity matrix */
             m[3][0] = tmp_vec[0];
             m[3][1] = tmp_vec[1];
             m[3][2] = tmp_vec[2];
 
-            matrix_cat(TransTop->mat, m, TransTop->mat);
+            Matrix_3D::matrix_cat(TransformMatrix_3D::transTop->mat, m, TransformMatrix_3D::transTop->mat);
 
             break;
         case SCALE:
@@ -1028,16 +1029,16 @@ void Parser::yy_transform() {
             tmp = cur_value;
             get_token();
             if (cur_token == NUMBER) {
-                identity(m); /* make identity matrix */
+                Matrix_3D::identity(m); /* make identity matrix */
                 m[0][0] = tmp;
                 m[1][1] = cur_value;
                 get_num();
                 m[2][2] = cur_value;
 
-                matrix_cat(TransTop->mat, m, TransTop->mat);
+                Matrix_3D::matrix_cat(TransformMatrix_3D::transTop->mat, m, TransformMatrix_3D::transTop->mat);
             } else {
                 push_token();
-                TransTop->mat[3][3] /= tmp;
+                TransformMatrix_3D::transTop->mat[3][3] /= tmp;
             }
             break;
         default:
@@ -1048,8 +1049,8 @@ void Parser::yy_transform() {
 
     /* concatenate new transformation onto previous ones */
 
-    if (TransTop->next) {
-        matrix_cat(TransTop->mat, TransTop->next->mat, TransTop->mat);
+    if (TransformMatrix_3D::transTop->next) {
+        Matrix_3D::matrix_cat(TransformMatrix_3D::transTop->mat, TransformMatrix_3D::transTop->next->mat, TransformMatrix_3D::transTop->mat);
     }
 
 } /* end of yy_transform() */
@@ -1134,8 +1135,8 @@ Clip *Parser::yy_clip() {
         case CENTER:
             get_vec();
             VecCopy(tmp_vec, cur_clip->center);
-            if (TransTop) {
-                trans_vector(TransTop->mat, cur_clip->center, cur_clip->center);
+            if (TransformMatrix_3D::transTop) {
+                Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, cur_clip->center, cur_clip->center);
             }
             if (!(cur_clip->type & C_PLANE)) {
                 cur_clip->type |= C_SPHERE;
@@ -1144,8 +1145,8 @@ Clip *Parser::yy_clip() {
         case NORMAL:
             get_vec();
             VecCopy(tmp_vec, cur_clip->normal);
-            if (TransTop) {
-                trans_normal(TransTop->mat, cur_clip->normal, cur_clip->normal);
+            if (TransformMatrix_3D::transTop) {
+                Matrix_3D::trans_normal(TransformMatrix_3D::transTop->mat, cur_clip->normal, cur_clip->normal);
             }
             cur_clip->type |= C_PLANE;
             if (cur_clip->type & C_SPHERE) {
@@ -1155,16 +1156,16 @@ Clip *Parser::yy_clip() {
         case APEX:
             get_vec();
             VecCopy(tmp_vec, cur_clip->apex);
-            if (TransTop) {
-                trans_vector(TransTop->mat, cur_clip->apex, cur_clip->apex);
+            if (TransformMatrix_3D::transTop) {
+                Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, cur_clip->apex, cur_clip->apex);
             }
             ClipTop->type |= C_CONE;
             break;
         case BASE:
             get_vec();
             VecCopy(tmp_vec, cur_clip->base);
-            if (TransTop) {
-                trans_vector(TransTop->mat, cur_clip->base, cur_clip->base);
+            if (TransformMatrix_3D::transTop) {
+                Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, cur_clip->base, cur_clip->base);
             }
             cur_clip->type |= C_CONE;
             break;
@@ -1247,10 +1248,10 @@ void Parser::yy_sphere() {
         } /* end of sphere switch */
     }     /* end of while loop looking for right brace */
 
-    if (TransTop) {
-        trans_vector(TransTop->mat, center, center);
-        radius /= TransTop->mat[3][3];
-        fuzz /= TransTop->mat[3][3];
+    if (TransformMatrix_3D::transTop) {
+        Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, center, center);
+        radius /= TransformMatrix_3D::transTop->mat[3][3];
+        fuzz /= TransformMatrix_3D::transTop->mat[3][3];
     }
 
     new_obj = Sphere_3D::makeSphere(center, radius, fuzz);
@@ -1307,11 +1308,11 @@ void Parser::yy_cone() {
         } /* end of cone switch */
     }     /* end of while loop looking for right brace */
 
-    if (TransTop) {
-        trans_vector(TransTop->mat, apex, apex);
-        trans_vector(TransTop->mat, base, base);
-        arad /= TransTop->mat[3][3];
-        brad /= TransTop->mat[3][3];
+    if (TransformMatrix_3D::transTop) {
+        Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, apex, apex);
+        Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, base, base);
+        arad /= TransformMatrix_3D::transTop->mat[3][3];
+        brad /= TransformMatrix_3D::transTop->mat[3][3];
     }
 
     new_obj = Cone_3D::makeCone(apex, arad, base, brad);
@@ -1366,11 +1367,11 @@ void Parser::yy_ring() {
         } /* end of ring switch */
     }     /* end of while loop looking for right brace */
 
-    if (TransTop) {
-        trans_vector(TransTop->mat, center, center);
-        trans_normal(TransTop->mat, normal, normal);
-        min_rad /= TransTop->mat[3][3];
-        max_rad /= TransTop->mat[3][3];
+    if (TransformMatrix_3D::transTop) {
+        Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, center, center);
+        Matrix_3D::trans_normal(TransformMatrix_3D::transTop->mat, normal, normal);
+        min_rad /= TransformMatrix_3D::transTop->mat[3][3];
+        max_rad /= TransformMatrix_3D::transTop->mat[3][3];
     }
 
     new_obj = Ring_3D::makeRing(center, normal, min_rad, max_rad);
@@ -1414,8 +1415,8 @@ void Parser::yy_polygon() {
         case VERTEX:
             get_vec();
             VecCopy(tmp_vec, vlist[i]);
-            if (TransTop) {
-                trans_vector(TransTop->mat, vlist[i], vlist[i]);
+            if (TransformMatrix_3D::transTop) {
+                Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, vlist[i], vlist[i]);
             }
             i++;
             break;
@@ -1480,13 +1481,13 @@ void Parser::yy_patch() {
         yyerror(String("Patches must have 3 vertices and normals each."));
     }
 
-    if (TransTop) {
-        trans_vector(TransTop->mat, data[0], data[0]);
-        trans_vector(TransTop->mat, data[2], data[2]);
-        trans_vector(TransTop->mat, data[4], data[4]);
-        trans_normal(TransTop->mat, data[1], data[1]);
-        trans_normal(TransTop->mat, data[3], data[3]);
-        trans_normal(TransTop->mat, data[5], data[5]);
+    if (TransformMatrix_3D::transTop) {
+        Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, data[0], data[0]);
+        Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, data[2], data[2]);
+        Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, data[4], data[4]);
+        Matrix_3D::trans_normal(TransformMatrix_3D::transTop->mat, data[1], data[1]);
+        Matrix_3D::trans_normal(TransformMatrix_3D::transTop->mat, data[3], data[3]);
+        Matrix_3D::trans_normal(TransformMatrix_3D::transTop->mat, data[5], data[5]);
     }
 
     new_obj = Tri_3D::makeTri(data);
@@ -1613,7 +1614,7 @@ void Parser::ReadSceneFile(const String &real_name, String tmp_name) {
 
     //    cout << "cout: In Parser::ReadSceneFile Post yyparse Pre clean up transform structures" << endl;
     /* clean up transform structures */
-    while (TransTop)
+    while (TransformMatrix_3D::transTop)
         trans_pop();
 
     if (stop_line == -1) {
@@ -1681,10 +1682,10 @@ void Parser::yy_popfile() {
 void Parser::trans_pop() {
     Transform *tptr;
 
-    //    cout << "cout: In Parser::trans_pop Pre TransTop ptr check" << endl;
-    tptr = TransTop;
+    //    cout << "cout: In Parser::trans_pop Pre TransformMatrix_3D::transTop ptr check" << endl;
+    tptr = TransformMatrix_3D::transTop;
     if (tptr == NULL) {
         yyerror(String("Trying to pop a transformation from an empty stack."));
     }
-    TransTop = TransTop->next;
+    TransformMatrix_3D::transTop = TransformMatrix_3D::transTop->next;
 }

@@ -57,7 +57,7 @@ extern double         HazeDensity;
 extern Surface_3D *CurrentSurface;
 extern Stack      *SurfTop;
 extern Stack      *InfileTop;
-extern Transform  *TransTop;
+//extern Transform  *TransformMatrix_3D::transTop;
 extern Clip       *ClipTop;
 extern GlobalClip *GlobalClipTop;
 //extern long        nPrims;

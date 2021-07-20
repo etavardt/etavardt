@@ -32,7 +32,7 @@
         Returns 1 if passes, 0 if fails.
 */
 
-int clip_check(Clip *head, Vec P)
+int clip_check(Clip *head, Vec &P)
 {
     Vec     V;
     double     dist;

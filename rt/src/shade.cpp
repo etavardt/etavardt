@@ -29,6 +29,7 @@
 #include "Color.hpp"
 #include "Isect_3D.hpp"
 #include "Light_3D.hpp"
+#include "Clip_3D.hpp"
 #include "config.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
@@ -133,7 +134,7 @@ void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color
     /* transform point if needed */
 
     if (surf->flags & S_TRANSFORM) {
-        trans_vector(surf->matrix, P, tex_P);
+        Matrix_3D::trans_vector(surf->matrix, P, tex_P);
     } else {
         VecCopy(P, tex_P);
     }

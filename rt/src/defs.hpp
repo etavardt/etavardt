@@ -31,7 +31,7 @@
 //typedef Flt Vec[3];
 //typedef Vec Point;
 
-typedef double Matrix[4][4];
+// typedef double Matrix[4][4];
 /*----------------------------------------------------------------------*/
 /*
 #ifndef DUMB_CPP

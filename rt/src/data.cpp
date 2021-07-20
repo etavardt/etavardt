@@ -50,7 +50,7 @@ Color       HazeColor;             /* color of haze */
 double         HazeDensity;           /* exponential factor */
 Surface_3D *CurrentSurface = NULL; /* surface at current top of stack */
 Stack      *SurfTop        = NULL; /* points to top of surface stack */
-Transform  *TransTop       = NULL; /* top of transformation stack */
+// Transform  *TransformMatrix_3D::transTop       = NULL; /* top of transformation stack */
 Clip       *ClipTop        = NULL; /* current clipping list */
 GlobalClip *GlobalClipTop  = NULL; /* current global clip list */
 //long        nPrims = 0; //moved to Bound_3D

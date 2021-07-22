@@ -87,7 +87,7 @@ int Tri_3D::intersect(Ray *ray, Isect &hit) {
      */
 
     d = VecDot(ray->D, td->tri_bb[2]);
-    if (bMath::abs(d) < rayeps)
+    if (bMath::abs(d) < Bob::rayeps)
         return 0;
 
     /*
@@ -104,7 +104,7 @@ int Tri_3D::intersect(Ray *ray, Isect &hit) {
 
     dist = n / d;
 
-    if (dist < rayeps) {
+    if (dist < Bob::rayeps) {
         return 0;
     }
 
@@ -225,8 +225,8 @@ Tri_3D *Tri_3D::makeTri(Vec *point) {
             if (d > dmax)
                 dmax = d;
         }
-        newTri->o_dmin[i] = dmin - rayeps;
-        newTri->o_dmax[i] = dmax + rayeps;
+        newTri->o_dmin[i] = dmin - Bob::rayeps;
+        newTri->o_dmax[i] = dmax + Bob::rayeps;
     }
 
     newTri->o_data = (void *)td;

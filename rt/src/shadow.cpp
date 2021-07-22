@@ -54,6 +54,8 @@
 #include <cstdio>
 #include <cmath>
 #include <memory.h>
+
+#include "Bob.hpp"
 #include "Isect_3D.hpp"
 #include "Object_3D.hpp"
 #include "Surface_3D.hpp"
@@ -64,7 +66,7 @@
 
 extern int  Intersect (Ray *ray , Isect &hit , double maxdist , Object *self);
 
-//TODO: TCE:Should fall under Ray?
+//TODO: TCE:Should fall under Ray or light?
 //    Ray    *ray;
 //    Isect    *hit;
 //    double    tmax;        /* dist to light we are trying to hit */
@@ -124,19 +126,19 @@ int Shadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &cu
                 caustic_scale = 1.0;
             }
 
-            if(tmp_surf->trans.r > rayeps) {
+            if(tmp_surf->trans.r > Bob::rayeps) {
                 double eTran = (exp_trans) ? pow(tmp_surf->trans.r, t) : tmp_surf->trans.r;
                 color.r *= caustic_scale * eTran;
             } else {    /* its black so zero it out */
                 color.r = 0.0;
             }
-            if(tmp_surf->trans.g > rayeps) {
+            if(tmp_surf->trans.g > Bob::rayeps) {
                 double eTran = (exp_trans) ? pow(tmp_surf->trans.g, t) : tmp_surf->trans.g;
                 color.g *= caustic_scale * eTran;
             } else {    /* its black so zero it out */
                 color.g = 0.0;
             }
-            if(tmp_surf->trans.b > rayeps) {
+            if(tmp_surf->trans.b > Bob::rayeps) {
                 double eTran = (exp_trans) ? pow(tmp_surf->trans.b, t) : tmp_surf->trans.b;
                 color.b *= caustic_scale * eTran;
             } else {    /* its black so zero it out */
@@ -144,7 +146,7 @@ int Shadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &cu
             }
 
             /* check if totally blocked */
-            if(color.r<rayeps && color.g<rayeps && color.b<rayeps) {
+            if(color.r<Bob::rayeps && color.g<Bob::rayeps && color.b<Bob::rayeps) {
                 if(tmp_surf->flags & S_CACHE) {  /* only if cacheable */
                     cur_light.light_obj_cache[level] = hit.isect_prim;
                 }
@@ -162,9 +164,9 @@ int Shadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &cu
                 RayPoint(ray, t, P);
                 tmp_surf->tex->map_fix(*tmp_surf, P);
             }
-            if(tmp_surf->trans.r < rayeps &&
-               tmp_surf->trans.g < rayeps &&
-               tmp_surf->trans.b < rayeps) {
+            if(tmp_surf->trans.r < Bob::rayeps &&
+               tmp_surf->trans.g < Bob::rayeps &&
+               tmp_surf->trans.b < Bob::rayeps) {
                 color = 0.0;
                 if(tmp_surf->flags & S_CACHE) {  /* only if cacheable */
                     cur_light.light_obj_cache[level] = hit.isect_prim;
@@ -183,19 +185,19 @@ int Shadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &cu
     }
 
     if(in_surf && prev_surf) {      /* if light is in transparent object */
-            if(tmp_surf->trans.r > rayeps) {
+            if(tmp_surf->trans.r > Bob::rayeps) {
                 double eTran = (exp_trans) ? pow(tmp_surf->trans.r, tmax) : tmp_surf->trans.r;
                 color.r *= eTran;
             } else {    /* its black so zero it out */
                 color.r = 0.0;
             }
-            if(tmp_surf->trans.g > rayeps) {
+            if(tmp_surf->trans.g > Bob::rayeps) {
                 double eTran = (exp_trans) ? pow(tmp_surf->trans.g, tmax) : tmp_surf->trans.g;
                 color.g *= eTran;
             } else {    /* its black so zero it out */
                 color.g = 0.0;
             }
-            if(tmp_surf->trans.b > rayeps) {
+            if(tmp_surf->trans.b > Bob::rayeps) {
                 double eTran = (exp_trans) ? pow(tmp_surf->trans.b, tmax) : tmp_surf->trans.b;
                 color.b *= eTran;
             } else {    /* its black so zero it out */

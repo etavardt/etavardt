@@ -68,12 +68,12 @@ int Poly_3D::intersect(Ray *ray, Isect &hit) {
 
     /* check for ray in plane of polygon */
 
-    if (bMath::abs(d) < rayeps) {
+    if (bMath::abs(d) < Bob::rayeps) {
         return 0;
     }
 
     t = -n / d;
-    if (t < rayeps) {
+    if (t < Bob::rayeps) {
         return 0;
     }
 
@@ -127,7 +127,7 @@ int Poly_3D::intersect(Ray *ray, Isect &hit) {
 
         b = (pd->poly_point[j][c2] - V[c2]) - m * (pd->poly_point[j][c1] - V[c1]);
 
-        if ((-b / m) < rayeps)
+        if ((-b / m) < Bob::rayeps)
             l++;
     }
 

@@ -81,7 +81,7 @@ int Sphere_3D::intersect(Ray *ray, Isect &hit) {
     t0 = b - disc;
     t1 = b + disc;
 
-    if (t0 > rayeps) { /* possible winner */
+    if (t0 > Bob::rayeps) { /* possible winner */
         if (!clips) {
             t = t0;
         } else {
@@ -97,7 +97,7 @@ int Sphere_3D::intersect(Ray *ray, Isect &hit) {
                 }
             }
         }
-    } else if (t1 > rayeps) {
+    } else if (t1 > Bob::rayeps) {
         if (!clips) {
             t = t1;
         } else {
@@ -113,7 +113,7 @@ int Sphere_3D::intersect(Ray *ray, Isect &hit) {
     }
 
     hit.isect_t = t;
-    hit.isect_enter = dot_vv > sp->sph_radius2 + rayeps ? 1 : 0;
+    hit.isect_enter = dot_vv > sp->sph_radius2 + Bob::rayeps ? 1 : 0;
     hit.isect_self = hit.isect_enter ? NULL : this;
     hit.isect_prim = this;
     hit.isect_surf = o_surf;
@@ -138,7 +138,7 @@ Sphere_3D *Sphere_3D::makeSphere(Vec &pos, double radius, double fuzzy) {
     newSphere = new Sphere_3D();
     Stats::trackMemoryUsage(sizeof(Sphere_3D));
     Bob::getApp().parser.ptrchk(newSphere, "sphere object");
-    if (fuzzy > rayeps) {
+    if (fuzzy > Bob::rayeps) {
         newSphere->o_type = T_FUZZY;
     } else {
         newSphere->o_type = T_SPHERE;
@@ -156,8 +156,8 @@ Sphere_3D *Sphere_3D::makeSphere(Vec &pos, double radius, double fuzzy) {
     Bob::getApp().parser.ptrchk(newSphere, "sphere data");
     VecCopy(pos, sp->sph_center);
     radius = bMath::abs(radius);
-    if (radius < rayeps)
-        radius = rayeps;
+    if (radius < Bob::rayeps)
+        radius = Bob::rayeps;
     sp->sph_radius = 1.0 / radius;
     sp->sph_radius2 = radius * radius;
     if (newSphere->o_type == T_FUZZY) {

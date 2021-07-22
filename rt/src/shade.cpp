@@ -25,6 +25,7 @@
 #include <cstdlib>
 #include <memory.h>
 
+#include "Bob.hpp"
 #include "Bump_3D.hpp"
 #include "Color.hpp"
 #include "Isect_3D.hpp"
@@ -82,7 +83,7 @@ int refract(double eta, const Vec &I, const Vec &N, Vec &T, double dot) {
     return 1;
 }
 
-// TODO: TCE:Should fall under Ray?
+// TODO: TCE:Should fall under Ray or light?
 /*
     Shade(level, weight, P, N, I, hit, col, ior)
 
@@ -327,9 +328,9 @@ void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color
                             /* VecNormalize(R); */ /* already done if I and fuzz_N are normalized */
                             R_calced = 1;
                         }
-                        if (surf->shine > rayeps) {
+                        if (surf->shine > Bob::rayeps) {
                             spec = VecDot(R, L);
-                            if (spec > rayeps) {
+                            if (spec > Bob::rayeps) {
                                 /* scale c_shadow(light color) by specular of surface or user input*/
                                 // VecMul(surf->cshine, c_shadow, c_shadow);
                                 c_shadow *= surf->cshine;
@@ -397,7 +398,7 @@ void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color
         if (t < HUGE_NUM && inside) {
             /*
             for(i=0; i<3; i++) {
-                if(surf->trans[i] > rayeps) {
+                if(surf->trans[i] > Bob::rayeps) {
                     if(surf->trans[i] < 1.0) {
                         if(exp_trans) {
                             /* modulate color exponentially with distance * /
@@ -418,7 +419,7 @@ void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color
             /* ray traveled through substance */
             /* if(i==0)
                 printf("level %d   inside %d   trans %.3f   t %.3f\n", level, inside, surf->trans.r, t); */
-            if (surf->trans.r > rayeps) {
+            if (surf->trans.r > Bob::rayeps) {
                 if (surf->trans.r < 1.0) {
                     double etst = (exp_trans ? pow(surf->trans.r, t) : surf->trans.r);
                     tcol.r *= etst;
@@ -426,7 +427,7 @@ void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color
             } else {
                 tcol.r = 0.0; /* opaque */
             }
-            if (surf->trans.g > rayeps) {
+            if (surf->trans.g > Bob::rayeps) {
                 if (surf->trans.g < 1.0) {
                     double etst = (exp_trans ? pow(surf->trans.g, t) : surf->trans.g);
                     tcol.g *= etst;
@@ -434,7 +435,7 @@ void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color
             } else {
                 tcol.g = 0.0; /* opaque */
             }
-            if (surf->trans.b > rayeps) {
+            if (surf->trans.b > Bob::rayeps) {
                 if (surf->trans.b < 1.0) {
                     double etst = (exp_trans ? pow(surf->trans.b, t) : surf->trans.b);
                     tcol.b *= etst;

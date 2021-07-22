@@ -52,18 +52,18 @@ Sphere_3D::~Sphere_3D() {
     }
 }
 
-int Sphere_3D::intersect(Object_3D *obj, Ray *ray, Isect &hit) {
+int Sphere_3D::intersect(Ray *ray, Isect &hit) {
     double b, disc, t, t0, t1, dot_vv;
     Point V, P;
     SphereData *sp;
 
-    sp = (SphereData *)obj->o_data;
+    sp = (SphereData *)o_data;
 
-    if (obj->o_type == T_FUZZY) { /* its a fuzz ball */
-        double tmp;
+    if (o_type == T_FUZZY) { /* its a fuzz ball */
+        double newSphere;
 
-        tmp = 1.0 / sp->sph_radius + (double)rand() / sp->sph_fuzzy;
-        sp->sph_radius2 = tmp * tmp;
+        newSphere = 1.0 / sp->sph_radius + (double)rand() / sp->sph_fuzzy;
+        sp->sph_radius2 = newSphere * newSphere;
     }
 
     VecSub((sp->sph_center), ray->P, V);
@@ -82,15 +82,15 @@ int Sphere_3D::intersect(Object_3D *obj, Ray *ray, Isect &hit) {
     t1 = b + disc;
 
     if (t0 > rayeps) { /* possible winner */
-        if (!obj->clips) {
+        if (!clips) {
             t = t0;
         } else {
             RayPoint(ray, t0, P);
-            if (clip_check(obj->clips, P)) {
+            if (clip_check(clips, P)) {
                 t = t0;
             } else { /* well, try t1 */
                 RayPoint(ray, t1, P);
-                if (clip_check(obj->clips, P)) {
+                if (clip_check(clips, P)) {
                     t = t1;
                 } else {
                     return 0;
@@ -98,11 +98,11 @@ int Sphere_3D::intersect(Object_3D *obj, Ray *ray, Isect &hit) {
             }
         }
     } else if (t1 > rayeps) {
-        if (!obj->clips) {
+        if (!clips) {
             t = t1;
         } else {
             RayPoint(ray, t1, P);
-            if (clip_check(obj->clips, P)) {
+            if (clip_check(clips, P)) {
                 t = t1;
             } else {
                 return 0;
@@ -114,57 +114,57 @@ int Sphere_3D::intersect(Object_3D *obj, Ray *ray, Isect &hit) {
 
     hit.isect_t = t;
     hit.isect_enter = dot_vv > sp->sph_radius2 + rayeps ? 1 : 0;
-    hit.isect_self = hit.isect_enter ? NULL : obj;
-    hit.isect_prim = obj;
-    hit.isect_surf = obj->o_surf;
+    hit.isect_self = hit.isect_enter ? NULL : this;
+    hit.isect_prim = this;
+    hit.isect_surf = o_surf;
 
     return 1;
 }
 
-void Sphere_3D::normal(Object_3D *obj, Isect &hit, Point &P, Vec &N) {
+void Sphere_3D::normal(Isect &hit, Point &P, Vec &N) {
     SphereData *sp;
 
-    sp = (SphereData *)obj->o_data;
+    sp = (SphereData *)o_data;
 
     VecSub(P, sp->sph_center, N);
     VecNormalize(N);
 }
 
 Sphere_3D *Sphere_3D::makeSphere(Vec &pos, double radius, double fuzzy) {
-    Sphere_3D *tmp;
+    Sphere_3D *newSphere;
     int i;
     SphereData *sp;
 
-    tmp = new Sphere_3D();
+    newSphere = new Sphere_3D();
     Stats::trackMemoryUsage(sizeof(Sphere_3D));
-    Bob::getApp().parser.ptrchk(tmp, "sphere object");
+    Bob::getApp().parser.ptrchk(newSphere, "sphere object");
     if (fuzzy > rayeps) {
-        tmp->o_type = T_FUZZY;
+        newSphere->o_type = T_FUZZY;
     } else {
-        tmp->o_type = T_SPHERE;
+        newSphere->o_type = T_SPHERE;
     }
 
     if (ClipTop) {
-        tmp->clips = ClipTop;
+        newSphere->clips = ClipTop;
         ClipTop = GlobalClipTop->clip;
     } else {
-        tmp->clips = NULL;
+        newSphere->clips = NULL;
     }
 
     sp = new SphereData();
     Stats::trackMemoryUsage(sizeof(SphereData));
-    Bob::getApp().parser.ptrchk(tmp, "sphere data");
+    Bob::getApp().parser.ptrchk(newSphere, "sphere data");
     VecCopy(pos, sp->sph_center);
     radius = bMath::abs(radius);
     if (radius < rayeps)
         radius = rayeps;
     sp->sph_radius = 1.0 / radius;
     sp->sph_radius2 = radius * radius;
-    if (tmp->o_type == T_FUZZY) {
+    if (newSphere->o_type == T_FUZZY) {
         sp->sph_fuzzy = (double)RAND_MAX / fuzzy;
         radius += fuzzy; /* for calcing bounding slabs */
     }
-    tmp->o_data = (void *)sp;
+    newSphere->o_data = (void *)sp;
 
     /*
      * figure out dmin and dmax values for
@@ -172,13 +172,13 @@ Sphere_3D *Sphere_3D::makeSphere(Vec &pos, double radius, double fuzzy) {
      */
 
     for (i = 0; i < NSLABS; i++) {
-        tmp->o_dmin[i] = VecDot(sp->sph_center, Slab[i]) - bMath::abs(radius);
-        tmp->o_dmax[i] = VecDot(sp->sph_center, Slab[i]) + bMath::abs(radius);
+        newSphere->o_dmin[i] = VecDot(sp->sph_center, Slab[i]) - bMath::abs(radius);
+        newSphere->o_dmax[i] = VecDot(sp->sph_center, Slab[i]) + bMath::abs(radius);
     }
 
-    if (tmp->clips) {
-        bound_opt(tmp);
+    if (newSphere->clips) {
+        bound_opt(newSphere);
     }
 
-    return tmp;
+    return newSphere;
 }

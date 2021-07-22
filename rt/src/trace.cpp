@@ -85,7 +85,7 @@ double Trace(int level, double weight, Ray *ray, Color &color, double ior, Objec
         RayPoint(ray, hit.isect_t, P);
         /* get normal vector of intersection */
 //        (*prim->o_procs->normal)(prim, &hit, P, N);
-        prim->normal(prim, hit, P, N);
+        prim->normal(hit, P, N);
 
         Shade(level, weight, P, N, ray->D, hit, color, ior);
         return hit.isect_t;

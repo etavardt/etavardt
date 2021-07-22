@@ -3,7 +3,7 @@
 �                                                                         �
 �                             Bob Ray Tracer                              �
 �                                                                         �
-�                       Cone.C = cone primative                           �
+�                       Cone.C = newCone primative                           �
 �                                                                         �
 �       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
 �                                                                         �
@@ -41,7 +41,7 @@ typedef struct t_conedata {
     double cone_apex_radius;
     Vec cone_u;
     Vec cone_v;
-    Vec cone_w; /* vector along cone axis */
+    Vec cone_w; /* vector along newCone axis */
     double cone_height;
     double cone_slope;
     double cone_min_d;
@@ -59,14 +59,14 @@ Cone_3D::~Cone_3D() {
     }
 }
 
-int Cone_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
+int Cone_3D::intersect(Ray *ray, Isect &hit) {
     Ray tray;
     ConeData *cd;
     Vec V, P;
     double a, b, c, d, disc;
     double t1, t2, flt_tmp;
 
-    cd = (ConeData *)(obj->o_data);
+    cd = (ConeData *)(o_data);
 
     /*
      * First, we get the coordinates of the ray origin in
@@ -128,12 +128,12 @@ int Cone_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
 
     if (t1 > rayeps) { /* possible real hit */
         RayPoint(ray, t1, P);
-        if (!obj->clips || clip_check(obj->clips, P)) {
+        if (!clips || clip_check(clips, P)) {
             d = VecDot(cd->cone_w, P);
             if (d >= cd->cone_min_d && d <= cd->cone_max_d) { /* hit! */
                 hit.isect_t = t1;
-                hit.isect_prim = obj;
-                hit.isect_surf = obj->o_surf;
+                hit.isect_prim = this;
+                hit.isect_surf = o_surf;
 
                 return 1;
             }
@@ -142,12 +142,12 @@ int Cone_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
 
     if (t2 > rayeps) {
         RayPoint(ray, t2, P);
-        if (!obj->clips || clip_check(obj->clips, P)) {
+        if (!clips || clip_check(clips, P)) {
             d = VecDot(cd->cone_w, P);
             if (d >= cd->cone_min_d && d <= cd->cone_max_d) {
                 hit.isect_t = t2;
-                hit.isect_prim = obj;
-                hit.isect_surf = obj->o_surf;
+                hit.isect_prim = this;
+                hit.isect_surf = o_surf;
 
                 return 1;
             }
@@ -156,12 +156,12 @@ int Cone_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
     return 0;
 }
 
-void Cone_3D::normal(Object *obj, Isect &hit, Point &_P, Vec &N) {
+void Cone_3D::normal(Isect &hit, Point &_P, Vec &N) {
     double t;
     Vec V;
     ConeData *cd;
 
-    cd = (ConeData *)obj->o_data;
+    cd = (ConeData *)o_data;
 
     /*
      * fill in the real normal...
@@ -181,26 +181,26 @@ void Cone_3D::normal(Object *obj, Isect &hit, Point &_P, Vec &N) {
 }
 
 Cone_3D *Cone_3D::makeCone(Vec &basepoint, double baseradius, Vec &apexpoint, double apexradius) {
-    Cone_3D *obj;
+    Cone_3D *newCone;
     ConeData *cd;
     double dmin, dmax, ftmp, size;
     Vec tmp;
     int i;
 
-    obj = new Cone_3D();
+    newCone = new Cone_3D();
     Stats::trackMemoryUsage(sizeof(Cone_3D));
-    Bob::getApp().parser.ptrchk(obj, "cone object");
+    Bob::getApp().parser.ptrchk(newCone, "newCone object");
 
     if (ClipTop) {
-        obj->clips = ClipTop;
+        newCone->clips = ClipTop;
         ClipTop = GlobalClipTop->clip;
     } else {
-        obj->clips = NULL;
+        newCone->clips = NULL;
     }
 
     cd = new ConeData();
     Stats::trackMemoryUsage(sizeof(ConeData));
-    Bob::getApp().parser.ptrchk(cd, "cone data");
+    Bob::getApp().parser.ptrchk(cd, "newCone data");
 
     VecCopy(basepoint, cd->cone_base);
     VecCopy(apexpoint, cd->cone_apex);
@@ -241,7 +241,7 @@ Cone_3D *Cone_3D::makeCone(Vec &basepoint, double baseradius, Vec &apexpoint, do
         cd->cone_min_d = ftmp;
     }
 
-    obj->o_data = (void *)cd;
+    newCone->o_data = (void *)cd;
 
     /* calc bounding slabs */
 
@@ -250,21 +250,21 @@ Cone_3D *Cone_3D::makeCone(Vec &basepoint, double baseradius, Vec &apexpoint, do
     for (i = 0; i < NSLABS; i++) {
         size = VecDot(Slab[i], tmp);
         size = baseradius * sqrt(1.0 - size * size);
-        obj->o_dmin[i] = basepoint[i] - size;
-        obj->o_dmax[i] = basepoint[i] + size;
+        newCone->o_dmin[i] = basepoint[i] - size;
+        newCone->o_dmax[i] = basepoint[i] + size;
         size = VecDot(Slab[i], tmp);
         size = apexradius * sqrt(1.0 - size * size);
         dmin = apexpoint[i] - size;
         dmax = apexpoint[i] + size;
-        if (dmin < obj->o_dmin[i])
-            obj->o_dmin[i] = dmin;
-        if (dmax > obj->o_dmax[i])
-            obj->o_dmax[i] = dmax;
+        if (dmin < newCone->o_dmin[i])
+            newCone->o_dmin[i] = dmin;
+        if (dmax > newCone->o_dmax[i])
+            newCone->o_dmax[i] = dmax;
     }
 
-    if (obj->clips) {
-        bound_opt(obj);
+    if (newCone->clips) {
+        bound_opt(newCone);
     }
 
-    return obj;
+    return newCone;
 }

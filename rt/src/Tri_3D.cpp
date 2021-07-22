@@ -60,14 +60,14 @@ Tri_3D::~Tri_3D() {
         delete (TriData *)o_data;
     }
 }
-int Tri_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
+int Tri_3D::intersect(Ray *ray, Isect &hit) {
     TriData *td;
     double n, d, dist;
     double r, s, t;
     double a, b;
     Vec Q;
 
-    td = (TriData *)obj->o_data;
+    td = (TriData *)o_data;
 
     /*
      * The matrix td->tri_bb transforms vectors in the world
@@ -112,7 +112,7 @@ int Tri_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
     RayPoint(ray, dist, Q);
 
     /* if clipping and doesn't pass, bail */
-    if (obj->clips && !clip_check(obj->clips, Q)) {
+    if (clips && !clip_check(clips, Q)) {
         return 0;
     }
 
@@ -135,9 +135,9 @@ int Tri_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
     t = b;
 
     hit.isect_t = dist;
-    hit.isect_prim = obj;
-    hit.isect_self = obj;
-    hit.isect_surf = obj->o_surf;
+    hit.isect_prim = this;
+    hit.isect_self = this;
+    hit.isect_surf = o_surf;
 
     /* sum baricentric components to get real normal */
 
@@ -149,17 +149,17 @@ int Tri_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
     return 1;
 }
 
-void Tri_3D::normal(Object *obj, Isect &hit, Point &P, Vec &N) {
+void Tri_3D::normal(Isect &hit, Point &P, Vec &N) {
     TriData *td;
 
-    td = (TriData *)obj->o_data;
+    td = (TriData *)o_data;
 
     VecNormalize(td->normal);
     VecCopy(td->normal, N);
 }
 
 Tri_3D *Tri_3D::makeTri(Vec *point) {
-    Tri_3D *o;
+    Tri_3D *newTri;
     TriData *td;
     int i, j;
     double dmin, dmax, d;
@@ -167,19 +167,19 @@ Tri_3D *Tri_3D::makeTri(Vec *point) {
 
     checkTri(point);
 
-    o = new Tri_3D();
+    newTri = new Tri_3D();
     Stats::trackMemoryUsage(sizeof(Tri_3D));
-    Bob::getApp().parser.ptrchk(o, "patch object");
+    Bob::getApp().parser.ptrchk(newTri, "patch object");
 
     td = new TriData();
     Stats::trackMemoryUsage(sizeof(TriData));
     Bob::getApp().parser.ptrchk(td, "patch data");
 
     if (ClipTop) {
-        o->clips = ClipTop;
+        newTri->clips = ClipTop;
         ClipTop = GlobalClipTop->clip;
     } else {
-        o->clips = NULL;
+        newTri->clips = NULL;
     }
 
     /*
@@ -225,13 +225,13 @@ Tri_3D *Tri_3D::makeTri(Vec *point) {
             if (d > dmax)
                 dmax = d;
         }
-        o->o_dmin[i] = dmin - rayeps;
-        o->o_dmax[i] = dmax + rayeps;
+        newTri->o_dmin[i] = dmin - rayeps;
+        newTri->o_dmax[i] = dmax + rayeps;
     }
 
-    o->o_data = (void *)td;
+    newTri->o_data = (void *)td;
 
-    return o;
+    return newTri;
 }
 
 void Tri_3D::invertMatrix(const Vec in[3], Vec out[3]) {

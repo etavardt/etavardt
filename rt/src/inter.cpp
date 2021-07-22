@@ -117,7 +117,7 @@ int Intersect(Ray *ray, Isect &hit, double maxdist, Object *lastObjHit)
     /* If the object is simple, then return the hit that it gives you */
 
     if(Root->o_type != T_COMPOSITE)
-        return Root->intersect(Root, ray, hit);
+        return Root->intersect(ray, hit);
         //        return (Root->o_procs->intersect) (Root, ray, hit);
 
     for(i=0; i<3; i++) {
@@ -174,7 +174,7 @@ int Intersect(Ray *ray, Isect &hit, double maxdist, Object *lastObjHit)
              */
 
 //            if((cobj->o_procs->intersect) (cobj, ray, &nhit)) {
-            if(cobj->intersect(cobj, ray, nhit)) {
+            if(cobj->intersect(ray, nhit)) {
                 if(nhit.isect_t < min_dist) {
                     pobj = cobj;
                     hit = nhit;

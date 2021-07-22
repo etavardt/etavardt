@@ -54,7 +54,7 @@ Stack      *SurfTop        = NULL; /* points to top of surface stack */
 Clip       *ClipTop        = NULL; /* current clipping list */
 GlobalClip *GlobalClipTop  = NULL; /* current global clip list */
 //long        nPrims = 0; //moved to Bound_3D
-double         rayeps = 1e-6;
+//double         Bob::rayeps = 1e-6; // the smallest allowable ray size, color value, or double
 //char       *Progname;
 //char        Infilename[256];
 String      Infilename;

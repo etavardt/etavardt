@@ -40,4 +40,6 @@ class Bob : public App {
     bool preprocess = true;
 
     Parser parser;
+
+    static double rayeps; // the smallest allowable ray size, color value, or double
 };

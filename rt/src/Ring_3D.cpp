@@ -67,7 +67,7 @@ int Ring_3D::intersect(Ray *ray, Isect &hit) {
 
     t = Vpro / Vprd;
 
-    if (t < rayeps) { /* intersect behind us or self */
+    if (t < Bob::rayeps) { /* intersect behind us or self */
         return 0;
     }
 

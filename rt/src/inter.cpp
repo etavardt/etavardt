@@ -22,6 +22,8 @@
 #include <cstdio>
 #include <cmath>
 #include <cassert>
+
+#include "Bob.hpp"
 #include "Object_3D.hpp"
 #include "Isect_3D.hpp"
 #include "defs.hpp"
@@ -84,7 +86,7 @@ void CheckAndEnqueue(Object *obj, double maxdist)
                 dmin = tmax;
         }
 
-        if(dmin>dmax || dmax<rayeps)
+        if(dmin>dmax || dmax<Bob::rayeps)
             return;
     }
     PriorityQueueInsert(dmin, obj);

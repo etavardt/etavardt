@@ -61,7 +61,7 @@ extern Stack      *InfileTop;
 extern Clip       *ClipTop;
 extern GlobalClip *GlobalClipTop;
 //extern long        nPrims;
-extern double         rayeps;
+//extern double         Bob::rayeps;
 //extern char       *Progname;
 //extern char        Infilename[];
 extern String Infilename;

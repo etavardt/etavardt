@@ -13,6 +13,8 @@ using std::cerr;
 using std::cout;
 using std::endl;
 
+double Bob::rayeps = 1e-6; // the smallest allowable ray size, color value, or double
+
 String Bob::_Program = "Bob";
 String Bob::_Version = "Version 1.0";
 String Bob::_Date = "August 3, 1992";

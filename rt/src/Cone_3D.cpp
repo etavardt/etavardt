@@ -101,7 +101,7 @@ int Cone_3D::intersect(Ray *ray, Isect &hit) {
 
     if (a == 0) { /* special case? */
         t2 = -c / b;
-        if (t2 < rayeps)
+        if (t2 < Bob::rayeps)
             return 0;
         t1 = -1.0;
     } else {
@@ -126,7 +126,7 @@ int Cone_3D::intersect(Ray *ray, Isect &hit) {
 
     /* check nearest root first */
 
-    if (t1 > rayeps) { /* possible real hit */
+    if (t1 > Bob::rayeps) { /* possible real hit */
         RayPoint(ray, t1, P);
         if (!clips || clip_check(clips, P)) {
             d = VecDot(cd->cone_w, P);
@@ -140,7 +140,7 @@ int Cone_3D::intersect(Ray *ray, Isect &hit) {
         }
     }
 
-    if (t2 > rayeps) {
+    if (t2 > Bob::rayeps) {
         RayPoint(ray, t2, P);
         if (!clips || clip_check(clips, P)) {
             d = VecDot(cd->cone_w, P);
@@ -219,7 +219,7 @@ Cone_3D *Cone_3D::makeCone(Vec &basepoint, double baseradius, Vec &apexpoint, do
     ftmp = VecDot(tmp, cd->cone_w);
     ftmp = bMath::abs(ftmp);
     ftmp = bMath::abs(ftmp - 1.0);
-    if (ftmp < rayeps) {
+    if (ftmp < Bob::rayeps) {
         MakeVector(0.0, 1.0, 0.0, tmp);
     }
 

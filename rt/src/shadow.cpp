@@ -86,7 +86,7 @@ int Shadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &cu
 
     /* check cache first */
     if(cached = cur_light.light_obj_cache[level]) {
-        if(cached->intersect(cached, ray, hit) && hit.isect_t < tmax) {
+        if(cached->intersect(ray, hit) && hit.isect_t < tmax) {
             nShadowCacheHits++;
             return 0;
         }
@@ -113,7 +113,7 @@ int Shadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &cu
 
                 RayPoint(ray, t, P);
                 prim = hit.isect_prim;
-                prim->normal(prim, hit, P, N);
+                prim->normal(hit, P, N);
 
                 caustic_scale = VecDot(ray->D, N);
                 if(caustic_scale < 0.0) {

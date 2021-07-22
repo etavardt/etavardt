@@ -53,7 +53,7 @@ Poly_3D::~Poly_3D() {
     }
 }
 
-int Poly_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
+int Poly_3D::intersect(Ray *ray, Isect &hit) {
     double n, d, t, m, b;
     Point V;
     int i, j, l;
@@ -62,7 +62,7 @@ int Poly_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
     int c1, c2;
     PolyData *pd;
 
-    pd = (PolyData *)obj->o_data;
+    pd = (PolyData *)o_data;
     n = VecDot(ray->P, pd->poly_normal) + pd->poly_d;
     d = VecDot(ray->D, pd->poly_normal);
 
@@ -80,7 +80,7 @@ int Poly_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
     RayPoint(ray, t, V);
 
     /* if clipping planes and doesn't pass, bail */
-    if (obj->clips && !clip_check(obj->clips, V)) {
+    if (clips && !clip_check(clips, V)) {
         return 0;
     }
 
@@ -135,35 +135,35 @@ int Poly_3D::intersect(Object *obj, Ray *ray, Isect &hit) {
         return 0;
 
     hit.isect_t = t;
-    hit.isect_surf = obj->o_surf;
-    hit.isect_prim = obj;
-    hit.isect_self = obj; /* polys are not self intersecting */
+    hit.isect_surf = o_surf;
+    hit.isect_prim = this;
+    hit.isect_self = this; /* polys are not self intersecting */
 
     return 1;
 }
 
-void Poly_3D::normal(Object_3D *obj, Isect &hit, Point &P, Vec &N) {
+void Poly_3D::normal(Isect &hit, Point &P, Vec &N) {
     PolyData *pd;
-    pd = (PolyData *)obj->o_data;
+    pd = (PolyData *)o_data;
     VecCopy(pd->poly_normal, N);
 }
 
 Poly_3D *Poly_3D::makePoly(int npoints, Vec *points) {
-    Poly_3D *obj;
+    Poly_3D *newPoly;
     PolyData *pd;
     Vec P1, P2;
     double d, dmax, dmin;
     int i, j;
 
-    obj = new Poly_3D();
+    newPoly = new Poly_3D();
     Stats::trackMemoryUsage(sizeof(Poly_3D));
-    Bob::getApp().parser.ptrchk(obj, "polygon object");
+    Bob::getApp().parser.ptrchk(newPoly, "polygon object");
 
     if (ClipTop) {
-        obj->clips = ClipTop;
+        newPoly->clips = ClipTop;
         ClipTop = GlobalClipTop->clip;
     } else {
-        obj->clips = NULL;
+        newPoly->clips = NULL;
     }
 
     pd = new PolyData();
@@ -195,7 +195,7 @@ Poly_3D *Poly_3D::makePoly(int npoints, Vec *points) {
 
     pd->poly_d = -VecDot(pd->poly_normal, pd->poly_point[0]);
 
-    obj->o_data = (void *)pd;
+    newPoly->o_data = (void *)pd;
 
     /*
      * now, calculate the values of
@@ -213,13 +213,13 @@ Poly_3D *Poly_3D::makePoly(int npoints, Vec *points) {
             if (d > dmax)
                 dmax = d;
         }
-        obj->o_dmin[i] = dmin;
-        obj->o_dmax[i] = dmax;
+        newPoly->o_dmin[i] = dmin;
+        newPoly->o_dmax[i] = dmax;
     }
 
-    if (obj->clips) {
-        bound_opt(obj);
+    if (newPoly->clips) {
+        bound_opt(newPoly);
     }
 
-    return obj;
+    return newPoly;
 }

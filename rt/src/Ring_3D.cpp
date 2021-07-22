@@ -50,12 +50,12 @@ Ring_3D::~Ring_3D() {
     }
 }
 
-int Ring_3D::intersect(Object_3D *obj, Ray *ray, Isect &hit) {
+int Ring_3D::intersect(Ray *ray, Isect &hit) {
     RingData *rp;
     double Vprd, Vpro, t, rad;
     Point point;
 
-    rp = (RingData *)obj->o_data; /* point to ring data */
+    rp = (RingData *)o_data; /* point to ring data */
 
     Vprd = VecDot(rp->ring_normal, ray->D);
 
@@ -74,7 +74,7 @@ int Ring_3D::intersect(Object_3D *obj, Ray *ray, Isect &hit) {
     RayPoint(ray, t, point);
 
     /* if clipping planes and doesn't pass, bail */
-    if (obj->clips && !clip_check(obj->clips, point)) {
+    if (clips && !clip_check(clips, point)) {
         return 0;
     }
 
@@ -87,34 +87,34 @@ int Ring_3D::intersect(Object_3D *obj, Ray *ray, Isect &hit) {
     }
 
     hit.isect_t = t;
-    hit.isect_prim = obj;
-    hit.isect_self = obj; /* rings are not self intersecting */
-    hit.isect_surf = obj->o_surf;
+    hit.isect_prim = this;
+    hit.isect_self = this; /* rings are not self intersecting */
+    hit.isect_surf = o_surf;
 
     return 1;
 }
 
-void Ring_3D::normal(Object_3D *obj, Isect &hit, Point &P, Vec &N) {
+void Ring_3D::normal(Isect &hit, Point &P, Vec &N) {
     RingData *rp;
-    rp = (RingData *)obj->o_data;
+    rp = (RingData *)o_data;
 
     VecCopy(rp->ring_normal, N); /* already normalized */
 }
 
 Ring_3D *Ring_3D::makeRing(Vec &pos, Vec &norm, double min_rad, double max_rad) {
-    Ring_3D *tmp;
+    Ring_3D *newRing;
     RingData *rp;
     double size;
 
-    tmp = new Ring_3D();
+    newRing = new Ring_3D();
     Stats::trackMemoryUsage(sizeof(Ring_3D));
-    Bob::getApp().parser.ptrchk(tmp, "ring object");
+    Bob::getApp().parser.ptrchk(newRing, "ring object");
 
     if (ClipTop) {
-        tmp->clips = ClipTop;
+        newRing->clips = ClipTop;
         ClipTop = GlobalClipTop->clip;
     } else {
-        tmp->clips = NULL;
+        newRing->clips = NULL;
     }
 
     rp = new RingData();
@@ -126,7 +126,7 @@ Ring_3D *Ring_3D::makeRing(Vec &pos, Vec &norm, double min_rad, double max_rad) 
     rp->min_radius = min_rad * min_rad;
     rp->max_radius = max_rad * max_rad;
     rp->D = -VecDot(rp->ring_center, rp->ring_normal);
-    tmp->o_data = (void *)rp;
+    newRing->o_data = (void *)rp;
 
     /*
      * figure out dmin and dmax values for
@@ -137,13 +137,13 @@ Ring_3D *Ring_3D::makeRing(Vec &pos, Vec &norm, double min_rad, double max_rad) 
     for (int i = 0; i < NSLABS; i++) {
         size = VecDot(Slab[i], rp->ring_normal);
         size = max_rad * sqrt(1.0 - size * size);
-        tmp->o_dmin[i] = pos[i] - size;
-        tmp->o_dmax[i] = pos[i] + size;
+        newRing->o_dmin[i] = pos[i] - size;
+        newRing->o_dmax[i] = pos[i] + size;
     }
 
-    if (tmp->clips) {
-        bound_opt(tmp);
+    if (newRing->clips) {
+        bound_opt(newRing);
     }
 
-    return tmp;
+    return newRing;
 }

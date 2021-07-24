@@ -28,7 +28,7 @@
 
 #define SIZE (4)
 
-void Matrix_3D::identity(Matrix mat) {
+void Matrix_3D::identity(Matrix_3D &mat) {
     int i, j;
 
     for (i = 0; i < 4; i++)
@@ -39,7 +39,7 @@ void Matrix_3D::identity(Matrix mat) {
                 mat[i][j] = 0.0;
 }
 
-void Matrix_3D::matrix_cat(Matrix m1, Matrix m2, Matrix dest) {
+void Matrix_3D::matrix_cat(Matrix &m1, Matrix &m2, Matrix &dest) {
     Matrix m3;
     int i, j, k;
 
@@ -59,7 +59,7 @@ void Matrix_3D::matrix_cat(Matrix m1, Matrix m2, Matrix dest) {
     }
 }
 
-void Matrix_3D::trans_vector(Matrix mat, Vec &in, Vec &out) {
+void Matrix_3D::trans_vector(Matrix &mat, Vec &in, Vec &out) {
     double in4[4], out4[4];
     int i, j;
 
@@ -79,7 +79,7 @@ void Matrix_3D::trans_vector(Matrix mat, Vec &in, Vec &out) {
     out[2] = out4[2] / out4[3];
 } /* end of trans_vector */
 
-void Matrix_3D::trans_normal(Matrix mat, Vec &in, Vec &out) {
+void Matrix_3D::trans_normal(Matrix &mat, Vec &in, Vec &out) {
     Vec t1, t2; /* tangent vectors */
     Vec orig;   /* imaginary center */
     double dot;
@@ -118,7 +118,7 @@ void Matrix_3D::trans_normal(Matrix mat, Vec &in, Vec &out) {
 //    Matrix  a;              /* input matrix */
 //    int     *indx;          /* row permutation record */
 //    double     b[];            /* right hand vector (?) */
-void Matrix_3D::lubksb(Matrix a, int *indx, double b[]) {
+void Matrix_3D::lubksb(Matrix &a, int *indx, double b[]) {
     int i, j, ii = -1, ip;
     double sum;
 
@@ -152,7 +152,7 @@ void Matrix_3D::lubksb(Matrix a, int *indx, double b[]) {
 //    Matrix  a;                      /* input matrix. gets thrashed */
 //    int     *indx;                  /* row permutation record */
 //    double     *d;                     /* +/- 1.0 (even or odd # of row interchanges */
-void Matrix_3D::ludcmp(Matrix a, int *indx, double *d) {
+void Matrix_3D::ludcmp(Matrix &a, int *indx, double *d) {
     double vv[SIZE]; /* implicit scale for each row */
     double big, dum, sum, tmp;
     int i, imax, j, k;
@@ -215,7 +215,7 @@ void Matrix_3D::ludcmp(Matrix a, int *indx, double *d) {
 
 //    Matrix  m1,                     /* source matrix */
 //        m2;                     /* destination matrix */
-void Matrix_3D::matrix_copy(Matrix m1, Matrix m2) {
+void Matrix_3D::matrix_copy(Matrix &m1, Matrix &m2) {
     int i, j;
 
     for (i = 0; i < SIZE; i++) {
@@ -228,7 +228,7 @@ void Matrix_3D::matrix_copy(Matrix m1, Matrix m2) {
 /*
     matrix_inverse() -- creates the inverse of a 4x4 matrix.
 */
-void Matrix_3D::matrix_inverse(Matrix m, Matrix n) {
+void Matrix_3D::matrix_inverse(Matrix &m, Matrix &n) {
     Matrix y;
     int i, j, indx[4];
     double d, col[4];

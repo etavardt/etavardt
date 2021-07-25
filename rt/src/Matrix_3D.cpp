@@ -1,21 +1,21 @@
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�                    Vector.C = vector and matrix functions               �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                       Requires: defs.h, extern.h                        �
-�                                                                         �
-�������������������������������������������
+*******************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*                    Vector.C = vector and matrix functions               *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                       Requires: defs.h, extern.h                        *
+*                                                                         *
+*******************************************
 */
 #include "Matrix_3D.hpp"
 

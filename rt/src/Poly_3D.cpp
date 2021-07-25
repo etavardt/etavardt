@@ -1,21 +1,21 @@
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�                     Poly.C = the polygon primative                      �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                       Requires: defs.h, extern.h                        �
-�                                                                         �
-�������������������������������������������
+*******************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*                     Poly.C = the polygon primative                      *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                       Requires: defs.h, extern.h                        *
+*                                                                         *
+*******************************************
 */
 
 #include "Poly_3D.hpp"
@@ -80,7 +80,7 @@ int Poly_3D::intersect(Ray *ray, Isect &hit) {
     RayPoint(ray, t, V);
 
     /* if clipping planes and doesn't pass, bail */
-    if (clips && !clip_check(clips, V)) {
+    if (clips && !clips->clip_check(V)) {
         return 0;
     }
 
@@ -159,9 +159,9 @@ Poly_3D *Poly_3D::makePoly(int npoints, Vec *points) {
     Stats::trackMemoryUsage(sizeof(Poly_3D));
     Bob::getApp().parser.ptrchk(newPoly, "polygon object");
 
-    if (ClipTop) {
-        newPoly->clips = ClipTop;
-        ClipTop = GlobalClipTop->clip;
+    if (Clip_3D::ClipTop) {
+        newPoly->clips = Clip_3D::ClipTop;
+        Clip_3D::ClipTop = GlobalClip::GlobalClipTop->clip;
     } else {
         newPoly->clips = NULL;
     }
@@ -218,7 +218,7 @@ Poly_3D *Poly_3D::makePoly(int npoints, Vec *points) {
     }
 
     if (newPoly->clips) {
-        bound_opt(newPoly);
+        Clip_3D::bound_opt(newPoly);
     }
 
     return newPoly;

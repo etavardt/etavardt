@@ -1,21 +1,21 @@
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�             Tokens.C = input file converted to tokens for parser        �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                       Requires: defs.h, extern.h                        �
-�                                                                         �
-�������������������������������������������
+*******************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*             Tokens.C = input file converted to tokens for parser        *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                       Requires: defs.h, extern.h                        *
+*                                                                         *
+*******************************************
 
     tokens -- This is where the input file is read in and
         broken up into tokens which are then fed to the

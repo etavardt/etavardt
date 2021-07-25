@@ -1,21 +1,21 @@
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�   PreProc.C = preprocessor for Bob.  Handles macros and include files.  �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                       Requires: defs.h, extern.h                        �
-�                                                                         �
-�������������������������������������������
+***************************************************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*   PreProc.C = preprocessor for Bob.  Handles macros and include files.  *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                       Requires: defs.h, extern.h                        *
+*                                                                         *
+***************************************************************************
 
     Expects 2 arguments: infile outfile
     Returns 0 if ok, exits otherwise
@@ -100,7 +100,7 @@ int preproc(const String &infile, const String &outfile) {
     if (!outfp) {
         cerr << "Preprocessor error opening temp file " << outfile << " for output." << endl;
         throw Exception("thrown from preproc");
-    } else {
+    } else if (tickflag) {
         cout << "Opened " << outfile << " for writing." << endl;
     }
 

@@ -1,21 +1,21 @@
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�                     Clip.C = clipping routines                          �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                       Requires: defs.h, extern.h                        �
-�                                                                         �
-�������������������������������������������
+*******************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*                     Clip.C = clipping routines                          *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                       Requires: defs.h, extern.h                        *
+*                                                                         *
+*******************************************
 */
 
 #include "Clip_3D.hpp"
@@ -24,17 +24,22 @@
 #include <cmath>
 
 #include "BobMath.hpp"
+#include "Object_3D.hpp"
 #include "Vector_3D.hpp"
 #include "extern.hpp"
 
+
+std::shared_ptr<Clip_3D> Clip_3D::ClipTop        = NULL; /* current clipping list */
+GlobalClip *GlobalClip::GlobalClipTop  = NULL; /* current global clip list */
 /*
     clip_check() -- check a point against a list of clips.
         Returns 1 if passes, 0 if fails.
 */
-
-int clip_check(Clip *head, Vec &P)
+int Clip_3D::clip_check(Vec &P)
 {
-    Vec     V;
+
+   Clip *head = this;
+   Vec     V;
     double     dist;
 
     while(head) {
@@ -89,7 +94,7 @@ int clip_check(Clip *head, Vec &P)
             exit(1);
         }
 
-        head = head->next;      /* move on down */
+        head = head->next.get();      /* move on down */
     }
 
     return 1;
@@ -101,16 +106,16 @@ int clip_check(Clip *head, Vec &P)
         spheres.
 */
 
-void bound_opt(Object *obj)
+void Clip_3D::bound_opt(Object_3D *obj)
 {
-    Clip            *cl;
+    Clip *cl;
     int             i, i1, i2;
     double             intersect,
             b1, b2,         /* values of box corner */
             c1, c2,         /* values of clip center for "other" axes */
             d1, d2;         /* values of clip normal for "other" axes */
 
-    cl = obj->clips;
+    cl = obj->clips.get();
     while(cl) {
         if((cl->type&C_SPHERE) && (cl->type&C_INSIDE)) {
             double     radius;
@@ -178,6 +183,6 @@ void bound_opt(Object *obj)
             }       /* end of i loop for each axis */
         }       /* end of if clipping plane */
 
-        cl = cl->next;
+        cl = cl->next.get();
     }       /* end of while loop */
 }       /* end of bound_opt() */

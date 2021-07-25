@@ -1,25 +1,25 @@
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�         Trace.C = Where the rays are actually shot out into the         �
-�        word with grand hopes of hitting a primitive and                 �
-�        adding color to the scene.  Here we also deal with               �
-�        those poor rays whose lot in life is to never hit                �
-�        anything, proceding out into never-never land.                   �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                       Requires: defs.h, extern.h                        �
-�                                                                         �
-�������������������������������������������
+*******************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*         Trace.C = Where the rays are actually shot out into the         *
+*        word with grand hopes of hitting a primitive and                 *
+*        adding color to the scene.  Here we also deal with               *
+*        those poor rays whose lot in life is to never hit                *
+*        anything, proceding out into never-never land.                   *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                       Requires: defs.h, extern.h                        *
+*                                                                         *
+*******************************************
 
     Trace returns the dist to the next hit.  This gives shade()
     a value to use for determining color attenuation for haze and

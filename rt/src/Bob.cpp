@@ -1,13 +1,16 @@
 #include "Bob.hpp"
+
+#include <filesystem>
+#include <iostream>
+
 #include "Bound_3D.hpp"
+#include "Clip_3D.hpp"
 #include "Exception.hpp"
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "proto.hpp"
 #include "Screen_3D.hpp"
-#include <filesystem>
-#include <iostream>
 
 using std::cerr;
 using std::cout;
@@ -30,51 +33,6 @@ Bob &Bob::getApp() {
         app = new Bob();
     }
     return static_cast<Bob &>(*app);
-}
-
-int Bob::runApp() {
-    stop_line = (-1); /* helps to catch no studio error */
-                      //    cout << "cout: In Bob::runApp preprocess=" << preprocess << endl;
-    if (preprocess) {
-        preproc(infilename, "yyz.b");
-        parser.ReadSceneFile(infilename, String("yyz.b"));
-        /* remove("yyz.b"); */
-    } else {
-        parser.ReadSceneFile(infilename, infilename);
-    }
-    if (Eye.view_aspect != -1.0) {
-        Eye.view_angle_y = Eye.view_angle_x / Eye.view_aspect;
-    }
-    if (xres > 0) { /* if command line override */
-        Xresolution = xres;
-        if (stop_line == Yresolution) /* only change if not default */
-            stop_line = yres;
-        Yresolution = yres;
-    }
-    if (start != -1) { /* if command line override */
-        start_line = start;
-        stop_line = stop;
-    }
-    if (depth > 0) { /* if command line override */
-        maxlevel = depth;
-    }
-    if (bunch > 0) { /* if command line override */
-        bunching = bunch;
-    }
-    if (amode >= 0) { /* if command line override */
-        antialias = amode;
-    }
-
-    //    cout << "cout: In Bob::runApp Pre BuildBoundingSlabs" << endl;
-    Bound_3D::BuildBoundingSlabs();
-    //    cout << "cout: In Bob::runApp Post BuildBoundingSlabs Pre init_noise" << endl;
-    init_noise();
-    //    cout << "cout: In Bob::runApp Post init_noise Pre Screen" << endl;
-    Screen_3D scr;
-    scr.screen(&Eye, outfilename, Xresolution, Yresolution);
-    //    cout << "cout: In Bob::runApp Post Screen return to caller" << endl;
-
-    return 1;
 }
 
 /*
@@ -143,11 +101,11 @@ int Bob::processCmdLine(int argCnt, char **argList) {
     }
 
     /* init global clips before parser is called */
-    GlobalClipTop = new GlobalClip();
+    GlobalClip::GlobalClipTop = new GlobalClip();
     Stats::trackMemoryUsage(sizeof(GlobalClip));
-    parser.ptrchk(GlobalClipTop, "global clip structure");
-    GlobalClipTop->next = NULL;
-    GlobalClipTop->clip = NULL;
+    parser.ptrchk(GlobalClip::GlobalClipTop, "global clip structure");
+    GlobalClip::GlobalClipTop->next = NULL;
+    GlobalClip::GlobalClipTop->clip = NULL;
 
     infilename = ""; /* to be safe */
 
@@ -266,4 +224,49 @@ void Bob::clearScreen() {
     cout << "\033[2J\033[1;1H";
     cout.flush();
 #endif
+}
+
+int Bob::runApp() {
+    stop_line = (-1); /* helps to catch no studio error */
+                      //    cout << "cout: In Bob::runApp preprocess=" << preprocess << endl;
+    if (preprocess) {
+        preproc(infilename, "yyz.b");
+        parser.ReadSceneFile(infilename, String("yyz.b"));
+        /* remove("yyz.b"); */
+    } else {
+        parser.ReadSceneFile(infilename, infilename);
+    }
+    if (Eye.view_aspect != -1.0) {
+        Eye.view_angle_y = Eye.view_angle_x / Eye.view_aspect;
+    }
+    if (xres > 0) { /* if command line override */
+        Xresolution = xres;
+        if (stop_line == Yresolution) /* only change if not default */
+            stop_line = yres;
+        Yresolution = yres;
+    }
+    if (start != -1) { /* if command line override */
+        start_line = start;
+        stop_line = stop;
+    }
+    if (depth > 0) { /* if command line override */
+        maxlevel = depth;
+    }
+    if (bunch > 0) { /* if command line override */
+        bunching = bunch;
+    }
+    if (amode >= 0) { /* if command line override */
+        antialias = amode;
+    }
+
+    //    cout << "cout: In Bob::runApp Pre BuildBoundingSlabs" << endl;
+    Bound_3D::BuildBoundingSlabs();
+    //    cout << "cout: In Bob::runApp Post BuildBoundingSlabs Pre init_noise" << endl;
+    init_noise();
+    //    cout << "cout: In Bob::runApp Post init_noise Pre Screen" << endl;
+    Screen_3D scr;
+    scr.screen(&Eye, outfilename, Xresolution, Yresolution);
+    //    cout << "cout: In Bob::runApp Post Screen return to caller" << endl;
+
+    return 1;
 }

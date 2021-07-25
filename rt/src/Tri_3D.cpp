@@ -1,21 +1,21 @@
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�                    Tri.C = the triangular patch primitive               �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                       Requires: defs.h, extern.h                        �
-�                                                                         �
-�������������������������������������������
+*******************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*                    Tri.C = the triangular patch primitive               *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                       Requires: defs.h, extern.h                        *
+*                                                                         *
+*******************************************
 
     TRIs are triangular patches with normals defined at the vertices.
     When an intersection is found, it interpolates the normal to the
@@ -112,7 +112,7 @@ int Tri_3D::intersect(Ray *ray, Isect &hit) {
     RayPoint(ray, dist, Q);
 
     /* if clipping and doesn't pass, bail */
-    if (clips && !clip_check(clips, Q)) {
+    if (clips && !clips->clip_check(Q)) {
         return 0;
     }
 
@@ -175,9 +175,9 @@ Tri_3D *Tri_3D::makeTri(Vec *point) {
     Stats::trackMemoryUsage(sizeof(TriData));
     Bob::getApp().parser.ptrchk(td, "patch data");
 
-    if (ClipTop) {
-        newTri->clips = ClipTop;
-        ClipTop = GlobalClipTop->clip;
+    if (Clip_3D::ClipTop) {
+        newTri->clips = Clip_3D::ClipTop;
+        Clip_3D::ClipTop = GlobalClip::GlobalClipTop->clip;
     } else {
         newTri->clips = NULL;
     }

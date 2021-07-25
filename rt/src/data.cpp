@@ -1,21 +1,21 @@
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�                    Data.C = aka - where the globals are                 �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                           Requires: defs.h                              �
-�                                                                         �
-�������������������������������������������
+*******************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*                    Data.C = aka - where the globals are                 *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                           Requires: defs.h                              *
+*                                                                         *
+*******************************************
 */
 
 #include <cstdio>
@@ -51,15 +51,15 @@ double         HazeDensity;           /* exponential factor */
 Surface_3D *CurrentSurface = NULL; /* surface at current top of stack */
 Stack      *SurfTop        = NULL; /* points to top of surface stack */
 // Transform  *TransformMatrix_3D::transTop       = NULL; /* top of transformation stack */
-Clip       *ClipTop        = NULL; /* current clipping list */
-GlobalClip *GlobalClipTop  = NULL; /* current global clip list */
+// Clip       *ClipTop        = NULL; /* current clipping list */
+// GlobalClip *GlobalClipTop  = NULL; /* current global clip list */
 //long        nPrims = 0; //moved to Bound_3D
 //double         Bob::rayeps = 1e-6; // the smallest allowable ray size, color value, or double
 //char       *Progname;
 //char        Infilename[256];
 String      Infilename;
 Stack      *InfileTop = NULL;      /* points to top of input file stack */
-Object     *Root = NULL;
+//Object     *Root = NULL;
 
 double         minweight = MINWEIGHT;
 int         maxlevel = MAXLEVEL;

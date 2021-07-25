@@ -1,22 +1,22 @@
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�       Inter.C = routines that shuffle through the tree of bounding      �
-�          objects and try to find the nearest intersection.                  �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                       Requires: defs.h, extern.h                        �
-�                                                                         �
-�������������������������������������������
+*******************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*       Inter.C = routines that shuffle through the tree of bounding      *
+*          objects and try to find the nearest intersection.                  *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                       Requires: defs.h, extern.h                        *
+*                                                                         *
+*******************************************
 */
 
 #include <cstdio>
@@ -118,8 +118,8 @@ int Intersect(Ray *ray, Isect &hit, double maxdist, Object *lastObjHit)
 
     /* If the object is simple, then return the hit that it gives you */
 
-    if(Root->o_type != T_COMPOSITE)
-        return Root->intersect(ray, hit);
+    if(Object_3D::Root->o_type != T_COMPOSITE)
+        return Object_3D::Root->intersect(ray, hit);
         //        return (Root->o_procs->intersect) (Root, ray, hit);
 
     for(i=0; i<3; i++) {
@@ -130,7 +130,7 @@ int Intersect(Ray *ray, Isect &hit, double maxdist, Object *lastObjHit)
     /* start with an empty priority queue */
     PriorityQueueNull();
 
-    CheckAndEnqueue(Root, maxdist);
+    CheckAndEnqueue(Object_3D::Root, maxdist);
 
     for (;;) {
 

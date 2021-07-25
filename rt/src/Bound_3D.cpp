@@ -1,21 +1,21 @@
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�           Bound.C = generate bounding slabs and tree structure          �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                       Requires: defs.h, extern.h                        �
-�                                                                         �
-�������������������������������������������
+*******************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*           Bound.C = generate bounding slabs and tree structure          *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                       Requires: defs.h, extern.h                        *
+*                                                                         *
+*******************************************
 */
 #include "Bound_3D.hpp"
 
@@ -231,17 +231,16 @@ int Bound_3D::SortAndSplit(Object **top_handle, long count) {
  * to generate tighter bounding volumes than the old
  * code...
  */
-extern Object *Root;
 void Bound_3D::BuildBoundingSlabs(void) {
     total = nPrims;
-    while (SortAndSplit(&Root, total))
+    while (SortAndSplit(&Object_3D::Root, total))
         ; /* this line intentionally left blank */
 //    cout << "In BuildBoundingSlabs tickflag = " << tickflag << endl;
     if (tickflag) {
         cout << "\n\tAfter adding bounding volumes, " << nPrims << " prims.\n";
         cout << "\tExtent of scene\n";
-        cout << "\tX  " << Root->o_dmin[0] << "--" << Root->o_dmax[0] << "\n";
-        cout << "\tY  " << Root->o_dmin[1] << "--" << Root->o_dmax[1] << "\n";
-        cout << "\tZ  " << Root->o_dmin[2] << "--" << Root->o_dmax[2] << "\n";
+        cout << "\tX  " << Object_3D::Root->o_dmin[0] << "--" << Object_3D::Root->o_dmax[0] << "\n";
+        cout << "\tY  " << Object_3D::Root->o_dmin[1] << "--" << Object_3D::Root->o_dmax[1] << "\n";
+        cout << "\tZ  " << Object_3D::Root->o_dmin[2] << "--" << Object_3D::Root->o_dmax[2] << "\n";
     }
 }

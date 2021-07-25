@@ -1069,13 +1069,13 @@ void Parser::yy_transform_pop() {
     yy_global_clip() -- Parse a global clip.
 */
 void Parser::yy_global_clip() {
-    GlobalClip *ptr;
+    std::shared_ptr<GlobalClip> ptr;
     Clip *new_clip;
 
     //    cout << "cout: In Parser::yy_global_clip Pre allocs" << endl;
-    ptr = new GlobalClip();
+    ptr = std::shared_ptr<GlobalClip>(new GlobalClip());
     Stats::trackMemoryUsage(sizeof(GlobalClip));
-    ptrchk(ptr, "global clipping linked list structure");
+    //ptrchk(ptr, "global clipping linked list structure");
     ptr->next = GlobalClip::GlobalClipTop;
     ptr->clip = NULL;
     GlobalClip::GlobalClipTop = ptr;
@@ -1257,8 +1257,8 @@ void Parser::yy_sphere() {
     }
 
     new_obj = Sphere_3D::makeSphere(center, radius, fuzz);
-    new_obj->next = Object::Root;
-    Object::Root = new_obj;
+    new_obj->next = Object_3D::Root;
+    Object_3D::Root = new_obj;
 
     ++Bound_3D::nPrims;
     Stats::yystats();
@@ -1318,8 +1318,8 @@ void Parser::yy_cone() {
     }
 
     new_obj = Cone_3D::makeCone(apex, arad, base, brad);
-    new_obj->next = Object::Root;
-    Object::Root = new_obj;
+    new_obj->next = Object_3D::Root;
+    Object_3D::Root = new_obj;
 
     ++Bound_3D::nPrims;
     Stats::yystats();
@@ -1377,8 +1377,8 @@ void Parser::yy_ring() {
     }
 
     new_obj = Ring_3D::makeRing(center, normal, min_rad, max_rad);
-    new_obj->next = Object::Root;
-    Object::Root = new_obj;
+    new_obj->next = Object_3D::Root;
+    Object_3D::Root = new_obj;
 
     ++Bound_3D::nPrims;
     Stats::yystats();
@@ -1436,8 +1436,8 @@ void Parser::yy_polygon() {
     }
 
     new_obj = Poly_3D::makePoly(num_pnts, vlist);
-    new_obj->next = Object::Root;
-    Object::Root = new_obj;
+    new_obj->next = Object_3D::Root;
+    Object_3D::Root = new_obj;
 
     ++Bound_3D::nPrims;
     Stats::yystats();
@@ -1493,8 +1493,8 @@ void Parser::yy_patch() {
     }
 
     new_obj = Tri_3D::makeTri(data);
-    new_obj->next = Object::Root;
-    Object::Root = new_obj;
+    new_obj->next = Object_3D::Root;
+    Object_3D::Root = new_obj;
 
     ++Bound_3D::nPrims;
     Stats::yystats();

@@ -2,6 +2,7 @@
 
 #include <filesystem>
 #include <iostream>
+#include <memory>
 
 #include "Bound_3D.hpp"
 #include "Clip_3D.hpp"
@@ -101,9 +102,9 @@ int Bob::processCmdLine(int argCnt, char **argList) {
     }
 
     /* init global clips before parser is called */
-    GlobalClip::GlobalClipTop = new GlobalClip();
+    GlobalClip::GlobalClipTop = std::shared_ptr<GlobalClip>(new GlobalClip());
     Stats::trackMemoryUsage(sizeof(GlobalClip));
-    parser.ptrchk(GlobalClip::GlobalClipTop, "global clip structure");
+    //parser.ptrchk(GlobalClip::GlobalClipTop, "global clip structure");
     GlobalClip::GlobalClipTop->next = NULL;
     GlobalClip::GlobalClipTop->clip = NULL;
 

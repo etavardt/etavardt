@@ -20,85 +20,80 @@
 
 #include "Clip_3D.hpp"
 
-#include <cstdio>
 #include <cmath>
+#include <cstdio>
 
 #include "BobMath.hpp"
 #include "Object_3D.hpp"
 #include "Vector_3D.hpp"
 #include "extern.hpp"
 
-
-std::shared_ptr<Clip_3D> Clip_3D::ClipTop        = NULL; /* current clipping list */
-GlobalClip *GlobalClip::GlobalClipTop  = NULL; /* current global clip list */
+std::shared_ptr<Clip_3D> Clip_3D::ClipTop = NULL; /* current clipping list */
+std::shared_ptr<GlobalClip> GlobalClip::GlobalClipTop = NULL;     /* current global clip list */
 /*
     clip_check() -- check a point against a list of clips.
         Returns 1 if passes, 0 if fails.
 */
-int Clip_3D::clip_check(Vec &P)
-{
+int Clip_3D::clip_check(Vec &P) {
 
-   Clip *head = this;
-   Vec     V;
-    double     dist;
+    Clip *head = this;
+    Vec V;
+    double dist;
 
-    while(head) {
+    while (head) {
         // V = P - head->center;
         VecSub(P, head->center, V);
-        if(head->type & C_PLANE) {
-            if(VecDot(V, head->normal) < 0.0)
+        if (head->type & C_PLANE) {
+            if (VecDot(V, head->normal) < 0.0)
                 return 0;
-        } else if(head->type & C_SPHERE) {
-            dist = V[0]*V[0] + V[1]*V[1] + V[2]*V[2];
+        } else if (head->type & C_SPHERE) {
+            dist = V[0] * V[0] + V[1] * V[1] + V[2] * V[2];
             // dist = VecDot(V, V); // TODO: TCE: Shouldn't this be VecLen?
-            if(head->type & C_INSIDE) {
-                if(dist > head->radius1) {
+            if (head->type & C_INSIDE) {
+                if (dist > head->radius1) {
                     return 0;
                 }
-            } else if(dist < head->radius1) {       /* must be outside sphere */
+            } else if (dist < head->radius1) { /* must be outside sphere */
                 return 0;
             }
-        } else if(head->type & C_CONE) {
-            Vec     ap;
-            double     ap_dot, percent, radius, dist;
+        } else if (head->type & C_CONE) {
+            Vec ap;
+            double ap_dot, percent, radius, dist;
 
             VecSub(P, head->apex, ap);
             ap_dot = VecDot(ap, head->normal);
-            if(ap_dot<0.0 || ap_dot>head->length) {
-                if(head->type & C_INSIDE) {
+            if (ap_dot < 0.0 || ap_dot > head->length) {
+                if (head->type & C_INSIDE) {
                     return 0;
                 }
-            } else {        /* on "inside" of ends */
-                percent = ap_dot/head->length;
-                radius = percent*head->radius2 + (1.0-percent)*head->radius1;
+            } else { /* on "inside" of ends */
+                percent = ap_dot / head->length;
+                radius = percent * head->radius2 + (1.0 - percent) * head->radius1;
                 radius = radius * radius;
                 VecAddS(ap_dot, head->normal, head->apex, ap);
-//                dist = ((ap-P)*(ap-P)).sum(); // TODO: TCE: sum of squares of differences? Hmm?
-                dist = (ap[0]-P[0]) * (ap[0]-P[0]) +
-                       (ap[1]-P[1]) * (ap[1]-P[1]) +
-                       (ap[2]-P[2]) * (ap[2]-P[2]); // TODO: TCE: sum of squares of differences? Hmm?
-                if(head->type & C_INSIDE) {
-                    if(dist>radius) {
+                //                dist = ((ap-P)*(ap-P)).sum(); // TODO: TCE: sum of squares of differences? Hmm?
+                dist = (ap[0] - P[0]) * (ap[0] - P[0]) + (ap[1] - P[1]) * (ap[1] - P[1]) + (ap[2] - P[2]) * (ap[2] - P[2]); // TODO: TCE: sum of squares of differences? Hmm?
+                if (head->type & C_INSIDE) {
+                    if (dist > radius) {
                         return 0;
                     }
                 } else {
-                    if(dist<radius) {
+                    if (dist < radius) {
                         return 0;
                     }
                 }
-            }       /* if inside of ends */
-
+            } /* if inside of ends */
 
         } else {
             fprintf(stderr, "\nInternal error.  Unknown clip type %04x.\n", head->type);
             exit(1);
         }
 
-        head = head->next.get();      /* move on down */
+        head = head->next.get(); /* move on down */
     }
 
     return 1;
-}       /* end of clip_check() */
+} /* end of clip_check() */
 
 /*
     bound_opt -- optimize the bounding box of an object which has
@@ -106,52 +101,51 @@ int Clip_3D::clip_check(Vec &P)
         spheres.
 */
 
-void Clip_3D::bound_opt(Object_3D *obj)
-{
+void Clip_3D::bound_opt(Object_3D *obj) {
     Clip *cl;
-    int             i, i1, i2;
-    double             intersect,
-            b1, b2,         /* values of box corner */
-            c1, c2,         /* values of clip center for "other" axes */
-            d1, d2;         /* values of clip normal for "other" axes */
+    int i, i1, i2;
+    double intersect, b1, b2, /* values of box corner */
+        c1, c2,               /* values of clip center for "other" axes */
+        d1, d2;               /* values of clip normal for "other" axes */
 
     cl = obj->clips.get();
-    while(cl) {
-        if((cl->type&C_SPHERE) && (cl->type&C_INSIDE)) {
-            double     radius;
+    while (cl) {
+        if ((cl->type & C_SPHERE) && (cl->type & C_INSIDE)) {
+            double radius;
 
             radius = sqrt(cl->radius1);
-            for(i=0; i<3; i++) {    /* for each axis */
-                if(obj->o_dmax[i]  > cl->center[i]+radius) {
-                    obj->o_dmax[i] = cl->center[i]+radius;
+            for (i = 0; i < 3; i++) { /* for each axis */
+                if (obj->o_dmax[i] > cl->center[i] + radius) {
+                    obj->o_dmax[i] = cl->center[i] + radius;
                 }
-                if(obj->o_dmin[i]  > cl->center[i]-radius) {
-                    obj->o_dmin[i] = cl->center[i]-radius;
+                if (obj->o_dmin[i] > cl->center[i] - radius) {
+                    obj->o_dmin[i] = cl->center[i] - radius;
                 }
             }
-        } if((cl->type&C_CONE) && (cl->type&C_INSIDE)) {
-            for(i=0; i<3; i++) {    /* for each axis */
-                if(cl->apex[i] > cl->base[i]) {
-                    if(obj->o_dmax[i] > cl->apex[i]+cl->radius1) {
-                        obj->o_dmax[i] = cl->apex[i]+cl->radius1;
+        }
+        if ((cl->type & C_CONE) && (cl->type & C_INSIDE)) {
+            for (i = 0; i < 3; i++) { /* for each axis */
+                if (cl->apex[i] > cl->base[i]) {
+                    if (obj->o_dmax[i] > cl->apex[i] + cl->radius1) {
+                        obj->o_dmax[i] = cl->apex[i] + cl->radius1;
                     }
-                    if(obj->o_dmin[i] > cl->base[i]-cl->radius2) {
-                        obj->o_dmin[i] = cl->base[i]-cl->radius2;
+                    if (obj->o_dmin[i] > cl->base[i] - cl->radius2) {
+                        obj->o_dmin[i] = cl->base[i] - cl->radius2;
                     }
                 } else {
-                    if(obj->o_dmax[i] > cl->base[i]+cl->radius2) {
-                        obj->o_dmax[i] = cl->base[i]+cl->radius2;
+                    if (obj->o_dmax[i] > cl->base[i] + cl->radius2) {
+                        obj->o_dmax[i] = cl->base[i] + cl->radius2;
                     }
-                    if(obj->o_dmin[i] > cl->apex[i]-cl->radius1) {
-                        obj->o_dmin[i] = cl->apex[i]-cl->radius1;
+                    if (obj->o_dmin[i] > cl->apex[i] - cl->radius1) {
+                        obj->o_dmin[i] = cl->apex[i] - cl->radius1;
                     }
                 }
             }
-        } else if(cl->type & C_PLANE) {
-            for(i=0; i<3; i++) {            /* for each axis */
-                i1 = (i+1)%3;
-                i2 = (i+2)%3;
-                if(cl->normal[i] == 0.0) {      /* clip perpendicular to axis, nothing happens */
+        } else if (cl->type & C_PLANE) {
+            for (i = 0; i < 3; i++) { /* for each axis */
+                i1 = (i + 1) % 3;
+                i2 = (i + 2) % 3;
+                if (cl->normal[i] == 0.0) { /* clip perpendicular to axis, nothing happens */
                     continue;
                 }
 
@@ -168,21 +162,21 @@ void Clip_3D::bound_opt(Object_3D *obj)
                 b2 = (d2 > 0.0) ? obj->o_dmax[i2] : obj->o_dmin[i2];
 
                 intersect = cl->center[i];
-                intersect += (c1-b1)*d1/cl->normal[i];
-                intersect += (c2-b2)*d2/cl->normal[i];
+                intersect += (c1 - b1) * d1 / cl->normal[i];
+                intersect += (c2 - b2) * d2 / cl->normal[i];
 
-                if(cl->normal[i] > 0.0) {       /* shrink min */
-                    if(obj->o_dmin[i] < intersect) {
+                if (cl->normal[i] > 0.0) { /* shrink min */
+                    if (obj->o_dmin[i] < intersect) {
                         obj->o_dmin[i] = intersect;
                     }
-                } else {                        /* shrink max */
-                    if(obj->o_dmax[i] > intersect) {
+                } else { /* shrink max */
+                    if (obj->o_dmax[i] > intersect) {
                         obj->o_dmax[i] = intersect;
                     }
                 }
-            }       /* end of i loop for each axis */
-        }       /* end of if clipping plane */
+            } /* end of i loop for each axis */
+        }     /* end of if clipping plane */
 
         cl = cl->next.get();
-    }       /* end of while loop */
-}       /* end of bound_opt() */
+    } /* end of while loop */
+} /* end of bound_opt() */

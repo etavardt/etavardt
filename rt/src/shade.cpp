@@ -135,7 +135,7 @@ void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color
     /* transform point if needed */
 
     if (surf->flags & S_TRANSFORM) {
-        Matrix_3D::trans_vector(surf->matrix, P, tex_P);
+        surf->matrix.trans_vector(P, tex_P);
     } else {
         VecCopy(P, tex_P);
     }

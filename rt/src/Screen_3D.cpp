@@ -1,5 +1,5 @@
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -15,7 +15,7 @@
 *                                                                         *
 *                    Requires: defs.h, pic.h, extern.h                    *
 *                                                                         *
-*******************************************
+***************************************************************************
 
     screen -- Contains the scan functions which determine what
         antialiasing is done and the function shoot() which
@@ -25,7 +25,7 @@
 
 #include "Screen_3D.hpp"
 
-#include <cmath> //TCE: There appears to be now pure C++ for this
+#include <cmath>
 
 #include "Bob.hpp"
 #include "BobMath.hpp"

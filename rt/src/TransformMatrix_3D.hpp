@@ -2,9 +2,8 @@
 
 #include "Matrix_3D.hpp"
 
-class TransformMatrix_3D {
+class TransformMatrix_3D : public Matrix_3D {
   public:
-    Matrix mat;
     TransformMatrix_3D *next;
     static TransformMatrix_3D *transTop; /* top of transformation stack */
 };

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "Surface_3D.hpp"
 #include "Texture_3D.hpp"
 #include "Bump_3D.hpp"
@@ -29,7 +31,7 @@ class Parser {
     void yy_transform_pop();
     void yy_global_clip();
     void yy_clip_pop();
-    Clip *yy_clip();
+    std::shared_ptr<Clip> yy_clip();
     void yy_sphere();
     void yy_cone();
     void yy_ring();

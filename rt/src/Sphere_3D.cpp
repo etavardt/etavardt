@@ -1,21 +1,21 @@
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�                    Sphere.C = the sphere primative                      �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                       Requires: defs.h, extern.h                        �
-�                                                                         �
-�������������������������������������������
+*******************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*                    Sphere.C = the sphere primative                      *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                       Requires: defs.h, extern.h                        *
+*                                                                         *
+*******************************************
 */
 
 #include "Sphere_3D.hpp"
@@ -86,11 +86,11 @@ int Sphere_3D::intersect(Ray *ray, Isect &hit) {
             t = t0;
         } else {
             RayPoint(ray, t0, P);
-            if (clip_check(clips, P)) {
+            if (clips->clip_check(P)) {
                 t = t0;
             } else { /* well, try t1 */
                 RayPoint(ray, t1, P);
-                if (clip_check(clips, P)) {
+                if (clips->clip_check(P)) {
                     t = t1;
                 } else {
                     return 0;
@@ -102,7 +102,7 @@ int Sphere_3D::intersect(Ray *ray, Isect &hit) {
             t = t1;
         } else {
             RayPoint(ray, t1, P);
-            if (clip_check(clips, P)) {
+            if (clips->clip_check(P)) {
                 t = t1;
             } else {
                 return 0;
@@ -144,9 +144,9 @@ Sphere_3D *Sphere_3D::makeSphere(Vec &pos, double radius, double fuzzy) {
         newSphere->o_type = T_SPHERE;
     }
 
-    if (ClipTop) {
-        newSphere->clips = ClipTop;
-        ClipTop = GlobalClipTop->clip;
+    if (Clip_3D::ClipTop) {
+        newSphere->clips = Clip_3D::ClipTop;
+        Clip_3D::ClipTop = GlobalClip::GlobalClipTop->clip;
     } else {
         newSphere->clips = NULL;
     }
@@ -177,7 +177,7 @@ Sphere_3D *Sphere_3D::makeSphere(Vec &pos, double radius, double fuzzy) {
     }
 
     if (newSphere->clips) {
-        bound_opt(newSphere);
+        Clip_3D::bound_opt(newSphere);
     }
 
     return newSphere;

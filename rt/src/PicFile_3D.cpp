@@ -1,26 +1,26 @@
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�         Pic.C = file output routines for creating files compatible      �
-�         with Bob's run length encoding.  The paranoid mode              �
-�         operation forces the program to close the output file           �
-�         every TIME_OUT seconds.  This ensures that in case of           �
-�         a power outage you will at most loose the 60 seconds            �
-�         of work or the current scan line, whichever is greater.         �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                Requires: pic.h, defs.h, extern.h                        �
-�                                                                         �
-�������������������������������������������
+*******************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*         Pic.C = file output routines for creating files compatible      *
+*         with Bob's run length encoding.  The paranoid mode              *
+*         operation forces the program to close the output file           *
+*         every TIME_OUT seconds.  This ensures that in case of           *
+*         a power outage you will at most loose the 60 seconds            *
+*         of work or the current scan line, whichever is greater.         *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                Requires: pic.h, defs.h, extern.h                        *
+*                                                                         *
+*******************************************
 */
 
 #include "Bob.hpp"

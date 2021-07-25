@@ -1,22 +1,22 @@
 #pragma once
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�    Extern.H = external defs for all globals, also include prototypes    �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                            Requires: proto.h                            �
-�                                                                         �
-�������������������������������������������
+*******************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*    Extern.H = external defs for all globals, also include prototypes    *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                            Requires: proto.h                            *
+*                                                                         *
+*******************************************
 */
 
 //#include "Object_3D.hpp"
@@ -24,8 +24,8 @@
 #include "String.hpp"
 #include "struct_defs.hpp"
 #include "Surface_3D.hpp"
-#include "Clip_3D.hpp"
-#include "Object_3D.hpp"
+//#include "Clip_3D.hpp"
+//#include "Object_3D.hpp"
 //#include "Light_3D.hpp"
 
 extern Viewpoint Eye;
@@ -58,8 +58,8 @@ extern Surface_3D *CurrentSurface;
 extern Stack      *SurfTop;
 extern Stack      *InfileTop;
 //extern Transform  *TransformMatrix_3D::transTop;
-extern Clip       *ClipTop;
-extern GlobalClip *GlobalClipTop;
+//extern Clip       *ClipTop;
+//extern GlobalClip *GlobalClipTop;
 //extern long        nPrims;
 //extern double         Bob::rayeps;
 //extern char       *Progname;
@@ -88,7 +88,7 @@ extern unsigned long nRefracted;
 //extern unsigned long MemAllocated;
 
 extern Vec     Slab[];
-extern Object *Root;
+//extern Object *Root;
 // TODO: TCE Remove: extern ObjectProcs    NullProcs;
 
 //extern char _Copyright[];

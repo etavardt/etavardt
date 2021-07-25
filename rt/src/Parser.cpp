@@ -1,26 +1,27 @@
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�          Parse.C = Where we figure out what the user really wants       �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                  Requires: defs.h, extern.h, tokens.h                   �
-�                                                                         �
-�������������������������������������������
+*******************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*          Parse.C = Where we figure out what the user really wants       *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                  Requires: defs.h, extern.h, tokens.h                   *
+*                                                                         *
+*******************************************
 */
 #include "Parser.hpp"
 
 #include <cmath>
 #include <iostream>
+#include <memory>
 
 //#include "Bob.hpp"
 #include "BobMath.hpp"
@@ -388,7 +389,7 @@ void Parser::yy_light() {
         case CENTER:
             get_vec();
             if (TransformMatrix_3D::transTop) {
-                Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, tmp_vec, tmp_vec);
+                Matrix_3D::trans_vector(*TransformMatrix_3D::transTop, tmp_vec, tmp_vec);
             }
             VecCopy(tmp_vec, Light::light_head->position);
             break;
@@ -407,7 +408,7 @@ void Parser::yy_light() {
         case DIRECTION:
             get_vec();
             if (TransformMatrix_3D::transTop) {
-                Matrix_3D::trans_normal(TransformMatrix_3D::transTop->mat, tmp_vec, tmp_vec);
+                Matrix_3D::trans_normal(*TransformMatrix_3D::transTop, tmp_vec, tmp_vec);
             }
             VecCopy(tmp_vec, Light::light_head->dir);
             VecS((-1.0), Light::light_head->dir, Light::light_head->dir);
@@ -432,7 +433,7 @@ void Parser::yy_light() {
         case AT:
             get_vec();
             if (TransformMatrix_3D::transTop) {
-                Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, tmp_vec, tmp_vec);
+                Matrix_3D::trans_vector(*TransformMatrix_3D::transTop, tmp_vec, tmp_vec);
             }
             VecCopy(tmp_vec, Light::light_head->dir);
             VecSub(Light::light_head->position, Light::light_head->dir, Light::light_head->dir);
@@ -488,7 +489,7 @@ Surface_3D *Parser::yy_surface() {
 
     if (TransformMatrix_3D::transTop) {
         surf->flags |= S_TRANSFORM;
-        Matrix_3D::matrix_inverse(TransformMatrix_3D::transTop->mat, surf->matrix);
+        Matrix_3D::matrix_inverse(*TransformMatrix_3D::transTop, surf->matrix);
     }
 
     //    cout << "cout: In Parser::yy_surface Pre get_token" << endl;
@@ -790,7 +791,7 @@ Texmap *Parser::yy_texmap() {
     MakeVector(1.0, 0.0, 0.0, cur_texmap->across);
     MakeVector(0.0, -1.0, 0.0, cur_texmap->down);
     if (TransformMatrix_3D::transTop) {
-        cur_texmap->scale = 1.0 / TransformMatrix_3D::transTop->mat[3][3];
+        cur_texmap->scale = 1.0 / (*TransformMatrix_3D::transTop)[3][3];
     } else {
         cur_texmap->scale = 1.0;
     }
@@ -814,21 +815,21 @@ Texmap *Parser::yy_texmap() {
             get_vec();
             VecCopy(tmp_vec, cur_texmap->position);
             if (TransformMatrix_3D::transTop) {
-                Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, cur_texmap->position, cur_texmap->position);
+                Matrix_3D::trans_vector(*TransformMatrix_3D::transTop, cur_texmap->position, cur_texmap->position);
             }
             break;
         case NORMAL:
             get_vec();
             VecCopy(tmp_vec, cur_texmap->normal);
             if (TransformMatrix_3D::transTop) {
-                Matrix_3D::trans_normal(TransformMatrix_3D::transTop->mat, cur_texmap->normal, cur_texmap->normal);
+                Matrix_3D::trans_normal(*TransformMatrix_3D::transTop, cur_texmap->normal, cur_texmap->normal);
             }
             break;
         case ACROSS:
             get_vec();
             VecCopy(tmp_vec, cur_texmap->across);
             if (TransformMatrix_3D::transTop) {
-                Matrix_3D::trans_normal(TransformMatrix_3D::transTop->mat, cur_texmap->across, cur_texmap->across);
+                Matrix_3D::trans_normal(*TransformMatrix_3D::transTop, cur_texmap->across, cur_texmap->across);
             }
             break;
         case SCALE:
@@ -973,7 +974,7 @@ void Parser::yy_transform() {
     ptrchk(cur_trans, "transform structure");
     cur_trans->next = TransformMatrix_3D::transTop;
     TransformMatrix_3D::transTop = cur_trans;
-    Matrix_3D::identity(cur_trans->mat);
+    Matrix_3D::identity(*cur_trans);
 
     //    cout << "cout: In Parser::yy_transform Pre get_token" << endl;
     /* grab and toss left brace */
@@ -993,7 +994,7 @@ void Parser::yy_transform() {
             m[2][1] = -sin(theta);
             m[1][2] = sin(theta);
             m[2][2] = cos(theta);
-            Matrix_3D::matrix_cat(TransformMatrix_3D::transTop->mat, m, TransformMatrix_3D::transTop->mat);
+            Matrix_3D::matrix_cat(*TransformMatrix_3D::transTop, m, *TransformMatrix_3D::transTop);
 
             /* do y axis rotation */
             Matrix_3D::identity(m);
@@ -1002,7 +1003,7 @@ void Parser::yy_transform() {
             m[2][0] = sin(theta);
             m[0][2] = -sin(theta);
             m[2][2] = cos(theta);
-            Matrix_3D::matrix_cat(TransformMatrix_3D::transTop->mat, m, TransformMatrix_3D::transTop->mat);
+            Matrix_3D::matrix_cat(*TransformMatrix_3D::transTop, m, *TransformMatrix_3D::transTop);
 
             /* do z axis rotation */
             Matrix_3D::identity(m);
@@ -1011,7 +1012,7 @@ void Parser::yy_transform() {
             m[1][0] = -sin(theta);
             m[0][1] = sin(theta);
             m[1][1] = cos(theta);
-            Matrix_3D::matrix_cat(TransformMatrix_3D::transTop->mat, m, TransformMatrix_3D::transTop->mat);
+            Matrix_3D::matrix_cat(*TransformMatrix_3D::transTop, m, *TransformMatrix_3D::transTop);
 
             break;
         case TRANSLATE:
@@ -1021,7 +1022,7 @@ void Parser::yy_transform() {
             m[3][1] = tmp_vec[1];
             m[3][2] = tmp_vec[2];
 
-            Matrix_3D::matrix_cat(TransformMatrix_3D::transTop->mat, m, TransformMatrix_3D::transTop->mat);
+            Matrix_3D::matrix_cat(*TransformMatrix_3D::transTop, m, *TransformMatrix_3D::transTop);
 
             break;
         case SCALE:
@@ -1035,10 +1036,11 @@ void Parser::yy_transform() {
                 get_num();
                 m[2][2] = cur_value;
 
-                Matrix_3D::matrix_cat(TransformMatrix_3D::transTop->mat, m, TransformMatrix_3D::transTop->mat);
+                Matrix_3D::matrix_cat(*TransformMatrix_3D::transTop, m, *TransformMatrix_3D::transTop);
             } else {
                 push_token();
-                TransformMatrix_3D::transTop->mat[3][3] /= tmp;
+                // TransformMatrix_3D::transTop[3][3] /= tmp;
+                (*TransformMatrix_3D::transTop)[3][3] /= tmp;
             }
             break;
         default:
@@ -1050,7 +1052,7 @@ void Parser::yy_transform() {
     /* concatenate new transformation onto previous ones */
 
     if (TransformMatrix_3D::transTop->next) {
-        Matrix_3D::matrix_cat(TransformMatrix_3D::transTop->mat, TransformMatrix_3D::transTop->next->mat, TransformMatrix_3D::transTop->mat);
+        Matrix_3D::matrix_cat(*TransformMatrix_3D::transTop, *TransformMatrix_3D::transTop->next, *TransformMatrix_3D::transTop);
     }
 
 } /* end of yy_transform() */
@@ -1074,9 +1076,9 @@ void Parser::yy_global_clip() {
     ptr = new GlobalClip();
     Stats::trackMemoryUsage(sizeof(GlobalClip));
     ptrchk(ptr, "global clipping linked list structure");
-    ptr->next = GlobalClipTop;
+    ptr->next = GlobalClip::GlobalClipTop;
     ptr->clip = NULL;
-    GlobalClipTop = ptr;
+    GlobalClip::GlobalClipTop = ptr;
 
     //    cout << "cout: In Parser::yy_global_clip Pre get_token" << endl;
     /* grab and toss left brace */
@@ -1092,7 +1094,7 @@ void Parser::yy_global_clip() {
         }
     } /* end of while loop looking for right brace */
 
-    ptr->clip = ClipTop;
+    ptr->clip = Clip_3D::ClipTop;
 
 } /* end of yy_global_clip() */
 
@@ -1101,20 +1103,20 @@ void Parser::yy_global_clip() {
 */
 void Parser::yy_clip_pop() {
     //    cout << "cout: In Parser::yy_clip_pop" << endl;
-    GlobalClipTop = GlobalClipTop->next;
-    ClipTop = GlobalClipTop->clip;
+    GlobalClip::GlobalClipTop = GlobalClip::GlobalClipTop->next;
+    Clip_3D::ClipTop = GlobalClip::GlobalClipTop->clip;
 } /* end of yy_clip_pop() */
 
 /*
     yy_clip() -- Parse a clipping structure.
 */
-Clip *Parser::yy_clip() {
-    Clip *cur_clip;
+std::shared_ptr<Clip> Parser::yy_clip() {
+    std::shared_ptr<Clip> cur_clip;
 
     //    cout << "cout: In Parser::yy_clip Pre allocs" << endl;
-    cur_clip = new Clip();
+    cur_clip = std::shared_ptr<Clip>(new Clip());
     Stats::trackMemoryUsage(sizeof(Clip));
-    ptrchk(cur_clip, "clipping structure");
+    // ptrchk(cur_clip, "clipping structure");
     MakeVector(0, 0, 0, cur_clip->center);
     MakeVector(0, 0, 1, cur_clip->normal);
     MakeVector(0, 0, 0, cur_clip->apex);
@@ -1136,7 +1138,7 @@ Clip *Parser::yy_clip() {
             get_vec();
             VecCopy(tmp_vec, cur_clip->center);
             if (TransformMatrix_3D::transTop) {
-                Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, cur_clip->center, cur_clip->center);
+                Matrix_3D::trans_vector(*TransformMatrix_3D::transTop, cur_clip->center, cur_clip->center);
             }
             if (!(cur_clip->type & C_PLANE)) {
                 cur_clip->type |= C_SPHERE;
@@ -1146,7 +1148,7 @@ Clip *Parser::yy_clip() {
             get_vec();
             VecCopy(tmp_vec, cur_clip->normal);
             if (TransformMatrix_3D::transTop) {
-                Matrix_3D::trans_normal(TransformMatrix_3D::transTop->mat, cur_clip->normal, cur_clip->normal);
+                Matrix_3D::trans_normal(*TransformMatrix_3D::transTop, cur_clip->normal, cur_clip->normal);
             }
             cur_clip->type |= C_PLANE;
             if (cur_clip->type & C_SPHERE) {
@@ -1157,15 +1159,15 @@ Clip *Parser::yy_clip() {
             get_vec();
             VecCopy(tmp_vec, cur_clip->apex);
             if (TransformMatrix_3D::transTop) {
-                Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, cur_clip->apex, cur_clip->apex);
+                Matrix_3D::trans_vector(*TransformMatrix_3D::transTop, cur_clip->apex, cur_clip->apex);
             }
-            ClipTop->type |= C_CONE;
+            Clip_3D::ClipTop->type |= C_CONE;
             break;
         case BASE:
             get_vec();
             VecCopy(tmp_vec, cur_clip->base);
             if (TransformMatrix_3D::transTop) {
-                Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, cur_clip->base, cur_clip->base);
+                Matrix_3D::trans_vector(*TransformMatrix_3D::transTop, cur_clip->base, cur_clip->base);
             }
             cur_clip->type |= C_CONE;
             break;
@@ -1203,8 +1205,8 @@ Clip *Parser::yy_clip() {
         cur_clip->radius1 = cur_clip->radius1 * cur_clip->radius1;
     }
 
-    cur_clip->next = ClipTop;
-    ClipTop = cur_clip;
+    cur_clip->next = Clip_3D::ClipTop;
+    Clip_3D::ClipTop = cur_clip;
 
     return cur_clip;
 } /* end of yy_clip() */
@@ -1249,14 +1251,14 @@ void Parser::yy_sphere() {
     }     /* end of while loop looking for right brace */
 
     if (TransformMatrix_3D::transTop) {
-        Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, center, center);
-        radius /= TransformMatrix_3D::transTop->mat[3][3];
-        fuzz /= TransformMatrix_3D::transTop->mat[3][3];
+        Matrix_3D::trans_vector(*TransformMatrix_3D::transTop, center, center);
+        radius /= (*TransformMatrix_3D::transTop)[3][3];
+        fuzz /= (*TransformMatrix_3D::transTop)[3][3];
     }
 
     new_obj = Sphere_3D::makeSphere(center, radius, fuzz);
-    new_obj->next = Root;
-    Root = new_obj;
+    new_obj->next = Object::Root;
+    Object::Root = new_obj;
 
     ++Bound_3D::nPrims;
     Stats::yystats();
@@ -1309,15 +1311,15 @@ void Parser::yy_cone() {
     }     /* end of while loop looking for right brace */
 
     if (TransformMatrix_3D::transTop) {
-        Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, apex, apex);
-        Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, base, base);
-        arad /= TransformMatrix_3D::transTop->mat[3][3];
-        brad /= TransformMatrix_3D::transTop->mat[3][3];
+        Matrix_3D::trans_vector(*TransformMatrix_3D::transTop, apex, apex);
+        Matrix_3D::trans_vector(*TransformMatrix_3D::transTop, base, base);
+        arad /= (*TransformMatrix_3D::transTop)[3][3];
+        brad /= (*TransformMatrix_3D::transTop)[3][3];
     }
 
     new_obj = Cone_3D::makeCone(apex, arad, base, brad);
-    new_obj->next = Root;
-    Root = new_obj;
+    new_obj->next = Object::Root;
+    Object::Root = new_obj;
 
     ++Bound_3D::nPrims;
     Stats::yystats();
@@ -1368,15 +1370,15 @@ void Parser::yy_ring() {
     }     /* end of while loop looking for right brace */
 
     if (TransformMatrix_3D::transTop) {
-        Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, center, center);
-        Matrix_3D::trans_normal(TransformMatrix_3D::transTop->mat, normal, normal);
-        min_rad /= TransformMatrix_3D::transTop->mat[3][3];
-        max_rad /= TransformMatrix_3D::transTop->mat[3][3];
+        Matrix_3D::trans_vector(*TransformMatrix_3D::transTop, center, center);
+        Matrix_3D::trans_normal(*TransformMatrix_3D::transTop, normal, normal);
+        min_rad /= (*TransformMatrix_3D::transTop)[3][3];
+        max_rad /= (*TransformMatrix_3D::transTop)[3][3];
     }
 
     new_obj = Ring_3D::makeRing(center, normal, min_rad, max_rad);
-    new_obj->next = Root;
-    Root = new_obj;
+    new_obj->next = Object::Root;
+    Object::Root = new_obj;
 
     ++Bound_3D::nPrims;
     Stats::yystats();
@@ -1416,7 +1418,7 @@ void Parser::yy_polygon() {
             get_vec();
             VecCopy(tmp_vec, vlist[i]);
             if (TransformMatrix_3D::transTop) {
-                Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, vlist[i], vlist[i]);
+                Matrix_3D::trans_vector(*TransformMatrix_3D::transTop, vlist[i], vlist[i]);
             }
             i++;
             break;
@@ -1434,8 +1436,8 @@ void Parser::yy_polygon() {
     }
 
     new_obj = Poly_3D::makePoly(num_pnts, vlist);
-    new_obj->next = Root;
-    Root = new_obj;
+    new_obj->next = Object::Root;
+    Object::Root = new_obj;
 
     ++Bound_3D::nPrims;
     Stats::yystats();
@@ -1482,17 +1484,17 @@ void Parser::yy_patch() {
     }
 
     if (TransformMatrix_3D::transTop) {
-        Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, data[0], data[0]);
-        Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, data[2], data[2]);
-        Matrix_3D::trans_vector(TransformMatrix_3D::transTop->mat, data[4], data[4]);
-        Matrix_3D::trans_normal(TransformMatrix_3D::transTop->mat, data[1], data[1]);
-        Matrix_3D::trans_normal(TransformMatrix_3D::transTop->mat, data[3], data[3]);
-        Matrix_3D::trans_normal(TransformMatrix_3D::transTop->mat, data[5], data[5]);
+        Matrix_3D::trans_vector(*TransformMatrix_3D::transTop, data[0], data[0]);
+        Matrix_3D::trans_vector(*TransformMatrix_3D::transTop, data[2], data[2]);
+        Matrix_3D::trans_vector(*TransformMatrix_3D::transTop, data[4], data[4]);
+        Matrix_3D::trans_normal(*TransformMatrix_3D::transTop, data[1], data[1]);
+        Matrix_3D::trans_normal(*TransformMatrix_3D::transTop, data[3], data[3]);
+        Matrix_3D::trans_normal(*TransformMatrix_3D::transTop, data[5], data[5]);
     }
 
     new_obj = Tri_3D::makeTri(data);
-    new_obj->next = Root;
-    Root = new_obj;
+    new_obj->next = Object::Root;
+    Object::Root = new_obj;
 
     ++Bound_3D::nPrims;
     Stats::yystats();

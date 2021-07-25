@@ -1,21 +1,21 @@
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�                       Cone.C = newCone primative                           �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                       Requires: defs.h, extern.h                        �
-�                                                                         �
-�������������������������������������������
+*******************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*                       Cone.C = newCone primative                           *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                       Requires: defs.h, extern.h                        *
+*                                                                         *
+*******************************************
 */
 
 #include "Cone_3D.hpp"
@@ -128,7 +128,7 @@ int Cone_3D::intersect(Ray *ray, Isect &hit) {
 
     if (t1 > Bob::rayeps) { /* possible real hit */
         RayPoint(ray, t1, P);
-        if (!clips || clip_check(clips, P)) {
+        if (!clips || clips->clip_check(P)) {
             d = VecDot(cd->cone_w, P);
             if (d >= cd->cone_min_d && d <= cd->cone_max_d) { /* hit! */
                 hit.isect_t = t1;
@@ -142,7 +142,7 @@ int Cone_3D::intersect(Ray *ray, Isect &hit) {
 
     if (t2 > Bob::rayeps) {
         RayPoint(ray, t2, P);
-        if (!clips || clip_check(clips, P)) {
+        if (!clips || clips->clip_check(P)) {
             d = VecDot(cd->cone_w, P);
             if (d >= cd->cone_min_d && d <= cd->cone_max_d) {
                 hit.isect_t = t2;
@@ -191,9 +191,9 @@ Cone_3D *Cone_3D::makeCone(Vec &basepoint, double baseradius, Vec &apexpoint, do
     Stats::trackMemoryUsage(sizeof(Cone_3D));
     Bob::getApp().parser.ptrchk(newCone, "newCone object");
 
-    if (ClipTop) {
-        newCone->clips = ClipTop;
-        ClipTop = GlobalClipTop->clip;
+    if (Clip_3D::ClipTop) {
+        newCone->clips = Clip_3D::ClipTop;
+        Clip_3D::ClipTop = GlobalClip::GlobalClipTop->clip;
     } else {
         newCone->clips = NULL;
     }
@@ -263,7 +263,7 @@ Cone_3D *Cone_3D::makeCone(Vec &basepoint, double baseradius, Vec &apexpoint, do
     }
 
     if (newCone->clips) {
-        bound_opt(newCone);
+        Clip_3D::bound_opt(newCone);
     }
 
     return newCone;

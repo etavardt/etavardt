@@ -1,20 +1,20 @@
 #pragma once
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�                  Proto.H = prototypes for all Bob functions             �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�������������������������������������������
+*******************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*                  Proto.H = prototypes for all Bob functions             *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*******************************************
 */
 #include "Object_3D.hpp"
 #include "Light_3D.hpp"
@@ -34,8 +34,8 @@ extern void BuildBoundingSlabs (void);
 //extern Object *MakeCone (Vec basepoint , double baseradius , Vec apexpoint , double apexradius);
 
 /* clip.c */
-extern void bound_opt(Object *obj);
-extern int  clip_check(Clip *head, Vec &P);
+//extern void bound_opt(Object *obj);
+//extern int  clip_check(Clip *head, Vec &P);
 
 /* data.c */
 

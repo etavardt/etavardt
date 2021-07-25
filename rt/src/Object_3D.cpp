@@ -2,6 +2,8 @@
 #include "Exception.hpp"
 #include <iostream>
 
+Object_3D *Object_3D::Root;
+
 Object_3D::~Object_3D() {}
 
 int Object_3D::intersect(Ray *b, Isect &c) {

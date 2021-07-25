@@ -1,12 +1,16 @@
 #pragma once
 
+#include <memory>
+
 #include "defs.hpp"
 #include "Surface_3D.hpp"
-#include "Clip_3D.hpp"
+//#include "Clip_3D.hpp"
 #include "Ray_3D.hpp"
 #include "Isect_3D.hpp"
+
 //#include "struct_defs.hpp"
 //#include "extern.hpp"
+class Clip_3D;
 //class Surface_3D;
 //class Isect;
 class Object_3D {
@@ -21,13 +25,13 @@ class Object_3D {
 
     Surface_3D *o_surf;
     void       *o_data;
-    Clip       *clips;
+    std::shared_ptr<Clip_3D> clips;
 
     Object_3D *next;          /* next object in original list, sibling */
 
     virtual int  intersect(Ray *b, Isect &c);
     virtual void normal(Isect &hit, Point &P, Vec &N);
-
+    static Object_3D *Root;
 };
 /*
 typedef struct t_object {

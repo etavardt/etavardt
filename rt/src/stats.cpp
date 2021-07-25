@@ -1,35 +1,34 @@
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�      Stats.C = Display info about current trace in progress.  Note      �
-�              that this assumes the use of ansi.sys.                     �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                       Requires: defs.h, extern.h                        �
-�                                                                         �
-�������������������������������������������
+***************************************************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*      Stats.C = Display info about current trace in progress.  Note      *
+*              that this assumes the use of ansi.sys.                     *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                       Requires: defs.h, extern.h                        *
+*                                                                         *
+***************************************************************************
 */
 
 #include "Stats.hpp"
+
+#include <time.h>
+
 #include "Bob.hpp"
 #include "Bound_3D.hpp"
 #include "Object_3D.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 #include "struct_defs.hpp"
-//#include <cstdio>
-//#include <cstdlib>
-//#include <cstring>
-#include <time.h>
 
 unsigned long Stats::memAllocated = 0;
 

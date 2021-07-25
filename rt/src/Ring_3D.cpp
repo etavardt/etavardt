@@ -1,21 +1,21 @@
 /*
-�������������������������������������������
-�                                                                         �
-�                             Bob Ray Tracer                              �
-�                                                                         �
-�                       Ring.C = the ring primative                       �
-�                                                                         �
-�       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     �
-�                                                                         �
-�       ALL RIGHTS RESERVED.   This software is published, but is NOT     �
-�         Public Domain and remains the propery of ALGORITHM, Inc.,       �
-�   Christopher D. Watkins and Stephen B. Coy.  This software may not be  �
-�  reproduced or integrated into other packages without the prior written �
-�          consent of Christopher D. Watkins and Stephen B. Coy.          �
-�                                                                         �
-�                       Requires: defs.h, extern.h                        �
-�                                                                         �
-�������������������������������������������
+*******************************************
+*                                                                         *
+*                             Bob Ray Tracer                              *
+*                                                                         *
+*                       Ring.C = the ring primative                       *
+*                                                                         *
+*       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
+*                                                                         *
+*       ALL RIGHTS RESERVED.   This software is published, but is NOT     *
+*         Public Domain and remains the propery of ALGORITHM, Inc.,       *
+*   Christopher D. Watkins and Stephen B. Coy.  This software may not be  *
+*  reproduced or integrated into other packages without the prior written *
+*          consent of Christopher D. Watkins and Stephen B. Coy.          *
+*                                                                         *
+*                       Requires: defs.h, extern.h                        *
+*                                                                         *
+*******************************************
 */
 
 #include "Ring_3D.hpp"
@@ -74,7 +74,7 @@ int Ring_3D::intersect(Ray *ray, Isect &hit) {
     RayPoint(ray, t, point);
 
     /* if clipping planes and doesn't pass, bail */
-    if (clips && !clip_check(clips, point)) {
+    if (clips && !clips->clip_check(point)) {
         return 0;
     }
 
@@ -110,9 +110,9 @@ Ring_3D *Ring_3D::makeRing(Vec &pos, Vec &norm, double min_rad, double max_rad) 
     Stats::trackMemoryUsage(sizeof(Ring_3D));
     Bob::getApp().parser.ptrchk(newRing, "ring object");
 
-    if (ClipTop) {
-        newRing->clips = ClipTop;
-        ClipTop = GlobalClipTop->clip;
+    if (Clip_3D::ClipTop) {
+        newRing->clips = Clip_3D::ClipTop;
+        Clip_3D::ClipTop = GlobalClip::GlobalClipTop->clip;
     } else {
         newRing->clips = NULL;
     }
@@ -142,7 +142,7 @@ Ring_3D *Ring_3D::makeRing(Vec &pos, Vec &norm, double min_rad, double max_rad) 
     }
 
     if (newRing->clips) {
-        bound_opt(newRing);
+        Clip_3D::bound_opt(newRing);
     }
 
     return newRing;

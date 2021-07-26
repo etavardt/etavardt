@@ -12,6 +12,20 @@
 #include "String.hpp"
 
 class Parser {
+    typedef struct t_infile {
+        String file_name;
+        FILE *fp;
+        long line;
+        struct t_infile *next;
+    } Infile;
+    typedef struct t_stack {
+        Infile *what;
+        struct t_stack *prev;
+    } Stack;
+
+    String      Infilename;
+    Stack      *InfileTop = nullptr;      /* points to top of input file stack */
+
     public:
     Parser() {}
     ~Parser() {}

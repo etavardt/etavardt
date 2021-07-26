@@ -1,6 +1,6 @@
 #pragma once
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -16,11 +16,11 @@
 *                                                                         *
 *                            Requires: proto.h                            *
 *                                                                         *
-*******************************************
+***************************************************************************
 */
 
 //#include "Object_3D.hpp"
-//#include "proto.hpp"
+//
 #include "String.hpp"
 #include "struct_defs.hpp"
 #include "Surface_3D.hpp"
@@ -50,13 +50,13 @@ extern int    caustics;
 extern int    exp_trans;
 extern int    fuzzy_ray;
 
-extern Background  background;
-extern Color       Ambient;
-extern Color       HazeColor;
-extern double         HazeDensity;
+//extern Background  background;
+//extern Color       Ambient;
+//extern Color       HazeColor;
+//extern double         HazeDensity;
 extern Surface_3D *CurrentSurface;
-extern Stack      *SurfTop;
-extern Stack      *InfileTop;
+//extern Stack      *SurfTop;
+//extern Stack      *InfileTop;
 //extern Transform  *TransformMatrix_3D::transTop;
 //extern Clip       *ClipTop;
 //extern GlobalClip *GlobalClipTop;
@@ -64,7 +64,7 @@ extern Stack      *InfileTop;
 //extern double         Bob::rayeps;
 //extern char       *Progname;
 //extern char        Infilename[];
-extern String Infilename;
+//extern String Infilename;
 
 extern unsigned long maxQueueSize;
 extern unsigned long totalQueues;

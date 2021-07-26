@@ -1,5 +1,5 @@
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -20,7 +20,7 @@
 *                                                                         *
 *                Requires: pic.h, defs.h, extern.h                        *
 *                                                                         *
-*******************************************
+***************************************************************************
 */
 
 #include "Bob.hpp"
@@ -29,7 +29,7 @@
 #include "defs.hpp"
 #include "extern.hpp"
 #include "PicFile_3D.hpp"
-#include "proto.hpp"
+
 #include "struct_defs.hpp"
 #include <ctime>
 #include <iostream>

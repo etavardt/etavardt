@@ -29,13 +29,14 @@
 
 #include "Bob.hpp"
 #include "BobMath.hpp"
+#include "RayTrace_3D.hpp"
 #include "Vector_3D.hpp"
 #include "PicFile_3D.hpp"
 #include "Color.hpp"
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include "proto.hpp"
+
 
 Screen_3D::Screen_3D() {
     picFile = new PicFile_3D();
@@ -988,7 +989,7 @@ void Screen_3D::shoot(double x, double y, Color &color) {
             VecSub(dir, ray2.P, ray2.D);
             VecNormalize(ray2.D);
 
-            Trace(0, 1.0, &ray2, color, 1.0, NULL);
+            RayTrace_3D::trace(0, 1.0, &ray2, color, 1.0, NULL);
             if (color.r > 1.0) color.r = 1.0;
             if (color.g > 1.0) color.g = 1.0;
             if (color.b > 1.0) color.b = 1.0;
@@ -998,7 +999,7 @@ void Screen_3D::shoot(double x, double y, Color &color) {
         double cs = (1.0 / (double)camera.samples);
         color = sum_color * cs;
     } else {
-        Trace(0, 1.0, &ray, color, 1.0, NULL);
+        RayTrace_3D::trace(0, 1.0, &ray, color, 1.0, NULL);
         if (color.r > 1.0) color.r = 1.0;
         if (color.g > 1.0) color.g = 1.0;
         if (color.b > 1.0) color.b = 1.0;

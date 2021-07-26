@@ -10,7 +10,7 @@
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include "proto.hpp"
+
 #include "Screen_3D.hpp"
 
 using std::cerr;

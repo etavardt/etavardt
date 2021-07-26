@@ -1,6 +1,6 @@
 #pragma once
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -16,7 +16,7 @@
 *                                                                         *
 *                          Requires: config.h                             *
 *                                                                         *
-*******************************************
+***************************************************************************
 */
 #ifndef STRUCT_DEFS_HPP
 #define STRUCT_DEFS_HPP
@@ -35,19 +35,19 @@ class Object_3D;
 
 /*----------------------------------------------------------------------*/
 
-#define RayPoint(ray, t, point) VecAddS(t, (ray)->D, (ray)->P, point)
+// #define RayPoint(ray, t, point) VecAddS(t, (ray)->D, (ray)->P, point)
 
-typedef struct t_infile {
-    String file_name;
-    FILE *fp;
-    long line;
-    struct t_infile *next;
-} Infile;
+// typedef struct t_infile {
+//     String file_name;
+//     FILE *fp;
+//     long line;
+//     struct t_infile *next;
+// } Infile;
 
-typedef struct t_stack {
-    Infile *what;
-    struct t_stack *prev;
-} Stack;
+// typedef struct t_stack {
+//     Infile *what;
+//     struct t_stack *prev;
+// } Stack;
 
 // typedef struct t_light {
 //     Vec position;
@@ -91,13 +91,13 @@ typedef struct t_camera {
 //     struct t_transform *next;
 // } Transform;
 
-typedef Color Palette[256];
+// typedef Color Palette[256];
 
-typedef struct t_background {
-    Color color;
-    Vec up;
-    Palette pal;
-} Background;
+// typedef struct t_background {
+//     Color color;
+//     Vec up;
+//     Palette pal;
+// } Background;
 
 // /* preprocessor macro structure */
 // typedef struct t_macro {
@@ -109,9 +109,9 @@ typedef struct t_background {
 // } Macro;
 
 //TODO: TCE:maybe move to bound.hpp
-typedef struct t_compositedata {
-    unsigned long   size;
-    Object_3D          *children;
-} CompositeData;
+// typedef struct t_compositedata {
+//     unsigned long   size;
+//     Object_3D          *children;
+// } CompositeData;
 
 #endif //STRUCT_DEFS_HPP

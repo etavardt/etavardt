@@ -7,7 +7,9 @@
 #include "String.hpp"
 #include "Exception.hpp"
 #include "Stats.hpp"
-#include "proto.hpp"
+
+
+FILE *env_fopen(String name, const String mode); // in file.cpp
 
 Texmap_3D::Texmap_3D(const Texmap_3D &t) {
     position = t.position; /* upper left hand corner of image */

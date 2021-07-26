@@ -1,5 +1,5 @@
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -16,8 +16,9 @@
 *                                                                         *
 *                       Requires: defs.h, extern.h                        *
 *                                                                         *
-*******************************************
+***************************************************************************
 */
+#include "RayTrace_3D.hpp"
 
 #include <cstdio>
 #include <cmath>
@@ -28,7 +29,12 @@
 #include "Isect_3D.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include "proto.hpp"
+
+
+extern void PriorityQueueNull (void);
+extern int  PriorityQueueEmpty (void);
+extern void PriorityQueueInsert (double key , Object *obj);
+extern void PriorityQueueDelete (double *key , Object **obj);
 
 /*
  * intersect.c
@@ -36,11 +42,10 @@
  * as suggested by Kajiya...
  */
 
-double    num[NSLABS];
-double    den[NSLABS];
+double    RayTrace_3D::num[NSLABS];
+double    RayTrace_3D::den[NSLABS];
 
-//TODO: TCE:Should fall under Ray since it is used during ray intersection?
-/***********************************************************************
+/*******************************************************************************************************
  * CheckAndEnqueue(obj, maxdist)
  * Check the current ray (as paramaterized with the num and den
  * arrays above) against the bounding volume of obj.
@@ -48,8 +53,8 @@ double    den[NSLABS];
  * priority queue.
  *
  * Note: should be broken into two separate procedures...
- ***********************************************************************/
-void CheckAndEnqueue(Object *obj, double maxdist)
+ *******************************************************************************************************/
+void RayTrace_3D::checkAndEnqueue(Object *obj, double maxdist)
 {
     int i = 0;
 
@@ -93,8 +98,7 @@ void CheckAndEnqueue(Object *obj, double maxdist)
     nEnqueued++;
 }
 
-//TODO: TCE:Should fall under Ray?
-/***********************************************************************
+/*******************************************************************************************************
  * Intersect(ray, hit, maxdist, lastObjHit)
  *
  * Returns true if we hit something in the root model closer than maxdist.
@@ -105,8 +109,8 @@ void CheckAndEnqueue(Object *obj, double maxdist)
     lastObjHit-intersecting ie spheres and cones.  This can be used to
     eliminate doing an intersection test with the last object.
 
- ***********************************************************************/
-int Intersect(Ray *ray, Isect &hit, double maxdist, Object *lastObjHit)
+ *******************************************************************************************************/
+int RayTrace_3D::intersect(Ray *ray, Isect &hit, double maxdist, Object *lastObjHit)
 {
     Isect          nhit;
     int            i;
@@ -130,7 +134,7 @@ int Intersect(Ray *ray, Isect &hit, double maxdist, Object *lastObjHit)
     /* start with an empty priority queue */
     PriorityQueueNull();
 
-    CheckAndEnqueue(Object_3D::Root, maxdist);
+    RayTrace_3D::checkAndEnqueue(Object_3D::Root, maxdist);
 
     for (;;) {
 
@@ -161,7 +165,7 @@ int Intersect(Ray *ray, Isect &hit, double maxdist, Object *lastObjHit)
 
             while(child) {
                 if(lastObjHit != child) {
-                    CheckAndEnqueue(child, maxdist);
+                    RayTrace_3D::checkAndEnqueue(child, maxdist);
                 }
                 child = child->next;
             }

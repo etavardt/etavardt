@@ -1,6 +1,6 @@
 #pragma once
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -14,7 +14,7 @@
 *  reproduced or integrated into other packages without the prior written *
 *          consent of Christopher D. Watkins and Stephen B. Coy.          *
 *                                                                         *
-*******************************************
+***************************************************************************
 */
 
 #include "String.hpp"

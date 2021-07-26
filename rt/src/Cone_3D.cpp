@@ -1,9 +1,9 @@
 /*
-*******************************************
+***********************************************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
-*                       Cone.C = newCone primative                           *
+*                       Cone.C = newCone primative                        *
 *                                                                         *
 *       Copyright 1988,1992 Christopher D. Watkins and Stephen B. Coy     *
 *                                                                         *
@@ -15,7 +15,7 @@
 *                                                                         *
 *                       Requires: defs.h, extern.h                        *
 *                                                                         *
-*******************************************
+***********************************************************************************************************
 */
 
 #include "Cone_3D.hpp"
@@ -31,7 +31,7 @@
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include "proto.hpp"
+
 
 typedef struct t_conedata {
     Vec cone_base;
@@ -127,7 +127,7 @@ int Cone_3D::intersect(Ray *ray, Isect &hit) {
     /* check nearest root first */
 
     if (t1 > Bob::rayeps) { /* possible real hit */
-        RayPoint(ray, t1, P);
+        RayPoint(*ray, t1, P);
         if (!clips || clips->clip_check(P)) {
             d = VecDot(cd->cone_w, P);
             if (d >= cd->cone_min_d && d <= cd->cone_max_d) { /* hit! */
@@ -141,7 +141,7 @@ int Cone_3D::intersect(Ray *ray, Isect &hit) {
     }
 
     if (t2 > Bob::rayeps) {
-        RayPoint(ray, t2, P);
+        RayPoint(*ray, t2, P);
         if (!clips || clips->clip_check(P)) {
             d = VecDot(cd->cone_w, P);
             if (d >= cd->cone_min_d && d <= cd->cone_max_d) {

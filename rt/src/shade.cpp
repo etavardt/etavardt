@@ -1,5 +1,5 @@
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -17,8 +17,9 @@
 *                                                                         *
 *                  Requires: defs.h, extern.h,c onfig.h                   *
 *                                                                         *
-*******************************************
+***************************************************************************
 */
+#include "RayTrace_3D.hpp"
 
 #include <cmath>
 #include <cstdio>
@@ -34,11 +35,10 @@
 #include "config.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include "proto.hpp"
+
 
 #define DEFAULT_IOR (1.0)
 
-#define SIGN(a) ((a) > 0 ? 1 : ((a) < 0 ? (-1) : 0))
 
 /*
     reflect -- given an incident vector I, and the normal N,
@@ -46,7 +46,7 @@
 */
 // Vec I, N, R;
 // double dot;        /* -VecDot(I,N) */
-void reflect(const Vec &I, const Vec &N, Vec &R, double dot) {
+void RayTrace_3D::reflect(const Vec &I, const Vec &N, Vec &R, double dot) {
     double len;
 
     len = 2.0 * dot;
@@ -63,7 +63,7 @@ void reflect(const Vec &I, const Vec &N, Vec &R, double dot) {
 //     N,      /* surface normal */
 //     T;      /* transmitted vector (calculated) */
 // double dot;    /* -VecDot(I, N) */
-int refract(double eta, const Vec &I, const Vec &N, Vec &T, double dot) {
+int RayTrace_3D::refract(double eta, const Vec &I, const Vec &N, Vec &T, double dot) {
     double n1, n2, c1, cs2;
 
     if (eta == 1.0) { /* bail out early */
@@ -96,7 +96,7 @@ int refract(double eta, const Vec &I, const Vec &N, Vec &T, double dot) {
     col    color to return
     ior    current ior
 */
-void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color &col, double ior) {
+void RayTrace_3D::shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color &col, double ior) {
     /* the following locals have been declared static to help */
     /* shrink the amount of stack spaced needed for recursive */
     /* calls to shade() */
@@ -167,7 +167,7 @@ void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color
     //    col.r = surf->diff.r * Ambient.r;
     //    col.g = surf->diff.g * Ambient.g;
     //    col.b = surf->diff.b * Ambient.b;
-    col = surf->diff * Ambient; /* start with global ambient */
+    col = surf->diff * RayTrace_3D::ambient; /* start with global ambient */
                                 //    VecAdd(surf->amb, col, col);        /* add self luminous */
     col += surf->amb;           /* add self luminous */
 
@@ -286,7 +286,7 @@ void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color
                 nhit = hit;
                 if (no_shadows
                 || (cur_light->flag & L_NOSHADOWS)
-                || (cur_light->type == L_SPHERICAL ? sShadow(&tray, nhit, t, c_shadow, level, *cur_light, inside) : Shadow(&tray, nhit, t, c_shadow, level, *cur_light, inside))) {
+                || (cur_light->type == L_SPHERICAL ? sShadow(&tray, nhit, t, c_shadow, level, *cur_light, inside) : shadow(&tray, nhit, t, c_shadow, level, *cur_light, inside))) {
                     ldot = VecDot(fuzz_N, L);
                     /* scale diff by angle of incidence */
                     // VecS(ldot, surf->diff, c_diff);
@@ -358,7 +358,7 @@ void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color
             } else {
                 reflect(I, fuzz_N, tray.D, dot);
             }
-            t = Trace(level + 1, max_weight, &tray, tcol, ior, hit.isect_self);
+            t = trace(level + 1, max_weight, &tray, tcol, ior, hit.isect_self);
             // VecMul(surf->spec, tcol, tcol);
             tcol *= surf->spec;
             // VecAdd(tcol, col, col);
@@ -393,7 +393,7 @@ void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color
             /* printf("level %d total internal reflection, inside at %d\n", level, inside); */
         }
         still_inside = inside;
-        t = Trace(level + 1, weight, &tray, tcol, new_ior, hit.isect_self);
+        t = trace(level + 1, weight, &tray, tcol, new_ior, hit.isect_self);
         inside = still_inside;
         if (t < HUGE_NUM && inside) {
             /*
@@ -450,11 +450,11 @@ void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color
 
     /* and finally add haze color if needed */
 
-    if (inside == 0 && HazeDensity > 0.0) {
-        haze = 1.0 - pow(1.0 - HazeDensity, hit.isect_t);
-        bkg(I, HazeColor); /* get color for haze */
+    if (inside == 0 && RayTrace_3D::hazeDensity > 0.0) {
+        haze = 1.0 - pow(1.0 - RayTrace_3D::hazeDensity, hit.isect_t);
+        bkg(I, RayTrace_3D::hazeColor); /* get color for haze */
         // VecComb(haze, HazeColor, 1.0-haze, col, col);
-        col = (HazeColor * haze) + (col * (1.0 - haze));
+        col = (RayTrace_3D::hazeColor * haze) + (col * (1.0 - haze));
     }
 
 } /* end of shade() */

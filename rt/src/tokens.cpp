@@ -1,5 +1,5 @@
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -15,7 +15,7 @@
 *                                                                         *
 *                       Requires: defs.h, extern.h                        *
 *                                                                         *
-*******************************************
+***************************************************************************
 
     tokens -- This is where the input file is read in and
         broken up into tokens which are then fed to the
@@ -27,7 +27,7 @@
 #include "Bob.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include "proto.hpp"
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>

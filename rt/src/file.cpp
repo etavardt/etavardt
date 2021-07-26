@@ -1,5 +1,5 @@
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -14,7 +14,7 @@
 *  reproduced or integrated into other packages without the prior written *
 *          consent of Christopher D. Watkins and Stephen B. Coy.          *
 *                                                                         *
-*******************************************
+***************************************************************************
 */
 
 #include <iostream>
@@ -55,7 +55,6 @@ void qstrcat(char *d, char *s) {
         taken from the envoronment variable BOB.  Also
         handles filenames wrapped in quotes.
 */
-
 FILE *env_fopen(String name, const String mode) {
     FILE *fp;
     int i;

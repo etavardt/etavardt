@@ -24,6 +24,7 @@
 #include <memory>
 
 //#include "Bob.hpp"
+#include "RayTrace_3D.hpp"
 #include "BobMath.hpp"
 #include "Vector_3D.hpp"
 #include "Cone_3D.hpp"
@@ -40,8 +41,12 @@
 
 #include "defs.hpp"
 #include "extern.hpp"
-#include "proto.hpp"
+
 #include "tokens.hpp"
+
+extern int get_token();
+extern int push_token();
+FILE *env_fopen(String name, const String mode); // in file.cpp
 
 Vec tmp_vec;
 
@@ -97,7 +102,7 @@ void Parser::yy_background() {
         push_token();
         get_vec();
         //        VecCopy(tmp_vec, background.color);
-        background.color = tmp_vec;
+        RayTrace_3D::background.color = tmp_vec;
     } else if (cur_token == LEFT_BRACE) {
         while (get_token() != RIGHT_BRACE) {
             //            cout << "cout: In Parser::yy_background Post while get_token cur_token=" << cur_token << endl;
@@ -105,11 +110,11 @@ void Parser::yy_background() {
             case COLOR:
                 get_vec();
                 //                VecCopy(tmp_vec, background.color);
-                background.color = tmp_vec;
+                RayTrace_3D::background.color = tmp_vec;
                 break;
             case UP:
                 get_vec();
-                VecCopy(tmp_vec, background.up);
+                VecCopy(tmp_vec, RayTrace_3D::background.up);
                 break;
             case UNKNOWN: /* must be a palette */
                           //                cout << "cout: In Parser::yy_background cur_token= UNKOWN(" << cur_token << ")" << endl;
@@ -126,12 +131,12 @@ void Parser::yy_background() {
                     //                    background.pal[i][0] = r;
                     //                    background.pal[i][1] = g;
                     //                    background.pal[i][2] = b;
-                    background.pal[i].r = r;
-                    background.pal[i].g = g;
-                    background.pal[i].b = b;
+                    RayTrace_3D::background.pal[i].r = r;
+                    RayTrace_3D::background.pal[i].g = g;
+                    RayTrace_3D::background.pal[i].b = b;
                 }
                 //                MakeVector(-1, -1, -1, background.color);
-                background.color = -1;
+                RayTrace_3D::background.color = -1;
                 break;
             default:
                 yyerror(String("Unexpected token in background structure."));
@@ -154,14 +159,14 @@ void Parser::yy_studio() {
     Eye.view_aspect = 1.0;
     //    MakeVector(0, 0, 0, Ambient); /* no global illumination */
     //    MakeVector(0, 0, 0, background.color);
-    Ambient = 0; /* no global illumination */
-    background.color = 0;
-    MakeVector(0, 0, 0, background.up);
+    RayTrace_3D::ambient = 0; /* no global illumination */
+    RayTrace_3D::background.color = 0;
+    MakeVector(0, 0, 0, RayTrace_3D::background.up);
     camera.aperture = 0.0;     /* pinhole camera */
     camera.focal_length = 0.0; /* fix later */
     camera.samples = F_SAMPLES;
     camera.projection = P_FLAT;
-    HazeDensity = 0.0; /* on a clear day... */
+    RayTrace_3D::hazeDensity = 0.0; /* on a clear day... */
     start_line = 0;
     stop_line = (-1);
 
@@ -217,7 +222,7 @@ void Parser::yy_studio() {
         case AMBIENT:
             get_vec();
             // VecCopy(tmp_vec, Ambient);
-            Ambient = tmp_vec;
+            RayTrace_3D::ambient = tmp_vec;
             break;
         case BKG:
             yy_background();
@@ -283,7 +288,7 @@ void Parser::yy_studio() {
             break;
         case HAZE:
             get_num();
-            HazeDensity = cur_value;
+            RayTrace_3D::hazeDensity = cur_value;
             break;
         case DEPTH:
             get_num();
@@ -321,12 +326,12 @@ void Parser::yy_studio() {
         stop_line = Yresolution;
     }
 
-    // VecCopy(background.color, HazeColor);
-    HazeColor = background.color;
-    if (background.up[0] == 0 && background.up[1] == 0 && background.up[2] == 0) {
-        VecCopy(Eye.view_up, background.up);
+    // VecCopy(background.color, RayTrace_3D::hazeColor);
+    RayTrace_3D::hazeColor = RayTrace_3D::background.color;
+    if (RayTrace_3D::background.up[0] == 0 && RayTrace_3D::background.up[1] == 0 && RayTrace_3D::background.up[2] == 0) {
+        VecCopy(Eye.view_up, RayTrace_3D::background.up);
     } else {
-        VecNormalize(background.up);
+        VecNormalize(RayTrace_3D::background.up);
     }
 
 } /* end of yy_studio() */

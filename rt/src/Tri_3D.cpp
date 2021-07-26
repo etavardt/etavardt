@@ -1,5 +1,5 @@
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -15,7 +15,7 @@
 *                                                                         *
 *                       Requires: defs.h, extern.h                        *
 *                                                                         *
-*******************************************
+***************************************************************************
 
     TRIs are triangular patches with normals defined at the vertices.
     When an intersection is found, it interpolates the normal to the
@@ -39,7 +39,7 @@
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include "proto.hpp"
+
 #include <cstdio>
 #include <math.h>
 
@@ -109,7 +109,7 @@ int Tri_3D::intersect(Ray *ray, Isect &hit) {
     }
 
     /* calc intersect point, Q */
-    RayPoint(ray, dist, Q);
+    RayPoint(*ray, dist, Q);
 
     /* if clipping and doesn't pass, bail */
     if (clips && !clips->clip_check(Q)) {

@@ -1,5 +1,5 @@
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -15,7 +15,7 @@
 *                                                                         *
 *                       Requires: defs.h, extern.h                        *
 *                                                                         *
-*******************************************
+***************************************************************************
 */
 
 #include "Sphere_3D.hpp"
@@ -32,7 +32,7 @@
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include "proto.hpp"
+
 
 typedef struct t_spheredata {
     Vec sph_center;
@@ -85,11 +85,11 @@ int Sphere_3D::intersect(Ray *ray, Isect &hit) {
         if (!clips) {
             t = t0;
         } else {
-            RayPoint(ray, t0, P);
+            RayPoint(*ray, t0, P);
             if (clips->clip_check(P)) {
                 t = t0;
             } else { /* well, try t1 */
-                RayPoint(ray, t1, P);
+                RayPoint(*ray, t1, P);
                 if (clips->clip_check(P)) {
                     t = t1;
                 } else {
@@ -101,7 +101,7 @@ int Sphere_3D::intersect(Ray *ray, Isect &hit) {
         if (!clips) {
             t = t1;
         } else {
-            RayPoint(ray, t1, P);
+            RayPoint(*ray, t1, P);
             if (clips->clip_check(P)) {
                 t = t1;
             } else {

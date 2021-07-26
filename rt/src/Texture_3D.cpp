@@ -1,5 +1,5 @@
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -15,7 +15,7 @@
 *                                                                         *
 *                       Requires: defs.h, extern.h                        *
 *                                                                         *
-*******************************************
+***************************************************************************
 
     calling sequence for all functions is
 
@@ -34,7 +34,7 @@
 #include "Surface_3D.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include "proto.hpp"
+
 
 /*
     Check -- create a checkerboard, strange

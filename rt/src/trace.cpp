@@ -1,5 +1,5 @@
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -19,26 +19,29 @@
 *                                                                         *
 *                       Requires: defs.h, extern.h                        *
 *                                                                         *
-*******************************************
+***************************************************************************
 
     Trace returns the dist to the next hit.  This gives shade()
     a value to use for determining color attenuation for haze and
     transparent objects.
 */
+#include "RayTrace_3D.hpp"
+
+#include <cmath>
+#include <cstdio>
+
 #include "Object_3D.hpp"
 #include "Isect_3D.hpp"
 #include "Color.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-//#include "proto.hpp"
-#include <cmath>
-#include <cstdio>
-//class Isect;
-extern int  Intersect (Ray *ray , Isect &hit , double maxdist , Object *self);
-extern void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color &col, double ior);
+//
 
+//class Isect;
+//extern int  Intersect (Ray *ray , Isect &hit , double maxdist , Object *self);
+//extern void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color &col, double ior);
 //TODO: TCE:Should fall under Ray?
-void bkg(Vec &dir, Color &col) {
+void RayTrace_3D::bkg(Vec &dir, Color &col) {
     double dot, index;
     int indx;
 
@@ -61,7 +64,7 @@ void bkg(Vec &dir, Color &col) {
 
 //TODO: TCE:Should fall under Ray
 //    double    ior;        /* current material ior */
-double Trace(int level, double weight, Ray *ray, Color &color, double ior, Object *obj) {
+double RayTrace_3D::trace(int level, double weight, Ray *ray, Color &color, double ior, Object *obj) {
     Object *prim;
     Point P;
     Vec N;
@@ -77,17 +80,17 @@ double Trace(int level, double weight, Ray *ray, Color &color, double ior, Objec
 
     nRays++;
 
-    if (Intersect(ray, hit, HUGE_NUM, obj)) {
+    if (RayTrace_3D::intersect(ray, hit, HUGE_NUM, obj)) {
 
         /* end of warning */
 
         prim = hit.isect_prim;
-        RayPoint(ray, hit.isect_t, P);
+        RayPoint(*ray, hit.isect_t, P);
         /* get normal vector of intersection */
 //        (*prim->o_procs->normal)(prim, &hit, P, N);
         prim->normal(hit, P, N);
 
-        Shade(level, weight, P, N, ray->D, hit, color, ior);
+        RayTrace_3D::shade(level, weight, P, N, ray->D, hit, color, ior);
         return hit.isect_t;
     } else {
         bkg(ray->D, color);

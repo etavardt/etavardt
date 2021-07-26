@@ -1,5 +1,5 @@
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -13,7 +13,7 @@
 *  reproduced or integrated into other packages without the prior written *
 *          consent of Christopher D. Watkins and Stephen B. Coy.          *
 *                                                                         *
-*******************************************
+***************************************************************************
 */
 
 char    _Copyright[] = "Copyright 1989-1992 Christopher D. Watkins & Stephen B. Coy";

@@ -3,8 +3,8 @@
 #include "Vector_3D.hpp"
 #include "defs.hpp"
 #include <memory>
-//#include "Object_3D.hpp"
-class Object_3D;
+#include "Object_3D.hpp"
+//class Object_3D;
 
 class Clip_3D {
   public:

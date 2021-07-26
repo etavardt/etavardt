@@ -8,9 +8,7 @@
 #include "Ray_3D.hpp"
 #include "Isect_3D.hpp"
 
-//#include "struct_defs.hpp"
-//#include "extern.hpp"
-class Clip_3D;
+class Clip_3D; // Use this to avoid circluar processing which causes error: 'Object_3D' has not been declared because Clip_3D.hpp includes Object_3D.hpp
 //class Surface_3D;
 //class Isect;
 class Object_3D {
@@ -33,44 +31,13 @@ class Object_3D {
     virtual void normal(Isect &hit, Point &P, Vec &N);
     static Object_3D *Root;
 };
-/*
-typedef struct t_object {
-    unsigned short o_type;
 
-    double o_dmin[NSLABS];
-    double o_dmax[NSLABS];
-
-    struct t_isect {
-        double      isect_t;       //* distance to intersection * /
-        int      isect_enter;   //* entering? ie hit front? * /
-        t_object *isect_prim;    //* object we hit * /
-        Surface  *isect_surf;    //* surface def of hit object * /
-        t_object *isect_self;    //* pointer to self for queue elimination * /
-    };
-    struct t_objectprocs {
-        int     (*intersect) (t_object*, Ray*, t_isect*);
-        void    (*normal) (t_object*, t_isect*, double*, double*);
-    } * o_procs;
-
-    Surface *o_surf;
-    void    *o_data;
-    Clip    *clips;
-
-    struct t_object *next;          //* next object in original list, sibling * /
-} Object;
-*/
 typedef Object_3D Object;
 
-//typedef struct Object::t_isect Isect;
-//typedef struct Object_3D::Isect Isect;
-
-/*
 typedef struct t_compositedata {
     unsigned long   size;
-    Object          *children;
+    Object_3D          *children;
 } CompositeData;
-*/
-//TODO: TCE Remove
-//typedef struct t_object::t_objectprocs ObjectProcs;
+
 
 //#endif //Object_3D_HPP

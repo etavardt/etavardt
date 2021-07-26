@@ -1,5 +1,5 @@
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -15,7 +15,7 @@
 *                                                                         *
 *                       Requires: defs.h, extern.h                        *
 *                                                                         *
-*******************************************
+***************************************************************************
 */
 
 #include "Ring_3D.hpp"
@@ -30,7 +30,7 @@
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include "proto.hpp"
+
 
 typedef struct t_ringdata {
     Vec ring_center;
@@ -71,7 +71,7 @@ int Ring_3D::intersect(Ray *ray, Isect &hit) {
         return 0;
     }
 
-    RayPoint(ray, t, point);
+    RayPoint(*ray, t, point);
 
     /* if clipping planes and doesn't pass, bail */
     if (clips && !clips->clip_check(point)) {

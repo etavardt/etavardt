@@ -1,5 +1,5 @@
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -15,7 +15,7 @@
 *                                                                         *
 *                  Requires: defs.h, extern.h, config.h                   *
 *                                                                         *
-*******************************************
+***************************************************************************
 
     For exp_trans true there will be problems with textured
     solid.  In particular the first surface encountered will
@@ -50,6 +50,7 @@
     It is assumed (for better or for worse) that the ray to the
     light source is starting in air, not in a transparent material.
 */
+#include "RayTrace_3D.hpp"
 
 #include <cstdio>
 #include <cmath>
@@ -62,9 +63,9 @@
 #include "defs.hpp"
 #include "extern.hpp"
 #include "config.hpp"
-#include "proto.hpp"
 
-extern int  Intersect (Ray *ray , Isect &hit , double maxdist , Object *self);
+
+//extern int  Intersect (Ray *ray , Isect &hit , double maxdist , Object *self);
 
 //TODO: TCE:Should fall under Ray or light?
 //    Ray    *ray;
@@ -74,7 +75,7 @@ extern int  Intersect (Ray *ray , Isect &hit , double maxdist , Object *self);
 //    int    level;        /* current tree level */
 //    Light   *cur_light;     /* light we are checking for shadow */
 //    int     inside;
-int Shadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &cur_light, int inside) {
+int RayTrace_3D::shadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &cur_light, int inside) {
     Object           *cached;
     Surface_3D       *prev_surf;     /* used if light is inside object */
     static Surface_3D *tmp_surf;       /* to allow textured shadows */
@@ -97,15 +98,15 @@ int Shadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &cu
 
     color = 1.0; /* start totally trans */
 
-    while(Intersect(ray, hit, tmax, hit.isect_self)) {
+    while(RayTrace_3D::intersect(ray, hit, tmax, hit.isect_self)) {
         if(in_surf) {           /* if exiting */
             t = hit.isect_t;
             tmp_surf = hit.isect_surf;
             if(tmp_surf->tex) {      /* need to check texturing */
-                RayPoint(ray, t, P);
+                RayPoint(*ray, t, P);
                 tmp_surf->tex->tex_fix(*tmp_surf, P, P);
             } else if(tmp_surf->flags & S_TM_TRANS) {
-                RayPoint(ray, t, P);
+                RayPoint(*ray, t, P);
                 tmp_surf->tex->map_fix(*tmp_surf, P);
             }
 
@@ -113,7 +114,7 @@ int Shadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &cu
                 Point   N;
                 Object  *prim;
 
-                RayPoint(ray, t, P);
+                RayPoint(*ray, t, P);
                 prim = hit.isect_prim;
                 prim->normal(hit, P, N);
 
@@ -158,10 +159,10 @@ int Shadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &cu
             t = hit.isect_t;
             tmp_surf = hit.isect_surf;
             if(tmp_surf->tex) {      /* need to check texturing */
-                RayPoint(ray, t, P);
+                RayPoint(*ray, t, P);
                 tmp_surf->tex->tex_fix(*tmp_surf, P, P);
             } else if(tmp_surf->flags & S_TM_TRANS) {
-                RayPoint(ray, t, P);
+                RayPoint(*ray, t, P);
                 tmp_surf->tex->map_fix(*tmp_surf, P);
             }
             if(tmp_surf->trans.r < Bob::rayeps &&
@@ -180,7 +181,7 @@ int Shadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &cu
         }
 
         /* make intersection point new start point and continue */
-        RayPoint(ray, hit.isect_t, ray->P);
+        RayPoint(*ray, hit.isect_t, ray->P);
         tmax -= hit.isect_t;
     }
 
@@ -226,7 +227,7 @@ int Shadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &cu
 //    int    level;        /* current tree level */
 //    Light   *cur_light;     /* light source */
 //    int     inside;
-int sShadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &cur_light, int inside) {
+int RayTrace_3D::sShadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &cur_light, int inside) {
     int   sample, visible;
     Color tmp_color;
     Ray   tmp_ray;
@@ -248,7 +249,7 @@ int sShadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &c
         VecAddS(len, tweek, tmp_ray.D, tmp_ray.D);
         VecNormalize(tmp_ray.D);
 
-        if(Shadow(&tmp_ray, hit, tmax, tmp_color, level, cur_light, inside)) {
+        if(shadow(&tmp_ray, hit, tmax, tmp_color, level, cur_light, inside)) {
             color += tmp_color;
             visible = 1;
         }

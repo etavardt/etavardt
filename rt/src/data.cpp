@@ -1,5 +1,5 @@
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -15,7 +15,7 @@
 *                                                                         *
 *                           Requires: defs.h                              *
 *                                                                         *
-*******************************************
+***************************************************************************
 */
 
 #include <cstdio>
@@ -44,12 +44,12 @@ int         caustics   = 0;        /* no fake caustics */
 int         exp_trans  = 1;        /* default to exponential transparency */
 int         fuzzy_ray;
 
-Background  background;            /* background color structure */
-Color       Ambient;               /* global ambient light */
-Color       HazeColor;             /* color of haze */
-double         HazeDensity;           /* exponential factor */
+// Background  background;            /* background color structure */
+// Color       Ambient;               /* global ambient light */
+// Color       HazeColor;             /* color of haze */
+//double         HazeDensity;           /* exponential factor */
 Surface_3D *CurrentSurface = NULL; /* surface at current top of stack */
-Stack      *SurfTop        = NULL; /* points to top of surface stack */
+//Stack      *SurfTop        = NULL; /* points to top of surface stack */
 // Transform  *TransformMatrix_3D::transTop       = NULL; /* top of transformation stack */
 // Clip       *ClipTop        = NULL; /* current clipping list */
 // GlobalClip *GlobalClipTop  = NULL; /* current global clip list */
@@ -57,8 +57,8 @@ Stack      *SurfTop        = NULL; /* points to top of surface stack */
 //double         Bob::rayeps = 1e-6; // the smallest allowable ray size, color value, or double
 //char       *Progname;
 //char        Infilename[256];
-String      Infilename;
-Stack      *InfileTop = NULL;      /* points to top of input file stack */
+// String      Infilename;
+// Stack      *InfileTop = NULL;      /* points to top of input file stack */
 //Object     *Root = NULL;
 
 double         minweight = MINWEIGHT;

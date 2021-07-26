@@ -1,5 +1,5 @@
 /*
-*******************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -15,7 +15,7 @@
 *                                                                         *
 *                       Requires: defs.h, extern.h                        *
 *                                                                         *
-*******************************************
+***************************************************************************
 */
 
 #include "Poly_3D.hpp"
@@ -32,7 +32,7 @@
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
-#include "proto.hpp"
+
 
 typedef struct t_polydata {
     int poly_npoints;
@@ -77,7 +77,7 @@ int Poly_3D::intersect(Ray *ray, Isect &hit) {
         return 0;
     }
 
-    RayPoint(ray, t, V);
+    RayPoint(*ray, t, V);
 
     /* if clipping planes and doesn't pass, bail */
     if (clips && !clips->clip_check(V)) {

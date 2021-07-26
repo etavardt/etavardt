@@ -4,14 +4,15 @@
 #include <iostream>
 #include <memory>
 
+#include "Parser.hpp"
 #include "Bound_3D.hpp"
 #include "Clip_3D.hpp"
-#include "Exception.hpp"
-#include "Stats.hpp"
-#include "defs.hpp"
-#include "extern.hpp"
-
+#include "noise.hpp"
 #include "Screen_3D.hpp"
+#include "Stats.hpp"
+#include "Exception.hpp"
+
+#include "extern.hpp"
 
 using std::cerr;
 using std::cout;
@@ -26,6 +27,7 @@ String Bob::_Copyright = "Copyright 1989-1992 Christopher D. Watkins & Stephen B
 
 //TODO: TCE: remove this extern and replace with include of a PreProc header file
 extern int preproc(const String &infile, const String &outfile);
+extern int tickflag;
 
 Bob &bobApp = Bob::getApp();
 
@@ -188,10 +190,6 @@ int Bob::processCmdLine(int argCnt, char **argList) {
     infilename.append(".b");
     outfilename.append(".img");
 
-    camera.aperture = -1.0;
-    camera.focal_length = 0.0;
-    Eye.view_aspect = -1.0;
-
     if (tickflag) {
         cout << _Program << "    " << _Version << endl << _Copyright << endl;
     }
@@ -228,6 +226,7 @@ void Bob::clearScreen() {
 }
 
 int Bob::runApp() {
+    Parser parser;
     stop_line = (-1); /* helps to catch no studio error */
                       //    cout << "cout: In Bob::runApp preprocess=" << preprocess << endl;
     if (preprocess) {
@@ -237,8 +236,8 @@ int Bob::runApp() {
     } else {
         parser.ReadSceneFile(infilename, infilename);
     }
-    if (Eye.view_aspect != -1.0) {
-        Eye.view_angle_y = Eye.view_angle_x / Eye.view_aspect;
+    if (camera.eye.view_aspect != -1.0) {
+        camera.eye.view_angle_y = camera.eye.view_angle_x / camera.eye.view_aspect;
     }
     if (xres > 0) { /* if command line override */
         Xresolution = xres;
@@ -265,8 +264,7 @@ int Bob::runApp() {
     //    cout << "cout: In Bob::runApp Post BuildBoundingSlabs Pre init_noise" << endl;
     init_noise();
     //    cout << "cout: In Bob::runApp Post init_noise Pre Screen" << endl;
-    Screen_3D scr;
-    scr.screen(&Eye, outfilename, Xresolution, Yresolution);
+    camera.screen.screen(outfilename, Xresolution, Yresolution);
     //    cout << "cout: In Bob::runApp Post Screen return to caller" << endl;
 
     return 1;

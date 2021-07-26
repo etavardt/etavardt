@@ -33,15 +33,21 @@
 */
 
 #include "Tri_3D.hpp"
-#include "Bob.hpp"
-//#include "Object_3D.hpp"
-#include "Isect_3D.hpp"
-#include "Stats.hpp"
-#include "defs.hpp"
-#include "extern.hpp"
 
 #include <cstdio>
 #include <math.h>
+
+#include "Bob.hpp"
+#include "BobMath.hpp"
+#include "Object_3D.hpp"
+#include "Isect_3D.hpp"
+#include "Stats.hpp"
+#include "Clip_3D.hpp"
+#include "Vector_3D.hpp"
+
+//#include "defs.hpp"
+//#include "extern.hpp"
+extern Vec     Slab[];
 
 typedef struct t_patchdata {
     Vec tri_P[3];
@@ -52,7 +58,7 @@ typedef struct t_patchdata {
 
 Tri_3D::Tri_3D() : Object_3D() {
     Object_3D::o_type = T_TRI;
-    Object_3D::o_surf = CurrentSurface;
+    Object_3D::o_surf = Surface_3D::currentSurface;
 }
 Tri_3D::~Tri_3D() {
     Object_3D::~Object_3D();
@@ -169,11 +175,11 @@ Tri_3D *Tri_3D::makeTri(Vec *point) {
 
     newTri = new Tri_3D();
     Stats::trackMemoryUsage(sizeof(Tri_3D));
-    Bob::getApp().parser.ptrchk(newTri, "patch object");
+
 
     td = new TriData();
     Stats::trackMemoryUsage(sizeof(TriData));
-    Bob::getApp().parser.ptrchk(td, "patch data");
+
 
     if (Clip_3D::ClipTop) {
         newTri->clips = Clip_3D::ClipTop;

@@ -30,6 +30,7 @@
 #include "Vector_3D.hpp"
 #include "Isect_3D.hpp"
 #include "Stats.hpp"
+#include "Clip_3D.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 
@@ -43,7 +44,7 @@ typedef struct t_spheredata {
 
 Sphere_3D::Sphere_3D() : Object_3D() {
     o_type = T_SPHERE;
-    o_surf = CurrentSurface;
+    o_surf = Surface_3D::currentSurface;
 }
 Sphere_3D::~Sphere_3D() {
     Object_3D::~Object_3D();
@@ -137,7 +138,7 @@ Sphere_3D *Sphere_3D::makeSphere(Vec &pos, double radius, double fuzzy) {
 
     newSphere = new Sphere_3D();
     Stats::trackMemoryUsage(sizeof(Sphere_3D));
-    Bob::getApp().parser.ptrchk(newSphere, "sphere object");
+
     if (fuzzy > Bob::rayeps) {
         newSphere->o_type = T_FUZZY;
     } else {
@@ -153,7 +154,7 @@ Sphere_3D *Sphere_3D::makeSphere(Vec &pos, double radius, double fuzzy) {
 
     sp = new SphereData();
     Stats::trackMemoryUsage(sizeof(SphereData));
-    Bob::getApp().parser.ptrchk(newSphere, "sphere data");
+
     VecCopy(pos, sp->sph_center);
     radius = bMath::abs(radius);
     if (radius < Bob::rayeps)

@@ -27,6 +27,7 @@
 #include "BobMath.hpp"
 #include "Vector_3D.hpp"
 #include "Isect_3D.hpp"
+#include "Clip_3D.hpp"
 #include "Stats.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
@@ -41,7 +42,7 @@ typedef struct t_ringdata {
 
 Ring_3D::Ring_3D(): Object_3D() {
     Object_3D::o_type = T_RING;
-    Object_3D::o_surf = CurrentSurface;
+    Object_3D::o_surf = Surface_3D::currentSurface;
 }
 Ring_3D::~Ring_3D() {
     Object_3D::~Object_3D();
@@ -108,7 +109,7 @@ Ring_3D *Ring_3D::makeRing(Vec &pos, Vec &norm, double min_rad, double max_rad) 
 
     newRing = new Ring_3D();
     Stats::trackMemoryUsage(sizeof(Ring_3D));
-    Bob::getApp().parser.ptrchk(newRing, "ring object");
+
 
     if (Clip_3D::ClipTop) {
         newRing->clips = Clip_3D::ClipTop;
@@ -119,7 +120,7 @@ Ring_3D *Ring_3D::makeRing(Vec &pos, Vec &norm, double min_rad, double max_rad) 
 
     rp = new RingData();
     Stats::trackMemoryUsage(sizeof(RingData));
-    Bob::getApp().parser.ptrchk(rp, "ring data");
+
     VecCopy(pos, rp->ring_center);
     VecCopy(norm, rp->ring_normal);
     VecNormalize(rp->ring_normal);

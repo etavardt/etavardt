@@ -23,8 +23,9 @@
 #include <cstdio>
 
 #include "Vector_3D.hpp"
-#include "defs.hpp"
-#include "extern.hpp"
+#include "BobMath.hpp"
+//#include "defs.hpp"
+//#include "extern.hpp"
 
 #define SIZE (4)
 

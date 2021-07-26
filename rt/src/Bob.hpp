@@ -1,8 +1,10 @@
 #pragma once
 
 #include "App.hpp"
-#include "Parser.hpp"
 #include "String.hpp"
+#include "Camera_3D.hpp"
+
+//class Parser;
 
 #define BOB_ENV "BOB"
 #define PATH_DELIM ';'
@@ -39,7 +41,7 @@ class Bob : public App {
 
     bool preprocess = true;
 
-    Parser parser;
+    Camera_3D camera; // Bob has a camera
 
     static double rayeps; // the smallest allowable ray size, color value, or double
 };

@@ -34,8 +34,7 @@
 #include <ctype.h>
 #include <iostream>
 //#include "Object_3D.hpp"
-//#include "struct_defs.hpp"
-#include "extern.hpp"
+////#include "extern.hpp"
 
 
 using std::cerr;
@@ -69,6 +68,7 @@ extern char *get_next_token(char *text);
 extern int cpy_tok(char *dst, char *src);
 extern int is_tok(int c);
 
+extern int tickflag;
 
 #define BLANK ' '
 
@@ -94,9 +94,9 @@ int preproc(const String &infile, const String &outfile) {
     }
 
     line = new char[MAX_EXPAND]();
-    Bob::getApp().parser.ptrchk(line, "preprocessor space");
+
     mline = new char[MAX_EXPAND]();
-    Bob::getApp().parser.ptrchk(mline, "preprocessor space");
+
 
     outfp = fopen(outfile.c_str(), "w");
     if (!outfp) {
@@ -293,17 +293,17 @@ void add_macro(char *txt) {
     /* create new link and fill it in */
 
     mptr = new Macro();
-    Bob::getApp().parser.ptrchk(mptr, "macro structure");
+
 
     sscanf(txt, "%s", macro);
     mptr->macro = strdup(macro);
-    Bob::getApp().parser.ptrchk(mptr->macro, "macro define");
+
     mptr->mlen = strlen(mptr->macro);
 
     txt += mptr->mlen;
     expand(txt); /* expand the macro def to line */
     mptr->text = strdup(line);
-    Bob::getApp().parser.ptrchk(mptr->text, "macro text");
+
     mptr->tlen = strlen(mptr->text);
 
     /* toss \n \c at end of macro by replacing with ' ' */

@@ -18,7 +18,6 @@
 */
 
 #include "String.hpp"
-#include "struct_defs.hpp"
 #include <fstream>
 
 class PicFile_3D {

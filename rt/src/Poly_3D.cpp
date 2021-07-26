@@ -27,9 +27,9 @@
 #include "BobMath.hpp"
 #include "Vector_3D.hpp"
 #include "Point_3D.hpp"
-
 #include "Isect_3D.hpp"
 #include "Stats.hpp"
+#include "Clip_3D.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 
@@ -44,7 +44,7 @@ typedef struct t_polydata {
 
 Poly_3D::Poly_3D() : Object_3D() {
     Object_3D::o_type = T_POLY;
-    Object_3D::o_surf = CurrentSurface;
+    Object_3D::o_surf = Surface_3D::currentSurface;
 }
 Poly_3D::~Poly_3D() {
     Object_3D::~Object_3D();
@@ -157,7 +157,7 @@ Poly_3D *Poly_3D::makePoly(int npoints, Vec *points) {
 
     newPoly = new Poly_3D();
     Stats::trackMemoryUsage(sizeof(Poly_3D));
-    Bob::getApp().parser.ptrchk(newPoly, "polygon object");
+
 
     if (Clip_3D::ClipTop) {
         newPoly->clips = Clip_3D::ClipTop;
@@ -168,7 +168,7 @@ Poly_3D *Poly_3D::makePoly(int npoints, Vec *points) {
 
     pd = new PolyData();
     Stats::trackMemoryUsage(sizeof(PolyData));
-    Bob::getApp().parser.ptrchk(pd, "polygon data");
+
     pd->poly_npoints = npoints;
     pd->poly_point = points;
 

@@ -60,30 +60,30 @@ void Texmap_3D::tex_read_img(const String &filename, Texmap &tm) {
     tm.red = new Lines[h]();
     Stats::trackMemoryUsage(sizeof(Lines[h]));
     //    tm->red = (unsigned char **)vmalloc(sizeof(unsigned char *) * h);
-    Bob::getApp().parser.ptrchk(tm.red, "image texture map");
+
     tm.grn = new Lines[h]();
     Stats::trackMemoryUsage(sizeof(Lines[h]));
     //    tm->grn = (unsigned char **)vmalloc(sizeof(unsigned char *) * h);
-    Bob::getApp().parser.ptrchk(tm.grn, "image texture map");
+
     tm.blu = new Lines[h]();
     Stats::trackMemoryUsage(sizeof(Lines[h]));
     //    tm->blu = (unsigned char **)vmalloc(sizeof(unsigned char *) * h);
-    Bob::getApp().parser.ptrchk(tm.blu, "image texture map");
+
     for (j = 0; j < h; j++) {
         tm.red[j] = new rows[w]();
         Stats::trackMemoryUsage(sizeof(rows[w]));
         //        tm->red[j] = (unsigned char *)vmalloc(sizeof(unsigned char) * w);
-        Bob::getApp().parser.ptrchk(tm.red[j], "image texture map");
+
 
         tm.grn[j] = new rows[w]();
         Stats::trackMemoryUsage(sizeof(rows[w]));
         //        tm->grn[j] = (unsigned char *)vmalloc(sizeof(unsigned char) * w);
-        Bob::getApp().parser.ptrchk(tm.grn[j], "image texture map");
+
 
         tm.blu[j] = new rows[w]();
         Stats::trackMemoryUsage(sizeof(rows[w]));
         //        tm->blu[j] = (unsigned char *)vmalloc(sizeof(unsigned char) * w);
-        Bob::getApp().parser.ptrchk(tm.blu[j], "image texture map");
+
     }
 
     /* read in the image */

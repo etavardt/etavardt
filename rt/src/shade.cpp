@@ -27,13 +27,15 @@
 #include <memory.h>
 
 #include "Bob.hpp"
+#include "BobMath.hpp"
 #include "Bump_3D.hpp"
 #include "Color.hpp"
 #include "Isect_3D.hpp"
 #include "Light_3D.hpp"
 #include "Clip_3D.hpp"
+#include "noise.hpp"
 #include "config.hpp"
-#include "defs.hpp"
+
 #include "extern.hpp"
 
 

@@ -18,6 +18,7 @@
 ***************************************************************************
 */
 #include "Parser.hpp"
+#include "Token.hpp"
 
 #include <cmath>
 #include <iostream>
@@ -39,24 +40,24 @@
 #include "Bound_3D.hpp"
 #include "TransformMatrix_3D.hpp"
 
-#include "defs.hpp"
 #include "extern.hpp"
 
-#include "tokens.hpp"
+extern int tickflag;
 
-extern int get_token();
-extern int push_token();
+//extern int get_token();
+//extern int push_token();
 FILE *env_fopen(String name, const String mode); // in file.cpp
 
-Vec tmp_vec;
+//int Parser::yylinecount = 1;
 
-Surface_3D *yy_surface();
-Wave *yy_wave();
-Texture_3D *yy_texture();
-Bump *yy_bump();
-Texmap *yy_texmap();
-Turbulence *yy_turbulence();
-Clip *yy_clip();
+// Surface_3D *yy_surface();
+// Wave *yy_wave();
+// Texture_3D *yy_texture();
+// Bump *yy_bump();
+// Texmap *yy_texmap();
+// Turbulence *yy_turbulence();
+// Clip *yy_clip();
+int Parser::nLights = 0; /* it's a dark world out there */
 
 /*
     get_vec() -- get a vector.
@@ -156,7 +157,7 @@ void Parser::yy_studio() {
 
     //    cout << "cout: In Parser::yy_studio Pre MakeVectors" << endl;
     /* assign defaults */
-    Eye.view_aspect = 1.0;
+    camera.eye.view_aspect = 1.0;
     //    MakeVector(0, 0, 0, Ambient); /* no global illumination */
     //    MakeVector(0, 0, 0, background.color);
     RayTrace_3D::ambient = 0; /* no global illumination */
@@ -179,23 +180,23 @@ void Parser::yy_studio() {
         switch (cur_token) {
         case FROM:
             get_vec();
-            VecCopy(tmp_vec, Eye.view_from);
+            VecCopy(tmp_vec, camera.eye.view_from);
             break;
         case AT:
             get_vec();
-            VecCopy(tmp_vec, Eye.view_at);
+            VecCopy(tmp_vec, camera.eye.view_at);
             break;
         case UP:
             get_vec();
-            VecCopy(tmp_vec, Eye.view_up);
+            VecCopy(tmp_vec, camera.eye.view_up);
             break;
         case ANGLE:
             get_num();
-            Eye.view_angle_x = bMath::degtorad(cur_value / 2.0);
+            camera.eye.view_angle_x = bMath::degtorad(cur_value / 2.0);
             break;
         case WIDTH:
             get_num();
-            Eye.view_angle_x = cur_value;
+            camera.eye.view_angle_x = cur_value;
             break;
         case RESOLUTION:
             get_num();
@@ -213,7 +214,7 @@ void Parser::yy_studio() {
             break;
         case ASPECT:
             get_num();
-            Eye.view_aspect = cur_value;
+            camera.eye.view_aspect = cur_value;
             break;
         case BUNCHING:
             get_num();
@@ -315,10 +316,10 @@ void Parser::yy_studio() {
     /* if not pinhole camera and no focal length was
        chosen, assume distance from eye to 'at' point */
 
-    VecNormalize(Eye.view_up);
+    VecNormalize(camera.eye.view_up);
 
     if (camera.aperture > 0.0 && camera.focal_length == 0.0) {
-        VecSub(Eye.view_from, Eye.view_at, tmp);
+        VecSub(camera.eye.view_from, camera.eye.view_at, tmp);
         camera.focal_length = VecLen(tmp);
     }
 
@@ -329,7 +330,7 @@ void Parser::yy_studio() {
     // VecCopy(background.color, RayTrace_3D::hazeColor);
     RayTrace_3D::hazeColor = RayTrace_3D::background.color;
     if (RayTrace_3D::background.up[0] == 0 && RayTrace_3D::background.up[1] == 0 && RayTrace_3D::background.up[2] == 0) {
-        VecCopy(Eye.view_up, RayTrace_3D::background.up);
+        VecCopy(camera.eye.view_up, RayTrace_3D::background.up);
     } else {
         VecNormalize(RayTrace_3D::background.up);
     }
@@ -575,7 +576,7 @@ Surface_3D *Parser::yy_surface() {
         } /* end of bump map switch */
     }     /* end of while loop looking for left brace */
 
-    CurrentSurface = surf; /* so primitives can find it */
+    Surface_3D::currentSurface = surf; /* so primitives can find it */
     return surf;
 } /* end of yy_surface() */
 

@@ -2,6 +2,9 @@
 
 #include <memory>
 
+#include "Bob.hpp"
+#include "Token.hpp"
+#include "Camera_3D.hpp"
 #include "Surface_3D.hpp"
 #include "Texture_3D.hpp"
 #include "Bump_3D.hpp"
@@ -11,7 +14,13 @@
 #include "Clip_3D.hpp"
 #include "String.hpp"
 
+class Bob;
+extern Bob &bobApp;
+
 class Parser {
+    private:
+//    Bob &bob;
+//    Parser() : bob(Bob &b)) {}
     typedef struct t_infile {
         String file_name;
         FILE *fp;
@@ -23,11 +32,12 @@ class Parser {
         struct t_stack *prev;
     } Stack;
 
-    String      Infilename;
-    Stack      *InfileTop = nullptr;      /* points to top of input file stack */
-
+    String  Infilename;
+    Stack  *InfileTop = nullptr;      /* points to top of input file stack */
+    Vec     tmp_vec;
+    Camera_3D &camera;
     public:
-    Parser() {}
+    Parser() : camera(Bob::getApp().camera) {}
     ~Parser() {}
 
     void get_vec();
@@ -59,4 +69,18 @@ class Parser {
     void yy_popfile();
     void trans_pop();
 
+    int yylinecount = 1;
+    FILE *yyin;          /* pointer to input file */
+
+    static int nLights; /* it's a dark world out there */
+
+    //Token funcs and vars
+    TokenType match_token();
+    TokenType get_token();
+    TokenType push_token();
+
+    TokenType cur_token;     /* parser token stuff */
+    String    cur_text;
+    double    cur_value;
+    int       token_pushed = 0;
 };

@@ -26,9 +26,11 @@
 #include "Bob.hpp"
 #include "Bound_3D.hpp"
 #include "Object_3D.hpp"
-#include "defs.hpp"
+#include "Parser.hpp"
+
 #include "extern.hpp"
-#include "struct_defs.hpp"
+
+extern int tickflag;
 
 unsigned long Stats::memAllocated = 0;
 
@@ -70,7 +72,7 @@ void Stats::yystats(void) {
     static int toc = 0;
     if (tickflag && ((toc & 0x0f) == 0)) {
         Bob::clearScreen();
-        cout << "\tlights " << nLights << " prims " << Bound_3D::nPrims << " memory " << memAllocated << endl;
+        cout << "\tlights " << Parser::nLights << " prims " << Bound_3D::nPrims << " memory " << memAllocated << endl;
     }
     toc++;
 }

@@ -1,5 +1,5 @@
 /*
-***********************************************************************************************************
+***************************************************************************
 *                                                                         *
 *                             Bob Ray Tracer                              *
 *                                                                         *
@@ -15,7 +15,7 @@
 *                                                                         *
 *                       Requires: defs.h, extern.h                        *
 *                                                                         *
-***********************************************************************************************************
+***************************************************************************
 */
 
 #include "Cone_3D.hpp"
@@ -23,6 +23,7 @@
 #include <cstdio>
 #include <math.h>
 
+#include "Clip_3D.hpp"
 #include "Bob.hpp"
 #include "BobMath.hpp"
 #include "Vector_3D.hpp"
@@ -50,7 +51,7 @@ typedef struct t_conedata {
 
 Cone_3D::Cone_3D() : Object_3D() {
     Object_3D::o_type = T_CONE;
-    Object_3D::o_surf = CurrentSurface;
+    Object_3D::o_surf = Surface_3D::currentSurface;
 }
 Cone_3D::~Cone_3D() {
     Object_3D::~Object_3D();
@@ -128,7 +129,7 @@ int Cone_3D::intersect(Ray *ray, Isect &hit) {
 
     if (t1 > Bob::rayeps) { /* possible real hit */
         RayPoint(*ray, t1, P);
-        if (!clips || clips->clip_check(P)) {
+        if (!clips ||  clips->clip_check(P)) {
             d = VecDot(cd->cone_w, P);
             if (d >= cd->cone_min_d && d <= cd->cone_max_d) { /* hit! */
                 hit.isect_t = t1;
@@ -189,7 +190,7 @@ Cone_3D *Cone_3D::makeCone(Vec &basepoint, double baseradius, Vec &apexpoint, do
 
     newCone = new Cone_3D();
     Stats::trackMemoryUsage(sizeof(Cone_3D));
-    Bob::getApp().parser.ptrchk(newCone, "newCone object");
+
 
     if (Clip_3D::ClipTop) {
         newCone->clips = Clip_3D::ClipTop;
@@ -200,7 +201,7 @@ Cone_3D *Cone_3D::makeCone(Vec &basepoint, double baseradius, Vec &apexpoint, do
 
     cd = new ConeData();
     Stats::trackMemoryUsage(sizeof(ConeData));
-    Bob::getApp().parser.ptrchk(cd, "newCone data");
+
 
     VecCopy(basepoint, cd->cone_base);
     VecCopy(apexpoint, cd->cone_apex);

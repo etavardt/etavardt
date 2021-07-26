@@ -30,7 +30,6 @@
 #include "extern.hpp"
 #include "PicFile_3D.hpp"
 
-#include "struct_defs.hpp"
 #include <ctime>
 #include <iostream>
 #include <fstream>

@@ -1,5 +1,7 @@
 #include "Surface_3D.hpp"
 
+Surface_3D *Surface_3D::currentSurface = nullptr; /* surface at current top of stack */
+
 Surface_3D &Surface_3D::operator=(const Surface_3D &s) {
     // Color diff; /* diffuse */
     diff = s.diff;

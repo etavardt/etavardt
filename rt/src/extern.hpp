@@ -22,14 +22,13 @@
 //#include "Object_3D.hpp"
 //
 #include "String.hpp"
-#include "struct_defs.hpp"
 #include "Surface_3D.hpp"
 //#include "Clip_3D.hpp"
 //#include "Object_3D.hpp"
 //#include "Light_3D.hpp"
 
-extern Viewpoint Eye;
-extern Camera    camera;
+// extern Viewpoint eye;
+// extern Camera    camera;
 
 extern int Xresolution;
 extern int Yresolution;
@@ -37,14 +36,14 @@ extern int Yresolution;
 extern int start_line, stop_line;
 extern int bunching;
 
-extern int yylinecount;
+//extern int yylinecount;
 
 extern int antialias;
 extern int jitter;
 extern int adapt_dist;
 
 //extern Light *light_head; TCE: moved to Light class Light_3D.*pp
-extern int    nLights;
+// extern int    nLights;
 extern int    no_shadows;
 extern int    caustics;
 extern int    exp_trans;
@@ -54,7 +53,7 @@ extern int    fuzzy_ray;
 //extern Color       Ambient;
 //extern Color       HazeColor;
 //extern double         HazeDensity;
-extern Surface_3D *CurrentSurface;
+//extern Surface_3D *CurrentSurface;
 //extern Stack      *SurfTop;
 //extern Stack      *InfileTop;
 //extern Transform  *TransformMatrix_3D::transTop;
@@ -73,7 +72,7 @@ extern unsigned long nChecked;
 extern unsigned long nEnqueued;
 extern unsigned long nShadowCacheHits;
 
-extern int tickflag;
+//extern int tickflag;
 extern int resume;
 extern int gr_mode;
 
@@ -96,8 +95,8 @@ extern Vec     Slab[];
 //extern char _Version[];
 //extern char _Date[];
 
-extern FILE *yyin;
-extern int   cur_token;
+//extern FILE *yyin;
+//extern int   cur_token;
 //extern char  cur_text[];
-extern String cur_text;
-extern double   cur_value;
+//extern String cur_text;
+//extern double   cur_value;

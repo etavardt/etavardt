@@ -34,11 +34,12 @@
 #include "PicFile_3D.hpp"
 #include "Color.hpp"
 #include "Stats.hpp"
-#include "defs.hpp"
 #include "extern.hpp"
 
+extern int tickflag;
 
-Screen_3D::Screen_3D() {
+
+Screen_3D::Screen_3D(Camera_3D &cam) : camera(cam) {
     picFile = new PicFile_3D();
 }
 Screen_3D::~Screen_3D() {
@@ -48,8 +49,8 @@ Screen_3D::~Screen_3D() {
     }
 }
 
-void Screen_3D::screen(Viewpoint *view, String &picfile, int xres, int yres) {
-    scrInit(view, xres, yres, picfile);
+void Screen_3D::screen(String &picfile, int xres, int yres) {
+    scrInit(xres, yres, picfile);
 
     switch (antialias) {
     case A_NONE:
@@ -68,7 +69,7 @@ void Screen_3D::screen(Viewpoint *view, String &picfile, int xres, int yres) {
     picFile->close();
 }
 
-void Screen_3D::scrInit(Viewpoint *view, int xres, int yres, String &picFileName) {
+void Screen_3D::scrInit(int xres, int yres, String &picFileName) {
     // open the picture file...
     picFile->open(picFileName, xres, yres);
 
@@ -76,20 +77,21 @@ void Screen_3D::scrInit(Viewpoint *view, int xres, int yres, String &picFileName
     x_res = xres;
     y_res = yres;
 
-    VecNormalize(view->view_up);
-    VecSub(view->view_at, view->view_from, viewvec);
+    VecNormalize(camera.eye.view_up);
+    VecNormalize(camera.eye.view_up);
+    VecSub(camera.eye.view_at, camera.eye.view_from, viewvec);
     VecNormalize(viewvec);
-    VecCross(view->view_up, viewvec, leftvec);
+    VecCross(camera.eye.view_up, viewvec, leftvec);
     VecNormalize(leftvec);
     VecS((-1), leftvec, leftvec); /* convert to right handed */
 
     /* make view_up vector perpendicular to veiwvec and leftvec */
 
     if (camera.projection != P_NO_PARALLAX) {
-        VecCross(leftvec, viewvec, view->view_up);
-        VecNormalize(view->view_up);
+        VecCross(leftvec, viewvec, camera.eye.view_up);
+        VecNormalize(camera.eye.view_up);
     }
-    VecCopy(view->view_up, looking_up);
+    VecCopy(camera.eye.view_up, looking_up);
 
     /* set up camera stuff */
 
@@ -101,12 +103,12 @@ void Screen_3D::scrInit(Viewpoint *view, int xres, int yres, String &picFileName
         VecS(camera.aperture, camera.lens_j, camera.lens_j);
     }
 
-    VecCopy(view->view_from, ray.P);
-    VecCopy(view->view_from, viewpoint);
+    VecCopy(camera.eye.view_from, ray.P);
+    VecCopy(camera.eye.view_from, viewpoint);
     VecCopy(viewvec, ray.D);
 
-    frustrumwidth = tan(view->view_angle_x);
-    frustrumheight = tan(view->view_angle_y);
+    frustrumwidth = tan(camera.eye.view_angle_x);
+    frustrumheight = tan(camera.eye.view_angle_y);
 
 } /* end of ScrInit() */
 
@@ -238,7 +240,7 @@ void Screen_3D::scan2(void) {
     /* fill to next mod 6 scan line */
     if (start_line % 6) {
         pixelBuf = new Pixel[x_res](); // Why +1
-        Bob::getApp().parser.ptrchk(pixelBuf, "pixel buffer");
+
 
         /* calc stop line for single fill */
         yy = start_line + 6 - (start_line % 6);
@@ -260,9 +262,9 @@ void Screen_3D::scan2(void) {
 
     for (i = 0; i < 7; i++) {
         buf[i] = new Pixel[x_res + 5](); // Why +5
-        Bob::getApp().parser.ptrchk(buf[i], "sampling buffer");
+
         flags[i] = new int[x_res + 5](); // Why +5
-        Bob::getApp().parser.ptrchk(flags[i], "sampling flag buffer");
+
     }
 
     /* start actual sub-sampling */
@@ -695,11 +697,11 @@ void Screen_3D::scan3(void) {
     unsigned char *buff[4]; //TCE: Why 4
 
     pixelBuf = new Pixel[x_res]();
-    Bob::getApp().parser.ptrchk(pixelBuf, "output buffer.");
+
 
     for (x = 0; x < 4; x++) {
         buff[x] = new unsigned char[SIDE * x_res + 1](); // Why SIDE*x_res+1
-        Bob::getApp().parser.ptrchk(buff[x], "antialiasing buffer.");
+
     }
 
     for (i = 0; i < SIDE + 1; i++) { // clear win flags
@@ -956,15 +958,15 @@ void Screen_3D::shoot(double x, double y, Color &color) {
         VecNormalize(ray.D);
         break;
     case P_FISHEYE:
-        tx = (x - x_res / 2.0) / (double)x_res * Eye.view_angle_x * 2.0;
-        ty = -(y - y_res / 2.0) / (double)y_res * Eye.view_angle_y * 2.0;
+        tx = (x - x_res / 2.0) / (double)x_res * camera.eye.view_angle_x * 2.0;
+        ty = -(y - y_res / 2.0) / (double)y_res * camera.eye.view_angle_y * 2.0;
 
         VecComb(sin(ty), looking_up, sin(tx), leftvec, dir);
         VecAddS(cos(tx) * cos(ty), viewvec, dir, ray.D);
         VecNormalize(ray.D);
         break;
     case P_ORTHOGRAPHIC:
-        VecComb(-Eye.view_angle_y * (2.0 * y / (double)y_res - 1.0), looking_up, Eye.view_angle_x * (2.0 * x / (double)x_res - 1.0), leftvec, dir);
+        VecComb(-(camera.eye.view_angle_y) * (2.0 * y / (double)y_res - 1.0), looking_up, camera.eye.view_angle_x * (2.0 * x / (double)x_res - 1.0), leftvec, dir);
         VecAdd(dir, viewpoint, ray.P);
         break;
     } /* end of projection switch */

@@ -25,11 +25,14 @@
 #include <cassert>
 
 #include "Bob.hpp"
+#include "BobMath.hpp"
 #include "Object_3D.hpp"
 #include "Isect_3D.hpp"
-#include "defs.hpp"
-#include "extern.hpp"
+//#include "defs.hpp"
+//#include "extern.hpp"
 
+extern int nChecked;
+extern int nEnqueued;
 
 extern void PriorityQueueNull (void);
 extern int  PriorityQueueEmpty (void);

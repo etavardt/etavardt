@@ -30,12 +30,12 @@
 #include <cmath>
 #include <cstdio>
 
+#include "BobMath.hpp"
 #include "Object_3D.hpp"
 #include "Isect_3D.hpp"
 #include "Color.hpp"
-#include "defs.hpp"
+
 #include "extern.hpp"
-//
 
 //class Isect;
 //extern int  Intersect (Ray *ray , Isect &hit , double maxdist , Object *self);

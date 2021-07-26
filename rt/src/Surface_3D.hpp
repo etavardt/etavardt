@@ -3,7 +3,6 @@
 #include "Texture_3D.hpp"
 #include "Texmap_3D.hpp"
 #include "Matrix_3D.hpp"
-#include "defs.hpp"
 
 //class Texture_3D;
 class Bump;
@@ -31,4 +30,6 @@ class Surface_3D {
     Matrix      matrix;   /* transformation matrix */
 
     Surface_3D &operator=(const Surface_3D &s);
+
+    static Surface_3D *currentSurface; /* surface at current top of stack */
 };

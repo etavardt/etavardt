@@ -24,14 +24,17 @@
 #include "Stats.hpp"
 #include "Exception.hpp"
 #include "defs.hpp"
-#include "extern.hpp"
-#include "struct_defs.hpp"
+//#include "extern.hpp"
+//#include "struct_defs.hpp"
 
 #include <iostream>
 
 using std::cerr;
 using std::cout;
 using std::endl;
+
+extern int tickflag;
+extern int bunching;
 
 long Bound_3D::total = 0; /* # objects in main list */
 double Bound_3D::Median = 0; /* 2*median value along axis */
@@ -174,14 +177,14 @@ int Bound_3D::SortAndSplit(Object **top_handle, long count) {
 
         cp = new Object();
         Stats::trackMemoryUsage(sizeof(Object));
-        Bob::getApp().parser.ptrchk(cp, "composite object");
+
 
         cp->o_type = T_COMPOSITE;
         //TODO: TCE Remove:        cp->o_procs = &NullProcs;       /* die if you call any  */
         cp->o_surf = NULL; /* no surface...        */
         cd = new CompositeData();
         Stats::trackMemoryUsage(sizeof(CompositeData));
-        Bob::getApp().parser.ptrchk(cd, "composite data");
+
         cd->size = count;
         total = total - count + 1;
 

@@ -30,11 +30,10 @@
 #include <cmath>
 
 #include "Bob.hpp"
+#include "BobMath.hpp"
 #include "Exception.hpp"
 #include "Surface_3D.hpp"
-#include "defs.hpp"
-#include "extern.hpp"
-
+#include "noise.hpp"
 
 /*
     Check -- create a checkerboard, strange

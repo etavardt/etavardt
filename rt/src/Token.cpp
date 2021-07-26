@@ -23,25 +23,27 @@
         parentheses as white space.
 */
 
-#include "tokens.hpp"
-#include "Bob.hpp"
+#include "Token.hpp"
+#include "Parser.hpp"
+
+//#include <cstdio>
+//#include <cstdlib>
+//#include <cstring>
+//#include <ctype.h>
+
+//#include "Bob.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <ctype.h>
-
 #define NUM_TOKENS (98)
 
-static int token_pushed = 0;
-
-typedef struct t_token {
-//    const char *name;
-    String name;
-    int value;
-} Token;
+//static int token_pushed = 0;
+//int Parser::token_pushed = 0;
+// typedef struct t_token {
+// //    const char *name;
+//     String name;
+//     int value;
+// } Token;
 
 Token token_list[] = {"bb_newfile", NEWFILE,  "bb_popfile", POPFILE,    "studio",     STUDIO,     "from",       FROM,  "at",      AT,      "up",          UP,          "angle",       ANGLE,       "resolution", RESOLUTION, "background",    BKG,       "start",  START,  "stop",      STOP,      "aspect",      ASPECT,      "ambient",    AMBIENT, "haze",  HAZE,  "aperture", APERTURE, "focal_length", FOCAL_LENGTH, "antialias", ANTIALIAS, "depth",     DEPTH,     "no_shadows",  NO_SHADOWS,  "samples",   SAMPLES,   "jitter",    JITTER,    "threshold", THRESHOLD, "caustics", CAUSTICS, "no_exp_trans", NO_EXP_TRANS, "no_antialias", NO_ANTIALIAS, "none",    NONE,    "corners",  CORNERS,  "adaptive",    ADAPTIVE,    "quick", QUICK,
                       "bunching",   BUNCHING, "projection", PROJECTION, "flat",       FLAT,       "orthogonal", ORTHO, "width",   WIDTH,   "fisheye",     FISHEYE,     "no_parallax", NO_PARALLAX, "transform",  TRANSFORM,  "transform_pop", TRANS_POP, "rotate", ROTATE, "translate", TRANSLATE, "scale",       SCALE,       "light",      LIGHT,   "type",  TYPE,  "point",    POINT,    "spherical",    SPHERICAL,    "spot",      SPOT,      "direction", DIRECTION, "directional", DIRECTIONAL, "min_angle", MIN_ANGLE, "max_angle", MAX_ANGLE, "no_spec",   NOSPEC,    "color",    COLOR,    "falloff",      FALLOFF,      "surface",      SURFACE,      "diffuse", DIFFUSE, "specular", SPECULAR, "transparent", TRANSPARENT, "shine", SHINE,
@@ -67,8 +69,7 @@ Token token_list[] = {"bb_newfile", NEWFILE,  "bb_popfile", POPFILE,    "studio"
         Of course a dozen other ways to get both speed and
         flexibilty should be quite easy to come up with.
 */
-
-int match_token() {
+TokenType Parser::match_token() {
     int i, length;
 
 //    length = strlen(cur_text);
@@ -88,7 +89,7 @@ int match_token() {
         pushed back, then it is returned again.
 */
 
-int get_token() {
+TokenType Parser::get_token() {
     int c, i;
 
     if (token_pushed) {
@@ -178,8 +179,8 @@ int get_token() {
 
     cerr << "\nError parsing.  Found the character '" << char(c) << "' aka 0x" << std::hex << (0xFF & c) << " and" << endl;
     cerr << "I don't know what to do with it." << endl;
-    Bob::getApp().parser.yyerror("In get_token near end.");
-    return 0;
+    yyerror("In get_token near end.");
+    return UNKNOWN;
 } /* end of get_token() */
 
 /*
@@ -188,7 +189,7 @@ int get_token() {
         be returned by the next call to get_token.
 */
 
-int push_token() {
+TokenType Parser::push_token() {
     token_pushed = 1;
 
     return cur_token; /* why?  I don't know */

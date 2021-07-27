@@ -1,5 +1,8 @@
 #pragma once
 #include "defs.hpp"
+
+#include <cmath>
+
 namespace bMath {
 
 #ifdef HUGE_NUM
@@ -22,6 +25,9 @@ inline double degtorad(T x) { return (((double)(x)) * PI / 180.0); }
 //#define abs(a) (((a) < 0) ? (-(a)) : (a))
 template <typename T>
 inline T abs(T a) { return (((a) < (T)0) ? (-(a)) : (a)); }
+
+//#define rnd() (((double)rand()) / RAND_MAX)
+inline double rnd() { return ((static_cast<double>(rand())) / RAND_MAX); }
 
 //#define FLOOR(a) ((a) > 0 ? (int)(a) : -(int)(a))
 //template <typename T>

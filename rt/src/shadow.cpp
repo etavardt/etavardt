@@ -57,6 +57,7 @@
 #include <memory.h>
 
 #include "Bob.hpp"
+#include "BobMath.hpp"
 #include "Isect_3D.hpp"
 #include "Object_3D.hpp"
 #include "Surface_3D.hpp"
@@ -66,8 +67,8 @@
 
 
 //extern int  Intersect (Ray *ray , Isect &hit , double maxdist , Object *self);
+unsigned long RayTrace_3D::nShadows = 0;
 
-//TODO: TCE:Should fall under Ray or light?
 //    Ray    *ray;
 //    Isect    *hit;
 //    double    tmax;        /* dist to light we are trying to hit */
@@ -244,7 +245,7 @@ int RayTrace_3D::sShadow(Ray *ray, Isect &hit, double tmax, Color &color, int le
         VecCopy(ray->P, tmp_ray.P);
 
         /* tweek ray direction */
-        MakeVector(0.5-rnd(), 0.5-rnd(), 0.5-rnd(), tweek);
+        MakeVector(0.5-bMath::rnd(), 0.5-bMath::rnd(), 0.5-bMath::rnd(), tweek);
         VecNormalize(tweek);
         VecAddS(len, tweek, tmp_ray.D, tmp_ray.D);
         VecNormalize(tmp_ray.D);

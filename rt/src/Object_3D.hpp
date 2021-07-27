@@ -30,6 +30,7 @@ class Object_3D {
     virtual int  intersect(Ray *b, Isect &c);
     virtual void normal(Isect &hit, Point &P, Vec &N);
     static Object_3D *Root;
+    static Vec   Slab[];
 };
 
 typedef Object_3D Object;

@@ -38,7 +38,6 @@
 
 extern int tickflag;
 
-
 Screen_3D::Screen_3D(Camera_3D &cam) : camera(cam) {
     picFile = new PicFile_3D();
 }
@@ -49,7 +48,7 @@ Screen_3D::~Screen_3D() {
     }
 }
 
-void Screen_3D::screen(String &picfile, int xres, int yres) {
+void Screen_3D::render(String &picfile, int xres, int yres) {
     scrInit(xres, yres, picfile);
 
     switch (antialias) {
@@ -70,6 +69,10 @@ void Screen_3D::screen(String &picfile, int xres, int yres) {
 }
 
 void Screen_3D::scrInit(int xres, int yres, String &picFileName) {
+    Bob &bob = Bob::getApp();
+    start_line = bob.start_line;
+    stop_line = bob.stop_line;
+
     // open the picture file...
     picFile->open(picFileName, xres, yres);
 
@@ -980,12 +983,12 @@ void Screen_3D::shoot(double x, double y, Color &color) {
             dir[1] = ray.P[1] + ray.D[1] * camera.focal_length;
             dir[2] = ray.P[2] + ray.D[2] * camera.focal_length;
             VecCopy(ray.P, ray2.P);
-            random = rnd();
-            if (rnd() > 0.5)
+            random = bMath::rnd();
+            if (bMath::rnd() > 0.5)
                 random = -random;
             VecAddS(random, camera.lens_i, ray2.P, ray2.P);
-            random = rnd();
-            if (rnd() > 0.5)
+            random = bMath::rnd();
+            if (bMath::rnd() > 0.5)
                 random = -random;
             VecAddS(random, camera.lens_j, ray2.P, ray2.P);
             VecSub(dir, ray2.P, ray2.D);

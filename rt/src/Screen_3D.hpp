@@ -16,16 +16,16 @@ class PicFile_3D;
 
 class Screen_3D {
     private:
+    int x_res = 0, y_res = 0;
+    unsigned char win[SIDE + 1][SIDE + 1][4]; /* r,g,b,flag */
+
     Screen_3D();
 
     Camera_3D &camera;
     double frustrumwidth, frustrumheight;
     Point viewvec, leftvec, looking_up, viewpoint;
     Ray ray; /* normal, untweeked ray */
-    int x_res, y_res;
     PicFile_3D *picFile = nullptr;
-
-    unsigned char win[SIDE + 1][SIDE + 1][4]; /* r,g,b,flag */
 
     void scrInit(int xres, int yres, String &picFileName);
     void scan0(void);
@@ -41,6 +41,7 @@ class Screen_3D {
     Screen_3D(Camera_3D &cam);
     ~Screen_3D();
 
-    void screen(String &picfile, int xres, int yres);
+    void render(String &picfile, int xres, int yres);
 
+    int start_line, stop_line;
 };

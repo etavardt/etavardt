@@ -19,84 +19,67 @@
 ***************************************************************************
 */
 
-//#include "Object_3D.hpp"
-//
-#include "String.hpp"
-#include "Surface_3D.hpp"
-//#include "Clip_3D.hpp"
-//#include "Object_3D.hpp"
-//#include "Light_3D.hpp"
+#include "Vector_3D.hpp"
 
-// extern Viewpoint eye;
-// extern Camera    camera;
+// Bob, Parser, stats
+// extern int Xresolution;
+// extern int Yresolution;
 
-extern int Xresolution;
-extern int Yresolution;
+// Bob, Parser, stats, PicFile_3D, Screen_3D*
+// extern int start_line, stop_line;
 
-extern int start_line, stop_line;
+//Bob, Bound_3D, Parser*
 extern int bunching;
 
-//extern int yylinecount;
-
+//Bob, screen_3D*, Parser*
 extern int antialias;
+//screen_3D*, Parser
 extern int jitter;
+// Parser, Screen_3D*
 extern int adapt_dist;
 
-//extern Light *light_head; TCE: moved to Light class Light_3D.*pp
-// extern int    nLights;
+// Bob, Parser, shade*
 extern int    no_shadows;
+// Parser, shadow*
 extern int    caustics;
+// Parser, shadow, shade
 extern int    exp_trans;
+// Screen_3D, shade
 extern int    fuzzy_ray;
 
-//extern Background  background;
-//extern Color       Ambient;
-//extern Color       HazeColor;
-//extern double         HazeDensity;
-//extern Surface_3D *CurrentSurface;
-//extern Stack      *SurfTop;
-//extern Stack      *InfileTop;
-//extern Transform  *TransformMatrix_3D::transTop;
-//extern Clip       *ClipTop;
-//extern GlobalClip *GlobalClipTop;
-//extern long        nPrims;
-//extern double         Bob::rayeps;
-//extern char       *Progname;
-//extern char        Infilename[];
-//extern String Infilename;
-
+// pqueue, stats
 extern unsigned long maxQueueSize;
 extern unsigned long totalQueues;
 extern unsigned long totalQueueResets;
+// inter, stats
 extern unsigned long nChecked;
+// inter
 extern unsigned long nEnqueued;
+// shadow, stats
 extern unsigned long nShadowCacheHits;
 
-//extern int tickflag;
-extern int resume;
+// Bob, PicFile_3D
+//extern int resume;
+
+// Not used
 extern int gr_mode;
 
+// shade
 extern double minweight;
-extern int maxlevel;
-extern int deepest;
 
-extern unsigned long nRays;
-extern unsigned long nShadows;
-extern unsigned long nReflected;
-extern unsigned long nRefracted;
-//extern unsigned long MemAllocated;
+// Bob, Parser, shade, stats, trace
+// extern int maxlevel;
 
-extern Vec     Slab[];
-//extern Object *Root;
-// TODO: TCE Remove: extern ObjectProcs    NullProcs;
+// stats, trace
+// extern int deepest;
+// extern unsigned long nRays;
 
-//extern char _Copyright[];
-//extern char _Program[];
-//extern char _Version[];
-//extern char _Date[];
+// shadow, stats
+// extern unsigned long nShadows;
 
-//extern FILE *yyin;
-//extern int   cur_token;
-//extern char  cur_text[];
-//extern String cur_text;
-//extern double   cur_value;
+// shade, stats
+// extern unsigned long nReflected;
+// extern unsigned long nRefracted;
+
+// Cone_3D, Poly_3D, Sphere_3D, Tri_3D so maybe put it in Object_3D
+// extern Vec     Slab[];

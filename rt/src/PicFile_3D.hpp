@@ -17,8 +17,9 @@
 ***************************************************************************
 */
 
-#include "String.hpp"
 #include <fstream>
+#include "String.hpp"
+#include "Color.hpp"
 
 class PicFile_3D {
   public:

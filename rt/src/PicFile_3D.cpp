@@ -22,17 +22,19 @@
 *                                                                         *
 ***************************************************************************
 */
-
-#include "Bob.hpp"
-#include "Exception.hpp"
-#include "String.hpp"
-#include "defs.hpp"
-#include "extern.hpp"
 #include "PicFile_3D.hpp"
 
 #include <ctime>
 #include <iostream>
 #include <fstream>
+
+#include "Bob.hpp"
+#include "Color.hpp"
+#include "Screen_3D.hpp"
+#include "Exception.hpp"
+#include "String.hpp"
+//#include "defs.hpp"
+//#include "extern.hpp"
 
 using std::cerr;
 using std::cout;
@@ -43,6 +45,7 @@ using std::endl;
 time_t old_time, new_time;
 
 bool PicFile_3D::open(String &_filename, int _x, int _y) {
+    Bob &bob = Bob::getApp();
     int line; /* line to start on */
     int i, c;
 
@@ -52,9 +55,9 @@ bool PicFile_3D::open(String &_filename, int _x, int _y) {
     x = _x;
     y = _y;
 
-    if (resume) { /* finish a partial image */
+    if (bob.resume) { /* finish a partial image */
         /* find line where interrupted */
-        line = start_line;
+        line = bob.start_line;
         fs.open(filename, std::ios::in | std::ios::binary);
         if (!fs.is_open()) {
             cerr << "Error.  Trying to resume generation of " << filename << "." << endl;
@@ -90,7 +93,7 @@ bool PicFile_3D::open(String &_filename, int _x, int _y) {
             cerr << "        Can't open " << filename << " for appending." << endl;
             throw Exception("thrown from picOpen");
         }
-        start_line = line; /* fake start line */
+        bob.start_line = line; /* fake start line */
     } else {               /* start a new image */
         fs.open(filename, std::ios::out | std::ios::binary);
         if (!fs.is_open()) {
@@ -102,10 +105,10 @@ bool PicFile_3D::open(String &_filename, int _x, int _y) {
         fs.put(y / 256);
         fs.put(y % 256);
 
-        fs.put(start_line / 256); /* image range */
-        fs.put(start_line % 256);
-        fs.put(stop_line / 256);
-        fs.put(stop_line % 256);
+        fs.put(bob.start_line / 256); /* image range */
+        fs.put(bob.start_line % 256);
+        fs.put(bob.stop_line / 256);
+        fs.put(bob.stop_line % 256);
 
         fs.put(0);
         fs.put(24);

@@ -41,6 +41,9 @@
 
 #define DEFAULT_IOR (1.0)
 
+unsigned long RayTrace_3D::nReflected = 0;
+unsigned long RayTrace_3D::nRefracted = 0;
+
 
 /*
     reflect -- given an incident vector I, and the normal N,
@@ -146,12 +149,12 @@ void RayTrace_3D::shade(int level, double weight, Point &P, Vec &N, Vec &I, Isec
 
     if (surf->tex) {
         if (surf->tex->fuzz > 0.0) {
-            MakeVector(rnd(), rnd(), rnd(), R);
-            if (rnd() > 0.5)
+            MakeVector(bMath::rnd(), bMath::rnd(), bMath::rnd(), R);
+            if (bMath::rnd() > 0.5)
                 R[0] = -R[0];
-            if (rnd() > 0.5)
+            if (bMath::rnd() > 0.5)
                 R[1] = -R[1];
-            if (rnd() > 0.5)
+            if (bMath::rnd() > 0.5)
                 R[2] = -R[2];
             VecAddS(surf->tex->fuzz, R, tex_P, R);
             surf->tex->tex_fix(*surf, R, P);
@@ -210,9 +213,9 @@ void RayTrace_3D::shade(int level, double weight, Point &P, Vec &N, Vec &I, Isec
 
         fuzziness = surf->fuzz;
 
-        fuzz_N[0] += (rnd() - rnd()) * fuzziness;
-        fuzz_N[1] += (rnd() - rnd()) * fuzziness;
-        fuzz_N[2] += (rnd() - rnd()) * fuzziness;
+        fuzz_N[0] += (bMath::rnd() - bMath::rnd()) * fuzziness;
+        fuzz_N[1] += (bMath::rnd() - bMath::rnd()) * fuzziness;
+        fuzz_N[2] += (bMath::rnd() - bMath::rnd()) * fuzziness;
         VecNormalize(fuzz_N);
 
         /* set flag for quick-fuzz mode */

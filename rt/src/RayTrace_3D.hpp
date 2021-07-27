@@ -26,10 +26,16 @@ class RayTrace_3D {
     protected:
 
     public:
-    static Background  background;            /* background color structure */
-    static Color       ambient;               /* global ambient light */
-    static Color       hazeColor;             /* color of haze */
-    static double      hazeDensity;
+    static Background    background;            /* background color structure */
+    static Color         ambient;               /* global ambient light */
+    static Color         hazeColor;             /* color of haze */
+    static double        hazeDensity;
+    static unsigned long nReflected;
+    static unsigned long nRefracted;
+    static unsigned long nShadows;
+    static unsigned long nRays;
+    static int           deepest;           /* deepest level reached */
+    static int           maxlevel;
 
     // inter.cpp
     static void checkAndEnqueue(Object *obj, double maxdist);

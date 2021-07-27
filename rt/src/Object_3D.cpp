@@ -1,8 +1,21 @@
 #include "Object_3D.hpp"
-#include "Exception.hpp"
+
 #include <iostream>
 
+#include "Vector_3D.hpp"
+#include "Exception.hpp"
+
 Object_3D *Object_3D::Root;
+
+Vec  Object_3D::Slab[] = {
+    {1.0, 0.0, 0.0},
+    {0.0, 1.0, 0.0},
+    {0.0, 0.0, 1.0},
+    {1.0, 1.0, 0.0},
+    {1.0, 0.0, 1.0},
+    {0.0, 1.0, 1.0}
+};
+
 
 Object_3D::~Object_3D() {}
 

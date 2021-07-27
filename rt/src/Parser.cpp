@@ -24,7 +24,7 @@
 #include <iostream>
 #include <memory>
 
-//#include "Bob.hpp"
+#include "Bob.hpp"
 #include "RayTrace_3D.hpp"
 #include "BobMath.hpp"
 #include "Vector_3D.hpp"
@@ -44,20 +44,13 @@
 
 extern int tickflag;
 
-//extern int get_token();
-//extern int push_token();
 FILE *env_fopen(String name, const String mode); // in file.cpp
 
-//int Parser::yylinecount = 1;
+int Parser::nLights     = 0; /* it's a dark world out there */
+int Parser::xResolution = 320;
+int Parser::yResolution = 200;
 
-// Surface_3D *yy_surface();
-// Wave *yy_wave();
-// Texture_3D *yy_texture();
-// Bump *yy_bump();
-// Texmap *yy_texmap();
-// Turbulence *yy_turbulence();
-// Clip *yy_clip();
-int Parser::nLights = 0; /* it's a dark world out there */
+Parser::Parser() : bob(Bob::getApp()), camera(bob.camera) {}
 
 /*
     get_vec() -- get a vector.
@@ -168,8 +161,8 @@ void Parser::yy_studio() {
     camera.samples = F_SAMPLES;
     camera.projection = P_FLAT;
     RayTrace_3D::hazeDensity = 0.0; /* on a clear day... */
-    start_line = 0;
-    stop_line = (-1);
+    bob.start_line = 0;
+    bob.stop_line = (-1);
 
     //    cout << "cout: In Parser::yy_studio Pre get_token" << endl;
     if (get_token() != LEFT_BRACE) {
@@ -200,17 +193,17 @@ void Parser::yy_studio() {
             break;
         case RESOLUTION:
             get_num();
-            Xresolution = cur_value;
+            Parser::xResolution = cur_value;
             get_num();
-            Yresolution = cur_value;
+            Parser::yResolution = cur_value;
             break;
         case START:
             get_num();
-            start_line = cur_value;
+            bob.start_line = cur_value;
             break;
         case STOP:
             get_num();
-            stop_line = cur_value;
+            bob.stop_line = cur_value;
             break;
         case ASPECT:
             get_num();
@@ -293,7 +286,7 @@ void Parser::yy_studio() {
             break;
         case DEPTH:
             get_num();
-            maxlevel = cur_value;
+            RayTrace_3D::maxlevel = cur_value;
             break;
         case NO_SHADOWS:
             no_shadows = 1;
@@ -323,8 +316,8 @@ void Parser::yy_studio() {
         camera.focal_length = VecLen(tmp);
     }
 
-    if (stop_line == (-1)) { /* do whole image */
-        stop_line = Yresolution;
+    if (bob.stop_line == (-1)) { /* do whole image */
+        bob.stop_line = Parser::yResolution;
     }
 
     // VecCopy(background.color, RayTrace_3D::hazeColor);
@@ -1600,7 +1593,7 @@ void Parser::ReadSceneFile(const String &real_name, String tmp_name) {
     while (TransformMatrix_3D::transTop)
         trans_pop();
 
-    if (stop_line == -1) {
+    if (bob.stop_line == -1) {
         cerr << "\n\nError, no studio structure in input file." << endl;
         throw Exception("thrown by ReadSceneFile");
     }
@@ -1608,7 +1601,7 @@ void Parser::ReadSceneFile(const String &real_name, String tmp_name) {
     if (tickflag) {
         cout << "\tinputfile = \"" << Infilename << "\"" << endl;
         cout << "\tlights " << nLights << " prims " << Bound_3D::nPrims << "\n" << endl;
-        cout << "\tresolution " << Xresolution << " " << Yresolution << endl;
+        cout << "\tresolution " << Parser::xResolution << " " << Parser::yResolution << endl;
         for (int i = 0; i < 30; i++)
             cout << endl;
     }

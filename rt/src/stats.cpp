@@ -27,11 +27,13 @@
 #include "Bound_3D.hpp"
 #include "Object_3D.hpp"
 #include "Parser.hpp"
+#include "RayTrace_3D.hpp"
 
 #include "extern.hpp"
 
 extern int tickflag;
 
+Bob &Stats::bob = Bob::getApp();
 unsigned long Stats::memAllocated = 0;
 
 void Stats::statistics(int line) {
@@ -39,23 +41,23 @@ void Stats::statistics(int line) {
     Bob::clearScreen();
 
     cout << "\t\t\t\t" << Bob::_Program << "\t\t" << Bob::_Version << "\n\t" << Bob::_Copyright << endl;
-    cout << "\ninput file \"" << Bob::getApp().infilename << "\"  memory " << memAllocated << "  resolution " << Xresolution << "x" << Yresolution << "  ";
+    cout << "\ninput file \"" << bob.infilename << "\"  memory " << memAllocated << "  resolution " << Parser::xResolution << "x" << Parser::Parser::yResolution << "  ";
     cout << "line " << line << endl;
 
-    cout << "total rays cast\t\t" << nRays << endl;
-    cout << "\teye rays\t" << nRays - nReflected - nRefracted << endl;
-    cout << "\treflected rays\t" << nReflected << endl;
-    cout << "\trefracted rays\t" << nRefracted << endl << endl;
+    cout << "total rays cast\t\t" << RayTrace_3D::nRays << endl;
+    cout << "\teye rays\t" << RayTrace_3D::nRays - RayTrace_3D::nReflected - RayTrace_3D::nRefracted << endl;
+    cout << "\treflected rays\t" << RayTrace_3D::nReflected << endl;
+    cout << "\trefracted rays\t" << RayTrace_3D::nRefracted << endl << endl;
 
-    cout << "shadow rays\t\t" << nShadows << endl;
+    cout << "shadow rays\t\t" << RayTrace_3D::nShadows << endl;
     cout << "cache hits\t\t" << nShadowCacheHits << endl;
-    if (nShadows > 0) {
-        cout << "cache percent\t" << 100.0 * (double)nShadowCacheHits / (double)nShadows << endl << endl;
+    if (RayTrace_3D::nShadows > 0) {
+        cout << "cache percent\t" << 100.0 * (double)nShadowCacheHits / (double)RayTrace_3D::nShadows << endl << endl;
     } else {
         cout << "cache percent\n" << endl;
     }
 
-    cout << "avg rays/pixel\t" << (double)nRays / ((double)(line + 1 - start_line) * (double)Xresolution) << endl;
+    cout << "avg rays/pixel\t" << (double)RayTrace_3D::nRays / ((double)(line + 1 - bob.start_line) * (double)Parser::xResolution) << endl;
     cout << "avg queues/ray\t" << (double)totalQueues / (double)totalQueueResets << endl << endl;
 
     cout << "bounds checked\t\t" << nChecked << endl;
@@ -63,7 +65,7 @@ void Stats::statistics(int line) {
     cout << "queue resets\t\t" << totalQueueResets << endl;
     cout << "max queue size\t\t" << maxQueueSize << endl;
 
-    cout << "\nmax recursion depth       " << deepest + 1 << "/" << maxlevel << "  " << endl;
+    cout << "\nmax recursion depth       " << RayTrace_3D::deepest + 1 << "/" << RayTrace_3D::maxlevel << "  " << endl;
     cout << endl;
 
 } /* end of statistics() */

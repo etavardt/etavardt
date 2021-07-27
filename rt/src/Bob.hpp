@@ -39,7 +39,10 @@ class Bob : public App {
     String infilename = "";
     String outfilename = "";
 
+    bool resume = false;
     bool preprocess = true;
+    int  start_line = 0;
+    int  stop_line  = 0;
 
     Camera_3D camera; // Bob has a camera
 

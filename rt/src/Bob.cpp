@@ -8,6 +8,7 @@
 #include "Bound_3D.hpp"
 #include "Clip_3D.hpp"
 #include "noise.hpp"
+#include "RayTrace_3D.hpp"
 #include "Screen_3D.hpp"
 #include "Stats.hpp"
 #include "Exception.hpp"
@@ -38,13 +39,11 @@ Bob &Bob::getApp() {
     return static_cast<Bob &>(*app);
 }
 
+ArrayOfStrings Bob::paths;
 /*
     init_env() -- reads the environment and sets up the
         paths[] array.
 */
-
-ArrayOfStrings Bob::paths;
-
 void Bob::init_env() {
     //    cout <<"cout: " << "In Bob::init_env" << endl;
 
@@ -113,7 +112,6 @@ int Bob::processCmdLine(int argCnt, char **argList) {
     infilename = ""; /* to be safe */
 
     tickflag = 1; /* default to full stats */
-    resume = 0;
     for (i = 1; i < argCnt; i++) { /* loop through command line args */
         if (argList[i][0] == '-') {
             switch (argList[i][1]) {
@@ -162,7 +160,7 @@ int Bob::processCmdLine(int argCnt, char **argList) {
                 no_shadows = 1;
                 break;
             case 'r':
-                resume = 1;
+                resume = true;
                 break;
             case 's':
                 tickflag = 0;
@@ -240,17 +238,17 @@ int Bob::runApp() {
         camera.eye.view_angle_y = camera.eye.view_angle_x / camera.eye.view_aspect;
     }
     if (xres > 0) { /* if command line override */
-        Xresolution = xres;
-        if (stop_line == Yresolution) /* only change if not default */
+        Parser::xResolution = xres;
+        if (stop_line == Parser::yResolution) /* only change if not default */
             stop_line = yres;
-        Yresolution = yres;
+        Parser::yResolution = yres;
     }
     if (start != -1) { /* if command line override */
         start_line = start;
         stop_line = stop;
     }
     if (depth > 0) { /* if command line override */
-        maxlevel = depth;
+        RayTrace_3D::maxlevel = depth;
     }
     if (bunch > 0) { /* if command line override */
         bunching = bunch;
@@ -264,7 +262,7 @@ int Bob::runApp() {
     //    cout << "cout: In Bob::runApp Post BuildBoundingSlabs Pre init_noise" << endl;
     init_noise();
     //    cout << "cout: In Bob::runApp Post init_noise Pre Screen" << endl;
-    camera.screen.screen(outfilename, Xresolution, Yresolution);
+    camera.screen.render(outfilename, Parser::xResolution, Parser::Parser::yResolution);
     //    cout << "cout: In Bob::runApp Post Screen return to caller" << endl;
 
     return 1;

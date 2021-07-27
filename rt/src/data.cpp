@@ -27,9 +27,9 @@
 //int         yylinecount = 1;
 // Viewpoint   eye;
 // Camera      camera;
-int         Xresolution = 320;     /* why?  why not? */
-int         Yresolution = 200;
-int         start_line, stop_line;
+//int         Xresolution = 320;     /* why?  why not? */
+//int         Yresolution = 200;
+//int         start_line, stop_line;
 int         bunching = BUNCHINGFACTOR;
 
 int         antialias  = 0;        /* default to none */
@@ -61,21 +61,21 @@ int         fuzzy_ray;
 //Object     *Root = NULL;
 
 double      minweight = MINWEIGHT;
-int         maxlevel = MAXLEVEL;
-int         deepest = 0;           /* deepest level reached */
+// int         maxlevel = MAXLEVEL;
+// int         deepest = 0;           /* deepest level reached */
 
-unsigned long nRays = 0;
-unsigned long nShadows = 0;
-unsigned long nReflected = 0;
-unsigned long nRefracted = 0;
+// unsigned long nRays = 0;
+// unsigned long nShadows = 0;
+// unsigned long nReflected = 0;
+// unsigned long nRefracted = 0;
 
 unsigned long maxQueueSize = 0;
 unsigned long totalQueues = 0;
 unsigned long totalQueueResets = 0;
 
 int           tickflag = 1;        /* also set in main() */
-int           resume = 0;          /* also set in main() */
-int           gr_mode = 0;
+//int           resume = 0;          /* also set in main() */
+//int           gr_mode = 0;
 
 unsigned long nChecked = 0;
 unsigned long nEnqueued = 0;
@@ -88,11 +88,11 @@ unsigned long nShadowCacheHits = 0;
 // String cur_text;
 // double   cur_value;
 
-Vec   Slab[] = {
-    {1.0, 0.0, 0.0},
-    {0.0, 1.0, 0.0},
-    {0.0, 0.0, 1.0},
-    {1.0, 1.0, 0.0},
-    {1.0, 0.0, 1.0},
-    {0.0, 1.0, 1.0}
-};
+// Vec   Slab[] = {
+//     {1.0, 0.0, 0.0},
+//     {0.0, 1.0, 0.0},
+//     {0.0, 0.0, 1.0},
+//     {1.0, 1.0, 0.0},
+//     {1.0, 0.0, 1.0},
+//     {0.0, 1.0, 1.0}
+// };

@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "Bob.hpp"
+//#include "Bob.hpp"
 #include "Token.hpp"
 #include "Camera_3D.hpp"
 #include "Surface_3D.hpp"
@@ -15,11 +15,11 @@
 #include "String.hpp"
 
 class Bob;
-extern Bob &bobApp;
+//extern Bob &bobApp;
 
 class Parser {
     private:
-//    Bob &bob;
+    Bob &bob;
 //    Parser() : bob(Bob &b)) {}
     typedef struct t_infile {
         String file_name;
@@ -37,7 +37,7 @@ class Parser {
     Vec     tmp_vec;
     Camera_3D &camera;
     public:
-    Parser() : camera(Bob::getApp().camera) {}
+    Parser();// : camera(Bob::getApp().camera) {}
     ~Parser() {}
 
     void get_vec();
@@ -73,6 +73,9 @@ class Parser {
     FILE *yyin;          /* pointer to input file */
 
     static int nLights; /* it's a dark world out there */
+    static int xResolution;
+    static int yResolution;
+
 
     //Token funcs and vars
     TokenType match_token();

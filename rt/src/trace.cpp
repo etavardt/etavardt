@@ -37,10 +37,12 @@
 
 #include "extern.hpp"
 
+unsigned long RayTrace_3D::nRays   = 0;
+int           RayTrace_3D::deepest = 0; /* deepest level reached */
+
 //class Isect;
 //extern int  Intersect (Ray *ray , Isect &hit , double maxdist , Object *self);
 //extern void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color &col, double ior);
-//TODO: TCE:Should fall under Ray?
 void RayTrace_3D::bkg(Vec &dir, Color &col) {
     double dot, index;
     int indx;

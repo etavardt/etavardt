@@ -41,7 +41,7 @@ using std::cerr;
 using std::cout;
 using std::endl;
 
-FILE *env_fopen(String name, const String mode); // in file.cpp
+FILE *env_fopen(String name, const String &mode); // in file.cpp
 
 /* preprocessor macro structure */
 typedef struct t_macro {

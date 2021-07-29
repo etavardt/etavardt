@@ -66,7 +66,6 @@ void Stats::statistics(int line) {
     cout << "max queue size\t\t" << maxQueueSize << endl;
 
     cout << "\nmax recursion depth       " << RayTrace_3D::deepest + 1 << "/" << RayTrace_3D::maxlevel << "  " << endl;
-    cout << endl;
 
 } /* end of statistics() */
 

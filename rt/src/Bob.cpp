@@ -97,9 +97,9 @@ int Bob::processCmdLine(int argCnt, char **argList) {
     String arg0 = argList[0];
     size_t pos = arg0.rfind('\\');
     if (pos == String::npos) {
-        Progname = arg0;
+        progname = arg0;
     } else {
-        Progname = arg0.substr(0, pos + 1);
+        progname = arg0.substr(0, pos + 1);
     }
 
     /* init global clips before parser is called */
@@ -197,7 +197,7 @@ int Bob::processCmdLine(int argCnt, char **argList) {
 
 void Bob::usage() {
     cout << _Program << "        " << _Version << "        " << _Date << endl << _Copyright << endl << endl;
-    cout << "Usage:  " << Progname << " [flags] <file>" << endl;
+    cout << "Usage:  " << progname << " [flags] <file>" << endl;
     cout << "       -s set silent mode" << endl;
     cout << "       -r resume generating an interrupted image." << endl;
     cout << "       -i change image size to xres by yres." << endl;

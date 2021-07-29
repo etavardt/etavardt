@@ -97,9 +97,9 @@ void Bound_3D::FindAxis(Object *top, long count) {
 } /* end of FindAxis() */
 
 int Bound_3D::SortAndSplit(Object **top_handle, long count) {
-    Object *top, *hi, *lo, *cur, *tmp, *hi_end, *lo_end;
-    long lo_cnt, hi_cnt, i, j;
-    double dmin, dmax;
+    Object *top = nullptr, *hi = nullptr, *lo = nullptr, *cur = nullptr, *tmp = nullptr, *hi_end = nullptr, *lo_end = nullptr;
+    long lo_cnt = 0L, hi_cnt = 0L, i = 0L, j = 0L;
+    double dmin = 0.0, dmax = 0.0;
 
     if (count <= 0)
         return 0;

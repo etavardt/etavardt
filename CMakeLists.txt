@@ -26,3 +26,4 @@ enable_testing()
 
 add_subdirectory(rt)
 add_subdirectory(tools)
+#add_subdirectory(cppcheck)

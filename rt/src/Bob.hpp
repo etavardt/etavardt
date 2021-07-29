@@ -4,11 +4,8 @@
 #include "String.hpp"
 #include "Camera_3D.hpp"
 
-//class Parser;
-
 #define BOB_ENV "BOB"
 #define PATH_DELIM ';'
-//#define DELIMS          ";"
 #define MAX_PATHS (32)
 
 class App;
@@ -24,18 +21,18 @@ class Bob : public App {
     void init_env();
 
   public:
-    static Bob &getApp();
+    int runApp() override;
+    int processCmdLine(int argCnt, char **argList) override;
+
     static void clearScreen();
-    int runApp();
-    int processCmdLine(int argCnt, char **argList);
+    static Bob &getApp();
 
     void usage();
 
-    String Progname;
     static String _Program, _Version, _Date, _Copyright;
-
     static ArrayOfStrings paths;
 
+    String progname = "";
     String infilename = "";
     String outfilename = "";
 

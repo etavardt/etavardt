@@ -64,8 +64,8 @@ int Cone_3D::intersect(Ray *ray, Isect &hit) {
     Ray tray;
     ConeData *cd;
     Vec V, P;
-    double a, b, c, d, disc;
-    double t1, t2, flt_tmp;
+    double a, b, c, d;
+    double t1, t2;
 
     cd = (ConeData *)(o_data);
 
@@ -106,7 +106,7 @@ int Cone_3D::intersect(Ray *ray, Isect &hit) {
             return 0;
         t1 = -1.0;
     } else {
-        disc = b * b - 4.0 * a * c;
+        double disc = b * b - 4.0 * a * c;
         if (disc < 0.0) {
             return 0;
         }
@@ -119,7 +119,7 @@ int Cone_3D::intersect(Ray *ray, Isect &hit) {
             return 0;
 
         if (t2 < t1) { /* flop to look at t1 first */
-            flt_tmp = t1;
+            double flt_tmp = t1;
             t1 = t2;
             t2 = flt_tmp;
         }
@@ -157,7 +157,7 @@ int Cone_3D::intersect(Ray *ray, Isect &hit) {
     return 0;
 }
 
-void Cone_3D::normal(Isect &hit, Point &_P, Vec &N) {
+void Cone_3D::normal(Isect &hit, Point &P, Vec &N) {
     double t;
     Vec V;
     ConeData *cd;
@@ -170,7 +170,7 @@ void Cone_3D::normal(Isect &hit, Point &_P, Vec &N) {
      * a vector from the basepoint through this point, plus the slope
      * times the cone_w vector...
      */
-    Point P = _P;
+    //Point P = _P;
     t = -(VecDot(P, cd->cone_w) + cd->cone_base_d);
     VecAddS(t, cd->cone_w, P, V);
     VecSub(V, cd->cone_base, N);
@@ -184,9 +184,10 @@ void Cone_3D::normal(Isect &hit, Point &_P, Vec &N) {
 Cone_3D *Cone_3D::makeCone(Vec &basepoint, double baseradius, Vec &apexpoint, double apexradius) {
     Cone_3D *newCone;
     ConeData *cd;
-    double dmin, dmax, ftmp, size;
+    double ftmp = 0.0;
+//    double dmin, dmax, ftmp, size;
     Vec tmp;
-    int i;
+//    int i;
 
     newCone = new Cone_3D();
     Stats::trackMemoryUsage(sizeof(Cone_3D));
@@ -248,8 +249,9 @@ Cone_3D *Cone_3D::makeCone(Vec &basepoint, double baseradius, Vec &apexpoint, do
 
     VecCopy(cd->cone_w, tmp); /* get vector along axis */
 
-    for (i = 0; i < NSLABS; i++) {
-        size = VecDot(Slab[i], tmp);
+    for (int i = 0; i < NSLABS; i++) {
+        double dmin = 0.0, dmax = 0.0;
+        double size = VecDot(Slab[i], tmp);
         size = baseradius * sqrt(1.0 - size * size);
         newCone->o_dmin[i] = basepoint[i] - size;
         newCone->o_dmax[i] = basepoint[i] + size;

@@ -34,11 +34,10 @@ std::shared_ptr<GlobalClip> GlobalClip::GlobalClipTop = NULL;     /* current glo
     clip_check() -- check a point against a list of clips.
         Returns 1 if passes, 0 if fails.
 */
-int Clip_3D::clip_check(Vec &P) {
+int Clip_3D::clip_check(const Vec &P) {
 
     Clip *head = this;
     Vec V;
-    double dist;
 
     while (head) {
         // V = P - head->center;
@@ -47,7 +46,7 @@ int Clip_3D::clip_check(Vec &P) {
             if (VecDot(V, head->normal) < 0.0)
                 return 0;
         } else if (head->type & C_SPHERE) {
-            dist = V[0] * V[0] + V[1] * V[1] + V[2] * V[2];
+            double dist = V[0] * V[0] + V[1] * V[1] + V[2] * V[2];
             // dist = VecDot(V, V); // TODO: TCE: Shouldn't this be VecLen?
             if (head->type & C_INSIDE) {
                 if (dist > head->radius1) {
@@ -58,7 +57,7 @@ int Clip_3D::clip_check(Vec &P) {
             }
         } else if (head->type & C_CONE) {
             Vec ap;
-            double ap_dot, percent, radius, dist;
+            double ap_dot;
 
             VecSub(P, head->apex, ap);
             ap_dot = VecDot(ap, head->normal);
@@ -67,12 +66,12 @@ int Clip_3D::clip_check(Vec &P) {
                     return 0;
                 }
             } else { /* on "inside" of ends */
-                percent = ap_dot / head->length;
-                radius = percent * head->radius2 + (1.0 - percent) * head->radius1;
+                double percent = ap_dot / head->length;
+                double radius = percent * head->radius2 + (1.0 - percent) * head->radius1;
                 radius = radius * radius;
                 VecAddS(ap_dot, head->normal, head->apex, ap);
                 //                dist = ((ap-P)*(ap-P)).sum(); // TODO: TCE: sum of squares of differences? Hmm?
-                dist = (ap[0] - P[0]) * (ap[0] - P[0]) + (ap[1] - P[1]) * (ap[1] - P[1]) + (ap[2] - P[2]) * (ap[2] - P[2]); // TODO: TCE: sum of squares of differences? Hmm?
+                double dist = (ap[0] - P[0]) * (ap[0] - P[0]) + (ap[1] - P[1]) * (ap[1] - P[1]) + (ap[2] - P[2]) * (ap[2] - P[2]); // TODO: TCE: sum of squares of differences? Hmm?
                 if (head->type & C_INSIDE) {
                     if (dist > radius) {
                         return 0;

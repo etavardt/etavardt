@@ -13,7 +13,12 @@ class Clip_3D; // Use this to avoid circluar processing which causes error: 'Obj
 //class Isect;
 class Object_3D {
     public:
-    Object_3D() {} //default Constructor
+    Object_3D() : o_type(0), o_surf(nullptr), o_data(nullptr), next(nullptr) {
+        for (int i = 0; i < NSLABS; i++) {
+            o_dmin[i] = 0.0;
+            o_dmax[i] = 0.0;
+        }
+    } //default Constructor
     ~Object_3D();
 
     unsigned short o_type;

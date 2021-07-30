@@ -35,7 +35,6 @@ inline String eraseAllMatching(const String &str, const String &remStr) {
     // cout << "str: " << str << endl << "remStr: " << remStr << endl;
     String newString = str;
     size_t found = newString.find_first_of(remStr);
-    size_t startPos = 0;
     // cout << "found: " << found << endl;
     while (found != String::npos) {
         newString.erase(found, 1);

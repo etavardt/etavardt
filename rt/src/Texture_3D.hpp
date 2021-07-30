@@ -26,8 +26,8 @@ class Texture_3D {
     double tex_spherical(const Point &P, const Texture_3D &tex);
     double tex_noise(const Point &P, const Texture_3D &tex);
 
-    void get_map_entry(Texmap &tm, double x, double y, Color &color);
-    void tex_project(Texmap &_tm, Point P, double *x, double *y);
+    void get_map_entry(const Texmap &tm, double x, double y, Color &color);
+    void tex_project(Texmap &_tm, const Point &P, double *x, double *y);
     void tile(const Texmap &tm, double *x, double *y);
 
     public:
@@ -41,13 +41,13 @@ class Texture_3D {
     // void tex_read_img(const String &filename, Texmap &tm);
 
     TexPattern pat_type = UNKNOWN_PAT;
-    double blur;        /* % blending between layers */
-    double fuzz;        /* white noise blending */
-    double r1, r2;         /* just because */
-    int terms;          /* for tex_noise() */
+    double blur = 0.0;         /* % blending between layers */
+    double fuzz = 0.0;         /* white noise blending */
+    double r1 = 0.0, r2 = 0.0; /* just because */
+    int terms = 0;          /* for tex_noise() */
     Vec trans,
         scale;
-    Surface_3D *surf[2];
-    Turbulence *turbulence;
-    Wave *waves;
+    Surface_3D *surf[2] = {nullptr, nullptr};
+    Turbulence *turbulence = nullptr;
+    Wave *waves = nullptr;
 };

@@ -46,7 +46,7 @@ class RayTrace_3D {
     // shade.cpp
     static void reflect(const Vec &I, const Vec &N, Vec &R, double dot);
     static int refract(double eta, const Vec &I, const Vec &N, Vec &T, double dot);
-    static void shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color &col, double ior);
+    static void shade(int level, double weight, Point &P, Vec &N, Vec &I, const Isect &hit, Color &col, double ior);
     // shadow.cpp
     static int shadow (Ray *ray , Isect &hit , double tmax , Color &color , int level , Light_3D &lptr, int inside);
     static int sShadow (Ray *ray , Isect &hit , double tmax , Color &color , int level , Light_3D &lptr, int inside);

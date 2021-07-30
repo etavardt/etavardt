@@ -24,26 +24,12 @@
 */
 
 #include "Token.hpp"
+
 #include "Parser.hpp"
-
-//#include <cstdio>
-//#include <cstdlib>
-//#include <cstring>
-//#include <ctype.h>
-
-//#include "Bob.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 
 #define NUM_TOKENS (98)
-
-//static int token_pushed = 0;
-//int Parser::token_pushed = 0;
-// typedef struct t_token {
-// //    const char *name;
-//     String name;
-//     int value;
-// } Token;
 
 Token token_list[] = {"bb_newfile", NEWFILE,  "bb_popfile", POPFILE,    "studio",     STUDIO,     "from",       FROM,  "at",      AT,      "up",          UP,          "angle",       ANGLE,       "resolution", RESOLUTION, "background",    BKG,       "start",  START,  "stop",      STOP,      "aspect",      ASPECT,      "ambient",    AMBIENT, "haze",  HAZE,  "aperture", APERTURE, "focal_length", FOCAL_LENGTH, "antialias", ANTIALIAS, "depth",     DEPTH,     "no_shadows",  NO_SHADOWS,  "samples",   SAMPLES,   "jitter",    JITTER,    "threshold", THRESHOLD, "caustics", CAUSTICS, "no_exp_trans", NO_EXP_TRANS, "no_antialias", NO_ANTIALIAS, "none",    NONE,    "corners",  CORNERS,  "adaptive",    ADAPTIVE,    "quick", QUICK,
                       "bunching",   BUNCHING, "projection", PROJECTION, "flat",       FLAT,       "orthogonal", ORTHO, "width",   WIDTH,   "fisheye",     FISHEYE,     "no_parallax", NO_PARALLAX, "transform",  TRANSFORM,  "transform_pop", TRANS_POP, "rotate", ROTATE, "translate", TRANSLATE, "scale",       SCALE,       "light",      LIGHT,   "type",  TYPE,  "point",    POINT,    "spherical",    SPHERICAL,    "spot",      SPOT,      "direction", DIRECTION, "directional", DIRECTIONAL, "min_angle", MIN_ANGLE, "max_angle", MAX_ANGLE, "no_spec",   NOSPEC,    "color",    COLOR,    "falloff",      FALLOFF,      "surface",      SURFACE,      "diffuse", DIFFUSE, "specular", SPECULAR, "transparent", TRANSPARENT, "shine", SHINE,
@@ -70,11 +56,7 @@ Token token_list[] = {"bb_newfile", NEWFILE,  "bb_popfile", POPFILE,    "studio"
         flexibilty should be quite easy to come up with.
 */
 TokenType Parser::match_token() {
-    int i, length;
-
-//    length = strlen(cur_text);
-    for (i = 0; i < NUM_TOKENS; i++) {
-//        if (!strncmp(cur_text, token_list[i].name, length)) {
+    for (int i = 0; i < NUM_TOKENS; i++) {
         if (cur_text == token_list[i].name.substr(0,cur_text.size())) {
             cur_token = token_list[i].value;
             return cur_token;
@@ -88,9 +70,8 @@ TokenType Parser::match_token() {
         returns it's value.  If the previous token has been
         pushed back, then it is returned again.
 */
-
 TokenType Parser::get_token() {
-    int c, i;
+    int c;
 
     if (token_pushed) {
         token_pushed = 0;
@@ -99,9 +80,7 @@ TokenType Parser::get_token() {
 
     /* no token waiting so we have to build one */
 
-//    cur_text[0] = 0;
     cur_text = "";
-    i = 0;
 
     /* get rid of any whitespace */
     while (isspace(c = fgetc(yyin)) || c == '(' || c == ')' || c == '\n') {
@@ -123,37 +102,27 @@ TokenType Parser::get_token() {
         cur_token = RIGHT_BRACE;
         return RIGHT_BRACE;
     } else if (c == '\"') { /* start of quoted string, most likely a file name */
-//        cur_text = "";
         while ((c = fgetc(yyin)) != '\"') {
-            //cur_text[i++] = c;
             cur_text += (char(c));
         }
-        //cur_text[i] = 0; /* null terminate the string */
         cur_token = UNKNOWN;
         return cur_token;
     } else if (isalpha(c)) { /* must be a keyword */
-//        cur_text = "";
         do {
-            //cur_text[i++] = c;
             cur_text += (char(c));
             c = fgetc(yyin);
         } while (isalnum(c) || c == '_' || c == '.' || c == '\\' || c == ':');
         ungetc(c, yyin); /* push back the character that doesn't belong */
 
-//        cur_text[i] = 0; /* null terminate */
-
         cur_token = match_token();
         return cur_token;
     } else if (isdigit(c) || c == '+' || c == '.' || c == '-') {
-//        cur_text = "";
         do {
-            //cur_text[i++] = c;
             cur_text += (char(c));
             c = fgetc(yyin);
         } while (isdigit(c) || c == '+' || c == '.' || c == '-' || c == 'e' || c == 'E');
         ungetc(c, yyin); /* push back the character that doesn't belong */
 
-//        cur_text[i] = 0;
         cur_value = atof(cur_text.c_str());
         cur_token = NUMBER;
         return cur_token;
@@ -176,7 +145,6 @@ TokenType Parser::get_token() {
     } //TODO: TCE add more processing for #include, single line comment, "//", etc.. in the mean time preprocess
 
     /* if we get down here something is really wrong */
-
     cerr << "\nError parsing.  Found the character '" << char(c) << "' aka 0x" << std::hex << (0xFF & c) << " and" << endl;
     cerr << "I don't know what to do with it." << endl;
     yyerror("In get_token near end.");
@@ -188,7 +156,6 @@ TokenType Parser::get_token() {
         token was not used by the parser and should therefore
         be returned by the next call to get_token.
 */
-
 TokenType Parser::push_token() {
     token_pushed = 1;
 

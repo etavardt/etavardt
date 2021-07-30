@@ -2,7 +2,7 @@
 
 class App {
     protected:
-    App(){} //Default constructor hidden to make it a singleton
+    App() : argCnt(0), argList(nullptr) {} //Default constructor hidden to make it a singleton
 
     private:
     int argCnt;
@@ -15,5 +15,3 @@ class App {
     virtual int runApp() = 0;
     virtual int processCmdLine(int argCnt, char **argList) {this->argCnt = argCnt; this->argList = argList; return 1;}
 };
-
-

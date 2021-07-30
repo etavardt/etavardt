@@ -167,8 +167,6 @@ void Tri_3D::normal(Isect &hit, Point &P, Vec &N) {
 Tri_3D *Tri_3D::makeTri(Vec *point) {
     Tri_3D *newTri;
     TriData *td;
-    int i, j;
-    double dmin, dmax, d;
     Vec B[3];
 
     checkTri(point);
@@ -220,12 +218,12 @@ Tri_3D *Tri_3D::makeTri(Vec *point) {
 
     invertMatrix(B, td->tri_bb);
 
-    for (i = 0; i < NSLABS; i++) {
-        dmin = HUGE_NUM;
-        dmax = -HUGE_NUM;
+    for (int i = 0; i < NSLABS; i++) {
+        double dmin = HUGE_NUM;
+        double dmax = -HUGE_NUM;
 
-        for (j = 0; j < 3; j++) {
-            d = VecDot(Slab[i], td->tri_P[j]);
+        for (int j = 0; j < 3; j++) {
+            double d = VecDot(Slab[i], td->tri_P[j]);
             if (d < dmin)
                 dmin = d;
             if (d > dmax)
@@ -279,8 +277,6 @@ void Tri_3D::invertMatrix(const Vec in[3], Vec out[3]) {
 
 void Tri_3D::checkTri(Vec *point) {
     Vec N, A, B;
-    int i;
-    double dot;
 
     /* calc surface normal as cross of edge vectors */
 
@@ -290,8 +286,8 @@ void Tri_3D::checkTri(Vec *point) {
 
     /* compare with each normal and flip if needed to same side */
 
-    for (i = 0; i < 3; i++) {
-        dot = VecDot(N, point[i * 2 + 1]);
+    for (int i = 0; i < 3; i++) {
+        double dot = VecDot(N, point[i * 2 + 1]);
         if (dot <= 0.0) {
             VecNegate(point[i * 2 + 1]);
         }

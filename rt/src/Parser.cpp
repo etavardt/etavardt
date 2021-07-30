@@ -44,13 +44,13 @@
 
 extern int tickflag;
 
-FILE *env_fopen(String name, const String mode); // in file.cpp
+extern FILE *env_fopen(const String &name, const String &mode); // in file.cpp
 
 int Parser::nLights     = 0; /* it's a dark world out there */
 int Parser::xResolution = 320;
 int Parser::yResolution = 200;
 
-Parser::Parser() : bob(Bob::getApp()), camera(bob.camera) {}
+Parser::Parser() : bob(Bob::getApp()), camera(bob.camera), yyin(nullptr), cur_token(UNKNOWN), cur_text(""), cur_value(0.0) {}
 
 /*
     get_vec() -- get a vector.
@@ -103,7 +103,7 @@ void Parser::yy_background() {
             switch (cur_token) {
             case COLOR:
                 get_vec();
-                //                VecCopy(tmp_vec, background.color);
+                // VecCopy(tmp_vec, background.color);
                 RayTrace_3D::background.color = tmp_vec;
                 break;
             case UP:
@@ -111,10 +111,10 @@ void Parser::yy_background() {
                 VecCopy(tmp_vec, RayTrace_3D::background.up);
                 break;
             case UNKNOWN: /* must be a palette */
-                          //                cout << "cout: In Parser::yy_background cur_token= UNKOWN(" << cur_token << ")" << endl;
-                          //                cout << "cout: In Parser::yy_background Pre env_fopen cur_text:" << cur_text << endl;
+                          // cout << "cout: In Parser::yy_background cur_token= UNKOWN(" << cur_token << ")" << endl;
+                          // cout << "cout: In Parser::yy_background Pre env_fopen cur_text:" << cur_text << endl;
                 fp = env_fopen(cur_text, "r");
-                //                cout << "cout: In Parser::yy_background Post env_fopen fp:" << fp << endl;
+                // cout << "cout: In Parser::yy_background Post env_fopen fp:" << fp << endl;
                 if (!fp) {
                     cerr << "Error opening file " << cur_text << " for input as palette file." << endl;
                     throw Exception("Thrown from yy_background");
@@ -122,14 +122,14 @@ void Parser::yy_background() {
                 for (i = 0; i < 256; i++) {
                     fgets(str, 256, fp);
                     sscanf(str, "%d %d %d", &r, &g, &b);
-                    //                    background.pal[i][0] = r;
-                    //                    background.pal[i][1] = g;
-                    //                    background.pal[i][2] = b;
+                    // background.pal[i][0] = r;
+                    // background.pal[i][1] = g;
+                    // background.pal[i][2] = b;
                     RayTrace_3D::background.pal[i].r = r;
                     RayTrace_3D::background.pal[i].g = g;
                     RayTrace_3D::background.pal[i].b = b;
                 }
-                //                MakeVector(-1, -1, -1, background.color);
+                // MakeVector(-1, -1, -1, background.color);
                 RayTrace_3D::background.color = -1;
                 break;
             default:
@@ -1044,7 +1044,7 @@ void Parser::yy_transform_pop() {
 */
 void Parser::yy_global_clip() {
     std::shared_ptr<GlobalClip> ptr;
-    Clip *new_clip;
+    //Clip *new_clip;
 
     //    cout << "cout: In Parser::yy_global_clip Pre allocs" << endl;
     ptr = std::shared_ptr<GlobalClip>(new GlobalClip());
@@ -1190,8 +1190,8 @@ std::shared_ptr<Clip> Parser::yy_clip() {
 */
 void Parser::yy_sphere() {
     Vec center;
-    double radius, fuzz;
-    Object *new_obj;
+    double radius = 0.0, fuzz = 0.0;
+    Object *new_obj = nullptr;
 
     fuzz = 0.0;
 
@@ -1243,8 +1243,8 @@ void Parser::yy_sphere() {
 */
 void Parser::yy_cone() {
     Vec apex, base;
-    double arad, brad;
-    Object *new_obj;
+    double arad = 0.0, brad = 0.0;
+    Object *new_obj = nullptr;
 
     //    cout << "cout: In Parser::yy_cone Pre get_token" << endl;
     /* grab and toss left brace */
@@ -1304,10 +1304,8 @@ void Parser::yy_cone() {
 */
 void Parser::yy_ring() {
     Vec center, normal;
-    double min_rad, max_rad;
-    Ring_3D *new_obj;
-
-    min_rad = 0.0;
+    double min_rad = 0.0, max_rad = 0.0;
+    Ring_3D *new_obj = nullptr;
 
     //    cout << "cout: In Parser::yy_ring Pre get_token" << endl;
     /* grab and toss left brace */
@@ -1551,7 +1549,7 @@ void Parser::yyerror(const String &str) {
     throw Exception("thrown by yyerror");
 }
 
-void Parser::ReadSceneFile(const String &real_name, String tmp_name) {
+void Parser::ReadSceneFile(const String &real_name, const String &tmp_name) {
     //    cout << "cout: In Parser::ReadSceneFile real_name=" << real_name << " \ttmp_name=" << tmp_name << endl;
 
     Infile *iptr;
@@ -1607,12 +1605,12 @@ void Parser::ReadSceneFile(const String &real_name, String tmp_name) {
     }
 }
 
-void Parser::ptrchk(void *ptr, const String str) {
+void Parser::ptrchk(const void *ptr, const String &str) {
     if (!ptr)
         throw Exception(String("Error allocating memory for a ").append(str).append("\n").append("thrown by ReadSceneFile"));
 }
 
-void Parser::yy_newfile(String new_file) {
+void Parser::yy_newfile(const String &new_file) {
     Infile *iptr;
     Stack *sptr;
 
@@ -1640,12 +1638,12 @@ void Parser::yy_newfile(String new_file) {
 
 void Parser::yy_popfile() {
     Infile *iptr;
-    Stack *sptr;
+    // Stack *sptr;
 
     //    cout << "cout: In Parser::yy_patch Pre InfileTop->prev check" << endl;
     if (InfileTop->prev) {
-        iptr = InfileTop->what;
-        sptr = InfileTop;
+        // iptr = InfileTop->what;
+        // sptr = InfileTop;
         InfileTop = InfileTop->prev;
         iptr = InfileTop->what;
         yylinecount = iptr->line;

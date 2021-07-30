@@ -63,9 +63,9 @@ class Parser {
     void yy_patch();
     int yyparse();
     void yyerror(const String &str);
-    void ReadSceneFile(const String &real_name, String tmp_name);
-    void ptrchk(void *ptr, const String str);
-    void yy_newfile(String new_file);
+    void ReadSceneFile(const String &real_name, const String &tmp_name);
+    void ptrchk(const void *ptr, const String &str);
+    void yy_newfile(const String &new_file);
     void yy_popfile();
     void trans_pop();
 

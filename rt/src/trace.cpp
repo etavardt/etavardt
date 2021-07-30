@@ -44,13 +44,10 @@ int           RayTrace_3D::deepest = 0; /* deepest level reached */
 //extern int  Intersect (Ray *ray , Isect &hit , double maxdist , Object *self);
 //extern void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color &col, double ior);
 void RayTrace_3D::bkg(Vec &dir, Color &col) {
-    double dot, index;
-    int indx;
-
     if (background.color.r < 0.0) { // Using a color from a Pallet not a single color. Works how?
-        dot = -VecDot(dir, background.up);
-        index = 127.0 * dot + 128.0;
-        indx = index;
+        double dot = -VecDot(dir, background.up);
+        double index = 127.0 * dot + 128.0;
+        int indx = index;
         index -= indx;
         col.r = (1.0 - index) * background.pal[indx].r / 256.0 + index * background.pal[indx + 1].r / 256.0;
         col.g = (1.0 - index) * background.pal[indx].g / 256.0 + index * background.pal[indx + 1].g / 256.0;
@@ -64,10 +61,8 @@ void RayTrace_3D::bkg(Vec &dir, Color &col) {
     }
 } /* end of bkg */
 
-//TODO: TCE:Should fall under Ray
 //    double    ior;        /* current material ior */
 double RayTrace_3D::trace(int level, double weight, Ray *ray, Color &color, double ior, Object *obj) {
-    Object *prim;
     Point P;
     Vec N;
     Isect hit;
@@ -83,13 +78,9 @@ double RayTrace_3D::trace(int level, double weight, Ray *ray, Color &color, doub
     nRays++;
 
     if (RayTrace_3D::intersect(ray, hit, HUGE_NUM, obj)) {
-
-        /* end of warning */
-
-        prim = hit.isect_prim;
+        Object *prim = hit.isect_prim;
         RayPoint(*ray, hit.isect_t, P);
         /* get normal vector of intersection */
-//        (*prim->o_procs->normal)(prim, &hit, P, N);
         prim->normal(hit, P, N);
 
         RayTrace_3D::shade(level, weight, P, N, ray->D, hit, color, ior);

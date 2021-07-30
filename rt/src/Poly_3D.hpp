@@ -6,8 +6,8 @@ class Poly_3D: public Object_3D {
     Poly_3D();
     ~Poly_3D();
 
-    int intersect(Ray *ray, Isect &hit);
-    void normal(Isect &hit, Point &P, Vec &N);
+    int intersect(Ray *ray, Isect &hit) override;
+    void normal(Isect &hit, Point &P, Vec &N) override;
 
     static Poly_3D *makePoly(int npoints, Vec *points);
 };

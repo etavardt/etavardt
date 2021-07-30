@@ -67,5 +67,8 @@ checks.json
 # User-specific stuff
 .idea
 
+#cppcheck
+cppcheck/bob-cppcheck-build-dir/*
+
 # developer keepsake stuff for project
 .dev_stash

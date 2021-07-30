@@ -9,29 +9,14 @@
 #include "Stats.hpp"
 
 
-FILE *env_fopen(String name, const String mode); // in file.cpp
-
-Texmap_3D::Texmap_3D(const Texmap_3D &t) {
-    position = t.position; /* upper left hand corner of image */
-    normal   = t.normal;   /* same as projection direction */
-    across   = t.across;   /* across top of image to upper right */
-    down     = t.down;     /* down to lower left */
-    scale    = t.scale;    /* defaults to 1.0, #units across full image */
-    xres     = t.xres;     /* image size */
-    yres     = t.yres;     /* image size */
-    red      = t.red;
-    grn      = t.grn;
-    blu      = t.blu;
-}
-
+extern FILE *env_fopen(const String &name, const String &mode); // in file.cpp
 
 /*
     tex_read_img() -- Read a .img file into a texture map structure
 */
 void Texmap_3D::tex_read_img(const String &filename, Texmap &tm) {
     FILE *fp;
-    int w, h, /* width and height */
-        i, j, cnt, red, grn, blu;
+    int w = 0, h = 0; /* width and height */
 
     fp = env_fopen(filename, "rb");
     if (!fp) {
@@ -69,7 +54,7 @@ void Texmap_3D::tex_read_img(const String &filename, Texmap &tm) {
     Stats::trackMemoryUsage(sizeof(Lines[h]));
     //    tm->blu = (unsigned char **)vmalloc(sizeof(unsigned char *) * h);
 
-    for (j = 0; j < h; j++) {
+    for (int j = 0; j < h; j++) {
         tm.red[j] = new rows[w]();
         Stats::trackMemoryUsage(sizeof(rows[w]));
         //        tm->red[j] = (unsigned char *)vmalloc(sizeof(unsigned char) * w);
@@ -87,13 +72,13 @@ void Texmap_3D::tex_read_img(const String &filename, Texmap &tm) {
     }
 
     /* read in the image */
-    for (j = 0; j < h; j++) {
-        i = 0;
+    for (int j = 0; j < h; j++) {
+        int i = 0;
         while (i < w) {
-            cnt = fgetc(fp) & 0xff;
-            blu = fgetc(fp) & 0xff;
-            grn = fgetc(fp) & 0xff;
-            red = fgetc(fp) & 0xff;
+            int cnt = fgetc(fp) & 0xff;
+            int blu = fgetc(fp) & 0xff;
+            int grn = fgetc(fp) & 0xff;
+            int red = fgetc(fp) & 0xff;
             while (cnt) {
                 tm.red[j][i] = red;
                 tm.grn[j][i] = grn;

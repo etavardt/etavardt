@@ -40,11 +40,9 @@
 */
 double Texture_3D::tex_checker(const Point &P, const Texture_3D &tex) {
     int i = 0;
-    int p[3];
+    int p[3] = {0,0,0};
     Vec point;
-    double blur;
-
-    blur = HUGE_NUM;
+    double blur = HUGE_NUM;
 
     for (i = 0; i < 3; i++) {
         if (tex.scale[i] == 0) {
@@ -77,8 +75,8 @@ double Texture_3D::tex_checker(const Point &P, const Texture_3D &tex) {
 */
 
 double Texture_3D::tex_spherical(const Point &P, const Texture_3D &tex) {
-    int i;
-    double r, dist;
+    int i = 0;
+    double r = 0.0, dist = 0.0;
     Vec p;
 
     r = tex.r1 + tex.r2;
@@ -124,11 +122,10 @@ double Texture_3D::tex_spherical(const Point &P, const Texture_3D &tex) {
 */
 
 double Texture_3D::tex_noise(const Point &P, const Texture_3D &tex) {
-    int i;
-    double result;
+    double result = 0.0;
     Vec p;
 
-    for (i = 0; i < 3; i++) {
+    for (int i = 0; i < 3; i++) {
         if (tex.scale[i] == 0) {
             p[i] = 0;
         } else {
@@ -148,9 +145,8 @@ double Texture_3D::tex_noise(const Point &P, const Texture_3D &tex) {
         point.  Note that indices are actually backwards.
 */
 //TODO: TCE: Belongs in Surface_3D, move it there once color is fixed again the output files
-void Texture_3D::get_map_entry(Texmap &tm, double x, double y, Color &color) {
-    double r, g, b;
-    int i, j, map_index;
+void Texture_3D::get_map_entry(const Texmap &tm, double x, double y, Color &color) {
+    int i = 0, j = 0;
 
     /* get integer indices */
     i = x * (tm.xres);
@@ -168,10 +164,10 @@ void Texture_3D::get_map_entry(Texmap &tm, double x, double y, Color &color) {
         the indices for the image
 */
 //TODO: TCE: Belongs in Surface_3D or Texmap_3D, move it there once color is fixed again the output files
-void Texture_3D::tex_project(Texmap &tm, Point P, double *x, double *y) {
+void Texture_3D::tex_project(Texmap &tm, const Point &P, double *x, double *y) {
     Point PP, /* point projected onto plane of image */
         V;
-    double dot;
+    double dot = 0.0;
 //    Texmap tm(_tm);// = _tm;
     /* project intersection point onto image plane */
     VecSub(P, tm.position, V);
@@ -183,7 +179,8 @@ void Texture_3D::tex_project(Texmap &tm, Point P, double *x, double *y) {
     dot = VecDot(tm.across, V);
     *x = dot / tm.scale;
     dot = VecDot(tm.down, V);
-    *y = dot * (double)tm.yres / tm.xres / tm.scale;
+    // *y = dot * (double)tm.yres / tm.xres / tm.scale;
+    // *y = dot / tm.scale;
     *y = dot / tm.scale;
 
 } /* end of tex_project() */
@@ -207,10 +204,9 @@ void Texture_3D::tile(const Texmap &tm, double *x, double *y) {
     map_fix() -- fill in the surface structure element(s) based
         on the point of intersection and the texture map.
 */
-//TODO: TCE: Belongs in Surface_3D, move it there once color is fixed again the output files
 //           along with tile seeing as this is the only place that calls it
 void Texture_3D::map_fix(Surface_3D &surf, const Point &P) {
-    double x, y; /* image intersection */
+    double x = 0.0, y = 0.0; /* image intersection */
 
     if (surf.flags & S_TM_DIFF) { /* we've got a diffuse map */
         tex_project(*surf.tm_diff, P, &x, &y);
@@ -237,41 +233,40 @@ void Texture_3D::map_fix(Surface_3D &surf, const Point &P) {
 /*
     tex_fix() -- figure out which surface to use as point P
 */
-//TODO: TCE: Belongs in Surface_3D, move it there once color is fixed again the output files
 //    Surface *surf;
 //    Point   P, OP;  /* translated and original point */
 void Texture_3D::tex_fix(Surface_3D &surf, Point &P, Point &OP) {
-    int i = 0;
-    double w0, w1;
-    Surface_3D *surf0, *surf1;
-    Texture_3D *texture;
+    double w0 = 0.0, w1 = 0.0;
+    Texture_3D *texture = surf.tex;
+    Surface_3D *surf0 = nullptr;
+    Surface_3D *surf1 = nullptr;
     Point tmp, p_in, p_out;
 
-    texture = surf.tex;
-    surf0 = texture->surf[0];
-    surf1 = texture->surf[1];
-
-    if (texture == NULL) {
+    if (texture == nullptr) {
         return; // TCE: the following lines will not be hit due to this return (Note: the original code had this.)
         //        cerr << "Fooey, null pointer for texture structure." << endl;
         //        throw Exception("Thrown from tex_fix");
-    }
-    if (surf0 == NULL) {
-        return;
-        //        cerr << "Fooey, null pointer for surf0 structure.\n");
-        //        throw Exception("Thrown from tex_fix");
-    }
-    if (surf1 == NULL) {
-        return;
-        //        cerr << "Fooey, null pointer for surf1 structure.\n");
-        //        throw Exception("Thrown from tex_fix");
+    } else {
+        surf0 = texture->surf[0];
+        surf1 = texture->surf[1];
+
+        if (surf0 == nullptr) {
+            return;
+            //        cerr << "Fooey, null pointer for surf0 structure.\n");
+            //        throw Exception("Thrown from tex_fix");
+        }
+        if (surf1 == nullptr) {
+            return;
+            //        cerr << "Fooey, null pointer for surf1 structure.\n");
+            //        throw Exception("Thrown from tex_fix");
+        }
     }
 
     VecCopy(P, tmp); /* save point */
 
     if (texture->turbulence) { /* tweek P if turbulent */
         VecCopy(P, p_in);
-        for (i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             p_in[i] *= texture->turbulence->scale[i];
         }
         turb3(p_in, p_out, texture->turbulence->terms);

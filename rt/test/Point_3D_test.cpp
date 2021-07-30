@@ -32,7 +32,7 @@ TEST(PointTest, BasicEqualityCheck) {
 
 TEST(PointTest, BasicNotEqualityCheck) {
     Vector_3D a(1.0, 2.0, 3.0);
-    Point_3D b = a;
+    Point_3D b(a);
 
     EXPECT_EQ(a[0], b[0]);
     EXPECT_EQ(a[1], b[1]);

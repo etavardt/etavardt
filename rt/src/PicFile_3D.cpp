@@ -44,10 +44,8 @@ using std::endl;
 
 time_t old_time, new_time;
 
-bool PicFile_3D::open(String &_filename, int _x, int _y) {
+bool PicFile_3D::open(const String &_filename, int _x, int _y) {
     Bob &bob = Bob::getApp();
-    int line; /* line to start on */
-    int i, c;
 
     filename = _filename;
     time(&old_time); /* get current time */
@@ -57,7 +55,7 @@ bool PicFile_3D::open(String &_filename, int _x, int _y) {
 
     if (bob.resume) { /* finish a partial image */
         /* find line where interrupted */
-        line = bob.start_line;
+        int line = bob.start_line; /* line to start on */
         fs.open(filename, std::ios::in | std::ios::binary);
         if (!fs.is_open()) {
             cerr << "Error.  Trying to resume generation of " << filename << "." << endl;
@@ -66,9 +64,9 @@ bool PicFile_3D::open(String &_filename, int _x, int _y) {
         }
         /* skip header */
         fs.seekg(10);
-        i = 0;
+        int i = 0;
         while (!fs.eof()) {
-            c = fs.get();
+            int c = fs.get();
             if (fs.eof()) {
                 break;
             }
@@ -118,21 +116,20 @@ bool PicFile_3D::open(String &_filename, int _x, int _y) {
 }
 
 void PicFile_3D::writeLine(const Pixel buf[]) {
-    int i,          /* which pixel? */
+    int i = 0,          /* which pixel? */
         total,      /* how many left in scan? */
-        count,      /* current run total */
+        // count,      /* current run total */
         cr, cg, cb, /* current run color */
         r, g, b;    /* next pixel color */
     double seconds; /* another helping? */
 
-    i = 0;
     total = x;
     cr = buf[i].r;
     cg = buf[i].g;
     cb = buf[i].b;
     i++;
     do {
-        count = 1;
+        int count = 1;
         total--;
         while (1) {
             r = buf[i].r;

@@ -27,10 +27,10 @@ class PicFile_3D {
     std::fstream fs;
     int x, y;
 
-    PicFile_3D() {}
+    PicFile_3D() : x(0), y(0) {}
     ~PicFile_3D() {}
 
-    bool open(String &_filename, int _x, int _y);
+    bool open(const String &_filename, int _x, int _y);
     void writeLine(const Pixel buf[]);
     void close();
 };

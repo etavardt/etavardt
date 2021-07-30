@@ -7,7 +7,7 @@
 
 class Bump {
     public:
-    Bump() {}
+    Bump() : turbulence(nullptr), waves(nullptr) {}
     ~Bump(){}
 
     Vec trans,        /* apply to resulting normal */

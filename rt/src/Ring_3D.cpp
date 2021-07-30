@@ -105,7 +105,6 @@ void Ring_3D::normal(Isect &hit, Point &P, Vec &N) {
 Ring_3D *Ring_3D::makeRing(Vec &pos, Vec &norm, double min_rad, double max_rad) {
     Ring_3D *newRing;
     RingData *rp;
-    double size;
 
     newRing = new Ring_3D();
     Stats::trackMemoryUsage(sizeof(Ring_3D));
@@ -136,7 +135,7 @@ Ring_3D *Ring_3D::makeRing(Vec &pos, Vec &norm, double min_rad, double max_rad) 
 
     max_rad = bMath::abs(max_rad); /* just to be sure... */
     for (int i = 0; i < NSLABS; i++) {
-        size = VecDot(Slab[i], rp->ring_normal);
+        double size = VecDot(Slab[i], rp->ring_normal);
         size = max_rad * sqrt(1.0 - size * size);
         newRing->o_dmin[i] = pos[i] - size;
         newRing->o_dmax[i] = pos[i] + size;

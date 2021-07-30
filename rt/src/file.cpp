@@ -55,7 +55,7 @@ void qstrcat(char *d, char *s) {
         taken from the envoronment variable BOB.  Also
         handles filenames wrapped in quotes.
 */
-FILE *env_fopen(String name, const String &mode) {
+FILE *env_fopen(const String &name, const String &mode) {
     FILE *fp;
     int i;
 

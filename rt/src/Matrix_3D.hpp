@@ -19,12 +19,12 @@ class Matrix_3D {
     const MatrixRow &operator[](const int i) const { return m[i]; }
 
     void identity ();
-    void matrix_cat (Matrix_3D &m2);
-    void trans_vector (Vec &in , Vec &out);
+    void matrix_cat (const Matrix_3D &m2);
+    void trans_vector (const Vec &in , Vec &out);
     void trans_normal (Vec &in , Vec &out);
     void lubksb(int *indx, double b[]);
     void ludcmp(int *indx, double *d);
-    void matrix_copy(Matrix_3D &m1);
+    void matrix_copy(const Matrix_3D &m1);
     Matrix_3D &matrix_inverse ();
 };
 

@@ -6,7 +6,19 @@
 
 class Light_3D {
   public:
-    Light_3D() {}
+    Light_3D()
+    : radius(0.0),    /* radius/spherical, max_angle/spotlight */
+      min_angle(0.0), /* angles for spot lights */
+      max_angle(0.0),
+      type(0),      /* what type is this? */
+      illum(0),     /* how does the light fall off? */
+      flag(0),      /* noshadows? nospec? */
+      samples(0),   /* num samples for spherical light */
+      // light_obj_cache(nullptr), // Used by shadow
+      next(nullptr) /* next light in list */
+    {
+        for(int i = 0; i < MAXLEVEL; i++) light_obj_cache[i] = nullptr;
+    }
     ~Light_3D() {}
 
     Vec    position;

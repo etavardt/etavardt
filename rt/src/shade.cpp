@@ -69,7 +69,7 @@ void RayTrace_3D::reflect(const Vec &I, const Vec &N, Vec &R, double dot) {
 //     T;      /* transmitted vector (calculated) */
 // double dot;    /* -VecDot(I, N) */
 int RayTrace_3D::refract(double eta, const Vec &I, const Vec &N, Vec &T, double dot) {
-    double n1, n2, c1, cs2;
+    double c1, cs2;
 
     if (eta == 1.0) { /* bail out early */
         VecCopy(I, T);
@@ -101,7 +101,7 @@ int RayTrace_3D::refract(double eta, const Vec &I, const Vec &N, Vec &T, double 
     col    color to return
     ior    current ior
 */
-void RayTrace_3D::shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color &col, double ior) {
+void RayTrace_3D::shade(int level, double weight, Point &P, Vec &N, Vec &I, const Isect &hit, Color &col, double ior) {
     /* the following locals have been declared static to help */
     /* shrink the amount of stack spaced needed for recursive */
     /* calls to shade() */
@@ -110,26 +110,18 @@ void RayTrace_3D::shade(int level, double weight, Point &P, Vec &N, Vec &I, Isec
     Point tex_P,         /* transformed point for textures */
         L, R, tmpV;      /* direction to light vector */
     Vec fuzz_N;          /* fuzzed, bumped and waved surface normal */
-    static double haze;     /* % haze to add */
     static Color c_diff, /* diffuse color */
         c_dist,          /* light color scaled by distance */
         c_shadow;        /* shadow color */
-    static double spec;
-    int i, dot_sign, R_calced, /* Has R already be calculated? */
-        transmit;
-    double light_spot, /* spot light brightness */
-        dot,        /* cos of incident angle */
-        ldot,       /* normal to light angle */
-        max_weight;
+    int R_calced; /* Has R already be calculated? */
+    double    dot;        /* cos of incident angle */
     static Light *cur_light; /* ptr to current light we're looking at */
 
     Isect nhit;
     Ray tray;
     Color tcol;
     double t;
-    double new_ior; /* ior of material for transmitted ray */
     Surface_3D *surf;
-    int still_inside; /* local to save inside status */
 
     if (level == 0) { /* assume all eye rays start outside */
         inside = 0;
@@ -250,6 +242,7 @@ void RayTrace_3D::shade(int level, double weight, Point &P, Vec &N, Vec &I, Isec
        without any thickness. */
 
     if (inside == 0 || surf->flags & S_CACHE) { /* only if entering or cacheable */
+        double light_spot; /* spot light brightness */
         cur_light = Light::light_head;
         for (cur_light = Light::light_head; cur_light; cur_light = cur_light->next) { /* for each light */
             /* get vector to light */
@@ -292,6 +285,7 @@ void RayTrace_3D::shade(int level, double weight, Point &P, Vec &N, Vec &I, Isec
                 if (no_shadows
                 || (cur_light->flag & L_NOSHADOWS)
                 || (cur_light->type == L_SPHERICAL ? sShadow(&tray, nhit, t, c_shadow, level, *cur_light, inside) : shadow(&tray, nhit, t, c_shadow, level, *cur_light, inside))) {
+                    double ldot;       /* normal to light angle */
                     ldot = VecDot(fuzz_N, L);
                     /* scale diff by angle of incidence */
                     // VecS(ldot, surf->diff, c_diff);
@@ -334,7 +328,7 @@ void RayTrace_3D::shade(int level, double weight, Point &P, Vec &N, Vec &I, Isec
                             R_calced = 1;
                         }
                         if (surf->shine > Bob::rayeps) {
-                            spec = VecDot(R, L);
+                            double spec = VecDot(R, L);
                             if (spec > Bob::rayeps) {
                                 /* scale c_shadow(light color) by specular of surface or user input*/
                                 // VecMul(surf->cshine, c_shadow, c_shadow);
@@ -355,7 +349,7 @@ void RayTrace_3D::shade(int level, double weight, Point &P, Vec &N, Vec &I, Isec
 
         VecCopy(P, tray.P);
 
-        max_weight = weight * bMath::max(bMath::max(surf->spec.r, surf->spec.g), surf->spec.b);
+        double max_weight = weight * bMath::max(bMath::max(surf->spec.r, surf->spec.g), surf->spec.b);
         if ((level < maxlevel - 1) && (max_weight > minweight)) {
             nReflected++;
             if (R_calced) {
@@ -363,7 +357,7 @@ void RayTrace_3D::shade(int level, double weight, Point &P, Vec &N, Vec &I, Isec
             } else {
                 reflect(I, fuzz_N, tray.D, dot);
             }
-            t = trace(level + 1, max_weight, &tray, tcol, ior, hit.isect_self);
+            trace(level + 1, max_weight, &tray, tcol, ior, hit.isect_self);
             // VecMul(surf->spec, tcol, tcol);
             tcol *= surf->spec;
             // VecAdd(tcol, col, col);
@@ -377,6 +371,9 @@ void RayTrace_3D::shade(int level, double weight, Point &P, Vec &N, Vec &I, Isec
     /* do transparency */
 
     if (level < maxlevel - 1 && (surf->trans.r > 0 || surf->trans.g > 0 || surf->trans.b > 0)) {
+        int transmit = 0;
+        int still_inside; /* local to save inside status */
+        double new_ior; /* ior of material for transmitted ray */
         nRefracted++;
         if (inside == 0) { /* if entering */
             /* transmit = TransmissionDirection(NULL, surf, I, fuzz_N, tray.D, ior, dot); */
@@ -456,6 +453,7 @@ void RayTrace_3D::shade(int level, double weight, Point &P, Vec &N, Vec &I, Isec
     /* and finally add haze color if needed */
 
     if (inside == 0 && RayTrace_3D::hazeDensity > 0.0) {
+        double haze;     /* % haze to add */
         haze = 1.0 - pow(1.0 - RayTrace_3D::hazeDensity, hit.isect_t);
         bkg(I, RayTrace_3D::hazeColor); /* get color for haze */
         // VecComb(haze, HazeColor, 1.0-haze, col, col);

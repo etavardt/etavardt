@@ -98,8 +98,6 @@ void Bound_3D::FindAxis(Object *top, long count) {
 
 int Bound_3D::SortAndSplit(Object **top_handle, long count) {
     Object *top = nullptr, *hi = nullptr, *lo = nullptr, *cur = nullptr, *tmp = nullptr, *hi_end = nullptr, *lo_end = nullptr;
-    long lo_cnt = 0L, hi_cnt = 0L, i = 0L, j = 0L;
-    double dmin = 0.0, dmax = 0.0;
 
     if (count <= 0)
         return 0;
@@ -107,12 +105,12 @@ int Bound_3D::SortAndSplit(Object **top_handle, long count) {
     top = *top_handle;
     if (count > bunching) { /* need to split */
         FindAxis(top, count);
-        hi_cnt = 0;
-        lo_cnt = 0;
+        long hi_cnt = 0L;
+        long lo_cnt = 0L;
         cur = *top_handle;
         hi = (Object *)NULL;
         lo = (Object *)NULL;
-        for (i = 0; i < count; i++) {
+        for (long i = 0; i < count; i++) {
             if (Median > (cur->o_dmin[Axis] + cur->o_dmax[Axis])) {
                 lo_cnt++;
                 tmp = cur;
@@ -142,7 +140,7 @@ int Bound_3D::SortAndSplit(Object **top_handle, long count) {
 
         if (lo_cnt == 0) {
             lo_end = hi;
-            for (i = 0; i < count / 2; i++) {
+            for (long i = 0; i < count / 2; i++) {
                 tmp = hi;
                 hi = hi->next;
                 tmp->next = lo;
@@ -152,7 +150,7 @@ int Bound_3D::SortAndSplit(Object **top_handle, long count) {
             }
         } else if (hi_cnt == 0) {
             hi_end = lo;
-            for (i = 0; i < count / 2; i++) {
+            for (long i = 0; i < count / 2; i++) {
                 tmp = lo;
                 lo = lo->next;
                 tmp->next = hi;
@@ -197,8 +195,8 @@ int Bound_3D::SortAndSplit(Object **top_handle, long count) {
         cd->children = top;
         *top_handle = cp;
 
-        i = count;
-        while (--i) { /* make top point to last child object */
+        long cnt = count;
+        while (--cnt) { /* make top point to last child object */
             top = top->next;
         }
         cp->next = top->next; /* connect new comp object to remainder of list */
@@ -206,11 +204,11 @@ int Bound_3D::SortAndSplit(Object **top_handle, long count) {
 
         /* calc bounding slabs for new composite object */
 
-        for (i = 0; i < NSLABS; i++) { /* for each slab */
-            dmin = HUGE_NUM;
-            dmax = -HUGE_NUM;
+        for (long i = 0; i < NSLABS; i++) { /* for each slab */
+            double dmin = HUGE_NUM;
+            double dmax = -HUGE_NUM;
             top = cd->children; /* point to first child */
-            for (j = 0; j < count; j++) {
+            for (long j = 0; j < count; j++) {
                 if (top->o_dmin[i] < dmin)
                     dmin = top->o_dmin[i];
                 if (top->o_dmax[i] > dmax)

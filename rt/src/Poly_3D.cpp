@@ -56,9 +56,7 @@ Poly_3D::~Poly_3D() {
 int Poly_3D::intersect(Ray *ray, Isect &hit) {
     double n, d, t, m, b;
     Point V;
-    int i, j, l;
-    int qi, qj;
-    int ri, rj;
+    int l = 0;
     int c1, c2;
     PolyData *pd;
 
@@ -87,15 +85,15 @@ int Poly_3D::intersect(Ray *ray, Isect &hit) {
     c1 = pd->poly_p1;
     c2 = pd->poly_p2;
 
-    l = 0;
-    for (i = 0; i < pd->poly_npoints; i++) {
 
-        j = (i + 1) % pd->poly_npoints;
+    for (int i = 0; i < pd->poly_npoints; i++) {
 
-        qi = 0;
-        qj = 0;
-        ri = 0;
-        rj = 0;
+        int j = (i + 1) % pd->poly_npoints;
+
+        int qi = 0;
+        int qj = 0;
+        int ri = 0;
+        int rj = 0;
 
         if (pd->poly_point[i][c2] == pd->poly_point[j][c2])
             continue; /*ignore horizontal lines */
@@ -152,8 +150,6 @@ Poly_3D *Poly_3D::makePoly(int npoints, Vec *points) {
     Poly_3D *newPoly;
     PolyData *pd;
     Vec P1, P2;
-    double d, dmax, dmin;
-    int i, j;
 
     newPoly = new Poly_3D();
     Stats::trackMemoryUsage(sizeof(Poly_3D));
@@ -202,12 +198,12 @@ Poly_3D *Poly_3D::makePoly(int npoints, Vec *points) {
      * the dmin and dmax 'es for the globally defined slabs...
      */
 
-    for (i = 0; i < NSLABS; i++) {
-        dmin = HUGE_NUM;
-        dmax = -HUGE_NUM;
+    for (int i = 0; i < NSLABS; i++) {
+        double dmin = HUGE_NUM;
+        double dmax = -HUGE_NUM;
 
-        for (j = 0; j < pd->poly_npoints; j++) {
-            d = VecDot(Slab[i], pd->poly_point[j]);
+        for (int j = 0; j < pd->poly_npoints; j++) {
+            double d = VecDot(Slab[i], pd->poly_point[j]);
             if (d < dmin)
                 dmin = d;
             if (d > dmax)

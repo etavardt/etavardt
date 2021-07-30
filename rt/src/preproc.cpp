@@ -41,7 +41,7 @@ using std::cerr;
 using std::cout;
 using std::endl;
 
-FILE *env_fopen(String name, const String &mode); // in file.cpp
+FILE *env_fopen(const String &name, const String &mode); // in file.cpp
 
 /* preprocessor macro structure */
 typedef struct t_macro {
@@ -184,7 +184,6 @@ int preproc(const String &infile, const String &outfile) {
 
 void expand(char *src) {
     char *ptr, token[MAX_TOK];
-    int len, found;
     Macro *mptr;
 
     /* waste leading white space */
@@ -196,14 +195,14 @@ void expand(char *src) {
     /* do the expansion */
     ptr = line;
     while (ptr = get_next_token(ptr)) {
-        len = cpy_tok(token, ptr); /* get token and length */
+        int len = cpy_tok(token, ptr); /* get token and length */
         /* go to macros with matching length */
         mptr = MacroHead;
         while (mptr && mptr->mlen > len) {
             mptr = mptr->next;
         }
         /* look for a matching macro */
-        found = 0;
+        int found = 0;
         while (mptr && mptr->mlen == len) {
             if (strcmp(mptr->macro, token) == 0) { /* match? */
                 sub_macro(mptr, ptr);
@@ -222,13 +221,14 @@ void expand(char *src) {
     sub_macro() -- do a macro substitution into a line.
 */
 void sub_macro(Macro *mptr, char *loc) {
-    int len, offset, i;
-    char *src, *dst;
+    int len, offset;
 
     /* push rest of line */
     len = strlen(loc);
     offset = mptr->tlen - mptr->mlen + 2; /* calc how much to push */
     if (offset > 0) {
+        int i = 0;
+        char *src, *dst;
         src = loc + len; /* point to NULL */
         dst = src + offset;
         i = len - mptr->mlen + 1;
@@ -296,13 +296,13 @@ void add_macro(char *txt) {
 
 
     sscanf(txt, "%s", macro);
-    mptr->macro = strdup(macro);
+    mptr->macro = _strdup(macro);
 
     mptr->mlen = strlen(mptr->macro);
 
     txt += mptr->mlen;
     expand(txt); /* expand the macro def to line */
-    mptr->text = strdup(line);
+    mptr->text = _strdup(line);
 
     mptr->tlen = strlen(mptr->text);
 
@@ -400,13 +400,11 @@ char *brute(char *text, const char *pat, int tlen, int plen) {
 */
 
 void clean_up() {
-    Macro *mptr;
-
     free(line);
     free(mline);
 
     while (MacroHead) {
-        mptr = MacroHead;
+        Macro *mptr = MacroHead;
         MacroHead = MacroHead->next;
         free(mptr->macro);
         free(mptr->text);

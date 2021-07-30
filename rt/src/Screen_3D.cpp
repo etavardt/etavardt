@@ -38,8 +38,19 @@
 
 extern int tickflag;
 
-Screen_3D::Screen_3D(Camera_3D &cam) : camera(cam) {
+Screen_3D::Screen_3D(Camera_3D &cam)
+  : camera(cam),
+    x_res(0), y_res(0),
+    start_line(0), stop_line(0),
+    frustrumwidth(0.0), frustrumheight(0.0) {
     picFile = new PicFile_3D();
+    for (int x = 0; x < SIDE + 1; x++) {
+        for (int y = 0; y < SIDE + 1; y++) {
+            for (int f = 0; f < 4; f++) {
+                win[x][y][f] = 0;
+            }
+        }
+    }
 }
 Screen_3D::~Screen_3D() {
     if (picFile != nullptr) {
@@ -48,7 +59,7 @@ Screen_3D::~Screen_3D() {
     }
 }
 
-void Screen_3D::render(String &picfile, int xres, int yres) {
+void Screen_3D::render(const String &picfile, int xres, int yres) {
     scrInit(xres, yres, picfile);
 
     switch (antialias) {
@@ -68,8 +79,8 @@ void Screen_3D::render(String &picfile, int xres, int yres) {
     picFile->close();
 }
 
-void Screen_3D::scrInit(int xres, int yres, String &picFileName) {
-    Bob &bob = Bob::getApp();
+void Screen_3D::scrInit(int xres, int yres, const String &picFileName) {
+    const Bob &bob = Bob::getApp();
     start_line = bob.start_line;
     stop_line = bob.stop_line;
 
@@ -233,22 +244,22 @@ void Screen_3D::scan1(void) {
         No jitter option.
 */
 void Screen_3D::scan2(void) {
-    Pixel *buf[7], *pixelBuf;
+    Pixel *buf[7];
     int *flags[7];
     Color color; /* color of current traced ray */
-    int x, y, xx, yy, i, j;
+    //int x, y, i, j;
 
-    unsigned int r, g, b;
+    unsigned char r, g, b;
 
     /* fill to next mod 6 scan line */
     if (start_line % 6) {
-        pixelBuf = new Pixel[x_res](); // Why +1
+        Pixel *pixelBuf = new Pixel[x_res](); // Why +1
 
 
         /* calc stop line for single fill */
-        yy = start_line + 6 - (start_line % 6);
-        for (j = start_line; j < yy; j++) {
-            for (i = 0; i < x_res; i++) {
+       int yy = start_line + 6 - (start_line % 6);
+        for (int j = start_line; j < yy; j++) {
+            for (int i = 0; i < x_res; i++) {
                 shoot((double)i + 0.5, (double)j + 0.5, color);
                 pixelBuf[i] = color.getPixelColor();
             }
@@ -263,7 +274,7 @@ void Screen_3D::scan2(void) {
 
     /* allocate pixel buffers */
 
-    for (i = 0; i < 7; i++) {
+    for (int i = 0; i < 7; i++) {
         buf[i] = new Pixel[x_res + 5](); // Why +5
 
         flags[i] = new int[x_res + 5](); // Why +5
@@ -272,403 +283,499 @@ void Screen_3D::scan2(void) {
 
     /* start actual sub-sampling */
 
-    for (i = 0; i < x_res + 5; i++) { /* clear bottom row of flags */
+    for (int i = 0; i < x_res + 5; i++) { /* clear bottom row of flags */
         flags[6][i] = 0;
     }
-    for (y = start_line; y < stop_line; y += 6) {
+    for (int y = start_line; y < stop_line; y += 6) {
 
         /* copy bottom line to top */
-        for (i = 0; i < x_res + 5; i++) {
+        for (int i = 0; i < x_res + 5; i++) {
             if (flags[0][i] = flags[6][i]) { /* only copy if valid *///TCE: Is this a valid assignment or should it be an == test
                 buf[0][i].r = buf[6][i].r;
                 buf[0][i].g = buf[6][i].g;
                 buf[0][i].b = buf[6][i].b;
             }
             /* clear rest of buf */
-            for (j = 1; j < 7; j++) {
+            for (int j = 1; j < 7; j++) {
                 flags[j][i] = 0;
             }
         }
 
         /* for(x=0; x<x_res+5; x+=6) { */
-        for (x = 0; x < x_res; x += 6) {
+        for (int x = 0; x < x_res; x += 6) {
             /* shoot corners and middle */
-            i = x;
-            j = 0;
-            if (!flags[j][i]) {
-                flags[j][i] = 1;
-                shoot((double)i + 0.5, (double)y + 0.5, color);
-                buf[j][i] = color.getPixelColor();
-            }
+            shootIfFlagged(x, y, color, x, 0, flags, buf);
+            // int i = x;
+            // int j = 0;
+            // if (!flags[j][i]) {
+            //     flags[j][i] = 1;
+            //     shoot((double)i + 0.5, (double)y + 0.5, color);
+            //     buf[j][i] = color.getPixelColor();
+            // }
 
-            i = x + 6;
-            j = 0;
-            if (!flags[j][i]) {
-                flags[j][i] = 1;
-                shoot((double)i + 0.5, (double)y + 0.5, color);
-                buf[j][i] = color.getPixelColor();
-            }
+            shootIfFlagged(x, y, color, x+6, 0, flags, buf);
+            // i = x + 6;
+            // j = 0;
+            // if (!flags[j][i]) {
+            //     flags[j][i] = 1;
+            //     shoot((double)i + 0.5, (double)y + 0.5, color);
+            //     buf[j][i] = color.getPixelColor();
+            // }
 
-            i = x;
-            j = 6;
-            if (!flags[j][i]) {
-                flags[j][i] = 1;
-                shoot((double)i + 0.5, (double)y + 0.5 + 6, color);
-                buf[j][i] = color.getPixelColor();
-            }
+            shootIfFlagged(x, y+6, color, x, 6, flags, buf);
+            // i = x;
+            // j = 6;
+            // if (!flags[j][i]) {
+            //     flags[j][i] = 1;
+            //     shoot((double)i + 0.5, (double)y + 0.5 + 6, color);
+            //     buf[j][i] = color.getPixelColor();
+            // }
 
-            i = x + 6;
-            j = 6;
-            if (!flags[j][i]) {
-                flags[j][i] = 1;
-                shoot((double)i + 0.5, (double)y + 0.5 + 6, color);
-                buf[j][i] = color.getPixelColor();
-            }
+            shootIfFlagged(x, y+6, color, x+6, 6, flags, buf);
+            // i = x + 6;
+            // j = 6;
+            // if (!flags[j][i]) {
+            //     flags[j][i] = 1;
+            //     shoot((double)i + 0.5, (double)y + 0.5 + 6, color);
+            //     buf[j][i] = color.getPixelColor();
+            // }
 
-            i = x + 3;
-            j = 3; /* middle ray */
-            if (!flags[j][i]) {
-                flags[j][i] = 1;
-                shoot((double)i + 0.5, (double)y + 0.5 + 3, color);
-                buf[j][i] = color.getPixelColor();
-            }
+            shootIfFlagged(x, y+3, color, x+3, 3, flags, buf);
+            // i = x + 3;
+            // j = 3; /* middle ray */
+            // if (!flags[j][i]) {
+            //     flags[j][i] = 1;
+            //     shoot((double)i + 0.5, (double)y + 0.5 + 3, color);
+            //     buf[j][i] = color.getPixelColor();
+            // }
 
             /* the corners are shot, now fill in if needed */
-
             /* check upper left quad first */
-            i = x + 3;
-            j = (y % 6) + 3; /* middle ray */
+            int i0 = x + 3;
+            int j0 = (y % 6) + 3; /* middle ray */
 
-            if (comp(buf[j][i].r, buf[j - 3][i - 3].r)
-            &&  comp(buf[j][i].g, buf[j - 3][i - 3].g)
-            &&  comp(buf[j][i].b, buf[j - 3][i - 3].b)) { /* close enough so fill */
-                if (!flags[j - 1][i]) {
-                    buf[j - 1][i].r = buf[j][i].r;
-                    buf[j - 1][i].g = buf[j][i].g;
-                    buf[j - 1][i].b = buf[j][i].b;
-                }
-                if (!flags[j][i - 1]) {
-                    buf[j][i - 1].r = buf[j][i].r;
-                    buf[j][i - 1].g = buf[j][i].g;
-                    buf[j][i - 1].b = buf[j][i].b;
-                }
-                if (!flags[j - 1][i - 1]) {
-                    buf[j - 1][i - 1].r = buf[j][i].r;
-                    buf[j - 1][i - 1].g = buf[j][i].g;
-                    buf[j - 1][i - 1].b = buf[j][i].b;
-                }
-                if (!flags[j - 2][i - 2]) {
-                    buf[j - 2][i - 2].r = buf[j - 3][i - 3].r;
-                    buf[j - 2][i - 2].g = buf[j - 3][i - 3].g;
-                    buf[j - 2][i - 2].b = buf[j - 3][i - 3].b;
-                }
-                if (!flags[j - 3][i - 2]) {
-                    buf[j - 3][i - 2].r = buf[j - 3][i - 3].r;
-                    buf[j - 3][i - 2].g = buf[j - 3][i - 3].g;
-                    buf[j - 3][i - 2].b = buf[j - 3][i - 3].b;
-                }
-                if (!flags[j - 2][i - 3]) {
-                    buf[j - 2][i - 3].r = buf[j - 3][i - 3].r;
-                    buf[j - 2][i - 3].g = buf[j - 3][i - 3].g;
-                    buf[j - 2][i - 3].b = buf[j - 3][i - 3].b;
-                }
-                r = ((unsigned int)buf[j - 3][i - 3].r + (unsigned int)buf[j - 3][i + 3].r) >> 1;
-                g = ((unsigned int)buf[j - 3][i - 3].g + (unsigned int)buf[j - 3][i + 3].g) >> 1;
-                b = ((unsigned int)buf[j - 3][i - 3].b + (unsigned int)buf[j - 3][i + 3].b) >> 1;
-                r = buf[j - 3][i - 3].r;
-                g = buf[j - 3][i - 3].g;
-                b = buf[j - 3][i - 3].b;
-                if (!flags[j - 3][i - 1]) {
-                    buf[j - 3][i - 1].r = r;
-                    buf[j - 3][i - 1].g = g;
-                    buf[j - 3][i - 1].b = b;
-                }
-                if (!flags[j - 2][i - 1]) {
-                    buf[j - 2][i - 1].r = r;
-                    buf[j - 2][i - 1].g = g;
-                    buf[j - 2][i - 1].b = b;
-                }
-                if (!flags[j - 3][i]) {
-                    buf[j - 3][i].r = r;
-                    buf[j - 3][i].g = g;
-                    buf[j - 3][i].b = b;
-                }
-                if (!flags[j - 2][i]) {
-                    buf[j - 2][i].r = r;
-                    buf[j - 2][i].g = g;
-                    buf[j - 2][i].b = b;
-                }
-                r = ((unsigned int)buf[j - 3][i - 3].r + (unsigned int)buf[j + 3][i - 3].r) >> 1;
-                g = ((unsigned int)buf[j - 3][i - 3].g + (unsigned int)buf[j + 3][i - 3].g) >> 1;
-                b = ((unsigned int)buf[j - 3][i - 3].b + (unsigned int)buf[j + 3][i - 3].b) >> 1;
-                r = buf[j - 3][i - 3].r;
-                g = buf[j - 3][i - 3].g;
-                b = buf[j - 3][i - 3].b;
-                if (!flags[j - 1][i - 3]) {
-                    buf[j - 1][i - 3].r = r;
-                    buf[j - 1][i - 3].g = g;
-                    buf[j - 1][i - 3].b = b;
-                }
-                if (!flags[j - 1][i - 2]) {
-                    buf[j - 1][i - 2].r = r;
-                    buf[j - 1][i - 2].g = g;
-                    buf[j - 1][i - 2].b = b;
-                }
-                if (!flags[j][i - 3]) {
-                    buf[j][i - 3].r = r;
-                    buf[j][i - 3].g = g;
-                    buf[j][i - 3].b = b;
-                }
-                if (!flags[j - 1][i - 2]) {
-                    buf[j][i - 2].r = r;
-                    buf[j][i - 2].g = g;
-                    buf[j][i - 2].b = b;
+            if (comp(buf[j0][i0].r, buf[j0 - 3][i0 - 3].r)
+            &&  comp(buf[j0][i0].g, buf[j0 - 3][i0 - 3].g)
+            &&  comp(buf[j0][i0].b, buf[j0 - 3][i0 - 3].b)) { /* close enough so fill */
+
+                fillInBufPosIfFlagged(i0, j0 - 1, i0, j0, flags, buf);
+                // if (!flags[j - 1][i]) {
+                //     buf[j - 1][i].r = buf[j][i].r;
+                //     buf[j - 1][i].g = buf[j][i].g;
+                //     buf[j - 1][i].b = buf[j][i].b;
+                // }
+                fillInBufPosIfFlagged(i0 - 1, j0, i0, j0, flags, buf);
+                // if (!flags[j][i - 1]) {
+                //     buf[j][i - 1].r = buf[j][i].r;
+                //     buf[j][i - 1].g = buf[j][i].g;
+                //     buf[j][i - 1].b = buf[j][i].b;
+                // }
+                fillInBufPosIfFlagged(i0 - 1, j0 - 1, i0, j0, flags, buf);
+                // if (!flags[j - 1][i - 1]) {
+                //     buf[j - 1][i - 1].r = buf[j][i].r;
+                //     buf[j - 1][i - 1].g = buf[j][i].g;
+                //     buf[j - 1][i - 1].b = buf[j][i].b;
+                // }
+                fillInBufPosIfFlagged(i0 - 2, j0 - 2, i0 - 3, j0 - 3, flags, buf);
+                // if (!flags[j - 2][i - 2]) {
+                //     buf[j - 2][i - 2].r = buf[j - 3][i - 3].r;
+                //     buf[j - 2][i - 2].g = buf[j - 3][i - 3].g;
+                //     buf[j - 2][i - 2].b = buf[j - 3][i - 3].b;
+                // }
+                fillInBufPosIfFlagged(i0 - 2, j0 - 3, i0 - 3, j0 - 3, flags, buf);
+                // if (!flags[j - 3][i - 2]) {
+                //     buf[j - 3][i - 2].r = buf[j - 3][i - 3].r;
+                //     buf[j - 3][i - 2].g = buf[j - 3][i - 3].g;
+                //     buf[j - 3][i - 2].b = buf[j - 3][i - 3].b;
+                // }
+                fillInBufPosIfFlagged(i0 - 3, j0 - 2, i0 - 3, j0 - 3, flags, buf);
+                // if (!flags[j - 2][i - 3]) {
+                //     buf[j - 2][i - 3].r = buf[j - 3][i - 3].r;
+                //     buf[j - 2][i - 3].g = buf[j - 3][i - 3].g;
+                //     buf[j - 2][i - 3].b = buf[j - 3][i - 3].b;
+                // }
+                // TCE: looks like the next 3 lines are overridden buy the following 3 so they are commented
+                //      also looks like an attempt to average the color values could be why rgb's where int(s)
+                //      Hmm! they differ from those below by index but the following 3 appears same as below
+                // r = ((unsigned int)buf[j - 3][i - 3].r + (unsigned int)buf[j - 3][i + 3].r) >> 1;
+                // g = ((unsigned int)buf[j - 3][i - 3].g + (unsigned int)buf[j - 3][i + 3].g) >> 1;
+                // b = ((unsigned int)buf[j - 3][i - 3].b + (unsigned int)buf[j - 3][i + 3].b) >> 1;
+                r = buf[j0 - 3][i0 - 3].r;
+                g = buf[j0 - 3][i0 - 3].g;
+                b = buf[j0 - 3][i0 - 3].b;
+                Pixel p = {r, g, b, 0};
+                fillInBufPosIfFlagged(i0 - 1, j0 - 3, p, flags, buf);
+                // if (!flags[j - 3][i - 1]) {
+                //     buf[j - 3][i - 1].r = r;
+                //     buf[j - 3][i - 1].g = g;
+                //     buf[j - 3][i - 1].b = b;
+                // }
+                fillInBufPosIfFlagged(i0 - 1, j0 - 2, p, flags, buf);
+                // if (!flags[j - 2][i - 1]) {
+                //     buf[j - 2][i - 1].r = r;
+                //     buf[j - 2][i - 1].g = g;
+                //     buf[j - 2][i - 1].b = b;
+                // }
+                fillInBufPosIfFlagged(i0, j0 - 3, p, flags, buf);
+                // if (!flags[j - 3][i]) {
+                //     buf[j - 3][i].r = r;
+                //     buf[j - 3][i].g = g;
+                //     buf[j - 3][i].b = b;
+                // }
+                fillInBufPosIfFlagged(i0, j0 - 2, p, flags, buf);
+                // if (!flags[j - 2][i]) {
+                //     buf[j - 2][i].r = r;
+                //     buf[j - 2][i].g = g;
+                //     buf[j - 2][i].b = b;
+                // }
+
+                // TCE: looks like the next 3 lines are overridden buy the following 3 so they are commented
+                //      also looks like an attempt to average the color values could be why rgb's where int(s)
+                //      Hmm! they differ from those above by index but the following 3 appears same as above.
+                // r = ((unsigned int)buf[j - 3][i - 3].r + (unsigned int)buf[j + 3][i - 3].r) >> 1;
+                // g = ((unsigned int)buf[j - 3][i - 3].g + (unsigned int)buf[j + 3][i - 3].g) >> 1;
+                // b = ((unsigned int)buf[j - 3][i - 3].b + (unsigned int)buf[j + 3][i - 3].b) >> 1;
+                // r = buf[j0 - 3][i0 - 3].r;
+                // g = buf[j0 - 3][i0 - 3].g;
+                // b = buf[j0 - 3][i0 - 3].b;
+                fillInBufPosIfFlagged(i0 - 3, j0 - 1, p, flags, buf);
+                // if (!flags[j - 1][i - 3]) {
+                //     buf[j - 1][i - 3].r = r;
+                //     buf[j - 1][i - 3].g = g;
+                //     buf[j - 1][i - 3].b = b;
+                // }
+                fillInBufPosIfFlagged(i0 - 2, j0 - 1, p, flags, buf);
+                // if (!flags[j - 1][i - 2]) {
+                //     buf[j - 1][i - 2].r = r;
+                //     buf[j - 1][i - 2].g = g;
+                //     buf[j - 1][i - 2].b = b;
+                // }
+                fillInBufPosIfFlagged(i0 - 3, j0, p, flags, buf);
+                // if (!flags[j][i - 3]) {
+                //     buf[j][i - 3].r = r;
+                //     buf[j][i - 3].g = g;
+                //     buf[j][i - 3].b = b;
+                // }
+                // fillInBufPosIfFlagged(i0 - 2, j0, p, flags, buf);
+                // TCE: Hmm j-1 in if doesn't match patterns of above tests and assignments
+                if (!flags[j0 - 1][i0 - 2]) {
+                    buf[j0][i0 - 2].r = r;
+                    buf[j0][i0 - 2].g = g;
+                    buf[j0][i0 - 2].b = b;
                 }
             } else { /* else have to calc upper-left quad */
-                for (i = x; i < x + 4; i++) {
-                    for (j = 0; j < 4; j++) {
-                        if (!flags[j][i]) {
-                            flags[j][i] = 1;
-                            shoot((double)i + 0.5, (double)y + 0.5 + j, color);
-                            buf[j][i] = color.getPixelColor();
-                        }
+                for (int i = x; i < x + 4; i++) {
+                    for (int j = 0; j < 4; j++) {
+                        shootIfFlagged(x, y + j, color, i, j, flags, buf);
+                        // if (!flags[j][i]) {
+                        //     flags[j][i] = 1;
+                        //     shoot((double)i + 0.5, (double)y + 0.5 + j, color);
+                        //     buf[j][i] = color.getPixelColor();
+                        // }
                     }
                 }
             } /* end of upper-left quad */
 
             /* check upper right quad */
-            i = x + 3;
-            j = (y % 6) + 3; /* middle ray */
+            // TCE: no longer need to reset i and j to the middle ray
+            // i = x + 3;
+            // j = (y % 6) + 3; /* middle ray */
 
-            if (comp(buf[j][i].r, buf[j - 3][i + 3].r) && comp(buf[j][i].g, buf[j - 3][i + 3].g) && comp(buf[j][i].b, buf[j - 3][i + 3].b)) { /* close enough so fill */
-                if (!flags[j][i + 1]) {
-                    buf[j][i + 1].r = buf[j][i].r;
-                    buf[j][i + 1].g = buf[j][i].g;
-                    buf[j][i + 1].b = buf[j][i].b;
-                }
-                if (!flags[j - 1][i + 1]) {
-                    buf[j - 1][i + 1].r = buf[j][i].r;
-                    buf[j - 1][i + 1].g = buf[j][i].g;
-                    buf[j - 1][i + 1].b = buf[j][i].b;
-                }
-                if (!flags[j - 2][i + 2]) {
-                    buf[j - 2][i + 2].r = buf[j - 3][i + 3].r;
-                    buf[j - 2][i + 2].g = buf[j - 3][i + 3].g;
-                    buf[j - 2][i + 2].b = buf[j - 3][i + 3].b;
-                }
-                if (!flags[j - 3][i + 2]) {
-                    buf[j - 3][i + 2].r = buf[j - 3][i + 3].r;
-                    buf[j - 3][i + 2].g = buf[j - 3][i + 3].g;
-                    buf[j - 3][i + 2].b = buf[j - 3][i + 3].b;
-                }
-                if (!flags[j - 2][i + 3]) {
-                    buf[j - 2][i + 3].r = buf[j - 3][i + 3].r;
-                    buf[j - 2][i + 3].g = buf[j - 3][i + 3].g;
-                    buf[j - 2][i + 3].b = buf[j - 3][i + 3].b;
-                }
-                r = ((unsigned int)buf[j - 3][i - 3].r + (unsigned int)buf[j - 3][i + 3].r) >> 1;
-                g = ((unsigned int)buf[j - 3][i - 3].g + (unsigned int)buf[j - 3][i + 3].g) >> 1;
-                b = ((unsigned int)buf[j - 3][i - 3].b + (unsigned int)buf[j - 3][i + 3].b) >> 1;
-                r = buf[j - 3][i + 3].r;
-                g = buf[j - 3][i + 3].g;
-                b = buf[j - 3][i + 3].b;
-                if (!flags[j - 3][i + 1]) {
-                    buf[j - 3][i + 1].r = r;
-                    buf[j - 3][i + 1].g = g;
-                    buf[j - 3][i + 1].b = b;
-                }
-                if (!flags[j - 2][i + 1]) {
-                    buf[j - 2][i + 1].r = r;
-                    buf[j - 2][i + 1].g = g;
-                    buf[j - 2][i + 1].b = b;
-                }
-                r = ((unsigned int)buf[j - 3][i + 3].r + (unsigned int)buf[j + 3][i + 3].r) >> 1;
-                g = ((unsigned int)buf[j - 3][i + 3].g + (unsigned int)buf[j + 3][i + 3].g) >> 1;
-                b = ((unsigned int)buf[j - 3][i + 3].b + (unsigned int)buf[j + 3][i + 3].b) >> 1;
-                r = buf[j - 3][i + 3].r;
-                g = buf[j - 3][i + 3].g;
-                b = buf[j - 3][i + 3].b;
-                if (!flags[j - 1][i + 3]) {
-                    buf[j - 1][i + 3].r = r;
-                    buf[j - 1][i + 3].g = g;
-                    buf[j - 1][i + 3].b = b;
-                }
-                if (!flags[j - 1][i + 2]) {
-                    buf[j - 1][i + 2].r = r;
-                    buf[j - 1][i + 2].g = g;
-                    buf[j - 1][i + 2].b = b;
-                }
-                if (!flags[j][i + 3]) {
-                    buf[j][i + 3].r = r;
-                    buf[j][i + 3].g = g;
-                    buf[j][i + 3].b = b;
-                }
-                if (!flags[j - 1][i + 2]) {
-                    buf[j][i + 2].r = r;
-                    buf[j][i + 2].g = g;
-                    buf[j][i + 2].b = b;
+            if (comp(buf[j0][i0].r, buf[j0 - 3][i0 + 3].r)
+            &&  comp(buf[j0][i0].g, buf[j0 - 3][i0 + 3].g)
+            &&  comp(buf[j0][i0].b, buf[j0 - 3][i0 + 3].b)) { /* close enough so fill */
+                fillInBufPosIfFlagged(i0 + 1, j0, i0, j0, flags, buf);
+                // if (!flags[j][i + 1]) {
+                //     buf[j][i + 1].r = buf[j][i].r;
+                //     buf[j][i + 1].g = buf[j][i].g;
+                //     buf[j][i + 1].b = buf[j][i].b;
+                // }
+                fillInBufPosIfFlagged(i0 + 1, j0 - 1, i0, j0, flags, buf);
+                // if (!flags[j - 1][i + 1]) {
+                //     buf[j - 1][i + 1].r = buf[j][i].r;
+                //     buf[j - 1][i + 1].g = buf[j][i].g;
+                //     buf[j - 1][i + 1].b = buf[j][i].b;
+                // }
+                fillInBufPosIfFlagged(i0 + 2, j0 - 2, i0 + 3, j0 - 3, flags, buf);
+                // if (!flags[j - 2][i + 2]) {
+                //     buf[j - 2][i + 2].r = buf[j - 3][i + 3].r;
+                //     buf[j - 2][i + 2].g = buf[j - 3][i + 3].g;
+                //     buf[j - 2][i + 2].b = buf[j - 3][i + 3].b;
+                // }
+                fillInBufPosIfFlagged(i0 + 2, j0 - 3, i0 + 3, j0 - 3, flags, buf);
+                // if (!flags[j - 3][i + 2]) {
+                //     buf[j - 3][i + 2].r = buf[j - 3][i + 3].r;
+                //     buf[j - 3][i + 2].g = buf[j - 3][i + 3].g;
+                //     buf[j - 3][i + 2].b = buf[j - 3][i + 3].b;
+                // }
+                fillInBufPosIfFlagged(i0 + 3, j0 - 2, i0 + 3, j0 - 3, flags, buf);
+                // if (!flags[j - 2][i + 3]) {
+                //     buf[j - 2][i + 3].r = buf[j - 3][i + 3].r;
+                //     buf[j - 2][i + 3].g = buf[j - 3][i + 3].g;
+                //     buf[j - 2][i + 3].b = buf[j - 3][i + 3].b;
+                // }
+                // TCE: looks like the next 3 lines are overridden buy the following 3 so they are commented
+                //      also looks like an attempt to average the color values could be why rgb's where int(s)
+                //      Hmm! they differ from those above by index but the following 3 appears same as above.
+                // r = ((unsigned int)buf[j - 3][i - 3].r + (unsigned int)buf[j - 3][i + 3].r) >> 1;
+                // g = ((unsigned int)buf[j - 3][i - 3].g + (unsigned int)buf[j - 3][i + 3].g) >> 1;
+                // b = ((unsigned int)buf[j - 3][i - 3].b + (unsigned int)buf[j - 3][i + 3].b) >> 1;
+                r = buf[j0 - 3][i0 + 3].r;
+                g = buf[j0 - 3][i0 + 3].g;
+                b = buf[j0 - 3][i0 + 3].b;
+                Pixel p = {r, g, b, 0};
+                fillInBufPosIfFlagged(i0 + 1, j0 - 3, p, flags, buf);
+                // if (!flags[j - 3][i + 1]) {
+                //     buf[j - 3][i + 1].r = r;
+                //     buf[j - 3][i + 1].g = g;
+                //     buf[j - 3][i + 1].b = b;
+                // }
+                fillInBufPosIfFlagged(i0 + 1, j0 - 2, p, flags, buf);
+                // if (!flags[j - 2][i + 1]) {
+                //     buf[j - 2][i + 1].r = r;
+                //     buf[j - 2][i + 1].g = g;
+                //     buf[j - 2][i + 1].b = b;
+                // }
+                // TCE: looks like the next 3 lines are overridden buy the following 3 so they are commented
+                //      also looks like an attempt to average the color values could be why rgb's where int(s)
+                //      Hmm! they differ from those above by index but the following 3 appears same as above.
+                // r = ((unsigned int)buf[j - 3][i + 3].r + (unsigned int)buf[j + 3][i + 3].r) >> 1;
+                // g = ((unsigned int)buf[j - 3][i + 3].g + (unsigned int)buf[j + 3][i + 3].g) >> 1;
+                // b = ((unsigned int)buf[j - 3][i + 3].b + (unsigned int)buf[j + 3][i + 3].b) >> 1;
+                // r = buf[j - 3][i + 3].r;
+                // g = buf[j - 3][i + 3].g;
+                // b = buf[j - 3][i + 3].b;
+                fillInBufPosIfFlagged(i0 + 3, j0 - 1, p, flags, buf);
+                // if (!flags[j - 1][i + 3]) {
+                //     buf[j - 1][i + 3].r = r;
+                //     buf[j - 1][i + 3].g = g;
+                //     buf[j - 1][i + 3].b = b;
+                // }
+                fillInBufPosIfFlagged(i0 + 2, j0 - 1, p, flags, buf);
+                // if (!flags[j - 1][i + 2]) {
+                //     buf[j - 1][i + 2].r = r;
+                //     buf[j - 1][i + 2].g = g;
+                //     buf[j - 1][i + 2].b = b;
+                // }
+                fillInBufPosIfFlagged(i0 + 3, j0, p, flags, buf);
+                // if (!flags[j][i + 3]) {
+                //     buf[j][i + 3].r = r;
+                //     buf[j][i + 3].g = g;
+                //     buf[j][i + 3].b = b;
+                // }
+                // fillInBufPosIfFlagged(j0 - 1, j0, p, flags, buf);
+                // TCE: Hmm j-1 in if doesn't match patterns of above tests and assignments
+                if (!flags[j0 - 1][i0 + 2]) {
+                    buf[j0][i0 + 2].r = r;
+                    buf[j0][i0 + 2].g = g;
+                    buf[j0][i0 + 2].b = b;
                 }
             } else { /* else have to calc upper-right quad */
-                for (i = x + 3; i < x + 7; i++) {
-                    for (j = 0; j < 4; j++) {
-                        if (!flags[j][i]) {
-                            flags[j][i] = 1;
-                            shoot((double)i + 0.5, (double)y + 0.5 + j, color);
-                            buf[j][i] = color.getPixelColor();
-                        }
+                for (int i = x + 3; i < x + 7; i++) {
+                    for (int j = 0; j < 4; j++) {
+                        shootIfFlagged(x, y + j, color, i, j, flags, buf);
+                        // if (!flags[j][i]) {
+                        //     flags[j][i] = 1;
+                        //     shoot((double)i + 0.5, (double)y + 0.5 + j, color);
+                        //     buf[j][i] = color.getPixelColor();
+                        // }
                     }
                 }
             } /* end of upper-right quad */
 
             /* handle lower left quad third */
-            i = x + 3;
-            j = (y % 6) + 3; /* middle ray */
+            // TCE: no longer need to reset i and j to the middle ray
+            // i = x + 3;
+            // j = (y % 6) + 3; /* middle ray */
 
-            if (comp(buf[j][i].r, buf[j + 3][i - 3].r) && comp(buf[j][i].g, buf[j + 3][i - 3].g) && comp(buf[j][i].b, buf[j + 3][i - 3].b)) { /* close enough so fill */
-                if (!flags[j + 1][i]) {
-                    buf[j + 1][i].r = buf[j][i].r;
-                    buf[j + 1][i].g = buf[j][i].g;
-                    buf[j + 1][i].b = buf[j][i].b;
-                }
-                if (!flags[j + 1][i - 1]) {
-                    buf[j + 1][i - 1].r = buf[j][i].r;
-                    buf[j + 1][i - 1].g = buf[j][i].g;
-                    buf[j + 1][i - 1].b = buf[j][i].b;
-                }
-                if (!flags[j + 2][i - 2]) {
-                    buf[j + 2][i - 2].r = buf[j + 3][i - 3].r;
-                    buf[j + 2][i - 2].g = buf[j + 3][i - 3].g;
-                    buf[j + 2][i - 2].b = buf[j + 3][i - 3].b;
-                }
-                if (!flags[j + 3][i - 2]) {
-                    buf[j + 3][i - 2].r = buf[j + 3][i - 3].r;
-                    buf[j + 3][i - 2].g = buf[j + 3][i - 3].g;
-                    buf[j + 3][i - 2].b = buf[j + 3][i - 3].b;
-                }
-                if (!flags[j + 2][i - 3]) {
-                    buf[j + 2][i - 3].r = buf[j + 3][i - 3].r;
-                    buf[j + 2][i - 3].g = buf[j + 3][i - 3].g;
-                    buf[j + 2][i - 3].b = buf[j + 3][i - 3].b;
-                }
-                r = ((unsigned int)buf[j + 3][i - 3].r + (unsigned int)buf[j + 3][i + 3].r) >> 1;
-                g = ((unsigned int)buf[j + 3][i - 3].g + (unsigned int)buf[j + 3][i + 3].g) >> 1;
-                b = ((unsigned int)buf[j + 3][i - 3].b + (unsigned int)buf[j + 3][i + 3].b) >> 1;
-                r = buf[j + 3][i - 3].r;
-                g = buf[j + 3][i - 3].g;
-                b = buf[j + 3][i - 3].b;
-                if (!flags[j + 3][i - 1]) {
-                    buf[j + 3][i - 1].r = r;
-                    buf[j + 3][i - 1].g = g;
-                    buf[j + 3][i - 1].b = b;
-                }
-                if (!flags[j + 2][i - 1]) {
-                    buf[j + 2][i - 1].r = r;
-                    buf[j + 2][i - 1].g = g;
-                    buf[j + 2][i - 1].b = b;
-                }
-                if (!flags[j + 3][i]) {
-                    buf[j + 3][i].r = r;
-                    buf[j + 3][i].g = g;
-                    buf[j + 3][i].b = b;
-                }
-                if (!flags[j + 2][i]) {
-                    buf[j + 2][i].r = r;
-                    buf[j + 2][i].g = g;
-                    buf[j + 2][i].b = b;
-                }
-                r = ((unsigned int)buf[j - 3][i - 3].r + (unsigned int)buf[j + 3][i - 3].r) >> 1;
-                g = ((unsigned int)buf[j - 3][i - 3].g + (unsigned int)buf[j + 3][i - 3].g) >> 1;
-                b = ((unsigned int)buf[j - 3][i - 3].b + (unsigned int)buf[j + 3][i - 3].b) >> 1;
-                r = buf[j + 3][i - 3].r;
-                g = buf[j + 3][i - 3].g;
-                b = buf[j + 3][i - 3].b;
-                if (!flags[j + 1][i - 3]) {
-                    buf[j + 1][i - 3].r = r;
-                    buf[j + 1][i - 3].g = g;
-                    buf[j + 1][i - 3].b = b;
-                }
-                if (!flags[j + 1][i - 2]) {
-                    buf[j + 1][i - 2].r = r;
-                    buf[j + 1][i - 2].g = g;
-                    buf[j + 1][i - 2].b = b;
-                }
+            if (comp(buf[j0][i0].r, buf[j0 + 3][i0 - 3].r)
+            &&  comp(buf[j0][i0].g, buf[j0 + 3][i0 - 3].g)
+            &&  comp(buf[j0][i0].b, buf[j0 + 3][i0 - 3].b)) { /* close enough so fill */
+                fillInBufPosIfFlagged(i0, j0 + 1, i0, j0, flags, buf);
+                // if (!flags[j + 1][i]) {
+                //     buf[j + 1][i].r = buf[j][i].r;
+                //     buf[j + 1][i].g = buf[j][i].g;
+                //     buf[j + 1][i].b = buf[j][i].b;
+                // }
+                fillInBufPosIfFlagged(i0 - 1, j0 + 1, i0, j0, flags, buf);
+                // if (!flags[j + 1][i - 1]) {
+                //     buf[j + 1][i - 1].r = buf[j][i].r;
+                //     buf[j + 1][i - 1].g = buf[j][i].g;
+                //     buf[j + 1][i - 1].b = buf[j][i].b;
+                // }
+                fillInBufPosIfFlagged(i0 - 2, j0 + 2, i0 - 3, j0 + 3, flags, buf);
+                // if (!flags[j + 2][i - 2]) {
+                //     buf[j + 2][i - 2].r = buf[j + 3][i - 3].r;
+                //     buf[j + 2][i - 2].g = buf[j + 3][i - 3].g;
+                //     buf[j + 2][i - 2].b = buf[j + 3][i - 3].b;
+                // }
+                fillInBufPosIfFlagged(i0 - 2, j0 + 3, i0 - 3, j0 + 3, flags, buf);
+                // if (!flags[j + 3][i - 2]) {
+                //     buf[j + 3][i - 2].r = buf[j + 3][i - 3].r;
+                //     buf[j + 3][i - 2].g = buf[j + 3][i - 3].g;
+                //     buf[j + 3][i - 2].b = buf[j + 3][i - 3].b;
+                // }
+                fillInBufPosIfFlagged(i0 - 3, j0 + 2, i0 - 3, j0 + 3, flags, buf);
+                // if (!flags[j + 2][i - 3]) {
+                //     buf[j + 2][i - 3].r = buf[j + 3][i - 3].r;
+                //     buf[j + 2][i - 3].g = buf[j + 3][i - 3].g;
+                //     buf[j + 2][i - 3].b = buf[j + 3][i - 3].b;
+                // }
+                // TCE: looks like the next 3 lines are overridden buy the following 3 so they are commented
+                //      also looks like an attempt to average the color values could be why rgb's where int(s)
+                //      Hmm! they differ from those above by index but the following 3 appears same as above.
+                // r = ((unsigned int)buf[j + 3][i - 3].r + (unsigned int)buf[j + 3][i + 3].r) >> 1;
+                // g = ((unsigned int)buf[j + 3][i - 3].g + (unsigned int)buf[j + 3][i + 3].g) >> 1;
+                // b = ((unsigned int)buf[j + 3][i - 3].b + (unsigned int)buf[j + 3][i + 3].b) >> 1;
+                r = buf[j0 + 3][i0 - 3].r;
+                g = buf[j0 + 3][i0 - 3].g;
+                b = buf[j0 + 3][i0 - 3].b;
+                Pixel p = {r, g, b, 0};
+                fillInBufPosIfFlagged(i0 - 1, j0 + 3, p, flags, buf);
+                // if (!flags[j + 3][i - 1]) {
+                //     buf[j + 3][i - 1].r = r;
+                //     buf[j + 3][i - 1].g = g;
+                //     buf[j + 3][i - 1].b = b;
+                // }
+                fillInBufPosIfFlagged(i0 - 1, j0 + 2, p, flags, buf);
+                // if (!flags[j + 2][i - 1]) {
+                //     buf[j + 2][i - 1].r = r;
+                //     buf[j + 2][i - 1].g = g;
+                //     buf[j + 2][i - 1].b = b;
+                // }
+                fillInBufPosIfFlagged(i0, j0 + 3, p, flags, buf);
+                // if (!flags[j + 3][i]) {
+                //     buf[j + 3][i].r = r;
+                //     buf[j + 3][i].g = g;
+                //     buf[j + 3][i].b = b;
+                // }
+                fillInBufPosIfFlagged(i0, j0 + 2, p, flags, buf);
+                // if (!flags[j + 2][i]) {
+                //     buf[j + 2][i].r = r;
+                //     buf[j + 2][i].g = g;
+                //     buf[j + 2][i].b = b;
+                // }
+                // TCE: looks like the next 3 lines are overridden buy the following 3 so they are commented
+                //      also looks like an attempt to average the color values could be why rgb's where int(s)
+                //      Hmm! they differ from those above by index but the following 3 appears same as above.
+                // r = ((unsigned int)buf[j - 3][i - 3].r + (unsigned int)buf[j + 3][i - 3].r) >> 1;
+                // g = ((unsigned int)buf[j - 3][i - 3].g + (unsigned int)buf[j + 3][i - 3].g) >> 1;
+                // b = ((unsigned int)buf[j - 3][i - 3].b + (unsigned int)buf[j + 3][i - 3].b) >> 1;
+                // TCE: same as above so comment out
+                // r = buf[j + 3][i - 3].r;
+                // g = buf[j + 3][i - 3].g;
+                // b = buf[j + 3][i - 3].b;
+                fillInBufPosIfFlagged(i0 - 3, j0 + 1, p, flags, buf);
+                // if (!flags[j + 1][i - 3]) {
+                //     buf[j + 1][i - 3].r = r;
+                //     buf[j + 1][i - 3].g = g;
+                //     buf[j + 1][i - 3].b = b;
+                // }
+                fillInBufPosIfFlagged(i0 - 2, j0 + 1, p, flags, buf);
+                // if (!flags[j + 1][i - 2]) {
+                //     buf[j + 1][i - 2].r = r;
+                //     buf[j + 1][i - 2].g = g;
+                //     buf[j + 1][i - 2].b = b;
+                // }
             } else { /* else have to calc lower-left quad */
-                for (i = x; i < x + 4; i++) {
-                    for (j = 3; j < 7; j++) {
-                        if (!flags[j][i]) {
-                            flags[j][i] = 1;
-                            shoot((double)i + 0.5, (double)y + 0.5 + j, color);
-                            buf[j][i] = color.getPixelColor();
-                        }
+                for (int i = x; i < x + 4; i++) {
+                    for (int j = 3; j < 7; j++) {
+                        shootIfFlagged(x, y + j, color, i, j, flags, buf);
+                        // if (!flags[j][i]) {
+                        //     flags[j][i] = 1;
+                        //     shoot((double)i + 0.5, (double)y + 0.5 + j, color);
+                        //     buf[j][i] = color.getPixelColor();
+                        // }
                     }
                 }
             } /* end of lower-left quad */
 
             /* finally finish with lower right quad */
-            i = x + 3;
-            j = (y % 6) + 3; /* middle ray */
+            // TCE: no longer need to reset i and j to the middle ray
+            // i = x + 3;
+            // j = (y % 6) + 3; /* middle ray */
 
-            if (comp(buf[j][i].r, buf[j + 3][i + 3].r) && comp(buf[j][i].g, buf[j + 3][i + 3].g) && comp(buf[j][i].b, buf[j + 3][i + 3].b)) { /* close enough so fill */
-                if (!flags[j + 1][i + 1]) {
-                    buf[j + 1][i + 1].r = buf[j][i].r;
-                    buf[j + 1][i + 1].g = buf[j][i].g;
-                    buf[j + 1][i + 1].b = buf[j][i].b;
+            if (comp(buf[j0][i0].r, buf[j0 + 3][i0 + 3].r)
+            &&  comp(buf[j0][i0].g, buf[j0 + 3][i0 + 3].g)
+            &&  comp(buf[j0][i0].b, buf[j0 + 3][i0 + 3].b)) { /* close enough so fill */
+                fillInBufPosIfFlagged(i0 + 1, j0 + 1, i0, j0, flags, buf);
+                // if (!flags[j + 1][i + 1]) {
+                //     buf[j + 1][i + 1].r = buf[j][i].r;
+                //     buf[j + 1][i + 1].g = buf[j][i].g;
+                //     buf[j + 1][i + 1].b = buf[j][i].b;
+                // }
+                fillInBufPosIfFlagged(i0 + 2, j0 + 2, i0 + 3, j0 + 3, flags, buf);
+                // if (!flags[j + 2][i + 2]) {
+                //     buf[j + 2][i + 2].r = buf[j + 3][i + 3].r;
+                //     buf[j + 2][i + 2].g = buf[j + 3][i + 3].g;
+                //     buf[j + 2][i + 2].b = buf[j + 3][i + 3].b;
+                // }
+                fillInBufPosIfFlagged(i0 + 2, j0 + 3, i0 + 3, j0 + 3, flags, buf);
+                // if (!flags[j + 3][i + 2]) {
+                //     buf[j + 3][i + 2].r = buf[j + 3][i + 3].r;
+                //     buf[j + 3][i + 2].g = buf[j + 3][i + 3].g;
+                //     buf[j + 3][i + 2].b = buf[j + 3][i + 3].b;
+                // }
+                // fillInBufPosIfFlagged(i0 + 3, j0 + 2, i0 + 3, j0 + 3, flags, buf);
+                // TCE: Hmm i-3 in if doesn't match patterns of above tests and assignments
+                if (!flags[j0 + 2][i0 - 3]) {
+                    buf[j0 + 2][i0 + 3].r = buf[j0 + 3][i0 + 3].r;
+                    buf[j0 + 2][i0 + 3].g = buf[j0 + 3][i0 + 3].g;
+                    buf[j0 + 2][i0 + 3].b = buf[j0 + 3][i0 + 3].b;
                 }
-                if (!flags[j + 2][i + 2]) {
-                    buf[j + 2][i + 2].r = buf[j + 3][i + 3].r;
-                    buf[j + 2][i + 2].g = buf[j + 3][i + 3].g;
-                    buf[j + 2][i + 2].b = buf[j + 3][i + 3].b;
-                }
-                if (!flags[j + 3][i + 2]) {
-                    buf[j + 3][i + 2].r = buf[j + 3][i + 3].r;
-                    buf[j + 3][i + 2].g = buf[j + 3][i + 3].g;
-                    buf[j + 3][i + 2].b = buf[j + 3][i + 3].b;
-                }
-                if (!flags[j + 2][i - 3]) {
-                    buf[j + 2][i + 3].r = buf[j + 3][i + 3].r;
-                    buf[j + 2][i + 3].g = buf[j + 3][i + 3].g;
-                    buf[j + 2][i + 3].b = buf[j + 3][i + 3].b;
-                }
-                r = ((unsigned int)buf[j + 3][i - 3].r + (unsigned int)buf[j + 3][i + 3].r) >> 1;
-                g = ((unsigned int)buf[j + 3][i - 3].g + (unsigned int)buf[j + 3][i + 3].g) >> 1;
-                b = ((unsigned int)buf[j + 3][i - 3].b + (unsigned int)buf[j + 3][i + 3].b) >> 1;
-                r = buf[j + 3][i + 3].r;
-                g = buf[j + 3][i + 3].g;
-                b = buf[j + 3][i + 3].b;
-                if (!flags[j + 3][i + 1]) {
-                    buf[j + 3][i + 1].r = r;
-                    buf[j + 3][i + 1].g = g;
-                    buf[j + 3][i + 1].b = b;
-                }
-                if (!flags[j + 2][i + 1]) {
-                    buf[j + 2][i + 1].r = r;
-                    buf[j + 2][i + 1].g = g;
-                    buf[j + 2][i + 1].b = b;
-                }
-                r = ((unsigned int)buf[j - 3][i + 3].r + (unsigned int)buf[j + 3][i + 3].r) >> 1;
-                g = ((unsigned int)buf[j - 3][i + 3].g + (unsigned int)buf[j + 3][i + 3].g) >> 1;
-                b = ((unsigned int)buf[j - 3][i + 3].b + (unsigned int)buf[j + 3][i + 3].b) >> 1;
-                r = buf[j + 3][i + 3].r;
-                g = buf[j + 3][i + 3].g;
-                b = buf[j + 3][i + 3].b;
-                if (!flags[j + 1][i + 3]) {
-                    buf[j + 1][i + 3].r = r;
-                    buf[j + 1][i + 3].g = g;
-                    buf[j + 1][i + 3].b = b;
-                }
-                if (!flags[j + 1][i + 2]) {
-                    buf[j + 1][i + 2].r = r;
-                    buf[j + 1][i + 2].g = g;
-                    buf[j + 1][i + 2].b = b;
-                }
+                // TCE: looks like the next 3 lines are overridden buy the following 3 so they are commented
+                //      also looks like an attempt to average the color values could be why rgb's where int(s)
+                //      Hmm! they differ from those above by index but the following 3 appears same as above.
+                // r = ((unsigned int)buf[j + 3][i - 3].r + (unsigned int)buf[j + 3][i + 3].r) >> 1;
+                // g = ((unsigned int)buf[j + 3][i - 3].g + (unsigned int)buf[j + 3][i + 3].g) >> 1;
+                // b = ((unsigned int)buf[j + 3][i - 3].b + (unsigned int)buf[j + 3][i + 3].b) >> 1;
+                r = buf[j0 + 3][i0 + 3].r;
+                g = buf[j0 + 3][i0 + 3].g;
+                b = buf[j0 + 3][i0 + 3].b;
+                Pixel p = {r, g, b, 0};
+                fillInBufPosIfFlagged(i0 + 1, j0 + 3, p, flags, buf);
+                // if (!flags[j + 3][i + 1]) {
+                //     buf[j + 3][i + 1].r = r;
+                //     buf[j + 3][i + 1].g = g;
+                //     buf[j + 3][i + 1].b = b;
+                // }
+                fillInBufPosIfFlagged(i0 + 1, j0 + 2, p, flags, buf);
+                // if (!flags[j + 2][i + 1]) {
+                //     buf[j + 2][i + 1].r = r;
+                //     buf[j + 2][i + 1].g = g;
+                //     buf[j + 2][i + 1].b = b;
+                // }
+                // TCE: looks like the next 3 lines are overridden buy the following 3 so they are commented
+                //      also looks like an attempt to average the color values could be why rgb's where int(s)
+                //      Hmm! they differ from those above by index but the following 3 appears same as above.
+                // r = ((unsigned int)buf[j - 3][i + 3].r + (unsigned int)buf[j + 3][i + 3].r) >> 1;
+                // g = ((unsigned int)buf[j - 3][i + 3].g + (unsigned int)buf[j + 3][i + 3].g) >> 1;
+                // b = ((unsigned int)buf[j - 3][i + 3].b + (unsigned int)buf[j + 3][i + 3].b) >> 1;
+                // TCE: same as above so comment out
+                // r = buf[j + 3][i + 3].r;
+                // g = buf[j + 3][i + 3].g;
+                // b = buf[j + 3][i + 3].b;
+                fillInBufPosIfFlagged(i0 + 3, j0 + 1, p, flags, buf);
+                // if (!flags[j + 1][i + 3]) {
+                //     buf[j + 1][i + 3].r = r;
+                //     buf[j + 1][i + 3].g = g;
+                //     buf[j + 1][i + 3].b = b;
+                // }
+                fillInBufPosIfFlagged(i0 + 2, j0 + 1, p, flags, buf);
+                // if (!flags[j + 1][i + 2]) {
+                //     buf[j + 1][i + 2].r = r;
+                //     buf[j + 1][i + 2].g = g;
+                //     buf[j + 1][i + 2].b = b;
+                // }
             } else { /* else have to calc lower-right quad */
-                for (i = x + 3; i < x + 7; i++) {
-                    for (j = 3; j < 7; j++) {
-                        if (!flags[j][i]) {
-                            flags[j][i] = 1;
-                            shoot((double)i + 0.5, (double)y + 0.5 + j, color);
-                            buf[j][i] = color.getPixelColor();
-                        }
+                for (int i = x + 3; i < x + 7; i++) {
+                    for (int j = 3; j < 7; j++) {
+                        shootIfFlagged(x, y + j, color, i, j, flags, buf);
+                        // if (!flags[j][i]) {
+                        //     flags[j][i] = 1;
+                        //     shoot((double)i + 0.5, (double)y + 0.5 + j, color);
+                        //     buf[j][i] = color.getPixelColor();
+                        // }
                     }
                 }
             } /* end of lower-right quad */
@@ -676,7 +783,7 @@ void Screen_3D::scan2(void) {
         } /* end of x loop */
 
         /* output scans */
-        for (j = 0; j < 6; j++) {
+        for (int j = 0; j < 6; j++) {
             picFile->writeLine(buf[j]);
         }
         if (tickflag)
@@ -943,11 +1050,9 @@ void Screen_3D::adapt(int i, int j, double x, double y, Color &color, int step) 
 // double    x, y;   /* where on screen to shoot */
 // Color &color;  /* color to return from shot */
 void Screen_3D::shoot(double x, double y, Color &color) {
-    double random;
     Ray ray2; /* ray tweeked for non-pinhole cameras */
     Vec dir;
-    int sample;
-    double tx, ty, scale, P;
+    double tx, ty;
 
     switch (camera.projection) {
     case P_FLAT:
@@ -978,7 +1083,8 @@ void Screen_3D::shoot(double x, double y, Color &color) {
     if (camera.aperture > 0.0) {
         Color sum_color; /* summed color for DOF effects */
 
-        for (sample = 0; sample < camera.samples; sample++) {
+        for (int sample = 0; sample < camera.samples; sample++) {
+            double random;
             dir[0] = ray.P[0] + ray.D[0] * camera.focal_length;
             dir[1] = ray.P[1] + ray.D[1] * camera.focal_length;
             dir[2] = ray.P[2] + ray.D[2] * camera.focal_length;

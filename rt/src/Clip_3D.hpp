@@ -13,7 +13,7 @@ class Clip_3D {
     int type;
     std::shared_ptr<Clip_3D> next;
 
-    int clip_check(Vec &P);
+    int clip_check(const Vec &P);
     static void bound_opt(Object_3D *obj);
 
     static std::shared_ptr<Clip_3D> ClipTop; /* current clipping list */

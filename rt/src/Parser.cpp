@@ -44,13 +44,13 @@
 
 extern int tickflag;
 
-FILE *env_fopen(String name, const String &mode); // in file.cpp
+extern FILE *env_fopen(const String &name, const String &mode); // in file.cpp
 
 int Parser::nLights     = 0; /* it's a dark world out there */
 int Parser::xResolution = 320;
 int Parser::yResolution = 200;
 
-Parser::Parser() : bob(Bob::getApp()), camera(bob.camera) {}
+Parser::Parser() : bob(Bob::getApp()), camera(bob.camera), yyin(nullptr), cur_token(UNKNOWN), cur_text(""), cur_value(0.0) {}
 
 /*
     get_vec() -- get a vector.
@@ -1044,7 +1044,7 @@ void Parser::yy_transform_pop() {
 */
 void Parser::yy_global_clip() {
     std::shared_ptr<GlobalClip> ptr;
-    Clip *new_clip;
+    //Clip *new_clip;
 
     //    cout << "cout: In Parser::yy_global_clip Pre allocs" << endl;
     ptr = std::shared_ptr<GlobalClip>(new GlobalClip());
@@ -1549,7 +1549,7 @@ void Parser::yyerror(const String &str) {
     throw Exception("thrown by yyerror");
 }
 
-void Parser::ReadSceneFile(const String &real_name, String tmp_name) {
+void Parser::ReadSceneFile(const String &real_name, const String &tmp_name) {
     //    cout << "cout: In Parser::ReadSceneFile real_name=" << real_name << " \ttmp_name=" << tmp_name << endl;
 
     Infile *iptr;
@@ -1605,12 +1605,12 @@ void Parser::ReadSceneFile(const String &real_name, String tmp_name) {
     }
 }
 
-void Parser::ptrchk(void *ptr, const String str) {
+void Parser::ptrchk(const void *ptr, const String &str) {
     if (!ptr)
         throw Exception(String("Error allocating memory for a ").append(str).append("\n").append("thrown by ReadSceneFile"));
 }
 
-void Parser::yy_newfile(String new_file) {
+void Parser::yy_newfile(const String &new_file) {
     Infile *iptr;
     Stack *sptr;
 
@@ -1638,12 +1638,12 @@ void Parser::yy_newfile(String new_file) {
 
 void Parser::yy_popfile() {
     Infile *iptr;
-    Stack *sptr;
+    // Stack *sptr;
 
     //    cout << "cout: In Parser::yy_patch Pre InfileTop->prev check" << endl;
     if (InfileTop->prev) {
-        iptr = InfileTop->what;
-        sptr = InfileTop;
+        // iptr = InfileTop->what;
+        // sptr = InfileTop;
         InfileTop = InfileTop->prev;
         iptr = InfileTop->what;
         yylinecount = iptr->line;

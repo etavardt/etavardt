@@ -41,7 +41,7 @@ void Matrix_3D::identity() {
                 mat[i][j] = 0.0;
 }
 
-void Matrix_3D::matrix_cat(Matrix &m2) {
+void Matrix_3D::matrix_cat(const Matrix &m2) {
     Matrix &m1 = *this;
     Matrix m3;
     int i, j, k;
@@ -62,8 +62,8 @@ void Matrix_3D::matrix_cat(Matrix &m2) {
     }
 }
 
-void Matrix_3D::trans_vector(Vec &in, Vec &out) {
-    Matrix &mat = *this;
+void Matrix_3D::trans_vector(const Vec &in, Vec &out) {
+    const Matrix &mat = *this;
     double in4[4], out4[4];
     int i, j;
 
@@ -123,16 +123,16 @@ void Matrix_3D::trans_normal(Vec &in, Vec &out) {
 //    int     *indx;          /* row permutation record */
 //    double     b[];            /* right hand vector (?) */
 void Matrix_3D::lubksb(int *indx, double b[]) {
-    Matrix &a = *this;
-    int i, j, ii = -1, ip;
+    const Matrix &a = *this;
+    int ii = -1;
     double sum;
 
-    for (i = 0; i < SIZE; i++) {
-        ip = indx[i];
+    for (int i = 0; i < SIZE; i++) {
+        int ip = indx[i];
         sum = b[ip];
         b[ip] = b[i];
         if (ii >= 0) {
-            for (j = ii; j <= i - 1; j++) {
+            for (int j = ii; j <= i - 1; j++) {
                 sum -= a[i][j] * b[j];
             }
         } else if (sum != 0.0) {
@@ -140,9 +140,9 @@ void Matrix_3D::lubksb(int *indx, double b[]) {
         }
         b[i] = sum;
     }
-    for (i = SIZE - 1; i >= 0; i--) {
+    for (int i = SIZE - 1; i >= 0; i--) {
         sum = b[i];
-        for (j = i + 1; j < SIZE; j++) {
+        for (int j = i + 1; j < SIZE; j++) {
             sum -= a[i][j] * b[j];
         }
         b[i] = sum / a[i][i];
@@ -221,7 +221,7 @@ void Matrix_3D::ludcmp(int *indx, double *d) {
 
 //    Matrix  m1,                     /* source matrix */
 //        m2;                     /* destination matrix */
-void Matrix_3D::matrix_copy(Matrix &m1) {
+void Matrix_3D::matrix_copy(const Matrix &m1) {
     Matrix &m2 = *this;
     int i, j;
 
@@ -236,7 +236,7 @@ void Matrix_3D::matrix_copy(Matrix &m1) {
     matrix_inverse() -- creates the inverse of a 4x4 matrix.
 */
 Matrix_3D &Matrix_3D::matrix_inverse() {
-    Matrix_3D &m = *this;
+    const Matrix_3D &m = *this;
     Matrix_3D &n = *(new Matrix_3D());
 
     Matrix y;

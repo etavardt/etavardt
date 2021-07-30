@@ -9,7 +9,7 @@
 #include "Stats.hpp"
 
 
-FILE *env_fopen(String name, const String &mode); // in file.cpp
+extern FILE *env_fopen(const String &name, const String &mode); // in file.cpp
 
 /*
     tex_read_img() -- Read a .img file into a texture map structure

@@ -33,13 +33,14 @@
 //    Vec   P,     /* the point in question */
 //          R;     /* where to put the result */
 //    Wave *waves; /* top of the linked list */
-void Wave_3D::make_waves(Vec &P, Vec &R, Wave *waves) {
-    Vec diff; /* diff between point and source */
-    double dist; /* dist form point to source of wave */
-    double amp;  /* current height of wave */
+void Wave_3D::make_waves(const Vec &P, Vec &R, Wave *waves) {
 
     MakeVector(0, 0, 0, R); /* just to be sure */
     while (waves) {
+        Vec diff; /* diff between point and source */
+        double dist; /* dist form point to source of wave */
+        double amp;  /* current height of wave */
+
         VecSub(P, waves->center, diff);
         dist = VecNormalize(diff);
         dist /= waves->wavelength; /* where in cycle are we? */

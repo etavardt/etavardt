@@ -3,6 +3,7 @@
 #include "App.hpp"
 #include "String.hpp"
 #include "Camera_3D.hpp"
+#include "PicFile_3D.hpp"
 
 #define BOB_ENV "BOB"
 #define PATH_DELIM ';'
@@ -42,6 +43,7 @@ class Bob : public App {
     int  stop_line  = 0;
 
     Camera_3D camera; // Bob has a camera
+    PicFile_3D picFile; // Bob has a Pic File
 
     static double rayeps; // the smallest allowable ray size, color value, or double
 };

@@ -40,22 +40,12 @@ extern int tickflag;
 
 Screen_3D::Screen_3D(Camera_3D &cam)
   : x_res(0), y_res(0),
-    frustrumwidth(0.0), frustrumheight(0.0), picFile(nullptr), camera(cam),
+    frustrumwidth(0.0), frustrumheight(0.0),
+    camera(cam),
     start_line(0), stop_line(0) {
-    picFile = new PicFile_3D();
-    for (int x = 0; x < SIDE + 1; x++) {
-        for (int y = 0; y < SIDE + 1; y++) {
-            for (int f = 0; f < 4; f++) {
-                win[x][y][f] = 0;
-            }
-        }
-    }
 }
+
 Screen_3D::~Screen_3D() {
-    if (picFile != nullptr) {
-        picFile->close();
-        delete picFile;
-    }
 }
 
 void Screen_3D::render(const String &picfile, int xres, int yres) {
@@ -75,7 +65,7 @@ void Screen_3D::render(const String &picfile, int xres, int yres) {
         scan3();
         break;
     }
-    picFile->close();
+    picFile.close();
 }
 
 void Screen_3D::scrInit(int xres, int yres, const String &picFileName) {
@@ -84,7 +74,7 @@ void Screen_3D::scrInit(int xres, int yres, const String &picFileName) {
     stop_line = bob.stop_line;
 
     // open the picture file...
-    picFile->open(picFileName, xres, yres);
+    picFile.open(picFileName, xres, yres);
 
     // determine the viewing frustrum
     x_res = xres;
@@ -166,7 +156,7 @@ void Screen_3D::scan0(void) {
             shoot(x, y, color);
             buf[i] = color.getPixelColor();
         }
-        picFile->writeLine(buf);
+        picFile.writeLine(buf);
         if (tickflag)
             Stats::statistics(j);
     }
@@ -219,7 +209,7 @@ void Screen_3D::scan1(void) {
                 buf[i].g = (unsigned char)(green / 4);
                 buf[i].b = (unsigned char)(blue / 4);
             }
-            picFile->writeLine(buf);
+            picFile.writeLine(buf);
             tmp = oldbuf;
             oldbuf = curbuf;
             curbuf = tmp;
@@ -262,7 +252,7 @@ void Screen_3D::scan2(void) {
                 shoot((double)i + 0.5, (double)j + 0.5, color);
                 pixelBuf[i] = color.getPixelColor();
             }
-            picFile->writeLine(pixelBuf);
+            picFile.writeLine(pixelBuf);
             if (tickflag)
                 Stats::statistics(j);
         }
@@ -783,7 +773,7 @@ void Screen_3D::scan2(void) {
 
         /* output scans */
         for (int j = 0; j < 6; j++) {
-            picFile->writeLine(buf[j]);
+            picFile.writeLine(buf[j]);
         }
         if (tickflag)
             Stats::statistics(y + 6);
@@ -863,7 +853,7 @@ void Screen_3D::scan3(void) {
                 }
             }
         }
-        picFile->writeLine(pixelBuf);
+        picFile.writeLine(pixelBuf);
         if (tickflag)
             Stats::statistics(y);
     }

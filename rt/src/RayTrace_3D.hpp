@@ -41,7 +41,7 @@ class RayTrace_3D {
     static void checkAndEnqueue(Object *obj, double maxdist);
     static int intersect(Ray *ray, Isect &hit, double maxdist, Object *lastObjHit);
     // trace.cpp
-    static void bkg(Vec &dir, Color &col);
+    static void bkg(const Vec &dir, Color &col);
     static double trace(int level, double weight, Ray *ray, Color &color, double ior, Object *obj);
     // shade.cpp
     static void reflect(const Vec &I, const Vec &N, Vec &R, double dot);

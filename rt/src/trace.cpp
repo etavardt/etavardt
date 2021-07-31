@@ -43,7 +43,7 @@ int           RayTrace_3D::deepest = 0; /* deepest level reached */
 //class Isect;
 //extern int  Intersect (Ray *ray , Isect &hit , double maxdist , Object *self);
 //extern void Shade(int level, double weight, Point &P, Vec &N, Vec &I, Isect &hit, Color &col, double ior);
-void RayTrace_3D::bkg(Vec &dir, Color &col) {
+void RayTrace_3D::bkg(const Vec &dir, Color &col) {
     if (background.color.r < 0.0) { // Using a color from a Pallet not a single color. Works how?
         double dot = -VecDot(dir, background.up);
         double index = 127.0 * dot + 128.0;

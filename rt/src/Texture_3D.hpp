@@ -27,7 +27,7 @@ class Texture_3D {
     double tex_noise(const Point &P, const Texture_3D &tex);
 
     void get_map_entry(const Texmap &tm, double x, double y, Color &color);
-    void tex_project(Texmap &_tm, const Point &P, double *x, double *y);
+    void tex_project(const Texmap &_tm, const Point &P, double *x, double *y);
     void tile(const Texmap &tm, double *x, double *y);
 
     public:

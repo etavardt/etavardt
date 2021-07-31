@@ -77,20 +77,20 @@ unsigned long RayTrace_3D::nShadows = 0;
 //    Light   *cur_light;     /* light we are checking for shadow */
 //    int     inside;
 int RayTrace_3D::shadow(Ray *ray, Isect &hit, double tmax, Color &color, int level, Light &cur_light, int inside) {
-    Object           *cached;
-    Surface_3D       *prev_surf;     /* used if light is inside object */
+    Object            *cached;
+    Surface_3D        *prev_surf;     /* used if light is inside object */
     static Surface_3D *tmp_surf;       /* to allow textured shadows */
-    static int        i, in_surf;
-    double               t, caustic_scale;
-    Point             P;              /* point for texture call */
+    double             t, caustic_scale;
+    int                in_surf;
+    Point              P;              /* point for texture call */
 
     ++nShadows;
     prev_surf = NULL;
     in_surf = inside;
 
     /* check cache first */
-    if(cached = cur_light.light_obj_cache[level]) {
-        if(cached->intersect(ray, hit) && hit.isect_t < tmax) {
+    if((cached = cur_light.light_obj_cache[level])) {
+        if((cached->intersect(ray, hit) && hit.isect_t < tmax)) {
             nShadowCacheHits++;
             return 0;
         }

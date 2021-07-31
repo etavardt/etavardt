@@ -194,7 +194,7 @@ void expand(char *src) {
 
     /* do the expansion */
     ptr = line;
-    while (ptr = get_next_token(ptr)) {
+    while ((ptr = get_next_token(ptr))) {
         int len = cpy_tok(token, ptr); /* get token and length */
         /* go to macros with matching length */
         mptr = MacroHead;

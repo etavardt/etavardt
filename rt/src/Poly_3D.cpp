@@ -33,6 +33,7 @@
 #include "defs.hpp"
 #include "extern.hpp"
 
+#include "unused_macros.hpp"
 
 typedef struct t_polydata {
     int poly_npoints;
@@ -140,9 +141,8 @@ int Poly_3D::intersect(Ray *ray, Isect &hit) {
     return 1;
 }
 
-void Poly_3D::normal(Isect &hit, Point &P, Vec &N) {
-    PolyData *pd;
-    pd = (PolyData *)o_data;
+void Poly_3D::normal(Isect &UNUSED_VAR(hit), Point &UNUSED_VAR(P), Vec &N) {
+    PolyData *pd = (PolyData *)o_data;
     VecCopy(pd->poly_normal, N);
 }
 

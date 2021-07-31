@@ -46,7 +46,7 @@ void init_noise() {
     }
 }
 
-#define HASH(a,b,c)     (a+b+c & NUMPTS-1)
+#define HASH(a,b,c)     ((a+b+c) & (NUMPTS-1))
 
 double noise1(const Vec &p) {
     int xi, yi, zi, xa, xb, ya, yb, za, zb;

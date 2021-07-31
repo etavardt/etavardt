@@ -39,10 +39,9 @@
 extern int tickflag;
 
 Screen_3D::Screen_3D(Camera_3D &cam)
-  : camera(cam),
-    x_res(0), y_res(0),
-    start_line(0), stop_line(0),
-    frustrumwidth(0.0), frustrumheight(0.0) {
+  : x_res(0), y_res(0),
+    frustrumwidth(0.0), frustrumheight(0.0), picFile(nullptr), camera(cam),
+    start_line(0), stop_line(0) {
     picFile = new PicFile_3D();
     for (int x = 0; x < SIDE + 1; x++) {
         for (int y = 0; y < SIDE + 1; y++) {
@@ -290,7 +289,7 @@ void Screen_3D::scan2(void) {
 
         /* copy bottom line to top */
         for (int i = 0; i < x_res + 5; i++) {
-            if (flags[0][i] = flags[6][i]) { /* only copy if valid *///TCE: Is this a valid assignment or should it be an == test
+            if ((flags[0][i] = flags[6][i])) { /* only copy if valid *///TCE: Is this a valid assignment or should it be an == test
                 buf[0][i].r = buf[6][i].r;
                 buf[0][i].g = buf[6][i].g;
                 buf[0][i].b = buf[6][i].b;
@@ -304,7 +303,7 @@ void Screen_3D::scan2(void) {
         /* for(x=0; x<x_res+5; x+=6) { */
         for (int x = 0; x < x_res; x += 6) {
             /* shoot corners and middle */
-            shootIfFlagged(x, y, color, x, 0, flags, buf);
+            shootIfFlagged(y, color, x, 0, flags, buf);
             // int i = x;
             // int j = 0;
             // if (!flags[j][i]) {
@@ -313,7 +312,7 @@ void Screen_3D::scan2(void) {
             //     buf[j][i] = color.getPixelColor();
             // }
 
-            shootIfFlagged(x, y, color, x+6, 0, flags, buf);
+            shootIfFlagged(y, color, x+6, 0, flags, buf);
             // i = x + 6;
             // j = 0;
             // if (!flags[j][i]) {
@@ -322,7 +321,7 @@ void Screen_3D::scan2(void) {
             //     buf[j][i] = color.getPixelColor();
             // }
 
-            shootIfFlagged(x, y+6, color, x, 6, flags, buf);
+            shootIfFlagged(y+6, color, x, 6, flags, buf);
             // i = x;
             // j = 6;
             // if (!flags[j][i]) {
@@ -331,7 +330,7 @@ void Screen_3D::scan2(void) {
             //     buf[j][i] = color.getPixelColor();
             // }
 
-            shootIfFlagged(x, y+6, color, x+6, 6, flags, buf);
+            shootIfFlagged(y+6, color, x+6, 6, flags, buf);
             // i = x + 6;
             // j = 6;
             // if (!flags[j][i]) {
@@ -340,7 +339,7 @@ void Screen_3D::scan2(void) {
             //     buf[j][i] = color.getPixelColor();
             // }
 
-            shootIfFlagged(x, y+3, color, x+3, 3, flags, buf);
+            shootIfFlagged(y+3, color, x+3, 3, flags, buf);
             // i = x + 3;
             // j = 3; /* middle ray */
             // if (!flags[j][i]) {
@@ -466,7 +465,7 @@ void Screen_3D::scan2(void) {
             } else { /* else have to calc upper-left quad */
                 for (int i = x; i < x + 4; i++) {
                     for (int j = 0; j < 4; j++) {
-                        shootIfFlagged(x, y + j, color, i, j, flags, buf);
+                        shootIfFlagged(y + j, color, i, j, flags, buf);
                         // if (!flags[j][i]) {
                         //     flags[j][i] = 1;
                         //     shoot((double)i + 0.5, (double)y + 0.5 + j, color);
@@ -573,7 +572,7 @@ void Screen_3D::scan2(void) {
             } else { /* else have to calc upper-right quad */
                 for (int i = x + 3; i < x + 7; i++) {
                     for (int j = 0; j < 4; j++) {
-                        shootIfFlagged(x, y + j, color, i, j, flags, buf);
+                        shootIfFlagged(y + j, color, i, j, flags, buf);
                         // if (!flags[j][i]) {
                         //     flags[j][i] = 1;
                         //     shoot((double)i + 0.5, (double)y + 0.5 + j, color);
@@ -680,7 +679,7 @@ void Screen_3D::scan2(void) {
             } else { /* else have to calc lower-left quad */
                 for (int i = x; i < x + 4; i++) {
                     for (int j = 3; j < 7; j++) {
-                        shootIfFlagged(x, y + j, color, i, j, flags, buf);
+                        shootIfFlagged(y + j, color, i, j, flags, buf);
                         // if (!flags[j][i]) {
                         //     flags[j][i] = 1;
                         //     shoot((double)i + 0.5, (double)y + 0.5 + j, color);
@@ -770,7 +769,7 @@ void Screen_3D::scan2(void) {
             } else { /* else have to calc lower-right quad */
                 for (int i = x + 3; i < x + 7; i++) {
                     for (int j = 3; j < 7; j++) {
-                        shootIfFlagged(x, y + j, color, i, j, flags, buf);
+                        shootIfFlagged(y + j, color, i, j, flags, buf);
                         // if (!flags[j][i]) {
                         //     flags[j][i] = 1;
                         //     shoot((double)i + 0.5, (double)y + 0.5 + j, color);
@@ -833,7 +832,7 @@ void Screen_3D::scan3(void) {
         for (x = 0; x < x_res; x++) {
 
             for (i = 1; i < SIDE + 1; i++)                  // buff to top row of win
-                if (win[i][0][3] = buff[3][x * SIDE + i]) { // if cooked :TCE says ?Huh? flag portion? and an assignment during if?
+                if ((win[i][0][3] = buff[3][x * SIDE + i])) { // if cooked :TCE says ?Huh? flag portion? and an assignment during if?
                     win[i][0][0] = buff[0][x * SIDE + i];   // TCE: x*SIDE+i looks like a buff overrun scenario
                     win[i][0][1] = buff[1][x * SIDE + i];   // buff was created with [4][SIDE * x_res + 1]
                     win[i][0][2] = buff[2][x * SIDE + i];   // With operator precedence and all i should have a max value of 1
@@ -850,14 +849,14 @@ void Screen_3D::scan3(void) {
             pixelBuf[x].b = color.b;
 
             for (i = 0; i < SIDE + 1; i++)                     /* bottom row of win to buff */
-                if (buff[3][x * SIDE + i] = win[i][SIDE][3]) { /* if cooked */
+                if ((buff[3][x * SIDE + i] = win[i][SIDE][3])) { /* if cooked */
                     buff[0][x * SIDE + i] = win[i][SIDE][0];
                     buff[1][x * SIDE + i] = win[i][SIDE][1];
                     buff[2][x * SIDE + i] = win[i][SIDE][2];
                 }
 
             for (j = 0; j < SIDE + 1; j++) {          /* right edge of win to left */
-                if (win[0][j][3] = win[SIDE][j][3]) { /* if cooked */
+                if ((win[0][j][3] = win[SIDE][j][3])) { /* if cooked */
                     win[0][j][0] = win[SIDE][j][0];
                     win[0][j][1] = win[SIDE][j][1];
                     win[0][j][2] = win[SIDE][j][2];
@@ -994,18 +993,18 @@ void Screen_3D::adapt(int i, int j, double x, double y, Color &color, int step) 
            & FUZZY;
 
     if (step == 1 || fuzzed
-    || bMath::abs(ave[0] - c0[0]) < adapt_dist
-    && bMath::abs(ave[1] - c0[1]) < adapt_dist
-    && bMath::abs(ave[2] - c0[2]) < adapt_dist
-    && bMath::abs(ave[0] - c1[0]) < adapt_dist
-    && bMath::abs(ave[1] - c1[1]) < adapt_dist
-    && bMath::abs(ave[2] - c1[2]) < adapt_dist
-    && bMath::abs(ave[0] - c2[0]) < adapt_dist
-    && bMath::abs(ave[1] - c2[1]) < adapt_dist
-    && bMath::abs(ave[2] - c2[2]) < adapt_dist
-    && bMath::abs(ave[0] - c3[0]) < adapt_dist
-    && bMath::abs(ave[1] - c3[1]) < adapt_dist
-    && bMath::abs(ave[2] - c3[2]) < adapt_dist) { /* close enough */
+    || (bMath::abs(ave[0] - c0[0]) < adapt_dist
+    &&  bMath::abs(ave[1] - c0[1]) < adapt_dist
+    &&  bMath::abs(ave[2] - c0[2]) < adapt_dist
+    &&  bMath::abs(ave[0] - c1[0]) < adapt_dist
+    &&  bMath::abs(ave[1] - c1[1]) < adapt_dist
+    &&  bMath::abs(ave[2] - c1[2]) < adapt_dist
+    &&  bMath::abs(ave[0] - c2[0]) < adapt_dist
+    &&  bMath::abs(ave[1] - c2[1]) < adapt_dist
+    &&  bMath::abs(ave[2] - c2[2]) < adapt_dist
+    &&  bMath::abs(ave[0] - c3[0]) < adapt_dist
+    &&  bMath::abs(ave[1] - c3[1]) < adapt_dist
+    &&  bMath::abs(ave[2] - c3[2]) < adapt_dist)) { /* close enough */
         color.r = ave[0];
         color.g = ave[1];
         color.b = ave[2];

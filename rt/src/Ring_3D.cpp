@@ -32,6 +32,7 @@
 #include "defs.hpp"
 #include "extern.hpp"
 
+#include "unused_macros.hpp"
 
 typedef struct t_ringdata {
     Vec ring_center;
@@ -95,11 +96,10 @@ int Ring_3D::intersect(Ray *ray, Isect &hit) {
     return 1;
 }
 
-void Ring_3D::normal(Isect &hit, Point &P, Vec &N) {
-    RingData *rp;
-    rp = (RingData *)o_data;
+void Ring_3D::normal(Isect &UNUSED_VAR(hit), Point &UNUSED_VAR(P), Vec &N) {
+    const RingData &rd = *((RingData *)o_data);
 
-    VecCopy(rp->ring_normal, N); /* already normalized */
+    VecCopy(rd.ring_normal, N); /* already normalized */
 }
 
 Ring_3D *Ring_3D::makeRing(Vec &pos, Vec &norm, double min_rad, double max_rad) {

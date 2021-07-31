@@ -30,7 +30,8 @@ typedef struct t_qelem {
     Object    *q_obj;
 } Qelem;
 
-static int    Qsize;
+//static int    Qsize;
+static unsigned long    Qsize;
 Qelem    Q[PQSIZE];
 
 void    PriorityQueueNull(void)
@@ -76,7 +77,7 @@ void    PriorityQueueDelete(
         Object **obj)
 {
     Qelem    tmp;
-    int    i, j;
+    unsigned long    i, j;
 
     if(Qsize == 0) {
         printf("Priority queue is empty, dying...\n");

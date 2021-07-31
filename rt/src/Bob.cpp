@@ -260,7 +260,7 @@ int Bob::runApp() {
     //    cout << "cout: In Bob::runApp Pre BuildBoundingSlabs" << endl;
     Bound_3D::BuildBoundingSlabs();
     //    cout << "cout: In Bob::runApp Post BuildBoundingSlabs Pre init_noise" << endl;
-    init_noise();
+    Noise::init_noise();
     //    cout << "cout: In Bob::runApp Post init_noise Pre Screen" << endl;
     camera.screen.render(outfilename, Parser::xResolution, Parser::Parser::yResolution);
     //    cout << "cout: In Bob::runApp Post Screen return to caller" << endl;

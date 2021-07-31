@@ -1,45 +1,45 @@
 include(CMakePrintHelpers)
 #Example usage: cmake_print_variables(SOURCE_FILES)
 
-find_program(CMAKE_CXX_CPPCHECK cppcheck NAMES cppcheck HINTS $ENV{PROGRAMFILES}/cppcheck)
+# find_program(CMAKE_CXX_CPPCHECK cppcheck NAMES cppcheck HINTS $ENV{PROGRAMFILES}/cppcheck)
 find_program(CMAKE_CXX_CPPCHECK_GUI cppcheck-gui NAMES cppcheck HINTS $ENV{PROGRAMFILES}/cppcheck)
 
-cmake_print_variables(CPP_CHECK_CMD)
-cmake_print_variables(CMAKE_CXX_CPPCHECK)
-cmake_print_variables(CMAKE_CXX_CPPCHECK_GUI)
+# cmake_print_variables(CPP_CHECK_CMD)
+# cmake_print_variables(CMAKE_CXX_CPPCHECK)
+# cmake_print_variables(CMAKE_CXX_CPPCHECK_GUI)
 cmake_print_variables(CMAKE_CURRENT_SOURCE_DIR)
 
 # If CppCheck-gui executable found
 if(CMAKE_CXX_CPPCHECK_GUI)
-  # Check CppCheck version
-  set(CPP_CHECK_CMD ${CMAKE_CXX_CPPCHECK} --version)
-  execute_process(COMMAND ${CPP_CHECK_CMD}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    RESULT_VARIABLE CPP_CHECK_RESULT
-    OUTPUT_VARIABLE CPP_CHECK_VERSION
-    ERROR_VARIABLE CPP_CHECK_ERROR)
+  # # Check CppCheck version
+  # set(CPP_CHECK_CMD ${CMAKE_CXX_CPPCHECK} --version)
+  # execute_process(COMMAND ${CPP_CHECK_CMD}
+  #   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  #   RESULT_VARIABLE CPP_CHECK_RESULT
+  #   OUTPUT_VARIABLE CPP_CHECK_VERSION
+  #   ERROR_VARIABLE CPP_CHECK_ERROR)
 
-    cmake_print_variables(CPP_CHECK_RESULT)
+  #   cmake_print_variables(CPP_CHECK_RESULT)
 
-  # Check if version could be extracted
-  if(CPP_CHECK_RESULT EQUAL 0)
-    cmake_print_variables(CMAKE_CURRENT_SOURCE_DIR)
+  # # Check if version could be extracted
+  # if(CPP_CHECK_RESULT EQUAL 0)
+  #   cmake_print_variables(CMAKE_CURRENT_SOURCE_DIR)
 
-    # Append desired arguments to CppCheck
-    list(
-        APPEND CMAKE_CXX_CPPCHECK_GUI
-        -p
-        bob.cppcheck
-        &
-    )
+  #   # Append desired arguments to CppCheck
+  #   list(
+  #       APPEND CMAKE_CXX_CPPCHECK_GUI
+  #       -p
+  #       bob.cppcheck
+  #       &
+  #   )
     cmake_print_variables(CMAKE_CXX_CPPCHECK_GUI)
 
     add_custom_target(CPPCHECK_GUI
-        COMMAND "Launch-cppcheck-gui.sh" #${CMAKE_CXX_CPPCHECK_GUI}
+        COMMAND "Launch-cppcheck-gui.bat" #${CMAKE_CXX_CPPCHECK_GUI}
         #DEPENDS bob
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        JOB_POOL bat
+        #JOB_POOL bat
         COMMENT "Static code analysis using ${CPP_CHECK_VERSION}"
     )
-    endif()
+  #  endif()
 endif()

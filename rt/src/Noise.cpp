@@ -17,27 +17,29 @@
 *                                                                         *
 ***************************************************************************
 */
+#include "Noise.hpp"
 
 #include <cstdio>
 #include <cstdlib>
+
 #include <math.h>
 #include "defs.hpp"
 #include "extern.hpp"
 
 #define NOISE_SEED (666) /* just beastly, eh? */
 
-#define NUMPTS  512
+//#define NUMPTS  512
 #define P1      173
 #define P2      263
 #define P3      337
 #define phi     0.6180339
 
-static double pts[NUMPTS];
+double Noise::pts[NUMPTS];
 
 /*
     init_noise() - generate noise points +- 0.5
 */
-void init_noise() {
+void Noise::init_noise() {
     int i;
 
     srand(NOISE_SEED);
@@ -48,7 +50,7 @@ void init_noise() {
 
 #define HASH(a,b,c)     ((a+b+c) & (NUMPTS-1))
 
-double noise1(const Vec &p) {
+double Noise::noise1(const Vec &p) {
     int xi, yi, zi, xa, xb, ya, yb, za, zb;
     double xf, yf, zf;
     double p000, p100, p010, p110;
@@ -120,7 +122,7 @@ double noise1(const Vec &p) {
         p111 * xf     * yf     * zf;
 }
 
-void noise3(const Vec &p, Vec &v) {
+void Noise::noise3(const Vec &p, Vec &v) {
     Vec tmp;
 
     v[0] = noise1(p);
@@ -140,7 +142,7 @@ void noise3(const Vec &p, Vec &v) {
 
 // /* point to tweek */
 // /* return vector */
-// void DNoise(const Vec &p, Vec &v) {
+// void Noise::DNoise(const Vec &p, Vec &v) {
 //     Vec tmp;
 //     double center;
 
@@ -160,7 +162,7 @@ void noise3(const Vec &p, Vec &v) {
 
 /* input point, gets thrashed */
 /* max number of levels */
-double turb1(Vec &p, int lvl) {
+double Noise::turb1(Vec &p, int lvl) {
     double result = 0.0;
     int i;
 
@@ -175,12 +177,11 @@ double turb1(Vec &p, int lvl) {
 /* input point, gets thrashed */
 /* return vector */
 /* max number of levels */
-void turb3(Vec &p, Vec &v, int lvl) {
+void Noise::turb3(Vec &p, Vec &v, int lvl) {
     Vec c;
-    int i;
 
     MakeVector(0, 0, 0, v);
-    for (i = 0; i < lvl; i++) {
+    for (int i = 0; i < lvl; i++) {
         noise3(p, c);
         /* DNoise(p, c); */
         VecS(1.0 / (double)(1 << i), c, c);

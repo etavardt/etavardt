@@ -23,68 +23,6 @@
 
 #include "config.hpp"
 
-/*
-    typedefs for the world
-*/
-
-//typedef double Flt;
-//typedef Flt Vec[3];
-//typedef Vec Point;
-
-// typedef double Matrix[4][4];
-/*----------------------------------------------------------------------*/
-/*
-#ifndef DUMB_CPP
-
-#define MakeVector(x, y, z, v) (v)[0] = (x), (v)[1] = (y), (v)[2] = (z)
-#define VecNegate(a)    \
-    (a)[0] = (-(a)[0]); \
-    (a)[1] = (-(a)[1]); \
-    (a)[2] = (-(a)[2]);
-#define VecDot(a, b) ((a)[0] * (b)[0] + (a)[1] * (b)[1] + (a)[2] * (b)[2])
-#define VecLen(a) (sqrt(VecDot(a, a)))
-#define VecCopy(a, b) \
-    (b)[0] = (a)[0];  \
-    (b)[1] = (a)[1];  \
-    (b)[2] = (a)[2];
-#define VecAdd(a, b, c)       \
-    (c)[0] = (a)[0] + (b)[0]; \
-    (c)[1] = (a)[1] + (b)[1]; \
-    (c)[2] = (a)[2] + (b)[2]
-#define VecSub(a, b, c)       \
-    (c)[0] = (a)[0] - (b)[0]; \
-    (c)[1] = (a)[1] - (b)[1]; \
-    (c)[2] = (a)[2] - (b)[2]
-#define VecComb(A, a, B, b, c)            \
-    (c)[0] = (A) * (a)[0] + (B) * (b)[0]; \
-    (c)[1] = (A) * (a)[1] + (B) * (b)[1]; \
-    (c)[2] = (A) * (a)[2] + (B) * (b)[2]
-#define VecS(A, a, b)      \
-    (b)[0] = (A) * (a)[0]; \
-    (b)[1] = (A) * (a)[1]; \
-    (b)[2] = (A) * (a)[2]
-#define VecAddS(A, a, b, c)         \
-    (c)[0] = (A) * (a)[0] + (b)[0]; \
-    (c)[1] = (A) * (a)[1] + (b)[1]; \
-    (c)[2] = (A) * (a)[2] + (b)[2]
-#define VecMul(a, b, c)       \
-    (c)[0] = (a)[0] * (b)[0]; \
-    (c)[1] = (a)[1] * (b)[1]; \
-    (c)[2] = (a)[2] * (b)[2]
-#define VecCross(a, b, c)                       \
-    (c)[0] = (a)[1] * (b)[2] - (a)[2] * (b)[1]; \
-    (c)[1] = (a)[2] * (b)[0] - (a)[0] * (b)[2]; \
-    (c)[2] = (a)[0] * (b)[1] - (a)[1] * (b)[0]
-#define VecZero(v) \
-    (v)[0] = 0.0;  \
-    (v)[1] = 0.0;  \
-    v[2] = 0.0
-#define VecPrint(msg, v) fprintf(stderr, "%s: %g %g %g\n", msg, \
-                                 (v)[0], (v)[1], (v)[2])
-
-#endif /* not DUMB_CPP * /
- */
-
 /* surface flags */
 
 #define S_CACHE (0x0001)

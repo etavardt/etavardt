@@ -16,15 +16,18 @@ struct Viewpoint_3D {
 typedef Viewpoint_3D Viewpoint;
 
 struct Camera_3D {
-    Vec lens_i, /* vectors across lens */
-        lens_j;
     short projection;
     short samples;    /* num samples for non-pinhole camera */
     double aperture,     /* radius of lens */
            focal_length; /* how far away are we focussed */
+    Vec lens_i, /* vectors across lens */
+        lens_j;
+
+    // this is special
+    Screen_3D screen; // The camera has a screen/film // screen needs the camera ref passed in the constructor
 
     Viewpoint_3D eye; // The camera has a veiwpoint orientation
-    Screen_3D screen; // The camera has a screen/film
-    Camera_3D() : projection(0), samples(0), screen(*this), aperture(-1.0), focal_length(0.0) {}
+
+    Camera_3D() : projection(0), samples(0), aperture(-1.0), focal_length(0.0), screen(*this) {} // screen needs the camera ref
 };
 typedef Camera_3D Camera;

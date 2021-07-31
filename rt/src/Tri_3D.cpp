@@ -45,9 +45,9 @@
 #include "Clip_3D.hpp"
 #include "Vector_3D.hpp"
 
-//#include "defs.hpp"
-//#include "extern.hpp"
-extern Vec     Slab[];
+#include "unused_macros.hpp"
+
+//extern Vec     Slab[];
 
 typedef struct t_patchdata {
     Vec tri_P[3];
@@ -155,7 +155,7 @@ int Tri_3D::intersect(Ray *ray, Isect &hit) {
     return 1;
 }
 
-void Tri_3D::normal(Isect &hit, Point &P, Vec &N) {
+void Tri_3D::normal(Isect &UNUSED_VAR(hit), Point &UNUSED_VAR(P), Vec &N) {
     TriData *td;
 
     td = (TriData *)o_data;

@@ -398,25 +398,24 @@ void RayTrace_3D::shade(int level, double weight, Point &P, Vec &N, Vec &I, cons
         t = trace(level + 1, weight, &tray, tcol, new_ior, hit.isect_self);
         inside = still_inside;
         if (t < HUGE_NUM && inside) {
-            /*
-            for(i=0; i<3; i++) {
-                if(surf->trans[i] > Bob::rayeps) {
-                    if(surf->trans[i] < 1.0) {
-                        if(exp_trans) {
-                            /* modulate color exponentially with distance * /
-                            /* ray traveled through substance * /
-                            /* if(i==0)
-                                printf("level %d   inside %d   trans %.3f   t %.3f\n", level, inside, surf->trans[i], t); * /
-                            tcol[i] *= pow(surf->trans[i], t);
-                        } else {
-                            tcol[i] *= surf->trans[i];
-                        }
-                    } // tcol[i] will remain the value returned by the call to Trace
-                } else {
-                    tcol[i] = 0.0;  /* opaque * /
-                }
-            }
-            */
+            // for(i=0; i<3; i++) {
+            //     if(surf->trans[i] > Bob::rayeps) {
+            //         if(surf->trans[i] < 1.0) {
+            //             if(exp_trans) {
+            //                 /* modulate color exponentially with distance */
+            //                 /* ray traveled through substance */
+            //                 /* if(i==0)
+            //                     printf("level %d   inside %d   trans %.3f   t %.3f\n", level, inside, surf->trans[i], t); */
+            //                 tcol[i] *= pow(surf->trans[i], t);
+            //             } else {
+            //                 tcol[i] *= surf->trans[i];
+            //             }
+            //         } // tcol[i] will remain the value returned by the call to Trace
+            //     } else {
+            //         tcol[i] = 0.0;  /* opaque */
+            //     }
+            // }
+
             /* modulate color exponentially with distance */
             /* ray traveled through substance */
             /* if(i==0)

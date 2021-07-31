@@ -26,6 +26,7 @@ class Color {
     // double &b = v[2];
 
     Color() { r = g = b = 0.0; }
+    Color(const Color &c) : r(c.r), g(c.g), b(c.b) {}
     ~Color(){};
 
     Pixel getPixelColor();

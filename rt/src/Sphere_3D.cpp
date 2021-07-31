@@ -34,6 +34,7 @@
 #include "defs.hpp"
 #include "extern.hpp"
 
+#include "unused_macros.hpp"
 
 typedef struct t_spheredata {
     Vec sph_center;
@@ -122,10 +123,8 @@ int Sphere_3D::intersect(Ray *ray, Isect &hit) {
     return 1;
 }
 
-void Sphere_3D::normal(Isect &hit, Point &P, Vec &N) {
-    SphereData *sp;
-
-    sp = (SphereData *)o_data;
+void Sphere_3D::normal(Isect &UNUSED_VAR(hit), Point &P, Vec &N) {
+    SphereData *sp = (SphereData *)o_data;
 
     VecSub(P, sp->sph_center, N);
     VecNormalize(N);

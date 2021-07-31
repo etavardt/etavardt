@@ -11,7 +11,11 @@
 class Clip_3D; // Use this to avoid circluar processing which causes error: 'Object_3D' has not been declared because Clip_3D.hpp includes Object_3D.hpp
 //class Surface_3D;
 //class Isect;
+
+// Currently Object_3D also serves Composite object role
+// TODO: TCE: Create a child class that does this and make this a pure virtual class
 class Object_3D {
+    private:
     public:
     Object_3D() : o_type(0), o_surf(nullptr), o_data(nullptr), next(nullptr) {
         for (int i = 0; i < NSLABS; i++) {
@@ -42,7 +46,7 @@ typedef Object_3D Object;
 
 typedef struct t_compositedata {
     unsigned long   size;
-    Object_3D          *children;
+    Object_3D      *children;
 } CompositeData;
 
 

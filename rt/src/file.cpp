@@ -57,10 +57,9 @@ void qstrcat(char *d, char *s) {
 */
 FILE *env_fopen(const String &name, const String &mode) {
     FILE *fp;
-    int i;
 
 //    cout << "In env_fopen Bob::paths.size(): " << Bob::paths.size() << endl;
-    for (i = 0; i < Bob::paths.size(); i++) {
+    for (size_t i = 0; i < Bob::paths.size(); i++) {
         String full_path;
 //        cout << "In env_fopen Bob::paths[" << i << "]: " << Bob::paths[i] << endl;
         full_path = Bob::paths[i];

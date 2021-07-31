@@ -17,15 +17,15 @@ class PicFile_3D;
 class Screen_3D {
     private:
     int x_res, y_res;
-    unsigned char win[SIDE + 1][SIDE + 1][4]; /* r,g,b,flag */
-
-    Screen_3D();
-
-    Camera_3D &camera;
     double frustrumwidth, frustrumheight;
+    unsigned char win[SIDE + 1][SIDE + 1][4]; /* r,g,b,flag */
+    PicFile_3D *picFile;
+    Camera_3D &camera;
+
     Point viewvec, leftvec, looking_up, viewpoint;
     Ray ray; /* normal, untweeked ray */
-    PicFile_3D *picFile = nullptr;
+
+    Screen_3D();
 
     void scrInit(int xres, int yres, const String &picFileName);
     void scan0(void);
@@ -37,7 +37,7 @@ class Screen_3D {
     void adapt(int i, int j, double x, double y, Color &color, int step);
     int comp(unsigned int a, unsigned int b);
 
-    inline void shootIfFlagged(int x, int y, Color &color, int i, int j, int *flags[7], Pixel *buf[7]) {
+    inline void shootIfFlagged(int y, Color &color, int i, int j, int *flags[7], Pixel *buf[7]) {
         if (!flags[j][i]) {
             flags[j][i] = 1;
             shoot((double)i + 0.5, (double)y + 0.5, color);
@@ -60,10 +60,11 @@ class Screen_3D {
     }
 
     public:
+    int start_line, stop_line;
+
     explicit Screen_3D(Camera_3D &cam);
     ~Screen_3D();
 
     void render(const String &picfile, int xres, int yres);
 
-    int start_line, stop_line;
 };

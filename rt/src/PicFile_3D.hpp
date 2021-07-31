@@ -23,9 +23,10 @@
 
 class PicFile_3D {
   public:
+    int x, y;
+
     String filename;
     std::fstream fs;
-    int x, y;
 
     PicFile_3D() : x(0), y(0) {}
     ~PicFile_3D() {}
@@ -33,4 +34,6 @@ class PicFile_3D {
     bool open(const String &_filename, int _x, int _y);
     void writeLine(const Pixel buf[]);
     void close();
+
+    PicFile_3D &operator=(const PicFile_3D &pic) { x = pic.x; y = pic.y; filename = pic.filename; return *this; }
 };

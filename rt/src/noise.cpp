@@ -138,25 +138,25 @@ void noise3(const Vec &p, Vec &v) {
     v[2] = noise1(tmp);
 }
 
-/* point to tweek */
-/* return vector */
-void DNoise(const Vec &p, Vec &v) {
-    Vec tmp;
-    double center;
+// /* point to tweek */
+// /* return vector */
+// void DNoise(const Vec &p, Vec &v) {
+//     Vec tmp;
+//     double center;
 
-    center = noise1(p);
-    tmp = p;
-    tmp[0] += 0.1;
-    v[0] = (noise1(tmp) - center) * 10.0;
+//     center = noise1(p);
+//     tmp = p;
+//     tmp[0] += 0.1;
+//     v[0] = (noise1(tmp) - center) * 10.0;
 
-    tmp[0] = p[0];
-    tmp[1] += 0.1;
-    v[1] = (noise1(tmp) - center) * 10.0;
+//     tmp[0] = p[0];
+//     tmp[1] += 0.1;
+//     v[1] = (noise1(tmp) - center) * 10.0;
 
-    tmp[1] = p[1];
-    tmp[2] += 0.1;
-    v[2] = (noise1(tmp) - center) * 10.0;
-} /* end of DNoise() */
+//     tmp[1] = p[1];
+//     tmp[2] += 0.1;
+//     v[2] = (noise1(tmp) - center) * 10.0;
+// } /* end of DNoise() */
 
 /* input point, gets thrashed */
 /* max number of levels */

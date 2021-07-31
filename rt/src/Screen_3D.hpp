@@ -3,10 +3,11 @@
 #include "String.hpp"
 #include "Ray_3D.hpp"
 #include "Color.hpp"
+#include "PicFile_3D.hpp"
 //#include "Camera_3D.hpp"
 
 class Camera_3D; // avoid circular issue
-class PicFile_3D;
+//class PicFile_3D;
 
 #define SIDE (4)
 
@@ -18,14 +19,21 @@ class Screen_3D {
     private:
     int x_res, y_res;
     double frustrumwidth, frustrumheight;
-    unsigned char win[SIDE + 1][SIDE + 1][4]; /* r,g,b,flag */
-    PicFile_3D *picFile;
     Camera_3D &camera;
+
+    PicFile_3D picFile;
+    unsigned char win[SIDE + 1][SIDE + 1][4] {{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0}}; /* r,g,b,flag */
 
     Point viewvec, leftvec, looking_up, viewpoint;
     Ray ray; /* normal, untweeked ray */
 
     Screen_3D();
+    Screen_3D(const Screen_3D &s)
+    : x_res(s.x_res), y_res(s.y_res),
+      frustrumwidth(s.frustrumwidth),
+      frustrumheight(s.frustrumheight),
+      camera(s.camera), //picFile(s.picFile),
+      start_line(s.start_line), stop_line(s.stop_line) {}
 
     void scrInit(int xres, int yres, const String &picFileName);
     void scan0(void);
@@ -62,6 +70,7 @@ class Screen_3D {
     public:
     int start_line, stop_line;
 
+//    explicit Screen_3D(Camera_3D &cam, PicFile_3D &pic);
     explicit Screen_3D(Camera_3D &cam);
     ~Screen_3D();
 

@@ -107,7 +107,7 @@ typedef Vector_3D Vec;
 
 inline void MakeVector(double a, double b, double c, Vector_3D &v) { v = Vector_3D(a, b, c); }
 inline double VecDot(const Vector_3D &a, const Vector_3D &b) { return dotProduct(a, b); }
-inline void VecCross(const Vector_3D &a, Vector_3D &b, Vector_3D &c) { c = crossProduct(a, b); }
+inline void VecCross(const Vector_3D &a, const Vector_3D &b, Vector_3D &c) { c = crossProduct(a, b); }
 inline double VecLen(const Vector_3D &a) { return sqrt(dotProduct(a, a)); }
 inline void VecSub(const Vector_3D &a, const Vector_3D &b, Vector_3D &c) { c = a - b; }
 inline void VecAddS(double a, const Vector_3D &b, const Vector_3D &c, Vector_3D &d) { d = a * b + c; }

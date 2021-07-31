@@ -164,7 +164,7 @@ void Texture_3D::get_map_entry(const Texmap &tm, double x, double y, Color &colo
         the indices for the image
 */
 //TODO: TCE: Belongs in Surface_3D or Texmap_3D, move it there once color is fixed again the output files
-void Texture_3D::tex_project(Texmap &tm, const Point &P, double *x, double *y) {
+void Texture_3D::tex_project(const Texmap &tm, const Point &P, double *x, double *y) {
     Point PP, /* point projected onto plane of image */
         V;
     double dot = 0.0;

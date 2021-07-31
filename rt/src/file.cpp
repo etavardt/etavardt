@@ -25,30 +25,31 @@
 #include <cstdlib>
 #include <cstring>
 
+#include "unused_macros.hpp"
+
 using std::cerr;
 using std::cout;
 using std::endl;
 using std::replace;
 
-/*
-    qstrcat() -- just like strcat() except ignores quotes
-*/
+// /*
+//     qstrcat() -- just like strcat() except ignores quotes
+// */
+// void UNUSED_FUNCTION(qstrcat)(char *d, char *s) {
+//     /* find end of dest */
+//     while (*d)
+//         d++;
 
-void qstrcat(char *d, char *s) {
-    /* find end of dest */
-    while (*d)
-        d++;
-
-    /* tack on source */
-    while (*s) {
-        if (*s != '"') {
-            *d = *s;
-            d++;
-        }
-        s++;
-    }
-    *d = *s; /* copy final NULL */
-} /* end of qstrcat() */
+//     /* tack on source */
+//     while (*s) {
+//         if (*s != '"') {
+//             *d = *s;
+//             d++;
+//         }
+//         s++;
+//     }
+//     *d = *s; /* copy final NULL */
+// } /* end of qstrcat() */
 
 /*
     env_fopen() -- acts just like fopen except uses the paths

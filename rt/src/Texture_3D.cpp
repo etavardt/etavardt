@@ -133,7 +133,7 @@ double Texture_3D::tex_noise(const Point &P, const Texture_3D &tex) {
         }
     }
 
-    result = turb1(p, tex.terms);
+    result = Noise::turb1(p, tex.terms);
 
     return result;
 
@@ -269,7 +269,7 @@ void Texture_3D::tex_fix(Surface_3D &surf, Point &P, Point &OP) {
         for (int i = 0; i < 3; i++) {
             p_in[i] *= texture->turbulence->scale[i];
         }
-        turb3(p_in, p_out, texture->turbulence->terms);
+        Noise::turb3(p_in, p_out, texture->turbulence->terms);
         VecAddS(texture->turbulence->amp, p_out, P, P);
     }
 

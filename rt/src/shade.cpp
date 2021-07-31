@@ -184,7 +184,7 @@ void RayTrace_3D::shade(int level, double weight, Point &P, Vec &N, Vec &I, cons
             L[0] /= surf->bump->turbulence->scale[0];
             L[1] /= surf->bump->turbulence->scale[1];
             L[2] /= surf->bump->turbulence->scale[2];
-            turb3(L, R, surf->bump->turbulence->terms);
+            Noise::turb3(L, R, surf->bump->turbulence->terms);
             VecAddS(surf->bump->turbulence->amp, R, N, fuzz_N);
         } else {
             VecCopy(N, fuzz_N);

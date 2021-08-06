@@ -21,8 +21,9 @@
 
 #include <cstdio>
 #include <cstdlib>
+//#include <math.h>
 
-#include <math.h>
+#include "BobMath.hpp"
 #include "defs.hpp"
 #include "extern.hpp"
 
@@ -44,7 +45,7 @@ void Noise::init_noise() {
 
     srand(NOISE_SEED);
     for (i = 0; i < NUMPTS; i++) {
-        pts[i] = rand() / (double)RAND_MAX - 0.5;
+        pts[i] = bMath::rnd() - 0.5;
     }
 }
 

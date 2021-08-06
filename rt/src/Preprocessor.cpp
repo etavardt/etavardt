@@ -24,15 +24,17 @@
 
     Note: Macros are sorted longest to shortest.
 */
+#include "Preprocessor.hpp"
 
-#include "Bob.hpp"
-#include "Exception.hpp"
-#include "defs.hpp"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctype.h>
 #include <iostream>
+
+#include "Bob.hpp"
+#include "Exception.hpp"
+#include "defs.hpp"
 //#include "Object_3D.hpp"
 ////#include "extern.hpp"
 
@@ -42,31 +44,6 @@ using std::cout;
 using std::endl;
 
 FILE *env_fopen(const String &name, const String &mode); // in file.cpp
-
-/* preprocessor macro structure */
-typedef struct t_macro {
-    char *macro,          /* define'd word */
-        *text;            /* text to replace macro with */
-    int mlen,             /* length of macro */
-        tlen;             /* length of text */
-    struct t_macro *next; /* stack link */
-} Macro;
-
-extern int preproc(const String &infile, const String &outfile);
-extern void  expand (char *src);
-extern void  sub_macro (Macro *mptr , char *loc);
-extern void  add_macro (char *txt);
-extern void  remove_macro (char *str);
-extern char *brute (char *text , const char *pat , int tlen , int plen);
-extern void  clean_up (void);
-extern int   vfgets (char *dst , int max_count , FILE *fp);
-extern char *get_next_token (char *text);
-extern int   cpy_tok (char *dst , char *src);
-extern int   is_tok (int c);
-extern char *brute(char *text, char *pattern, int tlen, int plen);
-extern char *get_next_token(char *text);
-extern int cpy_tok(char *dst, char *src);
-extern int is_tok(int c);
 
 extern int tickflag;
 
@@ -84,7 +61,7 @@ static char *line, /* fully expanded line */
 static int cur;
 static FILE *fp[MAX_LEVEL], *outfp;
 
-int preproc(const String &infile, const String &outfile) {
+int Preprocessor::preproc(const String &infile, const String &outfile) {
     char str[MAX_LINE], newfile[MAX_LINE];
     char command[MAX_TOK];
     char *rest, *cptr;
@@ -182,7 +159,7 @@ int preproc(const String &infile, const String &outfile) {
         the line passed.  Return new text in line.
 */
 
-void expand(char *src) {
+void Preprocessor::expand(char *src) {
     char *ptr, token[MAX_TOK];
     Macro *mptr;
 
@@ -220,7 +197,7 @@ void expand(char *src) {
 /*
     sub_macro() -- do a macro substitution into a line.
 */
-void sub_macro(Macro *mptr, char *loc) {
+void Preprocessor::sub_macro(Macro *mptr, char *loc) {
     int len, offset;
 
     /* push rest of line */
@@ -252,7 +229,7 @@ void sub_macro(Macro *mptr, char *loc) {
         Macros are sorted largest to smallest.
 */
 
-void add_macro(char *txt) {
+void Preprocessor::add_macro(char *txt) {
     Macro *mptr, *sptr;
     char macro[MAX_TOK];
     char *cptr, *cptr2;
@@ -330,7 +307,7 @@ void add_macro(char *txt) {
 
 } /* end of add_macro() */
 
-void remove_macro(char *str) {
+void Preprocessor::remove_macro(char *str) {
     Macro *mptr, *mptr2;
     int len;
     char *cptr;
@@ -375,7 +352,7 @@ void remove_macro(char *str) {
     brute() -- brute force pattern matching
 */
 
-char *brute(char *text, const char *pat, int tlen, int plen) {
+char *Preprocessor::brute(char *text, const char *pat, int tlen, int plen) {
     int i = 0, j = 0;
 
     i = j = 0;
@@ -399,7 +376,7 @@ char *brute(char *text, const char *pat, int tlen, int plen) {
     clean_up() -- free up memory allocated for preprocessing
 */
 
-void clean_up() {
+void Preprocessor::clean_up() {
     free(line);
     free(mline);
 
@@ -417,7 +394,7 @@ void clean_up() {
     comments and purging whitespace.
 */
 
-int vfgets(char *dst, int max_count, FILE *fp) {
+int Preprocessor::vfgets(char *dst, int max_count, FILE *fp) {
     int c = 0, p = 0, /* current and previous characters */
         count;        /* current line count */
 
@@ -465,7 +442,7 @@ int vfgets(char *dst, int max_count, FILE *fp) {
         text string and return its location.
 */
 
-char *get_next_token(char *text) {
+char *Preprocessor::get_next_token(char *text) {
     while (*text && isalpha(*text) == 0) {
         text++;
     }
@@ -480,7 +457,7 @@ char *get_next_token(char *text) {
     cpy_tok() -- Copy the token at src to dst and return its length.
 */
 
-int cpy_tok(char *dst, char *src) {
+int Preprocessor::cpy_tok(char *dst, char *src) {
     int cnt = 0;
 
     while (is_tok(*src)) {
@@ -499,7 +476,7 @@ int cpy_tok(char *dst, char *src) {
         returns 1 is yes, 0 if no
 */
 
-int is_tok(int c) {
+int Preprocessor::is_tok(int c) {
     if (isalnum(c) || c == '_' || c == '.' || c == '\\' || c == ':') {
         return 1;
     } else {

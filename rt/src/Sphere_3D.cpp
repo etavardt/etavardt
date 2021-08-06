@@ -64,7 +64,7 @@ int Sphere_3D::intersect(Ray *ray, Isect &hit) {
     if (o_type == T_FUZZY) { /* its a fuzz ball */
         double newSphere;
 
-        newSphere = 1.0 / sp->sph_radius + (double)rand() / sp->sph_fuzzy;
+        newSphere = 1.0 / sp->sph_radius + (double)bMath::rnd() / sp->sph_fuzzy;
         sp->sph_radius2 = newSphere * newSphere;
     }
 

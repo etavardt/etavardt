@@ -7,13 +7,16 @@ include_directories(
 
 file(GLOB SOURCE_FILES LIST_DIRECTORIES false
     src/*.cpp
+    src/*.c
 )
 
 file(GLOB HEADER_FILES LIST_DIRECTORIES false
     src/*.hpp
+    src/*.h
 )
 
 add_executable(bob ${SOURCE_FILES} ${HEADER_FILES})
+#set_property(TARGET bob PROPERTY C_STANDARD 11)
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_options(bob PUBLIC "SHELL:-O0 -pg -no-pie -fno-builtin -Wall -Wextra")
     target_link_options(bob PUBLIC "SHELL:-O0 -pg -no-pie -fno-builtin" "LINKER:-static,-demangle,--disable-dynamicbase,--disable-reloc-section") #this works as well

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <memory>
 
+#include "Preprocessor.hpp"
 #include "Parser.hpp"
 #include "Bound_3D.hpp"
 #include "Clip_3D.hpp"
@@ -26,8 +27,6 @@ String Bob::_Version = "Version 1.0";
 String Bob::_Date = "August 3, 1992";
 String Bob::_Copyright = "Copyright 1989-1992 Christopher D. Watkins & Stephen B. Coy: Cpp upgrade by Thomas C. Etavard circa 2021";
 
-//TODO: TCE: remove this extern and replace with include of a PreProc header file
-extern int preproc(const String &infile, const String &outfile);
 extern int tickflag;
 
 Bob &bobApp = Bob::getApp();
@@ -228,7 +227,7 @@ int Bob::runApp() {
     stop_line = (-1); /* helps to catch no studio error */
                       //    cout << "cout: In Bob::runApp preprocess=" << preprocess << endl;
     if (preprocess) {
-        preproc(infilename, "yyz.b");
+        Preprocessor::preproc(infilename, "yyz.b");
         parser.ReadSceneFile(infilename, String("yyz.b"));
         /* remove("yyz.b"); */
     } else {

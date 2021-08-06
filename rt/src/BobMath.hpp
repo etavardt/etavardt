@@ -2,9 +2,13 @@
 #include "defs.hpp"
 
 #include <cmath>
+//#include <stdlib.h>
+
+//typedef unsigned long long uint64_t;
+//typedef int uint64_t;
+extern "C" int next();
 
 namespace bMath {
-
 #ifdef HUGE_NUM
 #undef HUGE_NUM
 #endif
@@ -28,6 +32,8 @@ inline T abs(T a) { return (((a) < (T)0) ? (-(a)) : (a)); }
 
 //#define rnd() (((double)rand()) / RAND_MAX)
 inline double rnd() { return ((static_cast<double>(rand())) / RAND_MAX); }
+//inline double rnd() { return ((static_cast<double>(next())) / RAND_MAX); }
+//inline double rnd() { return (static_cast<double>(next())); }
 
 //#define FLOOR(a) ((a) > 0 ? (int)(a) : -(int)(a))
 //template <typename T>

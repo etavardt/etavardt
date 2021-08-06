@@ -146,8 +146,8 @@ void Screen_3D::scan0(void) {
     for (j = start_line; j < stop_line; j++) {
         for (i = 0; i < x_res; i++) {
             if (jitter) {
-                x = i + rand() / (double)RAND_MAX;
-                y = j + rand() / (double)RAND_MAX;
+                x = i + bMath::rnd();
+                y = j + bMath::rnd();
             } else {
                 x = i + 0.5; /* hit center of pixel */
                 y = j + 0.5;
@@ -190,8 +190,8 @@ void Screen_3D::scan1(void) {
     for (j = start_line; j < stop_line; j++) {
         for (i = 0; i < x_res + 1; i++) {
             if (jitter) {
-                x = i + rand() / (double)RAND_MAX;
-                y = j + rand() / (double)RAND_MAX;
+                x = i + bMath::rnd();
+                y = j + bMath::rnd();
             } else {
                 x = i + 0.5; /* hit center of pixel */
                 y = j + 0.5;
@@ -867,7 +867,7 @@ void Screen_3D::scan3(void) {
 
 } /* end of Scan3() */
 
-#define ARAND() (((rand() / (double)RAND_MAX) / 4.0) - 0.125)
+#define ARAND() (((bMath::rnd()) / 4.0) - 0.125)
 
 // TODO: TCE any way we can do this iterativly instead of recursivly?
 // used in scan3

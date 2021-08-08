@@ -5,39 +5,22 @@
 #include "Camera_3D.hpp"
 #include "PicFile_3D.hpp"
 
-#define BOB_ENV "BOB"
-#define PATH_DELIM ';'
+const String BOB_ENV = "BOB";
+const char PATH_DELIM = ';';
 #define MAX_PATHS (32)
 
 class App;
 
 class Bob : public App {
-  private:
-    int xres = (-1), yres = (-1), depth = (-1), amode = (-1), start = (-1), stop = (-1), bunch = (-1);
-
-  protected:
-    Bob() : App() {}
-    Bob(Bob const&) = delete;
-    void operator=(Bob const&) = delete;
-    // ~Bob() { App::app = nullptr; }
-
-    void init_env() const;
+    using App::App;
 
   public:
-    int runApp() override;
-    int processCmdLine(int argCnt, char **argList) override;
-
-    static void clearScreen();
-    static Bob &getApp();
-
-    void usage() const;
-
     static String _Program, _Version, _Date, _Copyright;
     static ArrayOfStrings paths;
 
-    String progname = "";
-    String infilename = "";
-    String outfilename = "";
+    String progname;
+    String infilename;
+    String outfilename;
 
     bool resume = false;
     bool preprocess = true;
@@ -48,4 +31,20 @@ class Bob : public App {
     PicFile_3D picFile; // Bob has a Pic File
 
     static double rayeps; // the smallest allowable ray size, color value, or double
+
+    Bob(Bob const&) = delete;
+    void operator=(Bob const&) = delete;
+
+    int runApp() override;
+    int processCmdLine(int argCnt, char **argList) override;
+
+    static void clearScreen();
+    static Bob &getApp();
+
+    void usage() const;
+
+  private:
+    int xres = (-1), yres = (-1), depth = (-1), amode = (-1), start = (-1), stop = (-1), bunch = (-1);
+
+    void init_env() const;
 };

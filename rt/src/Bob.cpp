@@ -49,7 +49,7 @@ void Bob::init_env() const {
     String sub;
 
     //	cout << "cout: " << "In Bob::init_env : Pre getenv" << endl;
-    sub = (getenv(BOB_ENV) == nullptr) ? "" : getenv(BOB_ENV);
+    sub = (getenv(BOB_ENV.c_str()) == nullptr) ? "" : getenv(BOB_ENV.c_str());
     //    cout << "cout: " << "In Bob::init_env : Post getenv: Pre strdup: sub=" << sub << endl;
     if (sub == "") {
         // setup Bob Env Paths

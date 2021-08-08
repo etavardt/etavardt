@@ -12,6 +12,9 @@ class App {
     public:
     static App *app;
 
+    App(App const&) = delete;
+    void operator=(App const&) = delete;
+
     static App &getApp();
     virtual int runApp() = 0;
     virtual int processCmdLine(int _argCnt, char **_argList) { argCnt = _argCnt; argList = _argList; return 1; }

@@ -17,8 +17,10 @@ class Camera_3D; // avoid circular issue
 
 class Screen_3D {
     private:
-    int x_res, y_res;
-    double frustrumwidth, frustrumheight;
+    int x_res = 0;
+    int y_res = 0;
+    double frustrumwidth = 0;
+    double frustrumheight = 0;
     Camera_3D &camera;
 
     PicFile_3D picFile;
@@ -43,7 +45,7 @@ class Screen_3D {
 
     void shoot(double x, double y, Color &color);
     void adapt(int i, int j, double x, double y, Color &color, int step);
-    int comp(unsigned int a, unsigned int b);
+    int comp(unsigned int a, unsigned int b) const;
 
     inline void shootIfFlagged(int y, Color &color, int i, int j, int *flags[7], Pixel *buf[7]) {
         if (!flags[j][i]) {
@@ -68,11 +70,12 @@ class Screen_3D {
     }
 
     public:
-    int start_line, stop_line;
+    int start_line = 0;
+    int stop_line = 0;
 
 //    explicit Screen_3D(Camera_3D &cam, PicFile_3D &pic);
     explicit Screen_3D(Camera_3D &cam);
-    ~Screen_3D();
+    ~Screen_3D() = default;
 
     void render(const String &picfile, int xres, int yres);
 

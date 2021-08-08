@@ -17,9 +17,11 @@ class Bob : public App {
 
   protected:
     Bob() : App() {}
-    ~Bob() { App::app = nullptr; }
+    Bob(Bob const&) = delete;
+    void operator=(Bob const&) = delete;
+    // ~Bob() { App::app = nullptr; }
 
-    void init_env();
+    void init_env() const;
 
   public:
     int runApp() override;

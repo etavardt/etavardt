@@ -32,10 +32,9 @@ extern int tickflag;
 const Bob &bobApp = Bob::getApp();
 
 Bob &Bob::getApp() {
-    if (app == nullptr) {
-        app = new Bob();
-    }
-    return static_cast<Bob &>(*app);
+    static Bob instance;
+    app = &instance;
+    return instance;
 }
 
 ArrayOfStrings Bob::paths;
@@ -43,7 +42,7 @@ ArrayOfStrings Bob::paths;
     init_env() -- reads the environment and sets up the
         paths[] array.
 */
-void Bob::init_env() {
+void Bob::init_env() const {
     //    cout <<"cout: " << "In Bob::init_env" << endl;
 
     String path;

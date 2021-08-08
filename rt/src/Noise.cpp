@@ -35,6 +35,8 @@
 #define P3      337
 #define phi     0.6180339
 
+extern "C" uint64_t x;
+
 double Noise::pts[NUMPTS];
 
 /*
@@ -43,7 +45,9 @@ double Noise::pts[NUMPTS];
 void Noise::init_noise() {
     int i;
 
-    srand(NOISE_SEED);
+    x = NOISE_SEED;
+
+//    srand(NOISE_SEED);
     for (i = 0; i < NUMPTS; i++) {
         pts[i] = bMath::rnd() - 0.5;
     }

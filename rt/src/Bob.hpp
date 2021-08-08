@@ -28,7 +28,7 @@ class Bob : public App {
     static void clearScreen();
     static Bob &getApp();
 
-    void usage();
+    void usage() const;
 
     static String _Program, _Version, _Date, _Copyright;
     static ArrayOfStrings paths;

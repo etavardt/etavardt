@@ -5,5 +5,5 @@
 
 class Exception : public std::logic_error {
 public:
-    explicit Exception(const String& arg);
+    explicit Exception(const String& arg) : std::logic_error(arg) {}
 };

@@ -8,7 +8,7 @@
 #include "Parser.hpp"
 #include "Bound_3D.hpp"
 #include "Clip_3D.hpp"
-#include "noise.hpp"
+#include "Noise.hpp"
 #include "RayTrace_3D.hpp"
 #include "Screen_3D.hpp"
 #include "Stats.hpp"
@@ -29,7 +29,7 @@ String Bob::_Copyright = "Copyright 1989-1992 Christopher D. Watkins & Stephen B
 
 extern int tickflag;
 
-Bob &bobApp = Bob::getApp();
+const Bob &bobApp = Bob::getApp();
 
 Bob &Bob::getApp() {
     if (app == nullptr) {
@@ -50,7 +50,7 @@ void Bob::init_env() {
     String sub;
 
     //	cout << "cout: " << "In Bob::init_env : Pre getenv" << endl;
-    sub = (getenv(BOB_ENV) == NULL) ? "" : getenv(BOB_ENV);
+    sub = (getenv(BOB_ENV) == nullptr) ? "" : getenv(BOB_ENV);
     //    cout << "cout: " << "In Bob::init_env : Post getenv: Pre strdup: sub=" << sub << endl;
     if (sub == "") {
         // setup Bob Env Paths
@@ -58,14 +58,14 @@ void Bob::init_env() {
         cout << "cur_path: " << cur_path << endl;
 
         // if (std::filesystem::exists(path))
-        paths.push_back("");
-        paths.push_back(".");
-        paths.push_back(".\\scns");
-        paths.push_back(".\\objs");
-        paths.push_back(".\\maps");
-        paths.push_back(".\\bkgs");
-        paths.push_back(".\\cols");
-        paths.push_back(".\\srfs");
+        paths.emplace_back("");
+        paths.emplace_back(".");
+        paths.emplace_back(".\\scns");
+        paths.emplace_back(".\\objs");
+        paths.emplace_back(".\\maps");
+        paths.emplace_back(".\\bkgs");
+        paths.emplace_back(".\\cols");
+        paths.emplace_back(".\\srfs");
         // throw ExceptionBob Environment variable was not set");
     } else {
         //    cout << "cout: " << "In Bob::init_env : Post getenv: Pre eraseAllMatching" << endl;
@@ -75,7 +75,7 @@ void Bob::init_env() {
 
         paths = toArrayOfStrings(path, PATH_DELIM);
         // cout << "Bob::paths.size(): " << Bob::paths.size() << endl;
-        paths.insert(paths.begin(), ""); /* current dir */
+        paths.emplace(paths.begin(), ""); /* current dir */
     }
     // cout << "Bob::paths.size(): " << Bob::paths.size() << endl;
 
@@ -85,8 +85,6 @@ int Bob::processCmdLine(int argCnt, char **argList) {
     // cout << "cout: " << "In Bob::processCmdLine : Pre App::processCmdLine" << endl;
     App::processCmdLine(argCnt, argList);
     // cout << "cout: " << "In Bob::processCmdLine : Post App::processCmdLine" << endl;
-
-    int i;
 
     // cout << "cout: " << "In Bob::processCmdLine : Pre init_env" << endl;
     init_env(); /* init environment paths */
@@ -102,16 +100,16 @@ int Bob::processCmdLine(int argCnt, char **argList) {
     }
 
     /* init global clips before parser is called */
-    GlobalClip::GlobalClipTop = std::shared_ptr<GlobalClip>(new GlobalClip());
+    GlobalClip::GlobalClipTop = std::make_shared<GlobalClip>();
     Stats::trackMemoryUsage(sizeof(GlobalClip));
     //parser.ptrchk(GlobalClip::GlobalClipTop, "global clip structure");
-    GlobalClip::GlobalClipTop->next = NULL;
-    GlobalClip::GlobalClipTop->clip = NULL;
+    GlobalClip::GlobalClipTop->next = nullptr;
+    GlobalClip::GlobalClipTop->clip = nullptr;
 
     infilename = ""; /* to be safe */
 
     tickflag = 1; /* default to full stats */
-    for (i = 1; i < argCnt; i++) { /* loop through command line args */
+    for (int i = 1; i < argCnt; i++) { /* loop through command line args */
         if (argList[i][0] == '-') {
             switch (argList[i][1]) {
             case 'i': /* set resolution */
@@ -194,7 +192,7 @@ int Bob::processCmdLine(int argCnt, char **argList) {
     return 1;
 }
 
-void Bob::usage() {
+void Bob::usage() const {
     cout << _Program << "        " << _Version << "        " << _Date << endl << _Copyright << endl << endl;
     cout << "Usage:  " << progname << " [flags] <file>" << endl;
     cout << "       -s set silent mode" << endl;

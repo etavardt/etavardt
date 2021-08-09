@@ -17,7 +17,7 @@ class Camera_3D; // avoid circular issue
 
 class Screen_3D {
     private:
-    int x_res, y_res;
+    int x_res = 0 , y_res = 0;
     double frustrumwidth, frustrumheight;
     Camera_3D &camera;
 

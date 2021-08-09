@@ -178,7 +178,6 @@ int Bound_3D::SortAndSplit(Object **top_handle, long count) {
 
 
         cp->o_type = T_COMPOSITE;
-        //TODO: TCE Remove:        cp->o_procs = &NullProcs;       /* die if you call any  */
         cp->o_surf = NULL; /* no surface...        */
         cd = new CompositeData();
         Stats::trackMemoryUsage(sizeof(CompositeData));

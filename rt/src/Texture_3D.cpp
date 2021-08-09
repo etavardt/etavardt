@@ -33,7 +33,7 @@
 #include "BobMath.hpp"
 #include "Exception.hpp"
 #include "Surface_3D.hpp"
-#include "noise.hpp"
+#include "Noise.hpp"
 
 /*
     Check -- create a checkerboard, strange

@@ -8,7 +8,7 @@
 #include "Parser.hpp"
 #include "Bound_3D.hpp"
 #include "Clip_3D.hpp"
-#include "noise.hpp"
+#include "Noise.hpp"
 #include "RayTrace_3D.hpp"
 #include "Screen_3D.hpp"
 #include "Stats.hpp"
@@ -180,7 +180,7 @@ int Bob::processCmdLine(int argCnt, char **argList) {
         }
     }
     if (infilename.empty()) { /* no file name given */
-        infilename = "venus3"; //"crypt1";//"venus3";
+        infilename = "light"; //"crypt1";//"venus3"; "light"; for cone clip test?
         //usage();            /* no return */
     }
     outfilename = infilename;

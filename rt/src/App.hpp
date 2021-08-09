@@ -2,16 +2,17 @@
 
 class App {
     protected:
-    App() : argCnt(0), argList(nullptr) {} //Default constructor hidden to make it a singleton
+    App() = default; //Default constructor hidden to make it a singleton
+    virtual ~App() = default;
 
     private:
-    int argCnt;
-    char **argList;
+    int argCnt = 0;
+    char **argList = nullptr;
 
     public:
     static App *app;
 
     static App &getApp();
     virtual int runApp() = 0;
-    virtual int processCmdLine(int argCnt, char **argList) {this->argCnt = argCnt; this->argList = argList; return 1;}
+    virtual int processCmdLine(int _argCnt, char **_argList) {argCnt = _argCnt; argList = _argList; return 1;}
 };

@@ -43,30 +43,30 @@ void Texmap_3D::tex_read_img(const String &filename, Texmap &tm) {
     typedef unsigned char rows;
 
     tm.red = new Lines[h]();
-    Stats::trackMemoryUsage(sizeof(Lines[h]));
+    Stats::trackMemoryUsage(sizeof(Lines)*h);
     //    tm->red = (unsigned char **)vmalloc(sizeof(unsigned char *) * h);
 
     tm.grn = new Lines[h]();
-    Stats::trackMemoryUsage(sizeof(Lines[h]));
+    Stats::trackMemoryUsage(sizeof(Lines)*h);
     //    tm->grn = (unsigned char **)vmalloc(sizeof(unsigned char *) * h);
 
     tm.blu = new Lines[h]();
-    Stats::trackMemoryUsage(sizeof(Lines[h]));
+    Stats::trackMemoryUsage(sizeof(Lines)*h);
     //    tm->blu = (unsigned char **)vmalloc(sizeof(unsigned char *) * h);
 
     for (int j = 0; j < h; j++) {
         tm.red[j] = new rows[w]();
-        Stats::trackMemoryUsage(sizeof(rows[w]));
+        Stats::trackMemoryUsage(sizeof(rows)*w);
         //        tm->red[j] = (unsigned char *)vmalloc(sizeof(unsigned char) * w);
 
 
         tm.grn[j] = new rows[w]();
-        Stats::trackMemoryUsage(sizeof(rows[w]));
+        Stats::trackMemoryUsage(sizeof(rows)*w);
         //        tm->grn[j] = (unsigned char *)vmalloc(sizeof(unsigned char) * w);
 
 
         tm.blu[j] = new rows[w]();
-        Stats::trackMemoryUsage(sizeof(rows[w]));
+        Stats::trackMemoryUsage(sizeof(rows)*w);
         //        tm->blu[j] = (unsigned char *)vmalloc(sizeof(unsigned char) * w);
 
     }

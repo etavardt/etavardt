@@ -26,9 +26,11 @@
 #include "Screen_3D.hpp"
 
 #include <cmath>
+#include <array>
 
 #include "Bob.hpp"
 #include "BobMath.hpp"
+#include "Exception.hpp"
 #include "RayTrace_3D.hpp"
 #include "Vector_3D.hpp"
 #include "PicFile_3D.hpp"
@@ -40,13 +42,7 @@
 extern int tickflag;
 
 Screen_3D::Screen_3D(Camera_3D &cam)
-  : x_res(0), y_res(0),
-    frustrumwidth(0.0), frustrumheight(0.0),
-    camera(cam),
-    start_line(0), stop_line(0) {
-}
-
-Screen_3D::~Screen_3D() {
+  : camera(cam) {
 }
 
 void Screen_3D::render(const String &picfile, int xres, int yres) {
@@ -120,7 +116,7 @@ void Screen_3D::scrInit(int xres, int yres, const String &picFileName) {
     comp - compares two numbers, returns 1 if close enough, 0 otherwise
     used in scan2 only
 */
-int Screen_3D::comp(unsigned int a, unsigned int b) {
+int Screen_3D::comp(unsigned int a, unsigned int b) const {
     int diff;
 
     diff = a - b;
@@ -139,7 +135,8 @@ int Screen_3D::comp(unsigned int a, unsigned int b) {
 void Screen_3D::scan0(void) {
     Pixel *buf;
     Color color; /* color of current traced ray */
-    double x, y;
+    double x;
+    double y;
 
     buf = new Pixel[x_res]();
 
@@ -182,7 +179,7 @@ void Screen_3D::scan1(void) {
      * plus one more for the average...
      */
 
-    oldbuf = NULL;
+    oldbuf = nullptr;
     curbuf = new Pixel[x_res + 1](); // Why +1
     buf = new Pixel[x_res + 1]();    // Why +1
 
@@ -1065,6 +1062,8 @@ void Screen_3D::shoot(double x, double y, Color &color) {
         VecComb(-(camera.eye.view_angle_y) * (2.0 * y / (double)y_res - 1.0), looking_up, camera.eye.view_angle_x * (2.0 * x / (double)x_res - 1.0), leftvec, dir);
         VecAdd(dir, viewpoint, ray.P);
         break;
+    default:
+        throw Exception("camera project not known");
     } /* end of projection switch */
 
     fuzzy_ray = 0;
@@ -1088,7 +1087,7 @@ void Screen_3D::shoot(double x, double y, Color &color) {
             VecSub(dir, ray2.P, ray2.D);
             VecNormalize(ray2.D);
 
-            RayTrace_3D::trace(0, 1.0, &ray2, color, 1.0, NULL);
+            RayTrace_3D::trace(0, 1.0, &ray2, color, 1.0, nullptr);
             if (color.r > 1.0) color.r = 1.0;
             if (color.g > 1.0) color.g = 1.0;
             if (color.b > 1.0) color.b = 1.0;
@@ -1098,7 +1097,7 @@ void Screen_3D::shoot(double x, double y, Color &color) {
         double cs = (1.0 / (double)camera.samples);
         color = sum_color * cs;
     } else {
-        RayTrace_3D::trace(0, 1.0, &ray, color, 1.0, NULL);
+        RayTrace_3D::trace(0, 1.0, &ray, color, 1.0, nullptr);
         if (color.r > 1.0) color.r = 1.0;
         if (color.g > 1.0) color.g = 1.0;
         if (color.b > 1.0) color.b = 1.0;

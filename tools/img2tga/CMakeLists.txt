@@ -1,3 +1,3 @@
 include_directories(.)
 
-add_executable(img2tga IMG2TGA.CPP)
+add_executable(img2tga img2tga.cpp)

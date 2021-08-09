@@ -1,1 +1,0 @@
-RUNME1ST.bat "C:\Apps\Dev\Projects\VS Code Projects"

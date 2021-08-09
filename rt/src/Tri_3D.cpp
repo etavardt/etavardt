@@ -61,7 +61,7 @@ Tri_3D::Tri_3D() : Object_3D() {
     Object_3D::o_surf = Surface_3D::currentSurface;
 }
 Tri_3D::~Tri_3D() {
-    Object_3D::~Object_3D();
+    //Object_3D::~Object_3D();
     if (o_data != NULL) {
         delete (TriData *)o_data;
     }

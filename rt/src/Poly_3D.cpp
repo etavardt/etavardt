@@ -48,7 +48,7 @@ Poly_3D::Poly_3D() : Object_3D() {
     Object_3D::o_surf = Surface_3D::currentSurface;
 }
 Poly_3D::~Poly_3D() {
-    Object_3D::~Object_3D();
+    //Object_3D::~Object_3D();
     if (o_data != NULL) {
         delete (PolyData*)o_data;
     }

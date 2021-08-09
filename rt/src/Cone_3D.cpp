@@ -54,7 +54,7 @@ Cone_3D::Cone_3D() : Object_3D() {
     Object_3D::o_surf = Surface_3D::currentSurface;
 }
 Cone_3D::~Cone_3D() {
-    Object_3D::~Object_3D();
+    // Object_3D::~Object_3D();
     if (o_data != NULL) {
         delete (ConeData *)o_data;
     }

@@ -46,7 +46,7 @@ Ring_3D::Ring_3D(): Object_3D() {
     Object_3D::o_surf = Surface_3D::currentSurface;
 }
 Ring_3D::~Ring_3D() {
-    Object_3D::~Object_3D();
+    //Object_3D::~Object_3D();
     if (o_data != NULL) {
         delete (RingData*)o_data;
     }

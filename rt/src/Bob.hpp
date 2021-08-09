@@ -15,14 +15,17 @@ class Bob : public App {
     using App::App;
 
   public:
-    static String _Program, _Version, _Date, _Copyright;
+    static String _Program;
+    static String _Version;
+    static String _Date;
+    static String _Copyright;
     static ArrayOfStrings paths;
 
     String progname;
     String infilename;
     String outfilename;
 
-    bool resume = false;
+    bool resume     = false;
     bool preprocess = true;
     int  start_line = 0;
     int  stop_line  = 0;
@@ -44,7 +47,13 @@ class Bob : public App {
     void usage() const;
 
   private:
-    int xres = (-1), yres = (-1), depth = (-1), amode = (-1), start = (-1), stop = (-1), bunch = (-1);
+    int xres  = -1;
+    int yres  = -1;
+    int depth = -1;
+    int amode = -1;
+    int start = -1;
+    int stop  = -1;
+    int bunch = -1;
 
     void init_env() const;
 };

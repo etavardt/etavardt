@@ -11,6 +11,11 @@ namespace bMath {
 #undef HUGE_NUM
 #endif
 
+#ifdef RAND_MAX
+#undef RAND_MAX
+#define RAND_MAX 0x7FFFFFFF
+#endif
+
 #define HUGE_NUM (1.0e8)
 
 /*

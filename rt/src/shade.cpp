@@ -33,7 +33,7 @@
 #include "Isect_3D.hpp"
 #include "Light_3D.hpp"
 #include "Clip_3D.hpp"
-#include "noise.hpp"
+#include "Noise.hpp"
 #include "config.hpp"
 
 #include "extern.hpp"

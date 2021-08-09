@@ -1,17 +1,25 @@
 #pragma once
 
 class App {
-    protected:
-    App() : argCnt(0), argList(nullptr) {} //Default constructor hidden to make it a singleton
+  protected:
+    App() = default; // Default constructor hidden to make it a singleton
+    virtual ~App() = default;
 
-    private:
-    int argCnt;
-    char **argList;
+  private:
+    int argCnt = 0;
+    char **argList = nullptr;
 
-    public:
+  public:
     static App *app;
+
+    App(App const &) = delete;
+    void operator=(App const &) = delete;
 
     static App &getApp();
     virtual int runApp() = 0;
-    virtual int processCmdLine(int argCnt, char **argList) {this->argCnt = argCnt; this->argList = argList; return 1;}
+    virtual int processCmdLine(int _argCnt, char **_argList) {
+        argCnt = _argCnt;
+        argList = _argList;
+        return 1;
+    }
 };

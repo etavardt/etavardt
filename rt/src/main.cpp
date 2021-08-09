@@ -39,10 +39,10 @@ int main(int ac, char **av) {
         // cout << "cout: In main: Post processCmdLine Pre runApp" << endl;
         app.runApp();
         // cout << "cout: In main: Post runApp" << endl;
-    } catch (Exception &e) {
+    } catch (const Exception &e) {
         cerr << "cerr: Exception caught in main: " << e.what() << endl;
         exit(1);
-    } catch (std::exception &e) {
+    } catch (const std::exception &e) {
         cerr << "cerr: Exception caught in main: " << e.what() << endl;
         exit(1);
     } catch (...) {

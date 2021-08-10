@@ -3,14 +3,17 @@
 
 include_directories(
     src/
+    ../3rdparty/easyloggingpp/src
 )
 
 file(GLOB SOURCE_FILES LIST_DIRECTORIES false
+../3rdparty/easyloggingpp/src/*.cc
     src/*.cpp
     src/*.c
 )
 
 file(GLOB HEADER_FILES LIST_DIRECTORIES false
+    ../3rdparty/easyloggingpp/src/*.h
     src/*.hpp
     src/*.h
 )

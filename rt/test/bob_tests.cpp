@@ -1,6 +1,9 @@
 #include <gtest/gtest.h>
 
 #include "Bob.hpp"
+#include "easylogging++.h"
+
+INITIALIZE_EASYLOGGINGPP
 
 TEST(BobTest, singletonCheck) {
     EXPECT_NE(App::app, nullptr); // Bob should already be created

@@ -16,6 +16,9 @@
 
 #include "extern.hpp"
 
+// 3rd Party Easy Logging++
+#include "easylogging++.h"
+
 using std::cerr;
 using std::cout;
 using std::endl;

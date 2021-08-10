@@ -25,12 +25,18 @@
 #include "App.hpp"
 #include "Exception.hpp"
 
+// 3rd Party Easy Logging++
+#include "easylogging++.h"
+
+INITIALIZE_EASYLOGGINGPP
+
 using std::cout;
 using std::cerr;
 using std::endl;
 
 int main(int ac, char **av) {
     try {
+        START_EASYLOGGINGPP(ac, av);
         // cout << "cout: In main: Pre getApp : " << App::app << endl;
         if (App::app == nullptr) throw Exception("Your application object was not created!");
         App &app = *App::app;
@@ -41,12 +47,15 @@ int main(int ac, char **av) {
         // cout << "cout: In main: Post runApp" << endl;
     } catch (const Exception &e) {
         cerr << "cerr: Exception caught in main: " << e.what() << endl;
+        LOG(ERROR) << "cerr: Exception caught in main: " << e.what() << endl;
         exit(1);
     } catch (const std::exception &e) {
         cerr << "cerr: Exception caught in main: " << e.what() << endl;
+        LOG(ERROR) << "cerr: Exception caught in main: " << e.what() << endl;
         exit(1);
     } catch (...) {
         cerr << "cerr: Unknown Exception caught in main" << endl;
+        LOG(ERROR) << "cerr: Unknown Exception caught in main" << endl;
         exit(1);
     }
     // exit(0);

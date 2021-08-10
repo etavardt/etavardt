@@ -29,9 +29,24 @@
 #include "Parser.hpp"
 #include "RayTrace_3D.hpp"
 
-#include "extern.hpp"
+//#include "extern.hpp"
 
-extern int tickflag;
+// extern int tickflag;
+// extern unsigned long nChecked;
+// extern unsigned long nEnqueued;
+// extern unsigned long nShadowCacheHits;
+// extern unsigned long maxQueueSize;
+// extern unsigned long totalQueues;
+// extern unsigned long totalQueueResets;
+
+unsigned long maxQueueSize = 0;
+unsigned long totalQueues = 0;
+unsigned long totalQueueResets = 0;
+int           tickflag = 1;        /* also set in main() */
+unsigned long nChecked = 0;
+unsigned long nEnqueued = 0;
+unsigned long nShadowCacheHits = 0;
+
 
 Bob &Stats::bob = Bob::getApp();
 unsigned long Stats::memAllocated = 0;

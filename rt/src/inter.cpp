@@ -31,8 +31,8 @@
 //#include "defs.hpp"
 //#include "extern.hpp"
 
-extern int nChecked;
-extern int nEnqueued;
+extern unsigned long nChecked;
+extern unsigned long nEnqueued;
 
 extern void PriorityQueueNull (void);
 extern int  PriorityQueueEmpty (void);

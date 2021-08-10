@@ -1380,7 +1380,7 @@ void Parser::yy_polygon() {
     num_pnts = cur_value;
 
     vlist = new Vec[num_pnts]();
-    Stats::trackMemoryUsage(sizeof(Vec[num_pnts]));
+    Stats::trackMemoryUsage(sizeof(Vec)*num_pnts);
     ptrchk(vlist, "polygon vertex list");
     i = 0;
 

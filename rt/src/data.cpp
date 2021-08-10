@@ -60,7 +60,7 @@ int         fuzzy_ray;
 // Stack      *InfileTop = NULL;      /* points to top of input file stack */
 //Object     *Root = NULL;
 
-double      minweight = MINWEIGHT;
+// double      minweight = MINWEIGHT;
 // int         maxlevel = MAXLEVEL;
 // int         deepest = 0;           /* deepest level reached */
 
@@ -69,17 +69,17 @@ double      minweight = MINWEIGHT;
 // unsigned long nReflected = 0;
 // unsigned long nRefracted = 0;
 
-unsigned long maxQueueSize = 0;
-unsigned long totalQueues = 0;
-unsigned long totalQueueResets = 0;
+// unsigned long maxQueueSize = 0;
+// unsigned long totalQueues = 0;
+// unsigned long totalQueueResets = 0;
 
-int           tickflag = 1;        /* also set in main() */
+// int           tickflag = 1;        /* also set in main() */
 //int           resume = 0;          /* also set in main() */
 //int           gr_mode = 0;
 
-unsigned long nChecked = 0;
-unsigned long nEnqueued = 0;
-unsigned long nShadowCacheHits = 0;
+// unsigned long nChecked = 0;
+// unsigned long nEnqueued = 0;
+// unsigned long nShadowCacheHits = 0;
 //unsigned long   MemAllocated = 0;
 
 // FILE *yyin;          /* pointer to input file */

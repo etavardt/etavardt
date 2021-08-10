@@ -65,7 +65,7 @@ extern unsigned long nShadowCacheHits;
 extern int gr_mode;
 
 // shade
-extern double minweight;
+//extern double minweight;
 
 // Bob, Parser, shade, stats, trace
 // extern int maxlevel;

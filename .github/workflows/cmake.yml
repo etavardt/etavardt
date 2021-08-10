@@ -22,9 +22,10 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Setup cmake
-      with:
-        cmake-version: '3.21.1'
-    #- name: Version
+      uses: DarwinInnovation/cmake-project-version-action@v1.0
+      # with:
+      #   cmake-version: '3.21.1'
+    - name: Version
       run: cmake --version
 
     - name: Configure CMake

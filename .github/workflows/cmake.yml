@@ -24,7 +24,7 @@ jobs:
     - name: Setup cmake
       with:
         cmake-version: '3.21.1'
-    - name: Version
+    #- name: Version
       run: cmake --version
 
     - name: Configure CMake

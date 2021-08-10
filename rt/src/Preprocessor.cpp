@@ -273,13 +273,13 @@ void Preprocessor::add_macro(char *txt) {
 
 
     sscanf(txt, "%s", macro);
-    mptr->macro = _strdup(macro);
+    mptr->macro = strdup(macro);
 
     mptr->mlen = strlen(mptr->macro);
 
     txt += mptr->mlen;
     expand(txt); /* expand the macro def to line */
-    mptr->text = _strdup(line);
+    mptr->text = strdup(line);
 
     mptr->tlen = strlen(mptr->text);
 

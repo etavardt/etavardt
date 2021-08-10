@@ -223,6 +223,8 @@ void Bob::clearScreen() {
 }
 
 int Bob::runApp() {
+    LOG(INFO) << "cout: Entered Bob::runApp" << endl;
+
     Parser parser;
     stop_line = (-1); /* helps to catch no studio error */
                       //    cout << "cout: In Bob::runApp preprocess=" << preprocess << endl;

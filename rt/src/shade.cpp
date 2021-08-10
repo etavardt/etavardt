@@ -44,6 +44,7 @@
 unsigned long RayTrace_3D::nReflected = 0;
 unsigned long RayTrace_3D::nRefracted = 0;
 
+//double      minweight = MINWEIGHT;
 
 /*
     reflect -- given an incident vector I, and the normal N,
@@ -350,7 +351,7 @@ void RayTrace_3D::shade(int level, double weight, Point &P, Vec &N, Vec &I, cons
         VecCopy(P, tray.P);
 
         double max_weight = weight * bMath::max(bMath::max(surf->spec.r, surf->spec.g), surf->spec.b);
-        if ((level < maxlevel - 1) && (max_weight > minweight)) {
+        if ((level < maxlevel - 1) && (max_weight > MINWEIGHT)) {
             nReflected++;
             if (R_calced) {
                 VecCopy(R, tray.D);

@@ -8,7 +8,7 @@ One may view a TGA file by using this URL: http://schmittl.github.io/tgajs/
 
 BobRT CPP edition: uses the following 3rd Party Library(s)
 EasyLogging++:
-
+<!--
 ```
 git submodule add https://github.com/amrayn/easyloggingpp.git 3rdParty/easyloggingpp
 ```
@@ -18,3 +18,4 @@ This repository uses submodules. Use `recurse-submodules` when you clone it.
 ```
 git clone --recurse-submodule https://github.com/etavardt/BobRT.git
 ```
+-->

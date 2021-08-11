@@ -38,6 +38,12 @@
 //#include "Object_3D.hpp"
 ////#include "extern.hpp"
 
+// 3rd Party Easy Logging++
+#include "easylogging++.h"
+
+#ifndef _strdup
+#define _strdup strdup
+#endif
 
 using std::cerr;
 using std::cout;
@@ -273,13 +279,13 @@ void Preprocessor::add_macro(char *txt) {
 
 
     sscanf(txt, "%s", macro);
-    mptr->macro = strdup(macro);
+    mptr->macro = _strdup(macro);
 
     mptr->mlen = strlen(mptr->macro);
 
     txt += mptr->mlen;
     expand(txt); /* expand the macro def to line */
-    mptr->text = strdup(line);
+    mptr->text = _strdup(line);
 
     mptr->tlen = strlen(mptr->text);
 

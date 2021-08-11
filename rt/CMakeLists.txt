@@ -3,19 +3,23 @@
 
 include_directories(
     src/
+    ../3rdParty/easyloggingpp/src/
 )
 
 file(GLOB SOURCE_FILES LIST_DIRECTORIES false
+    ../3rdParty/easyloggingpp/src/*.cc
     src/*.cpp
     src/*.c
 )
 
 file(GLOB HEADER_FILES LIST_DIRECTORIES false
+    ../3rdParty/easyloggingpp/src/*.h
     src/*.hpp
     src/*.h
 )
 
 add_executable(bob ${SOURCE_FILES} ${HEADER_FILES})
+target_include_directories(bob PUBLIC 3rdParty/easyloggingpp)
 #set_property(TARGET bob PROPERTY C_STANDARD 11)
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_options(bob PUBLIC "SHELL:-O0 -pg -no-pie -fno-builtin -Wall -Wextra")

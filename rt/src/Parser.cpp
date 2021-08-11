@@ -363,7 +363,7 @@ void Parser::yy_light() {
         case TYPE:
             get_token();
             switch (cur_token) {
-            case POINT:
+            case T_L_POINT:
                 Light::light_head->type = L_POINT;
                 break;
             case SPHERICAL:
@@ -616,7 +616,7 @@ Texture_3D *Parser::yy_texture() {
                 yyerror(String("Sorry, only two surfaces per texture allowed.\n"));
             }
             break;
-        case PATTERN:
+        case T_S_PATTERN:
             get_token();
             switch (cur_token) {
             case CHECKER:
@@ -1373,7 +1373,7 @@ void Parser::yy_polygon() {
     /* get number of points */
 
     get_token();
-    if (cur_token != POINTS) {
+    if (cur_token != T_L_POINTS) {
         yyerror(String("Number of points in polygon needed."));
     }
     get_num();

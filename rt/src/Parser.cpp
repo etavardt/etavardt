@@ -42,15 +42,16 @@
 
 #include "extern.hpp"
 
+//extern const Bob &bobApp;
 extern int tickflag;
 
 extern FILE *env_fopen(const String &name, const String &mode); // in file.cpp
 
+Bob &Parser::bob = Bob::getApp();
+
 int Parser::nLights     = 0; /* it's a dark world out there */
 int Parser::xResolution = 320;
 int Parser::yResolution = 200;
-
-Parser::Parser() : bob(Bob::getApp()), camera(bob.camera), yyin(nullptr), cur_token(UNKNOWN), cur_text(""), cur_value(0.0) {}
 
 /*
     get_vec() -- get a vector.
@@ -147,6 +148,7 @@ void Parser::yy_background() {
 */
 void Parser::yy_studio() {
     Vec tmp;
+    Camera_3D &camera = bob.camera;
 
     //    cout << "cout: In Parser::yy_studio Pre MakeVectors" << endl;
     /* assign defaults */
@@ -784,7 +786,7 @@ Texmap *Parser::yy_texmap() {
         switch (cur_token) {
         case IMAGE:
             get_token();
-            cur_texmap->tex_read_img(cur_text, *cur_texmap);
+            cur_texmap->tex_read_img(cur_text);
             break;
         case CENTER:
             get_vec();

@@ -22,7 +22,7 @@ Object_3D::~Object_3D() {}
 
 int Object_3D::intersect(Ray *UNUSED_VAR(b), Isect &UNUSED_VAR(c)) {
     // parameters are not used here for now
-    // TODO: a composite class could cycle threw the children in order find a child that intersects, could it not?
+    // TCE: As is, unable to create a composite class could cycle threw the children in order find a child that intersects, could it not?
     std::cerr << "Called non-existant intersect routine for bounding box, dying..." << std::endl;
     throw Exception("Thrown from Object_3D::intersect");
     return 1; /* keep lint/compilers quiet */
@@ -30,7 +30,7 @@ int Object_3D::intersect(Ray *UNUSED_VAR(b), Isect &UNUSED_VAR(c)) {
 
 void Object_3D::normal(Isect &UNUSED_VAR(b), Point &UNUSED_VAR(c), Vec &UNUSED_VAR(d)) {
     // parameters are not used here for now
-    // TODO: a composite class could cycle threw the children in order find a childs normal that should be used, could it not?
+    // TCE: As is, unable to create a composite class could cycle threw the children in order find a childs normal that should be used, could it not?
     std::cerr << "Called non-existant normal routine for bounding box, dying..." << std::endl;
     throw Exception("Thrown from Object_3D::normal");
 }

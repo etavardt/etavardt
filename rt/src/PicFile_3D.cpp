@@ -33,8 +33,6 @@
 #include "Screen_3D.hpp"
 #include "Exception.hpp"
 #include "String.hpp"
-//#include "defs.hpp"
-//#include "extern.hpp"
 
 using std::cerr;
 using std::cout;
@@ -118,7 +116,6 @@ bool PicFile_3D::open(const String &_filename, int _x, int _y) {
 void PicFile_3D::writeLine(const Pixel buf[]) {
     int i = 0,          /* which pixel? */
         total,      /* how many left in scan? */
-        // count,      /* current run total */
         cr, cg, cb, /* current run color */
         r, g, b;    /* next pixel color */
     double seconds; /* another helping? */
@@ -129,7 +126,7 @@ void PicFile_3D::writeLine(const Pixel buf[]) {
     cb = buf[i].b;
     i++;
     do {
-        int count = 1;
+        int count = 1; /* current run total */
         total--;
         while (1) {
             r = buf[i].r;

@@ -13,7 +13,7 @@ class Clip_3D; // Use this to avoid circluar processing which causes error: 'Obj
 //class Isect;
 
 // Currently Object_3D also serves Composite object role
-// TODO: TCE: Create a child class that does this and make this a pure virtual class
+// TCE: Not able to Create a child class that does this and make this a pure virtual class
 class Object_3D {
     private:
     public:

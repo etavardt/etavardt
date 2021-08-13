@@ -220,7 +220,6 @@ int RayTrace_3D::shadow(Ray *ray, Isect &hit, double tmax, Color &color, int lev
     surface of the light being sampled.
 */
 
-//TODO: TCE:Should fall under Ray?
 //    Ray    *ray;
 //    Isect    *hit;
 //    double    tmax;        /* dist to light we are trying to hit */

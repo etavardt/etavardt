@@ -21,24 +21,19 @@ enum TexPattern {
 
 class Texture_3D {
     private:
-    //TODO: TCE: Create a TexPattern base and create 3 children each with one of these functions as an override to a virtual function as TomC suggested.
-    double tex_checker(const Point &P, const Texture_3D &tex);
-    double tex_spherical(const Point &P, const Texture_3D &tex);
-    double tex_noise(const Point &P, const Texture_3D &tex);
-
-    void get_map_entry(const Texmap &tm, double x, double y, Color &color);
-    void tex_project(const Texmap &_tm, const Point &P, double *x, double *y);
-    void tile(const Texmap &tm, double *x, double *y);
+    // Patterns to apply
+    double tex_checker(const Point &P);
+    double tex_spherical(const Point &P);
+    double tex_noise(const Point &P);
 
     public:
-    Texture_3D(){}
-    ~Texture_3D(){}
+    Texture_3D() = default;
+    ~Texture_3D() = default;
 
     // double (*func)(const Point&, const Texture_3D&);    /* returns 0.0..1.0 */
-    double apply_pattern(const Point&, const Texture_3D&);
+    double apply_pattern(const Point&);
     void tex_fix(Surface_3D &surf, Point &P, Point &OP);
     void map_fix(Surface_3D &surf, const Point &P);
-    // void tex_read_img(const String &filename, Texmap &tm);
 
     TexPattern pat_type = UNKNOWN_PAT;
     double blur = 0.0;         /* % blending between layers */

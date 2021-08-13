@@ -38,17 +38,17 @@
 /*
     Check -- create a checkerboard, strange
 */
-double Texture_3D::tex_checker(const Point &P, const Texture_3D &tex) {
+double Texture_3D::tex_checker(const Point &P) {
     int i = 0;
     int p[3] = {0,0,0};
     Vec point;
     double blur = HUGE_NUM;
 
     for (i = 0; i < 3; i++) {
-        if (tex.scale[i] == 0) {
+        if (scale[i] == 0) {
             p[i] = 0;
         } else {
-            point[i] = (P[i] + tex.trans[i]) / tex.scale[i];
+            point[i] = (P[i] + trans[i]) / scale[i];
             p[i] = floor(point[i]);
             point[i] -= p[i];
             if (point[i] > .5)
@@ -58,10 +58,10 @@ double Texture_3D::tex_checker(const Point &P, const Texture_3D &tex) {
     }
 
     blur *= 2.0;
-    if (blur >= tex.blur)
+    if (blur >= blur)
         blur = 0.0;
     else
-        blur = (1.0 - blur / tex.blur) / 2.0;
+        blur = (1.0 - blur / blur) / 2.0;
 
     if ((p[0] + p[1] + p[2]) & 0x01) {
         return 1.0 - blur;
@@ -73,132 +73,68 @@ double Texture_3D::tex_checker(const Point &P, const Texture_3D &tex) {
 /*
     spherical
 */
-
-double Texture_3D::tex_spherical(const Point &P, const Texture_3D &tex) {
+double Texture_3D::tex_spherical(const Point &P) {
     int i = 0;
     double r = 0.0, dist = 0.0;
     Vec p;
 
-    r = tex.r1 + tex.r2;
+    r = r1 + r2;
     dist = 0.0;
     for (i = 0; i < 3; i++) {
-        if (tex.scale[i] == 0) {
+        if (scale[i] == 0) {
             p[i] = 0;
         } else {
-            p[i] = (P[i] - tex.trans[i]) / tex.scale[i];
+            p[i] = (P[i] - trans[i]) / scale[i];
         }
         dist += p[i] * p[i];
     }
     dist = sqrt(dist);  /* whata bummer! */
-    dist += tex.r1 / 2; /* center first color */
+    dist += r1 / 2; /* center first color */
     dist = fmod(dist, r);
 
-    if (dist < tex.r1) { /* still in the r1 range */
-        dist = dist / tex.r1;
+    if (dist < r1) { /* still in the r1 range */
+        dist = dist / r1;
         if (dist > 0.5) {
             dist = 1.0 - dist; /* fold if needed */
         }
-        if (dist >= tex.blur / 2.0) { /* we're in the flat */
+        if (dist >= blur / 2.0) { /* we're in the flat */
             return 1.0;
         } else {
-            return 0.5 + dist / tex.blur;
+            return 0.5 + dist / blur;
         }
     } else { /* into the r2 range */
-        dist = (dist - tex.r1) / tex.r2;
+        dist = (dist - r1) / r2;
         if (dist > 0.5) {
             dist = 1.0 - dist; /* fold if needed */
         }
-        if (dist >= tex.blur / 2.0) { /* we're in the flat */
+        if (dist >= blur / 2.0) { /* we're in the flat */
             return 0.0;
         } else {
-            return 0.5 - dist / tex.blur;
+            return 0.5 - dist / blur;
         }
     }
-
 } /* end of spherical */
 
 /*
     noise - BANG, SPLAT, POW!!!
 */
-
-double Texture_3D::tex_noise(const Point &P, const Texture_3D &tex) {
+double Texture_3D::tex_noise(const Point &P) {
     double result = 0.0;
     Vec p;
 
     for (int i = 0; i < 3; i++) {
-        if (tex.scale[i] == 0) {
+        if (scale[i] == 0) {
             p[i] = 0;
         } else {
-            p[i] = (P[i] - tex.trans[i]) / tex.scale[i];
+            p[i] = (P[i] - trans[i]) / scale[i];
         }
     }
 
-    result = Noise::turb1(p, tex.terms);
+    result = Noise::turb1(p, terms);
 
     return result;
 
 } /* end of tex_noise() */
-
-/*
-    get_map_entry() -- Given a texture structure and the indices
-        into the map this function fills in the color at that
-        point.  Note that indices are actually backwards.
-*/
-//TODO: TCE: Belongs in Surface_3D, move it there once color is fixed again the output files
-void Texture_3D::get_map_entry(const Texmap &tm, double x, double y, Color &color) {
-    int i = 0, j = 0;
-
-    /* get integer indices */
-    i = x * (tm.xres);
-    j = y * (tm.xres);
-
-    color.r = tm.red[j][i] / 255.0;
-    color.g = tm.grn[j][i] / 255.0;
-    color.b = tm.blu[j][i] / 255.0;
-
-} /* end of get_map_entry() */
-
-/*
-    tex_project() -- For the texture defined by surf.tm_???
-        project the point P onto the image plane and return
-        the indices for the image
-*/
-//TODO: TCE: Belongs in Surface_3D or Texmap_3D, move it there once color is fixed again the output files
-void Texture_3D::tex_project(const Texmap &tm, const Point &P, double *x, double *y) {
-    Point PP, /* point projected onto plane of image */
-        V;
-    double dot = 0.0;
-//    Texmap tm(_tm);// = _tm;
-    /* project intersection point onto image plane */
-    VecSub(P, tm.position, V);
-    dot = VecDot(tm.normal, V);
-    VecAddS(-dot, tm.normal, P, PP);
-
-    /* calc offsets in across and down directions */
-    VecSub(PP, tm.position, V);
-    dot = VecDot(tm.across, V);
-    *x = dot / tm.scale;
-    dot = VecDot(tm.down, V);
-    // *y = dot * (double)tm.yres / tm.xres / tm.scale;
-    // *y = dot / tm.scale;
-    *y = dot / tm.scale;
-
-} /* end of tex_project() */
-
-/*
-    tile() -- Take the raw indices and based on the tile pattern return
-        the indices that are within the image bounds.
-*/
-void Texture_3D::tile(const Texmap &tm, double *x, double *y) {
-    *x = fmod(*x, 1.0);
-    if (*x < 0.0) {
-        *x += 1.0;
-    }
-    *y = fmod(*y, (double)tm.yres / (double)tm.xres);
-    if (*y < 0.0) {
-        *y += (double)tm.yres / (double)tm.xres;
-    }
-} /* end of tile() */
 
 /*
     map_fix() -- fill in the surface structure element(s) based
@@ -209,24 +145,25 @@ void Texture_3D::map_fix(Surface_3D &surf, const Point &P) {
     double x = 0.0, y = 0.0; /* image intersection */
 
     if (surf.flags & S_TM_DIFF) { /* we've got a diffuse map */
-        tex_project(*surf.tm_diff, P, &x, &y);
-        tile(*surf.tm_diff, &x, &y);
-        get_map_entry(*surf.tm_diff, x, y, surf.diff);
+        surf.tm_diff->tex_project(P, &x, &y);
+        surf.tm_diff->tile(&x, &y);
+        surf.tm_diff->get_map_entry(x, y, surf.diff);
     }
     if (surf.flags & S_TM_SPEC) { /* we've got a specular map */
-        tex_project(*surf.tm_spec, P, &x, &y);
-        tile(*surf.tm_spec, &x, &y);
-        get_map_entry(*surf.tm_spec, x, y, surf.spec);
+
+        surf.tm_spec->tex_project(P, &x, &y);
+        surf.tm_spec->tile(&x, &y);
+        surf.tm_spec->get_map_entry(x, y, surf.spec);
     }
     if (surf.flags & S_TM_TRANS) { /* we've got a transparent map */
-        tex_project(*surf.tm_trans, P, &x, &y);
-        tile(*surf.tm_trans, &x, &y);
-        get_map_entry(*surf.tm_trans, x, y, surf.trans);
+        surf.tm_trans->tex_project(P, &x, &y);
+        surf.tm_trans->tile(&x, &y);
+        surf.tm_trans->get_map_entry(x, y, surf.trans);
     }
     if (surf.flags & S_TM_AMB) { /* we've got a ambient map */
-        tex_project(*surf.tm_amb, P, &x, &y);
-        tile(*surf.tm_amb, &x, &y);
-        get_map_entry(*surf.tm_amb, x, y, surf.amb);
+        surf.tm_amb->tex_project(P, &x, &y);
+        surf.tm_amb->tile(&x, &y);
+        surf.tm_amb->get_map_entry(x, y, surf.amb);
     }
 } /* end of map_fix() */
 
@@ -279,7 +216,7 @@ void Texture_3D::tex_fix(Surface_3D &surf, Point &P, Point &OP) {
         tex_fix(*surf1, P, OP);
 
     //    w0 = (texture->func)(P, *texture);
-    w0 = apply_pattern(P, *texture);
+    w0 = texture->apply_pattern(P);
     w0 = bMath::abs(w0);
     if (w0 < 0.0) {
         w0 = 0.0;
@@ -323,18 +260,18 @@ void Texture_3D::tex_fix(Surface_3D &surf, Point &P, Point &OP) {
 
 } /* end of tex_fix() */
 
-double Texture_3D::apply_pattern(const Point &p, const Texture_3D &t) {
+double Texture_3D::apply_pattern(const Point &p) {
     double ret_val = 0;
     switch (pat_type) {
 
     case CHECKER_PAT:
-        ret_val = tex_checker(p, t);
+        ret_val = tex_checker(p);
         break;
     case SPHERICAL_PAT:
-        ret_val = tex_spherical(p, t);
+        ret_val = tex_spherical(p);
         break;
     case NOISE_PAT:
-        ret_val = tex_noise(p, t);
+        ret_val = tex_noise(p);
         break;
     case UNKNOWN_PAT:
         /* code */

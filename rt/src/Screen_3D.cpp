@@ -443,7 +443,7 @@ void Screen_3D::scan2(void) {
                 //     buf[j][i - 3].b = b;
                 // }
                 // fillInBufPosIfFlagged(i0 - 2, j0, p, flags, buf);
-                // TCE: Hmm j-1 in if doesn't match patterns of above tests and assignments
+                // TODO: TCE: Hmm j-1 in if doesn't match patterns of above tests and assignments
                 if (!flags[j0 - 1][i0 - 2]) {
                     buf[j0][i0 - 2].r = r;
                     buf[j0][i0 - 2].g = g;
@@ -550,7 +550,7 @@ void Screen_3D::scan2(void) {
                 //     buf[j][i + 3].b = b;
                 // }
                 // fillInBufPosIfFlagged(j0 - 1, j0, p, flags, buf);
-                // TCE: Hmm j-1 in if doesn't match patterns of above tests and assignments
+                // TODO: TCE: Hmm j-1 in if doesn't match patterns of above tests and assignments
                 if (!flags[j0 - 1][i0 + 2]) {
                     buf[j0][i0 + 2].r = r;
                     buf[j0][i0 + 2].g = g;

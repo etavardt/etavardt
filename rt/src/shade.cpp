@@ -89,7 +89,6 @@ int RayTrace_3D::refract(double eta, const Vec &I, const Vec &N, Vec &T, double 
     return 1;
 }
 
-// TODO: TCE:Should fall under Ray or light?
 /*
     Shade(level, weight, P, N, I, hit, col, ior)
 

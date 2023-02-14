@@ -1,8 +1,8 @@
 - 👋 Hi, I’m Thomas C. Etavard
-- 👀 I’m interested in programming
-- 🌱 I’m currently learning everything I can wrap my head around.
+- 👀 I love programming
+- 🌱 I’m currently learning everything I can wrap my head around. Especially OpenGL, Vulkan, RayTracing and more
 - 💞️ I’m looking to collaborate on anything interesting and worthwhile.
-- 📫 You may reach me via email at etavart@gmail.com
+- 📫 You may reach me via email at etavardt@gmail.com
 
 <!---
 etavardt/etavardt is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
